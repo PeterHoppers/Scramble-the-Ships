@@ -3,21 +3,57 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Linq;
+using AYellowpaper.SerializedCollections;
+using System.Collections;
 
-public class ControlsManager : MonoBehaviour
+public class ControlsManager : MonoBehaviour, IManager
 {
     private List<Player> _players = new List<Player>();
-    private Dictionary<Player, InputValue> _lastPlayerInputs = new Dictionary<Player, InputValue>();    
-    private Dictionary<Player, List<InputValue>> playerShuffledValues = new Dictionary<Player, List<InputValue>>();
-    private InputValue[] unshuffledValues;
+    public List<PlayerAction> unshuffledValues = new List<PlayerAction>();
+    private GameManager _gameManager;
 
     private System.Random _random = new System.Random();
 
-    private const int NUMBER_TO_SCRAMBLE = 3;
+    int _amountToScramble = 0;
+    int _ticksPerScramble = 1;
+    int _ticksSinceLastScramble = 0;
+
+    private void Awake()
+    {
+        TestParametersHandler.Instance.OnParametersChanged += UpdateAmountToScramble;
+    }
+
+    private void UpdateAmountToScramble(TestParameters newParameters)
+    {
+        _amountToScramble = newParameters.amountControlsScrambled;
+        _ticksPerScramble = newParameters.amountTickPerScramble;
+    }
+
+    public void InitManager(GameManager manager)
+    {
+        _gameManager = manager;
+        _gameManager.OnTickStart += CheckIfScramble;
+        _gameManager.OnTickEnd += OnTickEnd;
+    }
+
+    void CheckIfScramble(float tickTime)
+    {
+        _ticksSinceLastScramble++;
+
+        if (_ticksSinceLastScramble >= _ticksPerScramble)
+        {
+            _ticksSinceLastScramble = 0;
+            UpdateShuffledValues();
+        }
+
+        foreach (var player in _players)
+        {
+            player.AllowingInput = true;
+        }
+    }
 
     private void Start()
     {
-        unshuffledValues = Enum.GetValues(typeof(InputValue)).Cast<InputValue>().ToArray();
         UpdateShuffledValues();
     }
 
@@ -26,34 +62,45 @@ public class ControlsManager : MonoBehaviour
     {
         foreach (var player in _players) 
         {
-            playerShuffledValues[player] = ShuffleInputs(4);
+            var unshuffled = unshuffledValues.Where(x => x.playerId == player.PlayerId).ToList();
+            
+            var shuffledValues = ShuffleInputs(unshuffled, 4);
+            var unShuffledInputs = unshuffled.Select(x => x.inputValue).ToList();
+
+            var playerActions = new SerializedDictionary<InputValue, PlayerAction>();
+            for (int index = 0; index < unShuffledInputs.Count; index++)
+            {
+                playerActions.Add(unShuffledInputs[index], shuffledValues[index]);
+            }
+
+            player.SetPlayerActions(playerActions);
         }
     }
 
-    List<InputValue> ShuffleInputs(int amountScrambleOptions)
+    List<PlayerAction> ShuffleInputs(List<PlayerAction> unshuffledValues, int amountScrambleOptions)
     {
-        List<InputValue> shuffledValues = new List<InputValue>();
+        List<PlayerAction> shuffledValues = new List<PlayerAction>();
         var valuesToShuffle = unshuffledValues.Take(amountScrambleOptions).ToList();
 
-        if (NUMBER_TO_SCRAMBLE == amountScrambleOptions)
+        if (_amountToScramble == amountScrambleOptions)
         {
             valuesToShuffle = valuesToShuffle.OrderBy(_ => _random.Next()).ToList();
         }
-        else if (NUMBER_TO_SCRAMBLE >= 2) //can't really shuffle less than 2 values
+        else if (_amountToScramble >= 2) //can't really shuffle less than 2 values
         {
             //make a list of random numbers that we can pull from 
             var listNumbers = new List<int>();
             listNumbers.AddRange(Enumerable.Range(0, valuesToShuffle.Count())
                                .OrderBy(i => _random.Next())
-                               .Take(NUMBER_TO_SCRAMBLE));
+                               .Take(_amountToScramble));
             
             
             //create key value pairs based upon the input value that random number points to
             //and the next random number, which is where that input value is going to be assigned to
-            var scrambledValues = new Dictionary<int, InputValue>();
+            var scrambledValues = new Dictionary<int, PlayerAction>();
             for (int index = 0; index < listNumbers.Count; index++)
             {
-                InputValue inputValue = valuesToShuffle[listNumbers[index]];
+                PlayerAction inputValue = valuesToShuffle[listNumbers[index]];
                 int nextIndex = index + 1;
 
                 if (nextIndex >= listNumbers.Count)
@@ -76,7 +123,7 @@ public class ControlsManager : MonoBehaviour
         //add any remaining values found in the unshuffledValues to the end of the shuffled values list
         shuffledValues.AddRange(unshuffledValues
             .Skip(amountScrambleOptions)
-            .Take(unshuffledValues.Length - amountScrambleOptions));        
+            .Take(unshuffledValues.Count - amountScrambleOptions));        
 
         return shuffledValues;
     }
@@ -92,92 +139,21 @@ public class ControlsManager : MonoBehaviour
         {
             newPlayer.InitPlayer(this, playerInput, _players.Count);
             _players.Add(newPlayer);
-            playerShuffledValues.Add(newPlayer, new List<InputValue>());
         }
     }
 
-    public void TranslatePlayerInput(int id, Vector2 direction)
+    private void OnTickEnd(float timeToTickStart)
     {
-        if (direction == Vector2.zero)
+        foreach (var player in _players)
         {
-            return;
-        }
-
-        var playerInputed = _players[id];
-        InputValue simpleDirection = SimplifyDirection(direction);
-
-        var playerInputValue = new PlayerInputValue()
-        {
-            player = playerInputed,
-            inputValue = simpleDirection
-        };
-
-        //convert input direction into scrambled control direction
-        var playerScrambledInput = TranslateScrambledInput(playerInputValue);
-
-        SendInput(playerInputed, playerScrambledInput);
-    }
-
-
-    public void TranslatePlayerFireInput(int id, bool hasFired)
-    {
-        if (!hasFired)
-        {
-            return;
-        }
-
-        var playerIntereacted = _players[id];
-        SendInput(playerIntereacted, InputValue.Shoot);
-    }
-
-    void SendInput(Player player, InputValue playerInputValue)
-    {
-        //check if this was the last recorded input we had for the player
-        _lastPlayerInputs.TryGetValue(player, out var inputValue);
-
-        //if it was not, update it and send the request to the game manager
-        if (inputValue != playerInputValue)
-        {
-            print(playerInputValue);
-            _lastPlayerInputs[player] = playerInputValue;
-            //GameManager.PlayerAttemptToMove(Player player, Vector2 direction)            
+            player.ClearSelected();
+            player.AllowingInput = false;
         }
     }
 
-    //rather than returning a Vector2, return a input type
-    InputValue SimplifyDirection(Vector2 direction)
+    public void SendInput(Player playerSent, PlayerAction playerInputValue)
     {
-        //convert input into a 2D directional
-
-        if (direction.x > direction.y)
-        {
-            if (direction.x > 0)
-            {
-                return InputValue.Right;
-            }
-            else
-            {
-                return InputValue.Left;
-            }
-        }
-        else
-        {
-            if (direction.y > 0)
-            {
-                return InputValue.Up;
-            }
-            else
-            {
-                return InputValue.Down;
-            }
-        }
-    }
-
-    //rather than taking in a Vector2, take in an input
-    InputValue TranslateScrambledInput(PlayerInputValue playerInput)
-    {
-        int index = Array.IndexOf(unshuffledValues, playerInput.inputValue);
-        return playerShuffledValues[playerInput.player][index];
+        _gameManager.AttemptPlayerAction(playerSent, playerInputValue);
     }
 }
 
@@ -190,8 +166,10 @@ public enum InputValue
     Shoot = 4
 }
 
-public struct PlayerInputValue
+[System.Serializable]
+public struct PlayerAction
 {
-    public Player player;
+    public int playerId;
     public InputValue inputValue;
+    public Sprite actionUI;
 }
