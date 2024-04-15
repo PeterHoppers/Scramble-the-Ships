@@ -39,15 +39,17 @@ public class ControlsManager : MonoBehaviour, IManager
     void CheckIfScramble(float tickTime)
     {
         _ticksSinceLastScramble++;
+        _players = _gameManager.GetAllCurrentPlayers();
 
         if (_ticksSinceLastScramble >= _ticksPerScramble)
         {
             _ticksSinceLastScramble = 0;
             UpdateShuffledValues();
-        }
+        }        
 
         foreach (var player in _players)
         {
+            player.ClearSelected();
             player.AllowingInput = true;
         }
     }
@@ -128,25 +130,10 @@ public class ControlsManager : MonoBehaviour, IManager
         return shuffledValues;
     }
 
-    //TODO: Rework this so that joining is called in a different manner. 
-    //Right now, we have a manager handling this joining, but we'll need to reconfigure it to be a button press
-    //Will ask Sean about how joinging a dsecond player normally goes
-    public void OnPlayerJoined(PlayerInput playerInput)
-    {
-        playerInput.gameObject.TryGetComponent(out Player newPlayer);
-
-        if (newPlayer != null)
-        {
-            newPlayer.InitPlayer(this, playerInput, _players.Count);
-            _players.Add(newPlayer);
-        }
-    }
-
     private void OnTickEnd(float timeToTickStart)
     {
         foreach (var player in _players)
         {
-            player.ClearSelected();
             player.AllowingInput = false;
         }
     }

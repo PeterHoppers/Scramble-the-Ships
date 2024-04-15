@@ -4,16 +4,18 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using AYellowpaper.SerializedCollections;
 using System.Linq;
+using System.Security.Cryptography;
 
 public class Player : MonoBehaviour
 {
     [SerializedDictionary]
     SerializedDictionary<InputValue, PlayerAction> playerActions = new SerializedDictionary<InputValue, PlayerAction>();
-    ControlsManager _manager;
+    GameManager _manager;
     PlayerInput _playerInput;
     public int PlayerId { get; private set; }
     public bool AllowingInput { get; set; }
     InputValue? _lastInput;
+    TransformTransition _transitioner;
 
     bool _isMatchingDirection;
 
@@ -22,7 +24,9 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        _isMatchingDirection = TestParametersHandler.Instance.testParameters.doesMovementFollowKeys;
         TestParametersHandler.Instance.OnParametersChanged += UpdateScrambleType;
+        _transitioner = GetComponent<TransformTransition>();
     }
 
     private void UpdateScrambleType(TestParameters newParameters)
@@ -30,11 +34,12 @@ public class Player : MonoBehaviour
         _isMatchingDirection = newParameters.doesMovementFollowKeys;
     }
 
-    public void InitPlayer(ControlsManager manager, PlayerInput playerInput, int id)
+    public void InitPlayer(GameManager manager, PlayerInput playerInput, int id)
     {
         _manager = manager;
         _playerInput = playerInput;
         PlayerId = id;
+        AllowingInput = false;
     }
 
     public void SetPlayerActions(SerializedDictionary<InputValue, PlayerAction> playerActions)
@@ -65,6 +70,11 @@ public class Player : MonoBehaviour
 
     public void OnPlayerMove(InputAction.CallbackContext context)
     {
+        if (!AllowingInput)
+        {
+            return;
+        }
+
         Vector2 playerMovement = context.ReadValue<Vector2>();
 
         if (playerMovement == Vector2.zero)
@@ -122,6 +132,11 @@ public class Player : MonoBehaviour
 
     public void OnPlayerFire(InputAction.CallbackContext context)
     {
+        if (!AllowingInput)
+        {
+            return;
+        }
+
         var fired = context.ReadValueAsButton();
 
         if (fired == false)
@@ -135,11 +150,6 @@ public class Player : MonoBehaviour
 
     public void SendInput(PlayerAction playerAction, InputValue pressedValue)
     {
-        if (!AllowingInput)
-        {
-            return;
-        }
-
         if (_lastInput == pressedValue)
         {
             return;
@@ -153,6 +163,11 @@ public class Player : MonoBehaviour
         _lastInput = pressedValue;
         inputValueDisplays[_lastInput.Value].color = Color.black;
 
-        _manager.SendInput(this, playerAction);
+        _manager.AttemptPlayerAction(this, playerAction);
+    }
+
+    public void MovePlayer(Vector2 destination, float duration)
+    {
+        _transitioner.MoveTo(destination, duration);
     }
 }
