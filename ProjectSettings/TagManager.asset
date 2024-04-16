@@ -38,6 +38,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 2930037507
+    locked: 0
   - name: Grid
     uniqueID: 3596229967
     locked: 0

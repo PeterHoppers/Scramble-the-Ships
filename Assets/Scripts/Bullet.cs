@@ -15,9 +15,10 @@ public class Bullet : Previewable
         _bulletCollider = GetComponent<Collider2D>();
     }
 
-    public void SetupBullet(GameManager manager)
+    public void SetupBullet(GameManager manager, Tile startingTile)
     {
         _manager = manager;
+        SetTile(startingTile);
         _manager.OnTickStart += CreateNextPreview;
     }
 

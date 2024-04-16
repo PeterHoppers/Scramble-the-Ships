@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour
         else
         {
             var bulletPreview = Instantiate(playerBullet, playerSent.GetCurrentPosition(), playerSent.transform.rotation, transform);
-            bulletPreview.SetupBullet(this);
+            bulletPreview.SetupBullet(this, previewTile);
             newPreview = CreatePreviewAtPosition(bulletPreview, previewTile.GetTilePosition());
             newPreview.isCreated = true;
             newPreview.previewTile = previewTile;
@@ -257,6 +257,12 @@ public class GameManager : MonoBehaviour
             timeRemaining = 0;
         }
         return timeRemaining;
+    }
+
+    public Tile GetByCoordinates(Vector2 targetCoordinates)
+    { 
+        _gridSystem.TryGetTileByCoordinates((int)targetCoordinates.x, (int)targetCoordinates.y, out var tile);
+        return tile;
     }
 }
 

@@ -158,7 +158,7 @@ public class Player : Previewable
         }
 
         _lastInput = pressedValue;
-        inputValueDisplays[_lastInput.Value].color = Color.black;
+        inputValueDisplays[_lastInput.Value].color = Color.grey;
 
         _manager.AttemptPlayerAction(this, playerAction);
     }
