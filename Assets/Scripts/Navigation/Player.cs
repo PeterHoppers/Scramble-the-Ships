@@ -4,9 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using AYellowpaper.SerializedCollections;
 using System.Linq;
-using System.Security.Cryptography;
 
-public class Player : MonoBehaviour
+public class Player : Previewable
 {
     [SerializedDictionary]
     SerializedDictionary<InputValue, PlayerAction> playerActions = new SerializedDictionary<InputValue, PlayerAction>();
@@ -15,7 +14,6 @@ public class Player : MonoBehaviour
     public int PlayerId { get; private set; }
     public bool AllowingInput { get; set; }
     InputValue? _lastInput;
-    TransformTransition _transitioner;
 
     bool _isMatchingDirection;
 
@@ -26,7 +24,6 @@ public class Player : MonoBehaviour
     {
         _isMatchingDirection = TestParametersHandler.Instance.testParameters.doesMovementFollowKeys;
         TestParametersHandler.Instance.OnParametersChanged += UpdateScrambleType;
-        _transitioner = GetComponent<TransformTransition>();
     }
 
     private void UpdateScrambleType(TestParameters newParameters)
@@ -166,8 +163,8 @@ public class Player : MonoBehaviour
         _manager.AttemptPlayerAction(this, playerAction);
     }
 
-    public void MovePlayer(Vector2 destination, float duration)
+    public override Sprite GetPreviewSprite()
     {
-        _transitioner.MoveTo(destination, duration);
+        return GetComponentInChildren<SpriteRenderer>().sprite;
     }
 }

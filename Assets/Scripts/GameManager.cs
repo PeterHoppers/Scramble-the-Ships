@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public TickEnd OnTickEnd;
 
     Dictionary<Player, PlayerPreview> _attemptedPlayerActions = new Dictionary<Player, PlayerPreview>();
+    List<PreviewAction> _previewActions = new List<PreviewAction>();
     private List<Player> _players = new List<Player>();
 
     GridSystem _gridSystem;
@@ -83,44 +84,46 @@ public class GameManager : MonoBehaviour
 
     public void AttemptPlayerAction(Player playerSent, PlayerAction playerInputValue)
     {
-        //there should only be one of each player's actions being saved here
-        if (_attemptedPlayerActions.TryGetValue(playerSent, out PlayerPreview playerPreview)) 
-        {
-            Destroy(playerPreview.previewGameObject); //TODO: Let's pool this to make it more efficent
-            _attemptedPlayerActions.Remove(playerSent);
-        }
+        //we need to double check if a movement action we're taking is actually valid
+        //so we'll need to consult the grid system if we can move there or not
+        //addiotnally, if we're going to create a new object next turn
+        //we'll need to handle that as well, rather than just moving
+        AddPreview(_players[playerInputValue.playerId], playerInputValue.inputValue);
+    }
 
-        var newPreview = new PlayerPreview()
+    public void AddPreview(Previewable previewObject, InputValue inputValue)
+    {
+        var currentPreviewIndex = _previewActions.FindIndex(x => x.sourceGameObject == previewObject);
+        if (currentPreviewIndex != - 1)
+        { 
+            var previousPreview = _previewActions[currentPreviewIndex];
+            _previewActions.Remove(previousPreview);
+            Destroy(previousPreview.previewGameObject); //look into using pooling instead
+        }
+               
+        if (inputValue != InputValue.Shoot)
         {
-            playerAction = playerInputValue,
-        };        
+            var previewPosition = ConvertInputIntoPosition(previewObject.GetCurrentPosition(), inputValue);
+            var playerImage = previewObject.GetPreviewSprite();
+
+            var preview = Instantiate(new GameObject(), previewPosition, Quaternion.identity, transform);
+            var renderer = preview.AddComponent<SpriteRenderer>();
+            renderer.sprite = playerImage;
+            renderer.color = previewObject.GetPreviewColor();
+
+            var newPreview = new PreviewAction()
+            {
+                previewGameObject = preview,
+                sourceGameObject = previewObject
+            };
+
+            _previewActions.Add(newPreview);
+        }
 
         if (_isMovementAtInput)
         {
             _tickElapsed = _tickDuration;
         }
-        else
-        {
-            var inputValue = playerInputValue.inputValue;
-            //generate preview based upon the action type
-            if (inputValue != InputValue.Shoot)
-            {
-                //get the direction that the player is going to go
-                //get the position that that player is already add
-                var previewPosition = ConvertInputIntoPosition(playerSent, inputValue);
-                var playerImage = playerSent.GetComponentInChildren<SpriteRenderer>().sprite;
-
-                var preview = Instantiate(new GameObject(), previewPosition, Quaternion.identity, transform);
-                var renderer = preview.AddComponent<SpriteRenderer>();
-                renderer.sprite = playerImage;
-                renderer.color = new Color(.75f, .75f, .75f, .5f);
-
-                newPreview.previewGameObject = preview;
-                //create the position that it will be
-            }
-        }
-
-        _attemptedPlayerActions.Add(playerSent, newPreview);
     }
 
     void Update()
@@ -141,34 +144,27 @@ public class GameManager : MonoBehaviour
     {
         _tickIsOccuring = false;
         var tickEndDuration = _tickDuration / 4;
-
-        foreach (var action in _attemptedPlayerActions)
+        foreach (var preview in _previewActions)
         {
-            var actionValue = action.Value;
-            var player = action.Key;            
-
-            var targetPosition = ConvertInputIntoPosition(player, actionValue.playerAction.inputValue);
-            player.MovePlayer(targetPosition, tickEndDuration);
+            var targetPosition = preview.previewGameObject.transform.position;
+            preview.sourceGameObject.Move(targetPosition, tickEndDuration);
         }
-        
+
         OnTickEnd?.Invoke(tickEndDuration);
         yield return new WaitForSeconds(tickEndDuration);
 
-        foreach (var action in _attemptedPlayerActions)
-        {           
-            Destroy(action.Value.previewGameObject);
+        foreach (var preview in _previewActions)
+        {
+            Destroy(preview.previewGameObject);
         }
 
-        _attemptedPlayerActions.Clear();
-
+        _previewActions.Clear();
         OnTickStart?.Invoke(_tickDuration);
         _tickIsOccuring = true;
         _tickElapsed = 0;
     }
-
-    Vector2 ConvertInputIntoPosition(Player player, InputValue input)
+    Vector2 ConvertInputIntoPosition(Vector2 targetPosition, InputValue input)
     {
-        Vector2 targetPosition = player.gameObject.transform.position;
         switch (input)
         {
             case InputValue.Up:
@@ -205,4 +201,11 @@ public struct PlayerPreview
 {
     public PlayerAction playerAction;
     public GameObject previewGameObject;
+}
+
+public struct PreviewAction
+{
+    public GameObject previewGameObject;
+    public Previewable sourceGameObject;
+    public bool isCreated;
 }

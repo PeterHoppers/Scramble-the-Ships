@@ -137,11 +137,6 @@ public class ControlsManager : MonoBehaviour, IManager
             player.AllowingInput = false;
         }
     }
-
-    public void SendInput(Player playerSent, PlayerAction playerInputValue)
-    {
-        _gameManager.AttemptPlayerAction(playerSent, playerInputValue);
-    }
 }
 
 public enum InputValue
