@@ -24,6 +24,21 @@ public class GridSystem : MonoBehaviour
         return _tiles[x][y];
     }
 
+    public bool TryGetTileByCoordinates(float x, float y, out Tile tile)
+    {
+        int xIndex = (int)x;
+        int yIndex = (int)y;
+
+        if (xIndex >= 0 && xIndex < _tiles.Count && yIndex >= 0 && yIndex < _tiles[xIndex].Count)
+        {
+            tile = GetPositionByCoordinate(xIndex, yIndex);
+            return true;
+        }
+
+        tile = null;
+        return false;
+    }
+
     private void CreateGrid()
     {
         var bounds = new Bounds();

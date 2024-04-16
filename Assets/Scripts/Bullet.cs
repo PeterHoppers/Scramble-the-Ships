@@ -28,7 +28,19 @@ public class Bullet : Previewable
 
     private void CreateNextPreview(float timeToTickEnd)
     {
-        _manager.AddPreviewAtPosition(this, travelDirection + GetCurrentPosition());
+        var isOnGrid = _manager.AddPreviewAtPosition(this, travelDirection, GetGridCoordinates());
+
+        if (!isOnGrid) 
+        {
+            _manager.OnTickStart -= CreateNextPreview;
+            _manager.OnTickStart += HideBullet;
+        }
+    }
+
+    private void HideBullet(float timeToTickStart)
+    {
+        gameObject.SetActive(false);
+        _manager.OnTickStart -= HideBullet;
     }
 
     public override Sprite GetPreviewSprite()

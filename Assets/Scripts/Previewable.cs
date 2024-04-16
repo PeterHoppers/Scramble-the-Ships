@@ -26,4 +26,20 @@ public abstract class Previewable : MonoBehaviour
     {
         _transitioner.MoveTo(destination, duration);
     }
+
+    public virtual void SetTile(Tile newTile)
+    {
+        currentTile = newTile;
+    }
+
+    public virtual void SetPosition(Tile directTile)
+    {
+        currentTile = directTile;
+        transform.position = currentTile.GetTilePosition();
+    }
+
+    public virtual Vector2 GetGridCoordinates()
+    { 
+        return currentTile.gridCoordinates;
+    }
 }

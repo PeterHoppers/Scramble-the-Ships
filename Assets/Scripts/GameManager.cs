@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
         {
             newPlayer.InitPlayer(this, playerInput, _players.Count);
             var startingPosition = _startingPlayerPositions[_players.Count];
-            newPlayer.transform.position = _gridSystem.GetPositionByCoordinate((int)startingPosition.x - 1, (int)startingPosition.y - 1).GetTilePosition();
+            newPlayer.SetPosition(_gridSystem.GetPositionByCoordinate((int)startingPosition.x - 1, (int)startingPosition.y - 1));
             _players.Add(newPlayer);
         }
 
@@ -100,7 +100,12 @@ public class GameManager : MonoBehaviour
         }
 
         Previewable playerPreview = _players[playerInputValue.playerId];
-        var previewPosition = ConvertInputIntoPosition(playerPreview.GetCurrentPosition(), playerInputValue.inputValue);
+        var previewTile = ConvertInputIntoPosition(playerPreview.GetGridCoordinates(), playerInputValue.inputValue);
+
+        if (previewTile == null)
+        {
+            return;
+        }
 
         //we need to double check if a movement action we're taking is actually valid
         //so we'll need to consult the grid system if we can move there or not
@@ -110,15 +115,17 @@ public class GameManager : MonoBehaviour
 
         if (playerInputValue.inputValue != InputValue.Shoot)
         {
-            newPreview = CreatePreviewAtPosition(playerPreview, previewPosition);
+            newPreview = CreatePreviewAtPosition(playerPreview, previewTile.GetTilePosition());
+            newPreview.previewTile = previewTile;
         }
         else
         {
             var bulletPreview = Instantiate(playerBullet, playerSent.GetCurrentPosition(), playerSent.transform.rotation, transform);
             bulletPreview.SetupBullet(this);
-            newPreview = CreatePreviewAtPosition(bulletPreview, previewPosition);
+            newPreview = CreatePreviewAtPosition(bulletPreview, previewTile.GetTilePosition());
             newPreview.isCreated = true;
-        }        
+            newPreview.previewTile = previewTile;
+        }
 
         _attemptedPlayerActions.Add(playerSent, newPreview);
         _previewActions.Add(newPreview);
@@ -148,10 +155,25 @@ public class GameManager : MonoBehaviour
         };    
     }
 
-    public void AddPreviewAtPosition(Previewable previewObject, Vector2 previewPosition)
+    public bool AddPreviewAtPosition(Previewable previewObject, Vector2 previewDirection, Vector2 currentGridCoordinates)
     {
-        var newPreview = CreatePreviewAtPosition(previewObject, previewPosition);
+        var possibleGridCoordinates = previewDirection + currentGridCoordinates;
+        var isPossibleTileSpace = _gridSystem.TryGetTileByCoordinates(possibleGridCoordinates.x, possibleGridCoordinates.y, out Tile tile);
+
+        PreviewAction newPreview;
+        if (isPossibleTileSpace)
+        {
+            newPreview = CreatePreviewAtPosition(previewObject, tile.GetTilePosition());
+            newPreview.previewTile = tile;
+        }
+        else
+        {
+            var offGridPosition = previewObject.GetCurrentPosition() + previewDirection;
+            newPreview = CreatePreviewAtPosition(previewObject, offGridPosition);
+        }
+
         _previewActions.Add(newPreview);
+        return isPossibleTileSpace;
     }
 
     void Update()
@@ -174,8 +196,16 @@ public class GameManager : MonoBehaviour
         var tickEndDuration = _tickDuration / 4;
         foreach (var preview in _previewActions)
         {
-            var targetPosition = preview.previewGameObject.transform.position;
-            preview.sourcePreviewable.Move(targetPosition, tickEndDuration);
+            var movingObject = preview.sourcePreviewable;
+            if (preview.previewTile != null)
+            {
+                movingObject.SetTile(preview.previewTile);
+                movingObject.Move(preview.previewTile.GetTilePosition(), tickEndDuration);
+            }
+            else
+            {
+                movingObject.Move(preview.previewGameObject.transform.position, tickEndDuration);
+            }            
         }
 
         OnTickEnd?.Invoke(tickEndDuration);
@@ -193,28 +223,30 @@ public class GameManager : MonoBehaviour
         _tickElapsed = 0;
     }
 
-    Vector2 ConvertInputIntoPosition(Vector2 targetPosition, InputValue input)
+    Tile ConvertInputIntoPosition(Vector2 targetCoordinates, InputValue input)
     {
         switch (input)
         {
             case InputValue.Up:
             case InputValue.Shoot:
-                targetPosition += Vector2.up;
+                targetCoordinates += Vector2.up;
                 break;
             case InputValue.Down:
-                targetPosition += Vector2.down;
+                targetCoordinates += Vector2.down;
                 break;
             case InputValue.Left:
-                targetPosition += Vector2.left;
+                targetCoordinates += Vector2.left;
                 break;
             case InputValue.Right:
-                targetPosition += Vector2.right;
+                targetCoordinates += Vector2.right;
                 break;
             default:
                 break;
         }
 
-        return targetPosition;
+        _gridSystem.TryGetTileByCoordinates((int)targetCoordinates.x, (int)targetCoordinates.y, out var tile);
+
+        return tile;
     }
 
     public float GetTimeRemainingInTick()
@@ -232,5 +264,6 @@ public struct PreviewAction
 { 
     public GameObject previewGameObject;
     public Previewable sourcePreviewable;
+    public Tile previewTile;
     public bool isCreated;
 }
