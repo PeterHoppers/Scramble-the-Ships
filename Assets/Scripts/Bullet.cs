@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,13 +6,31 @@ using UnityEngine;
 public class Bullet : Previewable
 {
     public bool isFriendly = true;
-    public Vector3 travelDirection = Vector3.up;
+    public Vector2 travelDirection = Vector2.up;
+    GameManager _manager;
     Collider2D _bulletCollider;
 
     void Awake()
     {
         _bulletCollider = GetComponent<Collider2D>();
     }
+
+    public void SetupBullet(GameManager manager)
+    {
+        _manager = manager;
+        _manager.OnTickStart += CreateNextPreview;
+    }
+
+    private void OnDestroy()
+    {
+        _manager.OnTickStart -= CreateNextPreview;
+    }
+
+    private void CreateNextPreview(float timeToTickEnd)
+    {
+        _manager.AddPreviewAtPosition(this, travelDirection + GetCurrentPosition());
+    }
+
     public override Sprite GetPreviewSprite()
     {
         return GetComponentInChildren<SpriteRenderer>().sprite;

@@ -38,6 +38,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Grid
+    uniqueID: 3596229967
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

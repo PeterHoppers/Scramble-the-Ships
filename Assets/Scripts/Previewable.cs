@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Previewable : MonoBehaviour
 {
+    Tile currentTile;
     TransformTransition _transitioner;
 
     private void Start()

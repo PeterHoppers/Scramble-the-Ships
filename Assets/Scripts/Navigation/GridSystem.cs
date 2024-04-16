@@ -19,23 +19,24 @@ public class GridSystem : MonoBehaviour
         CreateGrid();
     }
 
-    public Vector2 GetPositionByCoordinate(int x, int y)
+    public Tile GetPositionByCoordinate(int x, int y)
     {
-        return _tiles[y][x].transform.position;
+        return _tiles[x][y];
     }
 
     private void CreateGrid()
     {
         var bounds = new Bounds();
-        for (int heightIndex = 0; heightIndex < gridHeight; heightIndex++)
+        for (int widthIndex = 0; widthIndex < gridWidth; widthIndex++)
         {
             _tiles.Add(new List<Tile>());
-            for (int widthIndex = 0; widthIndex < gridWidth; widthIndex++)
+            for (int heightIndex = 0; heightIndex < gridHeight; heightIndex++)
             {
                 var worldPosition = _grid.GetCellCenterWorld(new Vector3Int(widthIndex, heightIndex));
                 bounds.Encapsulate(worldPosition);
                 var tile = Instantiate(tilePrefab, worldPosition, Quaternion.identity, transform);
-                _tiles[heightIndex].Add(tile);
+                tile.gridCoordinates = new Vector2(widthIndex, heightIndex);
+                _tiles[widthIndex].Add(tile);
             }
         }
 
@@ -45,7 +46,7 @@ public class GridSystem : MonoBehaviour
     private void SetCamera(Bounds bounds)
     {
         var _cam = Camera.main;
-        bounds.Expand(2);
+        bounds.Expand(1);
 
         var vertical = bounds.size.y;
         var horizontal = bounds.size.x * _cam.pixelHeight / _cam.pixelWidth;
