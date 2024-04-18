@@ -77,6 +77,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void DestoryPlayer(Player player, Bullet shotBullet) 
+    {
+        var startingPosition = _startingPlayerPositions[player.PlayerId];
+        player.SetPosition(_gridSystem.GetPositionByCoordinate((int)startingPosition.x - 1, (int)startingPosition.y - 1));
+        Destroy(shotBullet.gameObject);
+    }
+
     public List<Player> GetAllCurrentPlayers()
     {
         return _players;

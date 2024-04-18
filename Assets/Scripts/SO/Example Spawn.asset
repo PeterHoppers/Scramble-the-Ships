@@ -12,5 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c391c5b0d372beb47919f93e053b3f18, type: 3}
   m_Name: Example Spawn
   m_EditorClassIdentifier: 
-  enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
-  spawnCoordiantes: {x: 7, y: 7}
+  enemySpawns:
+  - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+    spawnCoordiantes: {x: 3, y: 7}
+  - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+    spawnCoordiantes: {x: 4, y: 7}
+  - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+    spawnCoordiantes: {x: 6, y: 7}
+  - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+    spawnCoordiantes: {x: 7, y: 7}

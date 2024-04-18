@@ -2199,7 +2199,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   testParameters:
     amountControlsScrambled: 3
-    tickDuration: 1.5
+    tickDuration: 1
     amountTickPerScramble: 1
     doesMoveOnInput: 0
     doesMovementFollowKeys: 1
@@ -4326,7 +4326,43 @@ MonoBehaviour:
   waveInformation:
     _serializedList:
     - Key: 2
-      Value: {fileID: 11400000, guid: 1cdf21a4b9775bb46904de8de63ec102, type: 2}
+      Value:
+      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+        spawnCoordiantes: {x: 3, y: 7}
+      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+        spawnCoordiantes: {x: 4, y: 7}
+      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+        spawnCoordiantes: {x: 6, y: 7}
+      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+        spawnCoordiantes: {x: 7, y: 7}
+    - Key: 4
+      Value:
+      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+        spawnCoordiantes: {x: 5, y: 7}
+    - Key: 7
+      Value:
+      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+        spawnCoordiantes: {x: 3, y: 7}
+      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+        spawnCoordiantes: {x: 4, y: 7}
+      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+        spawnCoordiantes: {x: 6, y: 7}
+      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+        spawnCoordiantes: {x: 7, y: 7}
+    - Key: 9
+      Value:
+      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+        spawnCoordiantes: {x: 3, y: 7}
+      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+        spawnCoordiantes: {x: 4, y: 7}
+      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+        spawnCoordiantes: {x: 6, y: 7}
+      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+        spawnCoordiantes: {x: 7, y: 7}
+      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+        spawnCoordiantes: {x: 1, y: 7}
+      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+        spawnCoordiantes: {x: 2, y: 7}
 --- !u!4 &1450509014
 Transform:
   m_ObjectHideFlags: 0
@@ -6394,7 +6430,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _startingPlayerPositions:
-  - {x: 7, y: 3}
+  - {x: 5, y: 3}
   playerBullet: {fileID: 4358801067479974209, guid: 70b4d4ea3efcec24da4fb2b90ac46f8a, type: 3}
 --- !u!156049354 &2124894460
 Grid:
@@ -6421,7 +6457,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: 5402147654185855045, guid: e93478bfeab8942418d4109af6323375, type: 3}
-  gridWidth: 13
+  gridWidth: 10
   gridHeight: 8
 --- !u!1001 &4531162659611141552
 PrefabInstance:

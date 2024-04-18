@@ -6,8 +6,8 @@ using AYellowpaper.SerializedCollections;
 
 public class WaveManager : MonoBehaviour, IManager
 {
-    [SerializedDictionary("Tick Number", "Enemy Spawn Info")]
-    public SerializedDictionary<int, EnemySpawnInfo> waveInformation = new SerializedDictionary<int, EnemySpawnInfo>();
+    [SerializedDictionary("Tick #", "Enemy Spawn Info")]
+    public SerializedDictionary<int, EnemySpawn[]> waveInformation = new SerializedDictionary<int, EnemySpawn[]>();
 
     GameManager _gameManager;
     int ticksPassed;
@@ -19,17 +19,20 @@ public class WaveManager : MonoBehaviour, IManager
 
     public void OnTickEnd(float tickDuration)
     {
-        waveInformation.TryGetValue(ticksPassed, out var wave);
+        waveInformation.TryGetValue(ticksPassed, out var waveInfo);
 
-        if (wave != null)
+        if (waveInfo != null)
         { 
-            var spawnPosition = _gameManager.GetByCoordinates(wave.spawnCoordiantes);            
-            var spawnedObject = Instantiate(wave.enemyObject, spawnPosition.GetTilePosition(), wave.enemyObject.transform.rotation, _gameManager.transform);
-
-            if (spawnedObject.TryGetComponent<Bullet>(out var bullet))
+            foreach(var wave in waveInfo) 
             {
-                bullet.SetupBullet(_gameManager, spawnPosition);
-            }
+                var spawnPosition = _gameManager.GetByCoordinates(wave.spawnCoordiantes);
+                var spawnedObject = Instantiate(wave.enemyObject, spawnPosition.GetTilePosition(), wave.enemyObject.transform.rotation, _gameManager.transform);
+
+                if (spawnedObject.TryGetComponent<Bullet>(out var bullet))
+                {
+                    bullet.SetupBullet(_gameManager, spawnPosition);
+                }
+            }            
         }
 
         ticksPassed++;

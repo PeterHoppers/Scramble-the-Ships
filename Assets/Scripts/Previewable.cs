@@ -34,6 +34,11 @@ public abstract class Previewable : MonoBehaviour
 
     public virtual void SetPosition(Tile directTile)
     {
+        if (_transitioner != null)
+        {
+            _transitioner.StopAllCoroutines();
+        }
+
         currentTile = directTile;
         transform.position = currentTile.GetTilePosition();
     }
