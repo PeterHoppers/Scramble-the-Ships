@@ -4335,10 +4335,12 @@ MonoBehaviour:
         spawnCoordiantes: {x: 6, y: 7}
       - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
         spawnCoordiantes: {x: 7, y: 7}
-    - Key: 4
+    - Key: 5
       Value:
       - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
         spawnCoordiantes: {x: 5, y: 7}
+      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+        spawnCoordiantes: {x: 4, y: 7}
     - Key: 7
       Value:
       - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}

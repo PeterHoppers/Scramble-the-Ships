@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour
     public delegate void TickEnd(float timeToTickStart);
     public TickEnd OnTickEnd;
 
+    public delegate void PlayerDeath(int ticksUntilSpawn, Player player, Tile playerSpawnTile);
+    public PlayerDeath OnPlayerDeath;
+
     Dictionary<Player, PreviewAction> _attemptedPlayerActions = new Dictionary<Player, PreviewAction>();
     List<PreviewAction> _previewActions = new List<PreviewAction>();
     private List<Player> _players = new List<Player>();
@@ -65,9 +68,12 @@ public class GameManager : MonoBehaviour
 
         if (newPlayer != null)
         {
-            newPlayer.InitPlayer(this, playerInput, _players.Count);
-            var startingPosition = _startingPlayerPositions[_players.Count];
+            int playerId = _players.Count;
+            newPlayer.InitPlayer(this, playerInput, playerId);
+
+            var startingPosition = _startingPlayerPositions[playerId];
             newPlayer.SetPosition(_gridSystem.GetPositionByCoordinate((int)startingPosition.x - 1, (int)startingPosition.y - 1));
+
             _players.Add(newPlayer);
         }
 
@@ -77,11 +83,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void DestoryPlayer(Player player, Bullet shotBullet) 
+    public void DestoryPlayer(Player player, Previewable attackingObject) 
     {
+        attackingObject.DestroyPreviewable();
+        player.OnDeath();
+
         var startingPosition = _startingPlayerPositions[player.PlayerId];
-        player.SetPosition(_gridSystem.GetPositionByCoordinate((int)startingPosition.x - 1, (int)startingPosition.y - 1));
-        Destroy(shotBullet.gameObject);
+        var spawnTile = _gridSystem.GetPositionByCoordinate((int)startingPosition.x - 1, (int)startingPosition.y - 1);
+
+        OnPlayerDeath?.Invoke(3, player, spawnTile);
     }
 
     public List<Player> GetAllCurrentPlayers()
@@ -98,7 +108,7 @@ public class GameManager : MonoBehaviour
             _previewActions.Remove(previousPreview);
             _attemptedPlayerActions.Remove(playerSent);
 
-            Destroy(previousPreview.previewGameObject); //look into using pooling instead
+            Destroy(previousPreview.sourcePreviewable.previewObject); //look into using pooling instead
 
             if (previousPreview.isCreated)
             {
@@ -143,22 +153,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public PreviewAction CreatePreviewAtPosition(Previewable previewObject, Vector2 previewPosition)
+    public PreviewAction CreatePreviewAtPosition(Previewable previewableObject, Vector2 previewPosition, bool isMoving = true)
     {
-        var playerImage = previewObject.GetPreviewSprite();
+        var previewImage = previewableObject.GetPreviewSprite();
 
-        var preview = new GameObject($"Preview of {previewObject}");
+        var preview = new GameObject($"Preview of {previewableObject}");
         preview.transform.position = previewPosition;
-        preview.transform.rotation = previewObject.transform.rotation;
+        preview.transform.rotation = previewableObject.transform.rotation;
         preview.transform.SetParent(transform);
         var renderer = preview.AddComponent<SpriteRenderer>();
-        renderer.sprite = playerImage;
-        renderer.color = previewObject.GetPreviewColor();
+        renderer.sprite = previewImage;
+        renderer.color = previewableObject.GetPreviewColor();
+        previewableObject.previewObject = preview;
 
         return new PreviewAction()
         {
-            previewGameObject = preview,
-            sourcePreviewable = previewObject
+            sourcePreviewable = previewableObject,
+            isNotMoving = !isMoving
         };    
     }
 
@@ -183,6 +194,11 @@ public class GameManager : MonoBehaviour
         return isPossibleTileSpace;
     }
 
+    public void AddPreviewAction(PreviewAction preview)
+    { 
+        _previewActions.Add(preview);
+    }
+
     void Update()
     {
         if (!_tickIsOccuring)
@@ -203,7 +219,18 @@ public class GameManager : MonoBehaviour
         var tickEndDuration = _tickDuration / 4;
         foreach (var preview in _previewActions)
         {
+            if (preview.isNotMoving)
+            {
+                continue;
+            }
+
             var movingObject = preview.sourcePreviewable;
+
+            if (movingObject == null)
+            { 
+                continue;
+            }
+
             if (preview.previewTile != null)
             {
                 movingObject.SetTile(preview.previewTile);
@@ -211,7 +238,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                movingObject.Move(preview.previewGameObject.transform.position, tickEndDuration);
+                movingObject.Move(preview.sourcePreviewable.previewObject.transform.position, tickEndDuration);
             }            
         }
 
@@ -220,7 +247,7 @@ public class GameManager : MonoBehaviour
 
         foreach (var preview in _previewActions)
         {
-            Destroy(preview.previewGameObject);
+            Destroy(preview.sourcePreviewable.previewObject);
         }
 
         _previewActions.Clear();
@@ -275,8 +302,8 @@ public class GameManager : MonoBehaviour
 
 public struct PreviewAction
 { 
-    public GameObject previewGameObject;
     public Previewable sourcePreviewable;
     public Tile previewTile;
     public bool isCreated;
+    public bool isNotMoving;
 }

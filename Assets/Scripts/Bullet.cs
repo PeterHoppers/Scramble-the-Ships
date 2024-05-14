@@ -54,7 +54,7 @@ public class Bullet : Previewable
         if (collision.tag == "Player" && !isFriendly)
         {
             collision.TryGetComponent<Player>(out var collidedPlayer);
-            _manager.DestoryPlayer(collidedPlayer, this);
+            collidedPlayer.OnHit(this);
         }
         else if (collision.tag == "Enemy" && isFriendly)
         {

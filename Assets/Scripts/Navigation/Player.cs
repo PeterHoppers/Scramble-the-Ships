@@ -4,18 +4,27 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using AYellowpaper.SerializedCollections;
 using System.Linq;
+using System;
 
 public class Player : Previewable
 {
     [SerializedDictionary]
     SerializedDictionary<InputValue, PlayerAction> playerActions = new SerializedDictionary<InputValue, PlayerAction>();
+
+    [SerializeField]
+    private ParticleSystem deathVFX;
+
     GameManager _manager;
     PlayerInput _playerInput;
+
     public int PlayerId { get; private set; }
     public bool AllowingInput { get; set; }
     InputValue? _lastInput;
 
     bool _isMatchingDirection;
+    bool _isIndistructable = false;
+
+    int _ticksIndistructable = 0;
 
     [SerializedDictionary]
     public SerializedDictionary<InputValue, SpriteRenderer> inputValueDisplays;
@@ -34,10 +43,25 @@ public class Player : Previewable
     public void InitPlayer(GameManager manager, PlayerInput playerInput, int id)
     {
         _manager = manager;
+        _manager.OnTickEnd += OnTickEnd;
         _playerInput = playerInput;
         PlayerId = id;
         AllowingInput = false;
     }
+
+    private void OnTickEnd(float timeToTickStart)
+    {
+        if (_ticksIndistructable > 0)
+        {
+            _ticksIndistructable--;
+
+            if (_ticksIndistructable == 0)
+            {
+                _isIndistructable = false;
+            }
+        }
+    }
+   
 
     public void SetPlayerActions(SerializedDictionary<InputValue, PlayerAction> playerActions)
     {
@@ -166,5 +190,43 @@ public class Player : Previewable
     public override Sprite GetPreviewSprite()
     {
         return GetComponentInChildren<SpriteRenderer>().sprite;
+    }
+
+    public void OnHit(Previewable attackingObject)
+    {
+        if (_isIndistructable)
+        {
+            attackingObject.DestroyPreviewable();
+            return;
+        }
+
+        _manager.DestoryPlayer(this, attackingObject);
+    }
+
+    public void OnDeath() 
+    {
+        deathVFX.Play();
+        AllowingInput = false;
+        SetShipVisiblity(false);
+    }
+
+    public void OnSpawn()
+    {
+        AllowingInput = true;
+        _isIndistructable = true;
+        _ticksIndistructable = 2;
+        SetShipVisiblity(true);
+    }
+
+    void SetShipVisiblity(bool isVisible)
+    {
+        var sprites = GetComponentsInChildren<SpriteRenderer>();
+
+        foreach(var sprite in sprites) 
+        { 
+            sprite.enabled = isVisible;
+        }
+
+        GetComponent<Collider2D>().enabled = isVisible;
     }
 }

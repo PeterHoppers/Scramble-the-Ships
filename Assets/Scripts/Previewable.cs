@@ -6,6 +6,8 @@ public abstract class Previewable : MonoBehaviour
 {
     Tile currentTile;
     TransformTransition _transitioner;
+    
+    public GameObject previewObject;
 
     private void Start()
     {
@@ -46,5 +48,15 @@ public abstract class Previewable : MonoBehaviour
     public virtual Vector2 GetGridCoordinates()
     { 
         return currentTile.gridCoordinates;
+    }
+
+    public void DestroyPreviewable()
+    {
+        if (previewObject != null) 
+        { 
+            Destroy(previewObject);
+        }
+
+        Destroy(this.gameObject);
     }
 }
