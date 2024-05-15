@@ -29,9 +29,9 @@ public class Bullet : Previewable
 
     private void CreateNextPreview(float timeToTickEnd)
     {
-        var isOnGrid = _manager.AddPreviewAtPosition(this, travelDirection, GetGridCoordinates());
+        var previewTile = _manager.AddPreviewAtPosition(this, currentTile, travelDirection);
 
-        if (!isOnGrid) 
+        if (!previewTile.IsVisible) 
         {
             _manager.OnTickStart -= CreateNextPreview;
             _manager.OnTickStart += HideBullet;
@@ -40,8 +40,18 @@ public class Bullet : Previewable
 
     private void HideBullet(float timeToTickStart)
     {
-        gameObject.SetActive(false);
+        StartCoroutine(GoOffScreen(timeToTickStart));
         _manager.OnTickStart -= HideBullet;
+    }
+
+    private IEnumerator GoOffScreen(float duration)
+    {
+        var currentPosition = GetCurrentPosition();
+        //TODO: Pull number out into own 'off screen' position
+        var targetPosition = currentPosition + travelDirection * 3;
+        TransitionToPosition(targetPosition, duration);
+        yield return new WaitForSeconds(duration);
+        gameObject.SetActive(false);
     }
 
     public override Sprite GetPreviewSprite()
@@ -51,12 +61,12 @@ public class Bullet : Previewable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player" && !isFriendly)
+        if (collision.CompareTag("Player") && !isFriendly)
         {
             collision.TryGetComponent<Player>(out var collidedPlayer);
             collidedPlayer.OnHit(this);
         }
-        else if (collision.tag == "Enemy" && isFriendly)
+        else if (collision.CompareTag("Enemy") && isFriendly)
         {
             print("Destoryed Enemy!");
         }

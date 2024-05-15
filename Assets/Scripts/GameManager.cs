@@ -72,7 +72,9 @@ public class GameManager : MonoBehaviour
             newPlayer.InitPlayer(this, playerInput, playerId);
 
             var startingPosition = _startingPlayerPositions[playerId];
-            newPlayer.SetPosition(_gridSystem.GetPositionByCoordinate((int)startingPosition.x - 1, (int)startingPosition.y - 1));
+            //TODO: Add a default spawning position, if the one provided is no longer valid for some reason
+            _gridSystem.TryGetTileByCoordinates(startingPosition.x, startingPosition.y, out var startingTile);
+            newPlayer.SetPosition(startingTile);
 
             _players.Add(newPlayer);
         }
@@ -89,7 +91,7 @@ public class GameManager : MonoBehaviour
         player.OnDeath();
 
         var startingPosition = _startingPlayerPositions[player.PlayerId];
-        var spawnTile = _gridSystem.GetPositionByCoordinate((int)startingPosition.x - 1, (int)startingPosition.y - 1);
+        _gridSystem.TryGetTileByCoordinates(startingPosition.x, startingPosition.y, out var spawnTile);
 
         OnPlayerDeath?.Invoke(3, player, spawnTile);
     }
@@ -119,7 +121,7 @@ public class GameManager : MonoBehaviour
         Previewable playerPreview = _players[playerInputValue.playerId];
         var previewTile = ConvertInputIntoPosition(playerPreview.GetGridCoordinates(), playerInputValue.inputValue);
 
-        if (previewTile == null)
+        if (previewTile == null || !previewTile.IsVisible)
         {
             return;
         }
@@ -132,16 +134,14 @@ public class GameManager : MonoBehaviour
 
         if (playerInputValue.inputValue != InputValue.Shoot)
         {
-            newPreview = CreatePreviewAtPosition(playerPreview, previewTile.GetTilePosition());
-            newPreview.previewTile = previewTile;
+            newPreview = CreatePreviewAtPosition(playerPreview, previewTile);            
         }
         else
         {
             var bulletPreview = Instantiate(playerBullet, playerSent.GetCurrentPosition(), playerSent.transform.rotation, transform);
             bulletPreview.SetupBullet(this, previewTile);
-            newPreview = CreatePreviewAtPosition(bulletPreview, previewTile.GetTilePosition());
+            newPreview = CreatePreviewAtPosition(bulletPreview, previewTile);
             newPreview.isCreated = true;
-            newPreview.previewTile = previewTile;
         }
 
         _attemptedPlayerActions.Add(playerSent, newPreview);
@@ -153,12 +153,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public PreviewAction CreatePreviewAtPosition(Previewable previewableObject, Vector2 previewPosition, bool isMoving = true)
+    public PreviewAction CreatePreviewAtPosition(Previewable previewableObject, Tile previewTile, bool isMoving = true)
     {
         var previewImage = previewableObject.GetPreviewSprite();
 
         var preview = new GameObject($"Preview of {previewableObject}");
-        preview.transform.position = previewPosition;
+        preview.transform.position = previewTile.GetTilePosition();
         preview.transform.rotation = previewableObject.transform.rotation;
         preview.transform.SetParent(transform);
         var renderer = preview.AddComponent<SpriteRenderer>();
@@ -169,29 +169,27 @@ public class GameManager : MonoBehaviour
         return new PreviewAction()
         {
             sourcePreviewable = previewableObject,
-            isNotMoving = !isMoving
+            isNotMoving = !isMoving,
+            previewTile = previewTile
         };    
     }
 
-    public bool AddPreviewAtPosition(Previewable previewObject, Vector2 previewDirection, Vector2 currentGridCoordinates)
+    public Tile AddPreviewAtPosition(Previewable previewObject, Tile currentTile, Vector2 previewDirection)
     {
-        var possibleGridCoordinates = previewDirection + currentGridCoordinates;
+        var possibleGridCoordinates = previewDirection + currentTile.GetTilePosition();
         var isPossibleTileSpace = _gridSystem.TryGetTileByCoordinates(possibleGridCoordinates.x, possibleGridCoordinates.y, out Tile tile);
 
         PreviewAction newPreview;
-        if (isPossibleTileSpace)
+        if (!isPossibleTileSpace)
         {
-            newPreview = CreatePreviewAtPosition(previewObject, tile.GetTilePosition());
-            newPreview.previewTile = tile;
-        }
-        else
-        {
-            var offGridPosition = previewObject.GetCurrentPosition() + previewDirection;
-            newPreview = CreatePreviewAtPosition(previewObject, offGridPosition);
+            return null;           
         }
 
+        newPreview = CreatePreviewAtPosition(previewObject, tile);
+        newPreview.previewTile = tile;
+
         _previewActions.Add(newPreview);
-        return isPossibleTileSpace;
+        return tile;
     }
 
     public void AddPreviewAction(PreviewAction preview)
@@ -231,15 +229,7 @@ public class GameManager : MonoBehaviour
                 continue;
             }
 
-            if (preview.previewTile != null)
-            {
-                movingObject.SetTile(preview.previewTile);
-                movingObject.Move(preview.previewTile.GetTilePosition(), tickEndDuration);
-            }
-            else
-            {
-                movingObject.Move(preview.sourcePreviewable.previewObject.transform.position, tickEndDuration);
-            }            
+            movingObject.TransitionToTile(preview.previewTile, tickEndDuration);
         }
 
         OnTickEnd?.Invoke(tickEndDuration);

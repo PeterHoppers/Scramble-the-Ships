@@ -27,7 +27,7 @@ public class WaveManager : MonoBehaviour, IManager
         var playersToPreview = playerSpawns.FindAll(x => x.tickToSpawn == ticksPassed);
         foreach (var playerInfo in playersToPreview)
         {
-            var previewAction = _gameManager.CreatePreviewAtPosition(playerInfo.playerToSpawn, playerInfo.spawnTile.GetTilePosition(), false);
+            var previewAction = _gameManager.CreatePreviewAtPosition(playerInfo.playerToSpawn, playerInfo.spawnTile, false);
             _gameManager.AddPreviewAction(previewAction);
         }
 

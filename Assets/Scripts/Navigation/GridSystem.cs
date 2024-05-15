@@ -19,11 +19,6 @@ public class GridSystem : MonoBehaviour
         CreateGrid();
     }
 
-    public Tile GetPositionByCoordinate(int x, int y)
-    {
-        return _tiles[x][y];
-    }
-
     public bool TryGetTileByCoordinates(float x, float y, out Tile tile)
     {
         int xIndex = (int)x;
@@ -39,6 +34,11 @@ public class GridSystem : MonoBehaviour
         return false;
     }
 
+    Tile GetPositionByCoordinate(int x, int y)
+    {
+        return _tiles[x][y];
+    }
+
     private void CreateGrid()
     {
         var bounds = new Bounds();
@@ -51,6 +51,8 @@ public class GridSystem : MonoBehaviour
                 bounds.Encapsulate(worldPosition);
                 var tile = Instantiate(tilePrefab, worldPosition, Quaternion.identity, transform);
                 tile.gridCoordinates = new Vector2(widthIndex, heightIndex);
+                //set a property for the tiles around the outer edge to allow objects that attempt to enter them to know they are leaving the grid
+                tile.IsVisible = !(widthIndex == 0 || widthIndex == gridWidth - 1 || heightIndex == 0 || heightIndex == gridHeight - 1);
                 _tiles[widthIndex].Add(tile);
             }
         }
@@ -61,7 +63,7 @@ public class GridSystem : MonoBehaviour
     private void SetCamera(Bounds bounds)
     {
         var _cam = Camera.main;
-        bounds.Expand(1);
+        bounds.Expand(0);
 
         var vertical = bounds.size.y;
         var horizontal = bounds.size.x * _cam.pixelHeight / _cam.pixelWidth;

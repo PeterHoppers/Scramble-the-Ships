@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Previewable : MonoBehaviour
 {
-    Tile currentTile;
+    protected Tile currentTile;
     TransformTransition _transitioner;
     
     public GameObject previewObject;
@@ -24,9 +24,16 @@ public abstract class Previewable : MonoBehaviour
         return new Color(.75f, .75f, .75f, .5f);
     }
 
-    public virtual void Move(Vector2 destination, float duration)
+    public virtual void TransitionToTile(Tile tileDestination, float duration)
     {
+        var destination = tileDestination.GetTilePosition();
         _transitioner.MoveTo(destination, duration);
+        SetTile(tileDestination);
+    }
+
+    public virtual void TransitionToPosition(Vector2 targetPosition, float duration)
+    {
+        _transitioner.MoveTo(targetPosition, duration);
     }
 
     public virtual void SetTile(Tile newTile)
@@ -34,6 +41,7 @@ public abstract class Previewable : MonoBehaviour
         currentTile = newTile;
     }
 
+    //Used for setting a tile directly at a position
     public virtual void SetPosition(Tile directTile)
     {
         if (_transitioner != null)
