@@ -130,37 +130,7 @@ public class GameManager : MonoBehaviour
         return GetTileFromInput(playerInputValue.playerActionPerformedOn.GetGridCoordinates(), playerInputValue.inputValue);
     }
 
-    public void AddPlayerAction(Player playerSent, PlayerAction playerInputValue, Tile previewTile)
-    {
-        Previewable playerActedUpon = playerInputValue.playerActionPerformedOn;
-        //we need to double check if a movement action we're taking is actually valid
-        //so we'll need to consult the grid system if we can move there or not
-        //addiotnally, if we're going to create a new object next turn
-        //we'll need to handle that as well, rather than just moving
-        PreviewAction newPreview;
-
-        if (playerInputValue.inputValue != InputValue.Shoot)
-        {
-            newPreview = CreatePreviewAtPosition(playerActedUpon, previewTile);
-        }
-        else
-        {
-            var bulletPreview = Instantiate(playerBullet, playerActedUpon.GetCurrentPosition(), playerSent.transform.rotation, transform);
-            bulletPreview.SetupMoveable(this, previewTile);
-            newPreview = CreatePreviewAtPosition(bulletPreview, previewTile);
-            newPreview.isCreated = true;
-        }
-
-        _attemptedPlayerActions.Add(playerSent, newPreview);
-        _previewActions.Add(newPreview);
-
-        if (_isMovementAtInput)
-        {
-            _tickElapsed = _tickDuration;
-        }
-    }
-
-    public PreviewAction CreatePreviewAtPosition(Previewable previewableObject, Tile previewTile, bool isMoving = true)
+    public PreviewAction CreatePreviewOfPreviewableAtTile(Previewable previewableObject, Tile previewTile, bool isMoving = true)
     {
         var previewImage = previewableObject.GetPreviewSprite();
 
@@ -181,6 +151,15 @@ public class GameManager : MonoBehaviour
         };    
     }
 
+    public PreviewAction CreateMovablePreviewAtTile(GridMovable movableToBeCreated, Previewable previewableCreatingMovable, Tile previewTile)
+    {
+        var bulletPreview = Instantiate(movableToBeCreated, previewableCreatingMovable.GetCurrentPosition(), previewableCreatingMovable.transform.rotation, transform);
+        bulletPreview.SetupMoveable(this, previewTile);
+        var newPreview = CreatePreviewOfPreviewableAtTile(bulletPreview, previewTile);
+        newPreview.isCreated = true;
+        return newPreview;
+    }
+
     public Tile AddPreviewAtPosition(Previewable previewObject, Tile currentTile, Vector2 previewDirection)
     {
         var possibleGridCoordinates = previewDirection + currentTile.GetTilePosition();
@@ -192,11 +171,22 @@ public class GameManager : MonoBehaviour
             return null;           
         }
 
-        newPreview = CreatePreviewAtPosition(previewObject, tile);
+        newPreview = CreatePreviewOfPreviewableAtTile(previewObject, tile);
         newPreview.previewTile = tile;
 
         _previewActions.Add(newPreview);
         return tile;
+    }
+
+    public void AddPlayerPreviewAction(Player playerPerformingAction, PreviewAction newPreview)
+    {
+        _attemptedPlayerActions.Add(playerPerformingAction, newPreview);
+        _previewActions.Add(newPreview);
+
+        if (_isMovementAtInput)
+        {
+            _tickElapsed = _tickDuration;
+        }
     }
 
     public void AddPreviewAction(PreviewAction preview)

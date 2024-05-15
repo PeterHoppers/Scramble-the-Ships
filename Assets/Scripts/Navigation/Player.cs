@@ -186,13 +186,24 @@ public class Player : Previewable
         _lastInput = pressedValue;
         inputValueDisplays[_lastInput.Value].color = Color.grey;
 
-
         _manager.ClearPreviousPlayerAction(this);
         var targetTile = _manager.GetTileForPlayerAction(playerAction);
 
         if (targetTile != null && targetTile.IsVisible)
         {
-            _manager.AddPlayerAction(this, playerAction, targetTile);
+            PreviewAction newPreview;
+            Player playerActedUpon = playerAction.playerActionPerformedOn;
+
+            if (playerAction.inputValue == InputValue.Shoot)
+            {
+                newPreview = _manager.CreateMovablePreviewAtTile(playerActedUpon.shipInfo.bullet, playerActedUpon, targetTile);
+            }
+            else
+            {
+                newPreview = _manager.CreatePreviewOfPreviewableAtTile(playerActedUpon, targetTile);
+            }
+
+            _manager.AddPlayerPreviewAction(this, newPreview);
         }
     }
 
