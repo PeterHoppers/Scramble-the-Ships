@@ -139,7 +139,7 @@ public class GameManager : MonoBehaviour
         else
         {
             var bulletPreview = Instantiate(playerBullet, playerSent.GetCurrentPosition(), playerSent.transform.rotation, transform);
-            bulletPreview.SetupBullet(this, previewTile);
+            bulletPreview.SetupMoveable(this, previewTile);
             newPreview = CreatePreviewAtPosition(bulletPreview, previewTile);
             newPreview.isCreated = true;
         }

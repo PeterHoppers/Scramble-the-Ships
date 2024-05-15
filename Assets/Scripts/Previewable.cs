@@ -5,14 +5,21 @@ using UnityEngine;
 public abstract class Previewable : MonoBehaviour
 {
     protected Tile currentTile;
+    protected GameManager _manager;
     TransformTransition _transitioner;
-    
+
     public GameObject previewObject;
 
     private void Start()
     {
         _transitioner = GetComponent<TransformTransition>();
     }
+
+    public virtual void SetupPreviewable(GameManager manager)
+    {
+        _manager = manager;
+    }
+
     public abstract Sprite GetPreviewSprite();
     public virtual Vector2 GetCurrentPosition()
     { 

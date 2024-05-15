@@ -51,9 +51,9 @@ public class WaveManager : MonoBehaviour, IManager
                 var spawnPosition = _gameManager.GetByCoordinates(wave.spawnCoordiantes);
                 var spawnedObject = Instantiate(wave.enemyObject, spawnPosition.GetTilePosition(), wave.enemyObject.transform.rotation, _gameManager.transform);
 
-                if (spawnedObject.TryGetComponent<Bullet>(out var bullet))
+                if (spawnedObject.TryGetComponent<GridMovable>(out var damageable))
                 {
-                    bullet.SetupBullet(_gameManager, spawnPosition);
+                    damageable.SetupMoveable(_gameManager, spawnPosition);
                 }
             }            
         }        

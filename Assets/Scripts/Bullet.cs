@@ -3,39 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : Previewable
+public class Bullet : GridMovable
 {
     public bool isFriendly = true;
-    public Vector2 travelDirection = Vector2.up;
-    GameManager _manager;
-    Collider2D _bulletCollider;
 
-    void Awake()
+    protected override void RemoveMoveable()
     {
-        _bulletCollider = GetComponent<Collider2D>();
-    }
-
-    public void SetupBullet(GameManager manager, Tile startingTile)
-    {
-        _manager = manager;
-        SetTile(startingTile);
-        _manager.OnTickStart += CreateNextPreview;
-    }
-
-    private void OnDestroy()
-    {
-        _manager.OnTickStart -= CreateNextPreview;
-    }
-
-    private void CreateNextPreview(float timeToTickEnd)
-    {
-        var previewTile = _manager.AddPreviewAtPosition(this, currentTile, travelDirection);
-
-        if (!previewTile.IsVisible) 
-        {
-            _manager.OnTickStart -= CreateNextPreview;
-            _manager.OnTickStart += HideBullet;
-        }
+        base.RemoveMoveable();
+        _manager.OnTickStart += HideBullet;
     }
 
     private void HideBullet(float timeToTickStart)
@@ -54,12 +29,7 @@ public class Bullet : Previewable
         gameObject.SetActive(false);
     }
 
-    public override Sprite GetPreviewSprite()
-    {
-        return GetComponentInChildren<SpriteRenderer>().sprite;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    public override void PerformInteraction(Collider2D collision)
     {
         if (collision.CompareTag("Player") && !isFriendly)
         {
