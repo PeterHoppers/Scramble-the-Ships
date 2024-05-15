@@ -14,7 +14,6 @@ public class Player : Previewable
     [SerializeField]
     private ParticleSystem deathVFX;
 
-    GameManager _manager;
     PlayerInput _playerInput;
 
     public int PlayerId { get; private set; }
@@ -122,7 +121,7 @@ public class Player : Previewable
             playerMovementInput = targetKey;
         }
 
-        SendInput(playerAction, playerMovementInput);
+        SendInput(playerMovementInput, playerAction);
     }
 
     InputValue SimplifyDirection(Vector2 direction)
@@ -166,10 +165,11 @@ public class Player : Previewable
         }
 
         var playerAction = playerActions[InputValue.Shoot];
-        SendInput(playerAction, InputValue.Shoot);
+        SendInput(InputValue.Shoot, playerAction);
     }
 
-    public void SendInput(PlayerAction playerAction, InputValue pressedValue)
+    //Takes the input pressed and the action that press triggered
+    public void SendInput(InputValue pressedValue, PlayerAction playerAction)
     {
         if (_lastInput == pressedValue)
         {
@@ -184,7 +184,14 @@ public class Player : Previewable
         _lastInput = pressedValue;
         inputValueDisplays[_lastInput.Value].color = Color.grey;
 
-        _manager.AttemptPlayerAction(this, playerAction);
+
+        _manager.ClearPreviousPlayerAction(this);
+        var targetTile = _manager.GetTileForPlayerAction(playerAction);
+
+        if (targetTile != null && targetTile.IsVisible)
+        {
+            _manager.AddPlayerAction(this, playerAction, targetTile);
+        }
     }
 
     public override Sprite GetPreviewSprite()

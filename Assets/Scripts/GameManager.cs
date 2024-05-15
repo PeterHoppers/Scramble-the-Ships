@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour
         return _players;
     }
 
-    public void AttemptPlayerAction(Player playerSent, PlayerAction playerInputValue)
+    public void ClearPreviousPlayerAction(Player playerSent)
     {
         //change this so that we look at what the player sent, then delete said preview
         if (_attemptedPlayerActions.TryGetValue(playerSent, out var previousPreview))
@@ -117,15 +117,18 @@ public class GameManager : MonoBehaviour
                 Destroy(previousPreview.sourcePreviewable.gameObject);
             }
         }
+    }
 
+    public Tile GetTileForPlayerAction(PlayerAction playerInputValue)
+    {
+        //get the player from the action, since that's who is performing the action. A player might be performing an action on someone else
         Previewable playerPreview = _players[playerInputValue.playerId];
-        var previewTile = ConvertInputIntoPosition(playerPreview.GetGridCoordinates(), playerInputValue.inputValue);
+        return GetTileFromInput(playerPreview.GetGridCoordinates(), playerInputValue.inputValue);
+    }
 
-        if (previewTile == null || !previewTile.IsVisible)
-        {
-            return;
-        }
-
+    public void AddPlayerAction(Player playerSent, PlayerAction playerInputValue, Tile previewTile)
+    {
+        Previewable playerPreview = _players[playerInputValue.playerId];
         //we need to double check if a movement action we're taking is actually valid
         //so we'll need to consult the grid system if we can move there or not
         //addiotnally, if we're going to create a new object next turn
@@ -134,7 +137,7 @@ public class GameManager : MonoBehaviour
 
         if (playerInputValue.inputValue != InputValue.Shoot)
         {
-            newPreview = CreatePreviewAtPosition(playerPreview, previewTile);            
+            newPreview = CreatePreviewAtPosition(playerPreview, previewTile);
         }
         else
         {
@@ -247,7 +250,7 @@ public class GameManager : MonoBehaviour
         _tickElapsed = 0;
     }
 
-    Tile ConvertInputIntoPosition(Vector2 targetCoordinates, InputValue input)
+    Tile GetTileFromInput(Vector2 targetCoordinates, InputValue input)
     {
         switch (input)
         {
