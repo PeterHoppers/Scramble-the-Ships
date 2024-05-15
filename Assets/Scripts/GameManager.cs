@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour
     public delegate void TickEnd(float timeToTickStart);
     public TickEnd OnTickEnd;
 
+    public delegate void PlayerJoined(Player player);
+    public PlayerJoined OnPlayerJoinedGame;
+
     public delegate void PlayerDeath(int ticksUntilSpawn, Player player, Tile playerSpawnTile);
     public PlayerDeath OnPlayerDeath;
 
@@ -72,11 +75,13 @@ public class GameManager : MonoBehaviour
             newPlayer.InitPlayer(this, playerInput, playerId);
 
             var startingPosition = _startingPlayerPositions[playerId];
+            
             //TODO: Add a default spawning position, if the one provided is no longer valid for some reason
             _gridSystem.TryGetTileByCoordinates(startingPosition.x, startingPosition.y, out var startingTile);
             newPlayer.SetPosition(startingTile);
 
             _players.Add(newPlayer);
+            OnPlayerJoinedGame?.Invoke(newPlayer);
         }
 
         if (_players.Count == 1)
@@ -122,13 +127,12 @@ public class GameManager : MonoBehaviour
     public Tile GetTileForPlayerAction(PlayerAction playerInputValue)
     {
         //get the player from the action, since that's who is performing the action. A player might be performing an action on someone else
-        Previewable playerPreview = _players[playerInputValue.playerId];
-        return GetTileFromInput(playerPreview.GetGridCoordinates(), playerInputValue.inputValue);
+        return GetTileFromInput(playerInputValue.playerActionPerformedOn.GetGridCoordinates(), playerInputValue.inputValue);
     }
 
     public void AddPlayerAction(Player playerSent, PlayerAction playerInputValue, Tile previewTile)
     {
-        Previewable playerPreview = _players[playerInputValue.playerId];
+        Previewable playerActedUpon = playerInputValue.playerActionPerformedOn;
         //we need to double check if a movement action we're taking is actually valid
         //so we'll need to consult the grid system if we can move there or not
         //addiotnally, if we're going to create a new object next turn
@@ -137,11 +141,11 @@ public class GameManager : MonoBehaviour
 
         if (playerInputValue.inputValue != InputValue.Shoot)
         {
-            newPreview = CreatePreviewAtPosition(playerPreview, previewTile);
+            newPreview = CreatePreviewAtPosition(playerActedUpon, previewTile);
         }
         else
         {
-            var bulletPreview = Instantiate(playerBullet, playerSent.GetCurrentPosition(), playerSent.transform.rotation, transform);
+            var bulletPreview = Instantiate(playerBullet, playerActedUpon.GetCurrentPosition(), playerSent.transform.rotation, transform);
             bulletPreview.SetupMoveable(this, previewTile);
             newPreview = CreatePreviewAtPosition(bulletPreview, previewTile);
             newPreview.isCreated = true;

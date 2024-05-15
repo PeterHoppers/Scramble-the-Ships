@@ -12,6 +12,9 @@ public class Player : Previewable
     SerializedDictionary<InputValue, PlayerAction> playerActions = new SerializedDictionary<InputValue, PlayerAction>();
 
     [SerializeField]
+    public ShipInfo shipInfo;
+
+    [SerializeField]
     private ParticleSystem deathVFX;
 
     PlayerInput _playerInput;
@@ -60,7 +63,6 @@ public class Player : Previewable
             }
         }
     }
-   
 
     public void SetPlayerActions(SerializedDictionary<InputValue, PlayerAction> playerActions)
     {

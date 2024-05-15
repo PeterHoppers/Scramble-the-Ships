@@ -5,11 +5,12 @@ using UnityEngine.InputSystem;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
 using System.Collections;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 
 public class ControlsManager : MonoBehaviour, IManager
 {
     private List<Player> _players = new List<Player>();
-    public List<PlayerAction> unshuffledValues = new List<PlayerAction>();
+    private List<PlayerAction> _unshuffledValues = new List<PlayerAction>();
     private GameManager _gameManager;
 
     private System.Random _random = new System.Random();
@@ -34,6 +35,7 @@ public class ControlsManager : MonoBehaviour, IManager
         _gameManager = manager;
         _gameManager.OnTickStart += CheckIfScramble;
         _gameManager.OnTickEnd += OnTickEnd;
+        _gameManager.OnPlayerJoinedGame += OnPlayerJoined;
     }
 
     void CheckIfScramble(float tickTime)
@@ -54,19 +56,13 @@ public class ControlsManager : MonoBehaviour, IManager
         }
     }
 
-    private void Start()
-    {
-        UpdateShuffledValues();
-    }
-
-    //have this listen to the game maanger's onTickStart
     void UpdateShuffledValues()
     {
         foreach (var player in _players) 
         {
-            var unshuffled = unshuffledValues.Where(x => x.playerId == player.PlayerId).ToList();
+            var unshuffled = _unshuffledValues.Where(x => x.playerActionPerformedOn == player).ToList();
             
-            var shuffledValues = ShuffleInputs(unshuffled, 4);
+            var shuffledValues = ShuffleInputs(unshuffled, 4); //TODO: Change this magic number to reflect gameplay progression
             var unShuffledInputs = unshuffled.Select(x => x.inputValue).ToList();
 
             var playerActions = new SerializedDictionary<InputValue, PlayerAction>();
@@ -137,6 +133,23 @@ public class ControlsManager : MonoBehaviour, IManager
             player.AllowingInput = false;
         }
     }
+
+    private void OnPlayerJoined(Player player)
+    {
+        foreach (InputValue inputValue in Enum.GetValues(typeof(InputValue)))
+        {
+            var spriteDictionary = player.shipInfo.inputsForSprites;
+
+            _unshuffledValues.Add(new PlayerAction()
+            {
+                playerActionPerformedOn = player,
+                inputValue = inputValue,
+                actionUI = spriteDictionary[inputValue]
+            });
+        }
+
+        UpdateShuffledValues();
+    }
 }
 
 public enum InputValue
@@ -151,7 +164,7 @@ public enum InputValue
 [System.Serializable]
 public struct PlayerAction
 {
-    public int playerId;
+    public Player playerActionPerformedOn;
     public InputValue inputValue;
     public Sprite actionUI;
 }

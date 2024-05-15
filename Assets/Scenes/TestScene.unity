@@ -5987,22 +5987,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82e8825daa9b5904cb6a2db79ccd0b82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unshuffledValues:
-  - playerId: 0
-    inputValue: 0
-    actionUI: {fileID: 21300000, guid: 13483bdf2ccd8c74ba004e3ed65ebf02, type: 3}
-  - playerId: 0
-    inputValue: 1
-    actionUI: {fileID: 21300000, guid: f4f4caa270893b54c929a48c93706802, type: 3}
-  - playerId: 0
-    inputValue: 2
-    actionUI: {fileID: 21300000, guid: b3ccd77f46ec3384cb1f4c7a2759c65f, type: 3}
-  - playerId: 0
-    inputValue: 3
-    actionUI: {fileID: 21300000, guid: c96fa1a116c0a3a43b95cd772336cdc7, type: 3}
-  - playerId: 0
-    inputValue: 4
-    actionUI: {fileID: 0}
 --- !u!1 &1933182946
 GameObject:
   m_ObjectHideFlags: 0
@@ -6433,7 +6417,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _startingPlayerPositions:
   - {x: 5, y: 3}
-  playerBullet: {fileID: 4358801067479974209, guid: 70b4d4ea3efcec24da4fb2b90ac46f8a, type: 3}
+  playerBullet: {fileID: 0}
 --- !u!156049354 &2124894460
 Grid:
   m_ObjectHideFlags: 0

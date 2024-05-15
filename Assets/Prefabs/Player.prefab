@@ -242,6 +242,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb0f053e81e11f43b310fa0fd45a640, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewObject: {fileID: 0}
+  shipInfo: {fileID: 11400000, guid: 734a50b407aa8d241912080d302100db, type: 2}
   deathVFX: {fileID: 9219782174715672961}
   inputValueDisplays:
     _serializedList:
