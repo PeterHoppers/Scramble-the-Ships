@@ -7,6 +7,7 @@ using System;
 
 public class WaveManager : MonoBehaviour, IManager
 {
+    public float spawningDistance = 3;
     [SerializedDictionary("Tick #", "Enemy Spawn Info")]
     public SerializedDictionary<int, EnemySpawn[]> waveInformation = new SerializedDictionary<int, EnemySpawn[]>();
 
@@ -51,11 +52,12 @@ public class WaveManager : MonoBehaviour, IManager
                 var spawnCoordiantes = GetSpawnCoordinates(wave.spawnDirection, wave.otherCoordinate);
                 var spawnPosition = _gameManager.GetByCoordinates(spawnCoordiantes);
                 var spawnRotation = GetRotationFromSpawnDirection(wave.spawnDirection);
-                var spawnedObject = Instantiate(wave.enemyObject, spawnPosition.GetTilePosition(), spawnRotation, _gameManager.transform);
+                var spawnedObject = Instantiate(wave.enemyObject, Vector2.zero, spawnRotation, _gameManager.transform);
+                spawnedObject.transform.position = spawnPosition.GetTilePosition() + (-1 * spawningDistance * (Vector2)spawnedObject.transform.up);
 
                 if (spawnedObject.TryGetComponent<GridMovable>(out var damageable))
                 {
-                    damageable.SetupMoveable(_gameManager, spawnPosition);
+                    damageable.SetupMoveable(_gameManager, spawnPosition, spawningDistance);
 
                     if (damageable.TryGetComponent<EnemyShip>(out var enemyShip))
                     {

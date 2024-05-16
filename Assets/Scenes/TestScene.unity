@@ -4328,7 +4328,7 @@ MonoBehaviour:
     - Key: 0
       Value:
       - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 1
+        spawnDirection: 0
         otherCoordinate: 8
         commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
       - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
@@ -4336,8 +4336,8 @@ MonoBehaviour:
         otherCoordinate: 9
         commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
       - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 1
-        otherCoordinate: 7
+        spawnDirection: 2
+        otherCoordinate: 1
         commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
 --- !u!4 &1450509014
 Transform:
