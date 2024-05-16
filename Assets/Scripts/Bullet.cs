@@ -9,14 +9,18 @@ public class Bullet : GridMovable
 
     public override void PerformInteraction(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && !isFriendly)
+        if (!collision.TryGetComponent<Previewable>(out var collidedPreviewable))
         {
-            collision.TryGetComponent<Player>(out var collidedPlayer);
-            collidedPlayer.OnHit(this);
+            return;
         }
-        else if (collision.CompareTag("Enemy") && isFriendly)
+
+        if (collision.CompareTag("Player") && !isFriendly)
+        {            
+            _manager.PreviewablesCollided(this, collidedPreviewable);
+        }
+        else if (collision.CompareTag("Enemy") && isFriendly) //right now, these are the same, but unsure if that'll be true in the future
         {
-            print("Destoryed Enemy!");
+            _manager.PreviewablesCollided(this, collidedPreviewable);
         }
     }
 }

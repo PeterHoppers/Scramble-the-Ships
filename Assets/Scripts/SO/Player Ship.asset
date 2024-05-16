@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df69872ed23ca47408b79a87ee0fa191, type: 3}
   m_Name: Player Ship
   m_EditorClassIdentifier: 
-  bullet: {fileID: 4358801067479974209, guid: 70b4d4ea3efcec24da4fb2b90ac46f8a, type: 3}
+  bullet: {fileID: 1014171297647524943, guid: d176f98117a525146b6616b1e92f26b2, type: 3}
   inputsForSprites:
     _serializedList:
     - Key: 0

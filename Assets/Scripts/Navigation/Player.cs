@@ -213,15 +213,9 @@ public class Player : Previewable
         return GetComponentInChildren<SpriteRenderer>().sprite;
     }
 
-    public void OnHit(Previewable attackingObject)
-    {
-        if (_isIndistructable)
-        {
-            attackingObject.DestroyPreviewable();
-            return;
-        }
-
-        _manager.DestoryPlayer(this, attackingObject);
+    public bool CanPlayerDie()
+    { 
+        return !_isIndistructable;
     }
 
     public void OnDeath() 

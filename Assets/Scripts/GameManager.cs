@@ -90,15 +90,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void DestoryPlayer(Player player, Previewable attackingObject) 
+    public void PreviewablesCollided(Previewable attacking, Previewable hit)
     {
-        attackingObject.DestroyPreviewable();
-        player.OnDeath();
+        attacking.DestroyPreviewable();
+        
+        if (hit.TryGetComponent<Player>(out var player))
+        {
+            if (player.CanPlayerDie())
+            {
+                player.OnDeath();
+                var startingPosition = _startingPlayerPositions[player.PlayerId];
+                _gridSystem.TryGetTileByCoordinates(startingPosition.x, startingPosition.y, out var spawnTile);
 
-        var startingPosition = _startingPlayerPositions[player.PlayerId];
-        _gridSystem.TryGetTileByCoordinates(startingPosition.x, startingPosition.y, out var spawnTile);
+                OnPlayerDeath?.Invoke(3, player, spawnTile);
+                return;
+            }  
+        }
 
-        OnPlayerDeath?.Invoke(3, player, spawnTile);
+        hit.DestroyPreviewable();
     }
 
     public List<Player> GetAllCurrentPlayers()

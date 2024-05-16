@@ -9,5 +9,7 @@ public class ShipInfo : ScriptableObject
     [SerializeField]
     public Bullet bullet;
     [SerializedDictionary("Input", "Sprite to Represent")]
-    public SerializedDictionary<InputValue, Sprite> inputsForSprites;
+    public SerializedDictionary<InputValue, Sprite> inputsForSprites; 
+    [SerializeField]
+    public ParticleSystem deathVFX;
 }
