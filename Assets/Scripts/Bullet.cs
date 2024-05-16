@@ -7,7 +7,7 @@ public class Bullet : GridMovable
 {
     public bool isFriendly = true;
 
-    public override void PerformInteraction(Collider2D collision)
+    protected override void PerformInteraction(Collider2D collision)
     {
         if (!collision.TryGetComponent<Previewable>(out var collidedPreviewable))
         {

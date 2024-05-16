@@ -66,7 +66,7 @@ public abstract class Previewable : MonoBehaviour
         return currentTile.gridCoordinates;
     }
 
-    public void DestroyPreviewable()
+    public virtual void DestroyPreviewable()
     {
         if (previewObject != null) 
         { 

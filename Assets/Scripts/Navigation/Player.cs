@@ -13,9 +13,7 @@ public class Player : Previewable
 
     [SerializeField]
     public ShipInfo shipInfo;
-
-    [SerializeField]
-    private ParticleSystem deathVFX;
+    private ParticleSystem _deathVFX;
 
     PlayerInput _playerInput;
 
@@ -35,6 +33,7 @@ public class Player : Previewable
     {
         _isMatchingDirection = TestParametersHandler.Instance.testParameters.doesMovementFollowKeys;
         TestParametersHandler.Instance.OnParametersChanged += UpdateScrambleType;
+        _deathVFX = Instantiate(shipInfo.deathVFX, transform);
     }
 
     private void UpdateScrambleType(TestParameters newParameters)
@@ -220,7 +219,7 @@ public class Player : Previewable
 
     public void OnDeath() 
     {
-        deathVFX.Play();
+        _deathVFX.Play();
         AllowingInput = false;
         SetShipVisiblity(false);
     }

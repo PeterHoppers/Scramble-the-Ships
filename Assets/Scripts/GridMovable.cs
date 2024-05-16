@@ -68,7 +68,7 @@ public class GridMovable : Previewable
         PerformInteraction(collision);
     }
 
-    public virtual void PerformInteraction(Collider2D collision)
+    protected virtual void PerformInteraction(Collider2D collision)
     {
        
     }
