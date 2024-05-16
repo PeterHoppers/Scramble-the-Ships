@@ -19,8 +19,9 @@ public class EnemyShip : GridMovable
         {
             if (inputValue == InputValue.Shoot)
             {
-                var shootingTile = _manager.GetTileFromInput(this, InputValue.Shoot);
-                var newPreview = _manager.CreateMovablePreviewAtTile(shipInfo.bullet, this, shootingTile);
+                var shootingTile = _manager.GetTileFromInput(this, inputValue);
+                var firingDirection = ConvertInputValueToDirection(inputValue);
+                var newPreview = _manager.CreateMovablePreviewAtTile(shipInfo.bullet, this, shootingTile, firingDirection);
                 _manager.AddPreviewAction(newPreview);
                 travelDirection = Vector2.zero;
             }

@@ -152,10 +152,11 @@ public class GameManager : MonoBehaviour
         };    
     }
 
-    public PreviewAction CreateMovablePreviewAtTile(GridMovable movableToBeCreated, Previewable previewableCreatingMovable, Tile previewTile)
+    public PreviewAction CreateMovablePreviewAtTile(GridMovable movableToBeCreated, Previewable previewableCreatingMovable, Tile previewTile, Vector2 movingDirection)
     {
         var bulletPreview = Instantiate(movableToBeCreated, previewableCreatingMovable.GetCurrentPosition(), previewableCreatingMovable.transform.rotation, transform);
         bulletPreview.SetupMoveable(this, previewTile);
+        bulletPreview.travelDirection = movingDirection;
         var newPreview = CreatePreviewOfPreviewableAtTile(bulletPreview, previewTile);
         newPreview.isCreated = true;
         return newPreview;
@@ -286,6 +287,11 @@ public class GameManager : MonoBehaviour
     { 
         _gridSystem.TryGetTileByCoordinates((int)targetCoordinates.x, (int)targetCoordinates.y, out var tile);
         return tile;
+    }
+
+    public Vector2 GetGridLimits()
+    { 
+        return new Vector2(_gridSystem.gridWidth - 1, _gridSystem.gridHeight - 1);
     }
 }
 

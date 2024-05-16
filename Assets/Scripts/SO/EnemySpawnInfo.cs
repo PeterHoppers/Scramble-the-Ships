@@ -13,7 +13,9 @@ public class EnemySpawnInfo : ScriptableObject
 public struct EnemySpawn
 {
     public GameObject enemyObject;
-    public Vector2 spawnCoordiantes;
+    public SpawnDirections spawnDirection;
+    [Tooltip("The remaining coordinate, depending on the spawn direction, i.e top/bottom: x coordinate vs left/right: y coordinate")]
+    public int otherCoordinate;
     public EnemyCommands commands;
 }
 

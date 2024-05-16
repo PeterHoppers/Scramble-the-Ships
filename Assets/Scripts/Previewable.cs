@@ -81,13 +81,14 @@ public abstract class Previewable : MonoBehaviour
         switch (input)
         {
             case InputValue.Up:
-                return Vector2.up;
+            case InputValue.Shoot:
+                return (Vector2)transform.up;
             case InputValue.Down:
-                return Vector2.down;
+                return (Vector2)transform.up * -1;
             case InputValue.Left:
-                return Vector2.left;
+                return (Vector2)transform.right * -1;
             case InputValue.Right:
-                return Vector2.right;
+                return (Vector2)transform.right;
             default:
                 return Vector2.zero;
         }

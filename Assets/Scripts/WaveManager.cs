@@ -48,8 +48,10 @@ public class WaveManager : MonoBehaviour, IManager
         { 
             foreach(var wave in waveInfo) 
             {
-                var spawnPosition = _gameManager.GetByCoordinates(wave.spawnCoordiantes);
-                var spawnedObject = Instantiate(wave.enemyObject, spawnPosition.GetTilePosition(), wave.enemyObject.transform.rotation, _gameManager.transform);
+                var spawnCoordiantes = GetSpawnCoordinates(wave.spawnDirection, wave.otherCoordinate);
+                var spawnPosition = _gameManager.GetByCoordinates(spawnCoordiantes);
+                var spawnRotation = GetRotationFromSpawnDirection(wave.spawnDirection);
+                var spawnedObject = Instantiate(wave.enemyObject, spawnPosition.GetTilePosition(), spawnRotation, _gameManager.transform);
 
                 if (spawnedObject.TryGetComponent<GridMovable>(out var damageable))
                 {
@@ -64,6 +66,46 @@ public class WaveManager : MonoBehaviour, IManager
         }        
 
         ticksPassed++;
+    }
+
+    Vector2 GetSpawnCoordinates(SpawnDirections spawnDirection, int coordinateOffset)
+    {
+        var maxCoordinates = _gameManager.GetGridLimits();
+        switch (spawnDirection)
+        {
+            case SpawnDirections.Left:
+                return new Vector2(0, coordinateOffset);
+            case SpawnDirections.Right:
+                return new Vector2(maxCoordinates.x, coordinateOffset);
+            case SpawnDirections.Top:
+                return new Vector2(coordinateOffset, maxCoordinates.y);
+            case SpawnDirections.Bottom:
+                return new Vector2(coordinateOffset, 0);
+            default:
+                return Vector2.zero;
+        }
+    }
+
+    Quaternion GetRotationFromSpawnDirection(SpawnDirections spawnDirection)
+    { 
+        Quaternion rotation = Quaternion.identity;
+        switch(spawnDirection) 
+        { 
+            case SpawnDirections.Top:
+                rotation.eulerAngles = new Vector3(0, 0, 180);
+                break;
+            case SpawnDirections.Left:
+                rotation.eulerAngles = new Vector3(0, 0, 270);
+                break;
+            case SpawnDirections.Right:
+                rotation.eulerAngles = new Vector3(0, 0, 90);
+                break;
+            case SpawnDirections.Bottom:
+            default: //Bottom would be no rotation
+                break;
+        }
+
+        return rotation;
     }
 
     public void AddPlayerToSpawn(int ticksUntilSpawn, Player player, Tile playerSpawnTile)
