@@ -126,8 +126,9 @@ public class GameManager : MonoBehaviour
 
     public Tile GetTileForPlayerAction(PlayerAction playerInputValue)
     {
+        var targetPlayer = playerInputValue.playerActionPerformedOn;
         //get the player from the action, since that's who is performing the action. A player might be performing an action on someone else
-        return GetTileFromInput(playerInputValue.playerActionPerformedOn.GetGridCoordinates(), playerInputValue.inputValue);
+        return GetTileFromInput(targetPlayer, playerInputValue.inputValue);
     }
 
     public PreviewAction CreatePreviewOfPreviewableAtTile(Previewable previewableObject, Tile previewTile, bool isMoving = true)
@@ -244,28 +245,29 @@ public class GameManager : MonoBehaviour
         _tickElapsed = 0;
     }
 
-    Tile GetTileFromInput(Vector2 targetCoordinates, InputValue input)
+    public Tile GetTileFromInput(Previewable inputSource, InputValue input)
     {
+        var targetCoordinates = inputSource.GetGridCoordinates();
         switch (input)
         {
             case InputValue.Up:
             case InputValue.Shoot:
-                targetCoordinates += Vector2.up;
+                targetCoordinates += (Vector2)inputSource.transform.up;
                 break;
             case InputValue.Down:
-                targetCoordinates += Vector2.down;
+                targetCoordinates += (Vector2)inputSource.transform.up * -1;
                 break;
             case InputValue.Left:
-                targetCoordinates += Vector2.left;
+                targetCoordinates += (Vector2)inputSource.transform.right * -1;
                 break;
             case InputValue.Right:
-                targetCoordinates += Vector2.right;
+                targetCoordinates += (Vector2)inputSource.transform.right;
                 break;
             default:
                 break;
         }
 
-        _gridSystem.TryGetTileByCoordinates((int)targetCoordinates.x, (int)targetCoordinates.y, out var tile);
+        _gridSystem.TryGetTileByCoordinates(targetCoordinates.x, targetCoordinates.y, out var tile);
 
         return tile;
     }

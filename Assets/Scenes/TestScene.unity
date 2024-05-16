@@ -4327,44 +4327,20 @@ MonoBehaviour:
     _serializedList:
     - Key: 2
       Value:
-      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
         spawnCoordiantes: {x: 3, y: 8}
-      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
-        spawnCoordiantes: {x: 4, y: 8}
-      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
-        spawnCoordiantes: {x: 6, y: 8}
-      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
-        spawnCoordiantes: {x: 7, y: 8}
-    - Key: 5
+        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
+    - Key: 12
       Value:
-      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
-        spawnCoordiantes: {x: 5, y: 8}
-      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
-        spawnCoordiantes: {x: 4, y: 8}
-    - Key: 7
-      Value:
-      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
-        spawnCoordiantes: {x: 3, y: 8}
-      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
-        spawnCoordiantes: {x: 4, y: 7}
-      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
-        spawnCoordiantes: {x: 6, y: 7}
-      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
-        spawnCoordiantes: {x: 7, y: 7}
-    - Key: 9
-      Value:
-      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
-        spawnCoordiantes: {x: 3, y: 7}
-      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
-        spawnCoordiantes: {x: 4, y: 7}
-      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
-        spawnCoordiantes: {x: 6, y: 7}
-      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
-        spawnCoordiantes: {x: 7, y: 7}
-      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
-        spawnCoordiantes: {x: 1, y: 8}
-      - enemyObject: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
         spawnCoordiantes: {x: 2, y: 8}
+        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
+        spawnCoordiantes: {x: 3, y: 8}
+        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
+        spawnCoordiantes: {x: 4, y: 8}
+        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
 --- !u!4 &1450509014
 Transform:
   m_ObjectHideFlags: 0

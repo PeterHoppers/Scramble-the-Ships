@@ -1,3 +1,4 @@
+using AYellowpaper.SerializedCollections;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,4 +14,15 @@ public struct EnemySpawn
 {
     public GameObject enemyObject;
     public Vector2 spawnCoordiantes;
+    public EnemyCommands commands;
 }
+
+[System.Serializable]
+public enum SpawnDirections
+{ 
+    Top,
+    Bottom,
+    Left,
+    Right
+}
+

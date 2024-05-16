@@ -8,6 +8,6 @@ public class ShipInfo : ScriptableObject
 {
     [SerializeField]
     public Bullet bullet;
-    [SerializedDictionary]
+    [SerializedDictionary("Input", "Sprite to Represent")]
     public SerializedDictionary<InputValue, Sprite> inputsForSprites;
 }

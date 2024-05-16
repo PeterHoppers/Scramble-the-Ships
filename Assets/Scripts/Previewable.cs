@@ -8,6 +8,7 @@ public abstract class Previewable : MonoBehaviour
     protected GameManager _manager;
     TransformTransition _transitioner;
 
+    [HideInInspector]
     public GameObject previewObject;
 
     private void Start()
@@ -73,5 +74,22 @@ public abstract class Previewable : MonoBehaviour
         }
 
         Destroy(this.gameObject);
+    }
+
+    protected Vector2 ConvertInputValueToDirection(InputValue input)
+    {
+        switch (input)
+        {
+            case InputValue.Up:
+                return Vector2.up;
+            case InputValue.Down:
+                return Vector2.down;
+            case InputValue.Left:
+                return Vector2.left;
+            case InputValue.Right:
+                return Vector2.right;
+            default:
+                return Vector2.zero;
+        }
     }
 }

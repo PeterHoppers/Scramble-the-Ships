@@ -54,6 +54,11 @@ public class WaveManager : MonoBehaviour, IManager
                 if (spawnedObject.TryGetComponent<GridMovable>(out var damageable))
                 {
                     damageable.SetupMoveable(_gameManager, spawnPosition);
+
+                    if (damageable.TryGetComponent<EnemyShip>(out var enemyShip))
+                    {
+                        enemyShip.shipCommands = wave.commands.shipCommands;
+                    }
                 }
             }            
         }        
