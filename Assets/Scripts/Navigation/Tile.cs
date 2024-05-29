@@ -29,6 +29,6 @@ public class Tile : MonoBehaviour
 
     public Vector2 GetTilePosition()
     {
-        return transform.position;
+        return transform.localPosition;
     }
 }

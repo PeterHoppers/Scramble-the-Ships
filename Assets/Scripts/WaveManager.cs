@@ -53,7 +53,7 @@ public class WaveManager : MonoBehaviour, IManager
                 var spawnPosition = _gameManager.GetByCoordinates(spawnCoordiantes);
                 var spawnRotation = GetRotationFromSpawnDirection(wave.spawnDirection);
                 var spawnedObject = Instantiate(wave.enemyObject, Vector2.zero, spawnRotation, _gameManager.transform);
-                spawnedObject.transform.position = spawnPosition.GetTilePosition() + (-1 * spawningDistance * (Vector2)spawnedObject.transform.up);
+                spawnedObject.transform.localPosition = spawnPosition.GetTilePosition() + (-1 * spawningDistance * (Vector2)spawnedObject.transform.up);
 
                 if (spawnedObject.TryGetComponent<GridMovable>(out var damageable))
                 {

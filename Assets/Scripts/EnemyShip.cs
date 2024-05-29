@@ -17,7 +17,7 @@ public class EnemyShip : GridMovable
     {
         if (shipCommands.TryGetValue(_ticksSinceSpawn, out var inputValue)) 
         {
-            if (inputValue == InputValue.Shoot)
+            if (inputValue == InputValue.Fire)
             {
                 var shootingTile = _manager.GetTileFromInput(this, inputValue);
                 var firingDirection = ConvertInputValueToDirection(inputValue);

@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
     public List<Vector2> _startingPlayerPositions;
-    public Bullet playerBullet;
     public delegate void TickStart(float timeToTickEnd);
     public TickStart OnTickStart;
 
@@ -73,6 +71,7 @@ public class GameManager : MonoBehaviour
         {
             int playerId = _players.Count;
             newPlayer.InitPlayer(this, playerInput, playerId);
+            newPlayer.transform.SetParent(transform);
 
             var startingPosition = _startingPlayerPositions[playerId];
             
@@ -145,9 +144,9 @@ public class GameManager : MonoBehaviour
         var previewImage = previewableObject.GetPreviewSprite();
 
         var preview = new GameObject($"Preview of {previewableObject}");
-        preview.transform.position = previewTile.GetTilePosition();
-        preview.transform.rotation = previewableObject.transform.rotation;
         preview.transform.SetParent(transform);
+        preview.transform.localPosition = previewTile.GetTilePosition();
+        preview.transform.rotation = previewableObject.transform.rotation;
         var renderer = preview.AddComponent<SpriteRenderer>();
         renderer.sprite = previewImage;
         renderer.color = previewableObject.GetPreviewColor();
@@ -163,7 +162,10 @@ public class GameManager : MonoBehaviour
 
     public PreviewAction CreateMovablePreviewAtTile(GridMovable movableToBeCreated, Previewable previewableCreatingMovable, Tile previewTile, Vector2 movingDirection)
     {
-        var bulletPreview = Instantiate(movableToBeCreated, previewableCreatingMovable.GetCurrentPosition(), previewableCreatingMovable.transform.rotation, transform);
+        var bulletPreview = Instantiate(movableToBeCreated, transform);
+        bulletPreview.transform.SetParent(transform);
+        bulletPreview.transform.localPosition = previewableCreatingMovable.GetCurrentPosition();
+        bulletPreview.transform.rotation = previewableCreatingMovable.transform.rotation;
         bulletPreview.SetupMoveable(this, previewTile);
         bulletPreview.travelDirection = movingDirection;
         var newPreview = CreatePreviewOfPreviewableAtTile(bulletPreview, previewTile);
@@ -260,17 +262,17 @@ public class GameManager : MonoBehaviour
         var targetCoordinates = inputSource.GetGridCoordinates();
         switch (input)
         {
-            case InputValue.Up:
-            case InputValue.Shoot:
+            case InputValue.Forward:
+            case InputValue.Fire:
                 targetCoordinates += (Vector2)inputSource.transform.up;
                 break;
-            case InputValue.Down:
+            case InputValue.Backward:
                 targetCoordinates += (Vector2)inputSource.transform.up * -1;
                 break;
-            case InputValue.Left:
+            case InputValue.Port:
                 targetCoordinates += (Vector2)inputSource.transform.right * -1;
                 break;
-            case InputValue.Right:
+            case InputValue.Starboard:
                 targetCoordinates += (Vector2)inputSource.transform.right;
                 break;
             default:

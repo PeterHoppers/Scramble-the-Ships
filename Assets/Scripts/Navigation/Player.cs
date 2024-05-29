@@ -131,22 +131,22 @@ public class Player : Previewable
         {
             if (direction.x > 0)
             {
-                return InputValue.Right;
+                return InputValue.Starboard;
             }
             else
             {
-                return InputValue.Left;
+                return InputValue.Port;
             }
         }
         else
         {
             if (direction.y > 0)
             {
-                return InputValue.Up;
+                return InputValue.Forward;
             }
             else
             {
-                return InputValue.Down;
+                return InputValue.Backward;
             }
         }
     }
@@ -165,8 +165,8 @@ public class Player : Previewable
             return;
         }
 
-        var playerAction = playerActions[InputValue.Shoot];
-        SendInput(InputValue.Shoot, playerAction);
+        var playerAction = playerActions[InputValue.Fire];
+        SendInput(InputValue.Fire, playerAction);
     }
 
     //Takes the input pressed and the action that press triggered
@@ -193,7 +193,7 @@ public class Player : Previewable
             PreviewAction newPreview;
             Player playerActedUpon = playerAction.playerActionPerformedOn;
 
-            if (playerAction.inputValue == InputValue.Shoot)
+            if (playerAction.inputValue == InputValue.Fire)
             {
                 var firingDirection = ConvertInputValueToDirection(playerAction.inputValue);
                 newPreview = _manager.CreateMovablePreviewAtTile(playerActedUpon.shipInfo.bullet, playerActedUpon, targetTile, firingDirection);

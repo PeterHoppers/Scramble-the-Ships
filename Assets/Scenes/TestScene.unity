@@ -2198,10 +2198,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testParameters:
-    amountControlsScrambled: 3
+    amountControlsScrambled: 2
     tickDuration: 1
     amountTickPerScramble: 1
-    doesMoveOnInput: 0
+    doesMoveOnInput: 1
     doesMovementFollowKeys: 1
   amountScrambledDropdown: {fileID: 463268001}
   tickDurationSlider: {fileID: 282040785}
@@ -2436,7 +2436,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 10}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 519420032}
@@ -4323,21 +4323,106 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74992b410e746cf43a983c4db2fc2f3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawningDistance: 3
   waveInformation:
     _serializedList:
-    - Key: 0
+    - Key: 2
       Value:
       - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
         spawnDirection: 0
-        otherCoordinate: 8
+        otherCoordinate: 3
+        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
+    - Key: 14
+      Value:
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
+        spawnDirection: 0
+        otherCoordinate: 3
         commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
       - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 1
-        otherCoordinate: 9
+        spawnDirection: 0
+        otherCoordinate: 5
+        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
+        spawnDirection: 0
+        otherCoordinate: 7
+        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
+    - Key: 25
+      Value:
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
+        spawnDirection: 0
+        otherCoordinate: 1
+        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
+        spawnDirection: 0
+        otherCoordinate: 2
+        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
+        spawnDirection: 0
+        otherCoordinate: 3
+        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
+        spawnDirection: 0
+        otherCoordinate: 5
+        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
+        spawnDirection: 0
+        otherCoordinate: 6
+        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
+        spawnDirection: 0
+        otherCoordinate: 7
+        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
+    - Key: 37
+      Value:
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
+        spawnDirection: 2
+        otherCoordinate: 3
+        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
+        spawnDirection: 2
+        otherCoordinate: 2
         commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
       - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
         spawnDirection: 2
         otherCoordinate: 1
+        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
+        spawnDirection: 3
+        otherCoordinate: 7
+        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
+        spawnDirection: 3
+        otherCoordinate: 6
+        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
+        spawnDirection: 3
+        otherCoordinate: 5
+        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
+    - Key: 49
+      Value:
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
+        spawnDirection: 1
+        otherCoordinate: 8
+        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
+        spawnDirection: 1
+        otherCoordinate: 7
+        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
+        spawnDirection: 1
+        otherCoordinate: 6
+        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
+        spawnDirection: 0
+        otherCoordinate: 1
+        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
+        spawnDirection: 0
+        otherCoordinate: 2
+        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
+        spawnDirection: 0
+        otherCoordinate: 3
         commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
 --- !u!4 &1450509014
 Transform:
@@ -6371,7 +6456,7 @@ Transform:
   m_GameObject: {fileID: 2124894457}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.5, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6390,8 +6475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _startingPlayerPositions:
-  - {x: 5, y: 3}
-  playerBullet: {fileID: 0}
+  - {x: 6, y: 2}
 --- !u!156049354 &2124894460
 Grid:
   m_ObjectHideFlags: 0
@@ -6418,7 +6502,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: 5402147654185855045, guid: e93478bfeab8942418d4109af6323375, type: 3}
   gridWidth: 13
-  gridHeight: 9
+  gridHeight: 17
+  boundsIncrease: 1.75
 --- !u!1001 &4531162659611141552
 PrefabInstance:
   m_ObjectHideFlags: 0

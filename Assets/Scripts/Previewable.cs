@@ -24,7 +24,7 @@ public abstract class Previewable : MonoBehaviour
     public abstract Sprite GetPreviewSprite();
     public virtual Vector2 GetCurrentPosition()
     { 
-        return transform.position;
+        return transform.localPosition;
     }
 
     public virtual Color GetPreviewColor()
@@ -35,6 +35,11 @@ public abstract class Previewable : MonoBehaviour
     public virtual void TransitionToTile(Tile tileDestination, float duration)
     {
         var destination = tileDestination.GetTilePosition();
+        if (_transitioner == null)
+        {
+            _transitioner = GetComponent<TransformTransition>();
+        }
+
         _transitioner.MoveTo(destination, duration);
         SetTile(tileDestination);
     }
@@ -58,7 +63,7 @@ public abstract class Previewable : MonoBehaviour
         }
 
         currentTile = directTile;
-        transform.position = currentTile.GetTilePosition();
+        transform.localPosition = currentTile.GetTilePosition();
     }
 
     public virtual Vector2 GetGridCoordinates()
@@ -80,14 +85,14 @@ public abstract class Previewable : MonoBehaviour
     {
         switch (input)
         {
-            case InputValue.Up:
-            case InputValue.Shoot:
+            case InputValue.Forward:
+            case InputValue.Fire:
                 return (Vector2)transform.up;
-            case InputValue.Down:
+            case InputValue.Backward:
                 return (Vector2)transform.up * -1;
-            case InputValue.Left:
+            case InputValue.Port:
                 return (Vector2)transform.right * -1;
-            case InputValue.Right:
+            case InputValue.Starboard:
                 return (Vector2)transform.right;
             default:
                 return Vector2.zero;

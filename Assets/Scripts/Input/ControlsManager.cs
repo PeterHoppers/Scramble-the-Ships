@@ -154,11 +154,11 @@ public class ControlsManager : MonoBehaviour, IManager
 
 public enum InputValue
 {    
-    Up = 0,
-    Down = 1,
-    Left = 2,
-    Right = 3,
-    Shoot = 4
+    Forward = 0,
+    Backward = 1,
+    Port = 2,
+    Starboard = 3,
+    Fire = 4
 }
 
 [System.Serializable]

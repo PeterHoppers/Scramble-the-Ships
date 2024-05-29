@@ -12,6 +12,7 @@ public class GridSystem : MonoBehaviour
 
     public int gridWidth = 20;
     public int gridHeight = 10;
+    public float boundsIncrease;
 
     void Start()
     {
@@ -51,6 +52,7 @@ public class GridSystem : MonoBehaviour
                 bounds.Encapsulate(worldPosition);
                 var tile = Instantiate(tilePrefab, worldPosition, Quaternion.identity, transform);
                 tile.gridCoordinates = new Vector2(widthIndex, heightIndex);
+                tile.name = $"Tile ({widthIndex}, {heightIndex})";
                 //set a property for the tiles around the outer edge to allow objects that attempt to enter them to know they are leaving the grid
                 tile.IsVisible = !(widthIndex == 0 || widthIndex == gridWidth - 1 || heightIndex == 0 || heightIndex == gridHeight - 1);
                 _tiles[widthIndex].Add(tile);
@@ -63,7 +65,7 @@ public class GridSystem : MonoBehaviour
     private void SetCamera(Bounds bounds)
     {
         var _cam = Camera.main;
-        bounds.Expand(0);
+        bounds.Expand(boundsIncrease);
 
         var vertical = bounds.size.y;
         var horizontal = bounds.size.x * _cam.pixelHeight / _cam.pixelWidth;

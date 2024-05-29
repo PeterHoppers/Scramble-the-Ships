@@ -15,3 +15,4 @@ MonoBehaviour:
   bullet: {fileID: 4358801067479974209, guid: 325e66a33d45622429c2008f98d14266, type: 3}
   inputsForSprites:
     _serializedList: []
+  deathVFX: {fileID: 725748389856807712, guid: e95db50273d4e5746b02ba9b960f0afd, type: 3}
