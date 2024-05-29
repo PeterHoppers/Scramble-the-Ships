@@ -102,8 +102,8 @@ public class GameManager : MonoBehaviour
                 _gridSystem.TryGetTileByCoordinates(startingPosition.x, startingPosition.y, out var spawnTile);
 
                 OnPlayerDeath?.Invoke(3, player, spawnTile);
-                return;
-            }  
+            }
+            return;
         }
 
         hit.DestroyPreviewable();

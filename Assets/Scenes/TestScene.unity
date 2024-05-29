@@ -4329,8 +4329,8 @@ MonoBehaviour:
     - Key: 2
       Value:
       - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 0
-        otherCoordinate: 3
+        spawnDirection: 1
+        otherCoordinate: 7
         commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
     - Key: 14
       Value:

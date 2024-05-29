@@ -19,6 +19,7 @@ public class Player : Previewable
 
     public int PlayerId { get; private set; }
     public bool AllowingInput { get; set; }
+    private bool _isDestroyed = false;
     InputValue? _lastInput;
 
     bool _isMatchingDirection;
@@ -91,7 +92,7 @@ public class Player : Previewable
 
     public void OnPlayerMove(InputAction.CallbackContext context)
     {
-        if (!AllowingInput)
+        if (!AllowingInput || _isDestroyed)
         {
             return;
         }
@@ -153,7 +154,7 @@ public class Player : Previewable
 
     public void OnPlayerFire(InputAction.CallbackContext context)
     {
-        if (!AllowingInput)
+        if (!AllowingInput || _isDestroyed)
         {
             return;
         }
@@ -220,13 +221,13 @@ public class Player : Previewable
     public void OnDeath() 
     {
         _deathVFX.Play();
-        AllowingInput = false;
+        _isDestroyed = true;
         SetShipVisiblity(false);
     }
 
     public void OnSpawn()
     {
-        AllowingInput = true;
+        _isDestroyed = false;
         _isIndistructable = true;
         _ticksIndistructable = 2;
         SetShipVisiblity(true);
