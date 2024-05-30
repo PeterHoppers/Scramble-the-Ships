@@ -9,7 +9,7 @@ using System;
 public class Player : Previewable
 {
     [SerializedDictionary]
-    SerializedDictionary<InputValue, PlayerAction> playerActions = new SerializedDictionary<InputValue, PlayerAction>();
+    SerializedDictionary<InputValue, PlayerAction> scrambledActions = new SerializedDictionary<InputValue, PlayerAction>();
 
     [SerializeField]
     public ShipInfo shipInfo;
@@ -22,7 +22,6 @@ public class Player : Previewable
     private bool _isDestroyed = false;
     InputValue? _lastInput;
 
-    bool _isMatchingDirection;
     List<Condition> _playerConditions = new List<Condition>();
 
     [SerializedDictionary]
@@ -30,14 +29,7 @@ public class Player : Previewable
 
     private void Awake()
     {
-        _isMatchingDirection = TestParametersHandler.Instance.testParameters.doesMovementFollowKeys;
-        TestParametersHandler.Instance.OnParametersChanged += UpdateScrambleType;
         _deathVFX = Instantiate(shipInfo.deathVFX, transform);
-    }
-
-    private void UpdateScrambleType(TestParameters newParameters)
-    {
-        _isMatchingDirection = newParameters.doesMovementFollowKeys;
     }
 
     public void InitPlayer(GameManager manager, PlayerInput playerInput, int id)
@@ -59,9 +51,9 @@ public class Player : Previewable
         }       
     }
 
-    public void SetPlayerActions(SerializedDictionary<InputValue, PlayerAction> playerActions)
+    public void SetScrambledActions(SerializedDictionary<InputValue, PlayerAction> playerActions)
     {
-        this.playerActions = playerActions;
+        scrambledActions = playerActions;
         var playerActionKeys = playerActions.Keys;
 
         foreach (var item in playerActionKeys)
@@ -101,24 +93,10 @@ public class Player : Previewable
 
         var playerMovementInput = SimplifyDirection(playerMovement);
 
-        PlayerAction playerAction;
-
-        if (_isMatchingDirection)
+        if(scrambledActions.TryGetValue(playerMovementInput, out var playerAction))
         {
-            playerAction = playerActions[playerMovementInput];
+            SendInput(playerMovementInput, playerAction);
         }
-        else
-        {
-            //find out which element has the value with the input value
-            //then return that key
-            var buttonAction = playerActions.Values.First(x => x.inputValue == playerMovementInput);
-            var valueIndex = playerActions.Values.ToList().IndexOf(buttonAction);
-            var targetKey = playerActions.Keys.ToList()[valueIndex];
-            playerAction = playerActions.Values.First(x => x.inputValue == targetKey);
-            playerMovementInput = targetKey;
-        }
-
-        SendInput(playerMovementInput, playerAction);
     }
 
     InputValue SimplifyDirection(Vector2 direction)
@@ -161,8 +139,10 @@ public class Player : Previewable
             return;
         }
 
-        var playerAction = playerActions[InputValue.Fire];
-        SendInput(InputValue.Fire, playerAction);
+        if (scrambledActions.TryGetValue(InputValue.Fire, out var playerAction))
+        {
+            SendInput(InputValue.Fire, playerAction);
+        }
     }
 
     //Takes the input pressed and the action that press triggered

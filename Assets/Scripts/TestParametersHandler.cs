@@ -37,7 +37,6 @@ public class TestParametersHandler : MonoBehaviour
     public TMP_Dropdown amountScrambledDropdown;
     public Slider tickDurationSlider;
     public TMP_Dropdown moveOnInputDropdown;
-    public TMP_Dropdown movementTypeDropdown;
     public Slider tickScrambleSlider;
 
     public delegate void ParametersChanged(TestParameters newParameters);
@@ -54,9 +53,6 @@ public class TestParametersHandler : MonoBehaviour
 
         moveOnInputDropdown.value = (testParameters.doesMoveOnInput) ? 1 : 0;
         moveOnInputDropdown.onValueChanged.AddListener(delegate { OnMoveInputUpdate(); });
-
-        movementTypeDropdown.value = (testParameters.doesMovementFollowKeys) ? 1 : 0;
-        movementTypeDropdown.onValueChanged.AddListener(delegate { OnMovementTypeUpdate(); });
 
         tickScrambleSlider.value = testParameters.amountTickPerScramble;
         tickScrambleSlider.onValueChanged.AddListener(delegate { OnTickScrambleUpdate(); });
@@ -83,12 +79,6 @@ public class TestParametersHandler : MonoBehaviour
         OnParametersChanged?.Invoke(testParameters);
     }
 
-    void OnMovementTypeUpdate()
-    {
-        testParameters.doesMovementFollowKeys = (movementTypeDropdown.value == 1);
-        OnParametersChanged?.Invoke(testParameters);
-    }
-
     void OnTickScrambleUpdate()
     {
         testParameters.amountTickPerScramble = (int)tickScrambleSlider.value;
@@ -103,5 +93,4 @@ public struct TestParameters
     public float tickDuration;
     public int amountTickPerScramble;
     public bool doesMoveOnInput;
-    public bool doesMovementFollowKeys;
 }

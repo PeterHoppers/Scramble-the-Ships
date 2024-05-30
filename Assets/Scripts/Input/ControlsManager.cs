@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
-using System.Collections;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 
 public class ControlsManager : MonoBehaviour, IManager
 {
@@ -71,7 +69,7 @@ public class ControlsManager : MonoBehaviour, IManager
                 playerActions.Add(unShuffledInputs[index], shuffledValues[index]);
             }
 
-            player.SetPlayerActions(playerActions);
+            player.SetScrambledActions(playerActions);
         }
     }
 
