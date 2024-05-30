@@ -29,7 +29,7 @@ public abstract class Previewable : MonoBehaviour
 
     public virtual Color GetPreviewColor()
     { 
-        return new Color(.75f, .75f, .75f, .5f);
+        return new Color(.5f, .5f, .5f, .25f);
     }
 
     public virtual void TransitionToTile(Tile tileDestination, float duration)
