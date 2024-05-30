@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class GameManager : MonoBehaviour
 {
     public List<Vector2> _startingPlayerPositions;
+    public int ticksUntilRespawn = 3;
     public delegate void TickStart(float timeToTickEnd);
     public TickStart OnTickStart;
 
@@ -95,13 +96,14 @@ public class GameManager : MonoBehaviour
         
         if (hit.TryGetComponent<Player>(out var player))
         {
-            if (player.CanPlayerDie())
+            bool canPlayerDie = player.OnHit();
+            if (canPlayerDie)
             {
                 player.OnDeath();
                 var startingPosition = _startingPlayerPositions[player.PlayerId];
                 _gridSystem.TryGetTileByCoordinates(startingPosition.x, startingPosition.y, out var spawnTile);
 
-                OnPlayerDeath?.Invoke(3, player, spawnTile);
+                OnPlayerDeath?.Invoke(ticksUntilRespawn, player, spawnTile);
             }
             return;
         }

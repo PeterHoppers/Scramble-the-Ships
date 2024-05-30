@@ -23,12 +23,10 @@ public class Player : Previewable
     InputValue? _lastInput;
 
     bool _isMatchingDirection;
-    bool _isIndistructable = false;
-
-    int _ticksIndistructable = 0;
+    List<Condition> _playerConditions = new List<Condition>();
 
     [SerializedDictionary]
-    public SerializedDictionary<InputValue, SpriteRenderer> inputValueDisplays;
+    public SerializedDictionary<InputValue, InputRenderer> inputValueDisplays;
 
     private void Awake()
     {
@@ -53,15 +51,12 @@ public class Player : Previewable
 
     private void OnTickEnd(float timeToTickStart)
     {
-        if (_ticksIndistructable > 0)
+        //looping backwards like this allows us to safely remove items from the list
+        for (int i = _playerConditions.Count - 1; i >= 0; i--) 
         {
-            _ticksIndistructable--;
-
-            if (_ticksIndistructable == 0)
-            {
-                _isIndistructable = false;
-            }
-        }
+            var condition = _playerConditions[i];
+            condition.OnTickEnd();
+        }       
     }
 
     public void SetPlayerActions(SerializedDictionary<InputValue, PlayerAction> playerActions)
@@ -75,7 +70,7 @@ public class Player : Previewable
 
             if (renderer != null) 
             {
-                renderer.sprite = playerActions[item].actionUI;
+                renderer.SetSprite(playerActions[item].actionUI);
             }
         }
     }
@@ -84,7 +79,7 @@ public class Player : Previewable
     {
         if (_lastInput != null)
         {
-            inputValueDisplays[_lastInput.Value].color = Color.white;
+            inputValueDisplays[_lastInput.Value].DeselectInput();
         }
 
         _lastInput = null;
@@ -180,11 +175,11 @@ public class Player : Previewable
 
         if (_lastInput != null)
         {
-            inputValueDisplays[_lastInput.Value].color = Color.white;
+            inputValueDisplays[_lastInput.Value].DeselectInput();
         }
 
         _lastInput = pressedValue;
-        inputValueDisplays[_lastInput.Value].color = Color.grey;
+        inputValueDisplays[_lastInput.Value].SelectInput();
 
         _manager.ClearPreviousPlayerAction(this);
         var targetTile = _manager.GetTileForPlayerAction(playerAction);
@@ -213,9 +208,19 @@ public class Player : Previewable
         return GetComponentInChildren<SpriteRenderer>().sprite;
     }
 
-    public bool CanPlayerDie()
-    { 
-        return !_isIndistructable;
+    public bool OnHit()
+    {
+        bool isPlayerDead = true;
+        _playerConditions.ForEach(condition =>
+        {
+            isPlayerDead = condition.OnPlayerHit();
+            if (!isPlayerDead) 
+            {
+                return;
+            }
+        });
+
+        return isPlayerDead;
     }
 
     public void OnDeath() 
@@ -228,8 +233,9 @@ public class Player : Previewable
     public void OnSpawn()
     {
         _isDestroyed = false;
-        _isIndistructable = true;
-        _ticksIndistructable = 2;
+        var spawnCondition = gameObject.AddComponent<Respawn>();
+        spawnCondition.OnConditionStart(this);
+        _playerConditions.Add(spawnCondition);
         SetShipVisiblity(true);
     }
 
@@ -243,5 +249,10 @@ public class Player : Previewable
         }
 
         GetComponent<Collider2D>().enabled = isVisible;
+    }
+
+    public void RemoveCondition(Condition condition)
+    { 
+        _playerConditions.Remove(condition);
     }
 }
