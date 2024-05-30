@@ -22,6 +22,7 @@ public class Player : Previewable
     private bool _isDestroyed = false;
     InputValue? _lastInput;
 
+    List<PlayerAction> _possibleActions = new List<PlayerAction>();
     List<Condition> _playerConditions = new List<Condition>();
 
     [SerializedDictionary]
@@ -30,6 +31,21 @@ public class Player : Previewable
     private void Awake()
     {
         _deathVFX = Instantiate(shipInfo.deathVFX, transform);
+
+        foreach (InputValue inputValue in Enum.GetValues(typeof(InputValue)))
+        {
+            AddPossibleInput(inputValue);
+        }
+
+        //for now, let's just add removing shooting on start. Let's consider adding on conditional check to see if we should
+        var newCondition = gameObject.AddComponent<ShootingDisable>();
+        newCondition.OnConditionStart(this);
+        _playerConditions.Add(newCondition);
+    }
+
+    void Start()
+    {
+        
     }
 
     public void InitPlayer(GameManager manager, PlayerInput playerInput, int id)
@@ -49,6 +65,31 @@ public class Player : Previewable
             var condition = _playerConditions[i];
             condition.OnTickEnd();
         }       
+    }
+
+    public List<PlayerAction> GetPossibleAction()
+    { 
+        return _possibleActions;
+    }
+
+    public void AddPossibleInput(InputValue inputToRemove)
+    {
+        if (_possibleActions.Count(x => x.inputValue == inputToRemove) > 0)
+        {
+            //return;
+        }
+
+        _possibleActions.Add(new PlayerAction()
+        {
+            playerActionPerformedOn = this,
+            inputValue = inputToRemove,
+            actionUI = shipInfo.inputsForSprites[inputToRemove]
+        });
+    }
+
+    public void RemovePossibleInput(InputValue inputToRemove)
+    {
+        _possibleActions.RemoveAll(x => x.inputValue == inputToRemove);
     }
 
     public void SetScrambledActions(SerializedDictionary<InputValue, PlayerAction> playerActions)

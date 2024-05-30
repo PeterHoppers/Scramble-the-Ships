@@ -8,7 +8,6 @@ using AYellowpaper.SerializedCollections;
 public class ControlsManager : MonoBehaviour, IManager
 {
     private List<Player> _players = new List<Player>();
-    private List<PlayerAction> _unshuffledValues = new List<PlayerAction>();
     private GameManager _gameManager;
 
     private System.Random _random = new System.Random();
@@ -56,9 +55,17 @@ public class ControlsManager : MonoBehaviour, IManager
 
     void UpdateShuffledValues()
     {
+        var unshuffledActions = new List<PlayerAction>();
+
+        foreach (var player in _players)
+        {
+            unshuffledActions.AddRange(player.GetPossibleAction());
+        }
+
         foreach (var player in _players) 
         {
-            var unshuffled = _unshuffledValues.Where(x => x.playerActionPerformedOn == player).ToList();
+            //TODO: Allow different players to get other player's actions
+            var unshuffled = unshuffledActions.Where(x => x.playerActionPerformedOn == player).ToList();
             
             var shuffledValues = ShuffleInputs(unshuffled, 4); //TODO: Change this magic number to reflect gameplay progression
             var unShuffledInputs = unshuffled.Select(x => x.inputValue).ToList();
@@ -134,18 +141,6 @@ public class ControlsManager : MonoBehaviour, IManager
 
     private void OnPlayerJoined(Player player)
     {
-        foreach (InputValue inputValue in Enum.GetValues(typeof(InputValue)))
-        {
-            var spriteDictionary = player.shipInfo.inputsForSprites;
-
-            _unshuffledValues.Add(new PlayerAction()
-            {
-                playerActionPerformedOn = player,
-                inputValue = inputValue,
-                actionUI = spriteDictionary[inputValue]
-            });
-        }
-
         UpdateShuffledValues();
     }
 }

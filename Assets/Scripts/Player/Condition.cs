@@ -25,7 +25,7 @@ public abstract class Condition : MonoBehaviour
 
     public virtual bool OnPlayerHit() 
     {
-        return false;
+        return true;
     }
 
     public virtual void OnPlayerDeath()
