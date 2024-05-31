@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using AYellowpaper.SerializedCollections;
 using System.Linq;
 using System;
+using UnityEngine.Windows;
 
 public class Player : Previewable
 {
@@ -16,6 +17,7 @@ public class Player : Previewable
     private ParticleSystem _deathVFX;
 
     PlayerInput _playerInput;
+    Sprite _shipSprite;
 
     public int PlayerId { get; private set; }
     public bool AllowingInput { get; set; }
@@ -28,12 +30,10 @@ public class Player : Previewable
     [SerializedDictionary]
     public SerializedDictionary<InputValue, InputRenderer> inputValueDisplays;
 
-    private void Awake()
+    private void Start()
     {
-        _deathVFX = Instantiate(shipInfo.deathVFX, transform);       
-
         //for now, let's just add removing shooting on start. Let's consider adding on conditional check to see if we should
-        AddCondition<ShootingDisable>();        
+        AddCondition<ShootingDisable>();
     }
 
     public void InitPlayer(GameManager manager, PlayerInput playerInput, int id)
@@ -48,6 +48,10 @@ public class Player : Previewable
         {
             AddPossibleInput(inputValue);
         }
+
+        _deathVFX = Instantiate(shipInfo.deathVFX, transform);
+        _shipSprite = shipInfo.shipSprite;
+        GetComponentInChildren<SpriteRenderer>().sprite = _shipSprite;        
     }
 
     private void OnTickEnd(float timeToTickStart)
@@ -217,11 +221,6 @@ public class Player : Previewable
         }
     }
 
-    public override Sprite GetPreviewSprite()
-    {
-        return GetComponentInChildren<SpriteRenderer>().sprite;
-    }
-
     public bool OnHit()
     {
         bool isPlayerDead = true;
@@ -268,11 +267,32 @@ public class Player : Previewable
         var newCondition = gameObject.AddComponent<T>();
         newCondition.OnConditionStart(this);
         _playerConditions.Add(newCondition);
+        _manager.PlayerGainedCondition(this, newCondition);
     }
 
     public void RemoveCondition(Condition condition)
     { 
         _playerConditions.Remove(condition);
         Destroy(condition); //TODO: Consider pooling/disabling rather than creating and destorying
+    }
+
+    public override Sprite GetPreviewSprite()
+    {
+        return _shipSprite;
+    }
+
+    public Sprite GetSpriteForInput(InputValue input)
+    {
+        if (shipInfo.inputsForSprites.TryGetValue(input, out var sprite))
+        {
+            return sprite;
+        }
+
+        return null;
+    }
+
+    public void AddInputRenderer(InputValue value, InputRenderer renderer)
+    {
+        inputValueDisplays.Add(value, renderer);
     }
 }

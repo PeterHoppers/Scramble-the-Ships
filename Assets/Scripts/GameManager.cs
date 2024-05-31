@@ -20,6 +20,12 @@ public class GameManager : MonoBehaviour
     public delegate void PlayerDeath(int ticksUntilSpawn, Player player, Tile playerSpawnTile);
     public PlayerDeath OnPlayerDeath;
 
+    public delegate void PlayerConditionStart(Player player, Condition condition);
+    public PlayerConditionStart OnPlayerConditionStart;
+
+    public delegate void PlayerConditionEnd(Player player, Condition condition);
+    public PlayerConditionEnd OnPlayerConditionEnd;
+
     Dictionary<Player, PreviewAction> _attemptedPlayerActions = new Dictionary<Player, PreviewAction>();
     List<PreviewAction> _previewActions = new List<PreviewAction>();
     private List<Player> _players = new List<Player>();
@@ -88,6 +94,11 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(StartNewTick());
         }
+    }
+
+    public void PlayerGainedCondition(Player player, Condition condition)
+    { 
+        OnPlayerConditionStart?.Invoke(player, condition);
     }
 
     public void PreviewablesCollided(Previewable attacking, Previewable hit)
