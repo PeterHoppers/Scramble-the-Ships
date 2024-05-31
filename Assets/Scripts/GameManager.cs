@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour
     float _tickElapsed = 0f;
     bool _tickIsOccuring = false;
 
+    int _lastIndexForScrambling = 4;
+
     void Awake()
     {
         _gridSystem = GetComponent<GridSystem>();
@@ -49,6 +51,15 @@ public class GameManager : MonoBehaviour
     {
         _tickDuration = newParameters.tickDuration;
         _isMovementAtInput = newParameters.doesMoveOnInput;
+
+        if (newParameters.amountControlsScrambled == 5)
+        {
+            _lastIndexForScrambling = 5;
+        }
+        else
+        {
+            _lastIndexForScrambling = 4;
+        }
     }
 
     void Start()
@@ -101,6 +112,11 @@ public class GameManager : MonoBehaviour
         OnPlayerConditionStart?.Invoke(player, condition);
     }
 
+    public void PlayerLostCondition(Player player, Condition condition)
+    {
+        OnPlayerConditionEnd?.Invoke(player, condition);
+    }
+
     public void PreviewablesCollided(Previewable attacking, Previewable hit)
     {
         attacking.DestroyPreviewable();
@@ -125,6 +141,11 @@ public class GameManager : MonoBehaviour
     public List<Player> GetAllCurrentPlayers()
     {
         return _players;
+    }
+
+    public int GetLastIndexOfScramble()
+    { 
+        return _lastIndexForScrambling; //TODO: Change this magic number to reflect gameplay progression
     }
 
     public void ClearPreviousPlayerAction(Player playerSent)

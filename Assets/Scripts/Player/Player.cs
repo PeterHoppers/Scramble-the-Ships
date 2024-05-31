@@ -30,10 +30,36 @@ public class Player : Previewable
     [SerializedDictionary]
     public SerializedDictionary<InputValue, InputRenderer> inputValueDisplays;
 
+    private void Awake()
+    {
+        TestParametersHandler.Instance.OnParametersChanged += ChangeShootingCondition;
+        
+    }
+
+    private void ChangeShootingCondition(TestParameters newParameters)
+    {
+        bool isShootingDisabled = _playerConditions.Any(x => x.GetType() == typeof(ShootingDisable));
+
+        if (isShootingDisabled) 
+        {
+            if (newParameters.isShootingEnabled)
+            {
+                var condition = _playerConditions.First(x => x.GetType() == typeof(ShootingDisable));
+                condition.RemoveCondition(); //kind of going through the backdoor here. The condition should normally end itself, not some UI
+                RemoveCondition(condition);
+            }
+        }
+        
+        if (!newParameters.isShootingEnabled) 
+        {
+            AddCondition<ShootingDisable>();
+        }
+    }
+
     private void Start()
     {
         //for now, let's just add removing shooting on start. Let's consider adding on conditional check to see if we should
-        AddCondition<ShootingDisable>();
+        ChangeShootingCondition(TestParametersHandler.Instance.testParameters);
     }
 
     public void InitPlayer(GameManager manager, PlayerInput playerInput, int id)
@@ -273,6 +299,7 @@ public class Player : Previewable
     public void RemoveCondition(Condition condition)
     { 
         _playerConditions.Remove(condition);
+        _manager.PlayerLostCondition(this, condition);
         Destroy(condition); //TODO: Consider pooling/disabling rather than creating and destorying
     }
 

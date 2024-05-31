@@ -21,7 +21,7 @@ public class ShootingDisable : Condition
         //do nothing since this can't end up normal means
     }
 
-    protected override void RemoveCondition()
+    public override void RemoveCondition()
     {
         Player.AddPossibleInput(_disabledValue);
         base.RemoveCondition();

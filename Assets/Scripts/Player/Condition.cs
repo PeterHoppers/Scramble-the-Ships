@@ -33,7 +33,7 @@ public abstract class Condition : MonoBehaviour
         RemoveCondition();
     }
 
-    protected virtual void RemoveCondition()
+    public virtual void RemoveCondition() //turn this back into protected if we remove UI to toggle this on and off
     {
         Player.RemoveCondition(this);        
     }

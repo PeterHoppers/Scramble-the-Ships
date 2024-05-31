@@ -38,4 +38,17 @@ public class PlayerStatusUI : MonoBehaviour
             fireUI.SetFirableState(false);
         }
     }
+
+    public void LostCondition(Condition condition)
+    {
+        if (condition == null)
+        {
+            return;
+        }
+
+        if (condition.GetType() == typeof(ShootingDisable))
+        {
+            fireUI.SetFirableState(true);
+        }
+    }
 }

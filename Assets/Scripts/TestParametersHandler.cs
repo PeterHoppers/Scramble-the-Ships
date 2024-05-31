@@ -36,8 +36,9 @@ public class TestParametersHandler : MonoBehaviour
     [Header("UI Components")]
     public TMP_Dropdown amountScrambledDropdown;
     public Slider tickDurationSlider;
-    public TMP_Dropdown moveOnInputDropdown;
     public Slider tickScrambleSlider;
+    public TMP_Dropdown moveOnInputDropdown;
+    public TMP_Dropdown shootingEnabledDropdown;
 
     public delegate void ParametersChanged(TestParameters newParameters);
     public ParametersChanged OnParametersChanged;
@@ -56,6 +57,9 @@ public class TestParametersHandler : MonoBehaviour
 
         tickScrambleSlider.value = testParameters.amountTickPerScramble;
         tickScrambleSlider.onValueChanged.AddListener(delegate { OnTickScrambleUpdate(); });
+
+        shootingEnabledDropdown.value = (testParameters.isShootingEnabled) ? 1 : 0;
+        shootingEnabledDropdown.onValueChanged.AddListener(delegate { OnShootingEnabledUpdate(); });
 
         OnParametersChanged?.Invoke(testParameters);
     }
@@ -84,6 +88,12 @@ public class TestParametersHandler : MonoBehaviour
         testParameters.amountTickPerScramble = (int)tickScrambleSlider.value;
         OnParametersChanged?.Invoke(testParameters);
     }
+
+    void OnShootingEnabledUpdate()
+    {
+        testParameters.isShootingEnabled = (shootingEnabledDropdown.value == 1);
+        OnParametersChanged?.Invoke(testParameters);
+    }
 }
 
 [System.Serializable]
@@ -93,4 +103,5 @@ public struct TestParameters
     public float tickDuration;
     public int amountTickPerScramble;
     public bool doesMoveOnInput;
+    public bool isShootingEnabled;
 }
