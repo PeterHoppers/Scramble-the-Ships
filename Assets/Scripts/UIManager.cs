@@ -5,22 +5,19 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour, IManager
 {
-    public Image tickDurationImage;
+    public TickDurationUI tickDurationUI;
 
-    float _tickDuration = 0;
-    Vector2 _defaultTickDurationImageSize;
     GameManager _gameManager;
 
     public void InitManager(GameManager manager)
     {
         _gameManager = manager;
         _gameManager.OnTickStart += OnTickStart;
-        _defaultTickDurationImageSize = tickDurationImage.rectTransform.sizeDelta;
     }
 
     void OnTickStart(float duration)
-    { 
-        _tickDuration = duration;
+    {
+        tickDurationUI.TickDuration = duration;
     }
 
     // Update is called once per frame
@@ -28,8 +25,7 @@ public class UIManager : MonoBehaviour, IManager
     {
         if (_gameManager != null) 
         { 
-            float precentageRemaining = _gameManager.GetTimeRemainingInTick() / _tickDuration;
-            tickDurationImage.rectTransform.sizeDelta = new Vector2(_defaultTickDurationImageSize.x * precentageRemaining, _defaultTickDurationImageSize.y);
+            tickDurationUI.UpdateTickRemaining(_gameManager.GetTimeRemainingInTick());
         }
     }
 }

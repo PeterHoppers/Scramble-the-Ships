@@ -355,6 +355,7 @@ GameObject:
   - component: {fileID: 107345696}
   - component: {fileID: 107345698}
   - component: {fileID: 107345697}
+  - component: {fileID: 107345699}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -419,6 +420,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 107345695}
   m_CullTransparentMesh: 1
+--- !u!114 &107345699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107345695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59e2e37dffcce7847a0949cbc41f1115, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &227142600
 GameObject:
   m_ObjectHideFlags: 0
@@ -4917,7 +4930,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54a3ccb37507147469d3332c3d43be70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tickDurationImage: {fileID: 107345697}
+  tickDurationUI: {fileID: 107345699}
 --- !u!1 &1971059858
 GameObject:
   m_ObjectHideFlags: 0
