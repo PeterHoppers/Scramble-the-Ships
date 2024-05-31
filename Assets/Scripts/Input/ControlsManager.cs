@@ -38,7 +38,6 @@ public class ControlsManager : MonoBehaviour, IManager
     void CheckIfScramble(float tickTime)
     {
         _ticksSinceLastScramble++;
-        _players = _gameManager.GetAllCurrentPlayers();
 
         if (_ticksSinceLastScramble >= _ticksPerScramble)
         {
@@ -141,6 +140,7 @@ public class ControlsManager : MonoBehaviour, IManager
 
     private void OnPlayerJoined(Player player)
     {
+        _players = _gameManager.GetAllCurrentPlayers();
         UpdateShuffledValues();
     }
 }

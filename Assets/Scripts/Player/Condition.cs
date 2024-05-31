@@ -35,7 +35,6 @@ public abstract class Condition : MonoBehaviour
 
     protected virtual void RemoveCondition()
     {
-        Player.RemoveCondition(this);
-        Destroy(this);
+        Player.RemoveCondition(this);        
     }
 }

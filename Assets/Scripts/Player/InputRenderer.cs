@@ -12,6 +12,11 @@ public class InputRenderer : MonoBehaviour
 
     public void SetSprite(Sprite sprite) 
     {
+        if (_renderer == null) 
+        {
+            _renderer = GetComponent<SpriteRenderer>();
+        }
+
         _renderer.sprite = sprite;
     }
 

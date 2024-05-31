@@ -23,7 +23,7 @@ public class ShootingDisable : Condition
 
     protected override void RemoveCondition()
     {
-        base.RemoveCondition();
         Player.AddPossibleInput(_disabledValue);
+        base.RemoveCondition();
     }
 }

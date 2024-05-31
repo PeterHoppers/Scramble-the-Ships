@@ -30,22 +30,10 @@ public class Player : Previewable
 
     private void Awake()
     {
-        _deathVFX = Instantiate(shipInfo.deathVFX, transform);
-
-        foreach (InputValue inputValue in Enum.GetValues(typeof(InputValue)))
-        {
-            AddPossibleInput(inputValue);
-        }
+        _deathVFX = Instantiate(shipInfo.deathVFX, transform);       
 
         //for now, let's just add removing shooting on start. Let's consider adding on conditional check to see if we should
-        var newCondition = gameObject.AddComponent<ShootingDisable>();
-        newCondition.OnConditionStart(this);
-        _playerConditions.Add(newCondition);
-    }
-
-    void Start()
-    {
-        
+        AddCondition<ShootingDisable>();        
     }
 
     public void InitPlayer(GameManager manager, PlayerInput playerInput, int id)
@@ -55,6 +43,11 @@ public class Player : Previewable
         _playerInput = playerInput;
         PlayerId = id;
         AllowingInput = false;
+
+        foreach (InputValue inputValue in Enum.GetValues(typeof(InputValue)))
+        {
+            AddPossibleInput(inputValue);
+        }
     }
 
     private void OnTickEnd(float timeToTickStart)
@@ -254,9 +247,7 @@ public class Player : Previewable
     public void OnSpawn()
     {
         _isDestroyed = false;
-        var spawnCondition = gameObject.AddComponent<Respawn>();
-        spawnCondition.OnConditionStart(this);
-        _playerConditions.Add(spawnCondition);
+        AddCondition<Respawn>();
         SetShipVisiblity(true);
     }
 
@@ -272,8 +263,16 @@ public class Player : Previewable
         GetComponent<Collider2D>().enabled = isVisible;
     }
 
+    public void AddCondition<T>() where T : Condition
+    {
+        var newCondition = gameObject.AddComponent<T>();
+        newCondition.OnConditionStart(this);
+        _playerConditions.Add(newCondition);
+    }
+
     public void RemoveCondition(Condition condition)
     { 
         _playerConditions.Remove(condition);
+        Destroy(condition); //TODO: Consider pooling/disabling rather than creating and destorying
     }
 }
