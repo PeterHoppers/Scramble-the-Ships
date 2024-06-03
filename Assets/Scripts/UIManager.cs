@@ -1,10 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
-using static GameManager;
 
 public class UIManager : MonoBehaviour, IManager
 {
@@ -20,6 +15,7 @@ public class UIManager : MonoBehaviour, IManager
         _gameManager.OnPlayerJoinedGame += OnPlayerJoined;
         _gameManager.OnPlayerConditionStart += OnPlayerConditionStart;
         _gameManager.OnPlayerConditionEnd += OnPlayerConditionEnd;
+        _gameManager.OnPlayerDeath += OnPlayerDeath;
     }
 
     void OnTickStart(float duration)
@@ -27,10 +23,16 @@ public class UIManager : MonoBehaviour, IManager
         tickDurationUI.TickDuration = duration;
     }
 
-    void OnPlayerJoined(Player player)
+    void OnPlayerJoined(Player player, int numberOfLives)
     {
         var playerStatus = playerStatusUIs[player.PlayerId];
-        playerStatus.AddPlayerReference(player);
+        playerStatus.AddPlayerReference(player, numberOfLives);
+    }
+
+    void OnPlayerDeath(Player player, Tile playerSpawnTile, int ticksUntilSpawn, int livesLeft)
+    {
+        var playerStatus = playerStatusUIs[player.PlayerId];
+        playerStatus.DiedPlayerReference(livesLeft);
     }
 
     void OnPlayerConditionStart(Player player, Condition condition)

@@ -138,7 +138,7 @@ public class ControlsManager : MonoBehaviour, IManager
         }
     }
 
-    private void OnPlayerJoined(Player player)
+    private void OnPlayerJoined(Player player, int numberOfLives)
     {
         _players = _gameManager.GetAllCurrentPlayers();
         UpdateShuffledValues();

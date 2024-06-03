@@ -8,16 +8,17 @@ public class GameManager : MonoBehaviour
 {
     public List<Vector2> _startingPlayerPositions;
     public int ticksUntilRespawn = 3;
+    public int numberOfLives = 3;
     public delegate void TickStart(float timeToTickEnd);
     public TickStart OnTickStart;
 
     public delegate void TickEnd(float timeToTickStart);
     public TickEnd OnTickEnd;
 
-    public delegate void PlayerJoined(Player player);
+    public delegate void PlayerJoined(Player player, int numberOfLives);
     public PlayerJoined OnPlayerJoinedGame;
 
-    public delegate void PlayerDeath(int ticksUntilSpawn, Player player, Tile playerSpawnTile);
+    public delegate void PlayerDeath(Player player, Tile playerSpawnTile, int ticksUntilSpawn, int livesLeft);
     public PlayerDeath OnPlayerDeath;
 
     public delegate void PlayerConditionStart(Player player, Condition condition);
@@ -29,6 +30,7 @@ public class GameManager : MonoBehaviour
     Dictionary<Player, PreviewAction> _attemptedPlayerActions = new Dictionary<Player, PreviewAction>();
     List<PreviewAction> _previewActions = new List<PreviewAction>();
     private List<Player> _players = new List<Player>();
+    private List<int> _playerLives = new List<int>();
 
     GridSystem _gridSystem;
 
@@ -98,7 +100,8 @@ public class GameManager : MonoBehaviour
             newPlayer.SetPosition(startingTile);
 
             _players.Add(newPlayer);
-            OnPlayerJoinedGame?.Invoke(newPlayer);
+            _playerLives.Add(numberOfLives);
+            OnPlayerJoinedGame?.Invoke(newPlayer, numberOfLives);
         }
 
         if (_players.Count == 1)
@@ -127,10 +130,19 @@ public class GameManager : MonoBehaviour
             if (canPlayerDie)
             {
                 player.OnDeath();
+                int lives = _playerLives[player.PlayerId];
+                lives--;
+
+                if (lives < 0) 
+                {
+                    print("Game over!");
+                    return;
+                }                
+
                 var startingPosition = _startingPlayerPositions[player.PlayerId];
                 _gridSystem.TryGetTileByCoordinates(startingPosition.x, startingPosition.y, out var spawnTile);
 
-                OnPlayerDeath?.Invoke(ticksUntilRespawn, player, spawnTile);
+                OnPlayerDeath?.Invoke(player, spawnTile, ticksUntilRespawn, lives);
             }
             return;
         }

@@ -110,7 +110,7 @@ public class WaveManager : MonoBehaviour, IManager
         return rotation;
     }
 
-    public void AddPlayerToSpawn(int ticksUntilSpawn, Player player, Tile playerSpawnTile)
+    public void AddPlayerToSpawn(Player player, Tile playerSpawnTile, int ticksUntilSpawn, int livesLeft)
     {
         int tickToSpawn = ticksUntilSpawn + ticksPassed;
         playerSpawns.Add(new PlayerSpawnInfo()
