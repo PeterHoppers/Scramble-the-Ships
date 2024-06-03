@@ -5,6 +5,7 @@ public class UIManager : MonoBehaviour, IManager
 {
     public TickDurationUI tickDurationUI;
     public PlayerStatusUI[] playerStatusUIs;
+    public GameStateDisplay gameStateDisplay;
 
     GameManager _gameManager;
 
@@ -16,11 +17,17 @@ public class UIManager : MonoBehaviour, IManager
         _gameManager.OnPlayerConditionStart += OnPlayerConditionStart;
         _gameManager.OnPlayerConditionEnd += OnPlayerConditionEnd;
         _gameManager.OnPlayerDeath += OnPlayerDeath;
+        _gameManager.OnGameStateChanged += OnGameStateChanged;
     }
 
     void OnTickStart(float duration)
     {
         tickDurationUI.TickDuration = duration;
+    }
+
+    void OnGameStateChanged(GameState newState)
+    {
+        gameStateDisplay.UpdateStateDisplay(newState);
     }
 
     void OnPlayerJoined(Player player, int numberOfLives)

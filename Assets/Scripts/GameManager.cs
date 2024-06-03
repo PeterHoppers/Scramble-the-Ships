@@ -9,11 +9,16 @@ public class GameManager : MonoBehaviour
     public List<Vector2> _startingPlayerPositions;
     public int ticksUntilRespawn = 3;
     public int numberOfLives = 3;
+
+    //GameManager Events
     public delegate void TickStart(float timeToTickEnd);
     public TickStart OnTickStart;
 
     public delegate void TickEnd(float timeToTickStart);
     public TickEnd OnTickEnd;
+
+    public delegate void GameStateChanged(GameState newState);
+    public GameStateChanged OnGameStateChanged;
 
     public delegate void PlayerJoined(Player player, int numberOfLives);
     public PlayerJoined OnPlayerJoinedGame;
@@ -27,6 +32,8 @@ public class GameManager : MonoBehaviour
     public delegate void PlayerConditionEnd(Player player, Condition condition);
     public PlayerConditionEnd OnPlayerConditionEnd;
 
+    //Private Variables
+    GameState _currentGameState = GameState.Waiting;
     Dictionary<Player, PreviewAction> _attemptedPlayerActions = new Dictionary<Player, PreviewAction>();
     List<PreviewAction> _previewActions = new List<PreviewAction>();
     private List<Player> _players = new List<Player>();
@@ -106,7 +113,7 @@ public class GameManager : MonoBehaviour
 
         if (_players.Count == 1)
         {
-            StartCoroutine(StartNewTick());
+            UpdateGameState(GameState.Playing);
         }
     }
 
@@ -118,6 +125,22 @@ public class GameManager : MonoBehaviour
     public void PlayerLostCondition(Player player, Condition condition)
     {
         OnPlayerConditionEnd?.Invoke(player, condition);
+    }
+
+    void UpdateGameState(GameState gameState) 
+    {
+        _currentGameState = gameState;
+
+        if (gameState == GameState.Playing) 
+        {
+            StartCoroutine(StartNewTick());
+        }
+        else if (gameState == GameState.Finished) //this might run into a race condition with on tick end
+        {
+            _tickIsOccuring = false;
+        }
+
+        OnGameStateChanged?.Invoke(_currentGameState);
     }
 
     public void PreviewablesCollided(Previewable attacking, Previewable hit)
@@ -132,17 +155,25 @@ public class GameManager : MonoBehaviour
                 player.OnDeath();
                 int lives = _playerLives[player.PlayerId];
                 lives--;
+                _playerLives[player.PlayerId] = lives;
 
-                if (lives < 0) 
+                if (_playerLives.All(x => x <= 0))
                 {
-                    print("Game over!");
+                    UpdateGameState(GameState.Finished);
                     return;
-                }                
+                }
 
-                var startingPosition = _startingPlayerPositions[player.PlayerId];
-                _gridSystem.TryGetTileByCoordinates(startingPosition.x, startingPosition.y, out var spawnTile);
+                if (lives >= 0)
+                {
+                    var startingPosition = _startingPlayerPositions[player.PlayerId];
+                    _gridSystem.TryGetTileByCoordinates(startingPosition.x, startingPosition.y, out var spawnTile);
 
-                OnPlayerDeath?.Invoke(player, spawnTile, ticksUntilRespawn, lives);
+                    OnPlayerDeath?.Invoke(player, spawnTile, ticksUntilRespawn, lives);
+                }
+                else
+                { 
+                    //TODO: Waiting for player to put in more money
+                }
             }
             return;
         }
@@ -255,7 +286,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (!_tickIsOccuring)
+        if (!_tickIsOccuring || _currentGameState == GameState.Finished)
         {
             return;
         }
@@ -358,4 +389,11 @@ public struct PreviewAction
     public Tile previewTile;
     public bool isCreated;
     public bool isNotMoving;
+}
+
+public enum GameState
+{ 
+    Waiting,
+    Playing,
+    Finished
 }
