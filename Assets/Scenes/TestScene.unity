@@ -3559,6 +3559,52 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1155227438
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1155227439}
+  - component: {fileID: 1155227440}
+  m_Layer: 0
+  m_Name: Screen Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1155227439
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1155227438}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1155227440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1155227438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74992b410e746cf43a983c4db2fc2f3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelScreens:
+  - {fileID: 11400000, guid: 43c261739b65dd543ae69b6c6ee49f57, type: 2}
 --- !u!1 &1187286050
 GameObject:
   m_ObjectHideFlags: 0
@@ -4876,155 +4922,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1413766517}
   m_CullTransparentMesh: 1
---- !u!1 &1450509012
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1450509014}
-  - component: {fileID: 1450509013}
-  m_Layer: 0
-  m_Name: Wave Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1450509013
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1450509012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74992b410e746cf43a983c4db2fc2f3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawningDistance: 3
-  waveInformation:
-    _serializedList:
-    - Key: 2
-      Value:
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 1
-        otherCoordinate: 7
-        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 1
-        otherCoordinate: 9
-        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
-    - Key: 14
-      Value:
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 0
-        otherCoordinate: 3
-        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 0
-        otherCoordinate: 5
-        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 0
-        otherCoordinate: 7
-        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
-    - Key: 25
-      Value:
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 0
-        otherCoordinate: 1
-        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 0
-        otherCoordinate: 2
-        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 0
-        otherCoordinate: 3
-        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 0
-        otherCoordinate: 5
-        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 0
-        otherCoordinate: 6
-        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 0
-        otherCoordinate: 7
-        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
-    - Key: 37
-      Value:
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 2
-        otherCoordinate: 3
-        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 2
-        otherCoordinate: 2
-        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 2
-        otherCoordinate: 1
-        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 3
-        otherCoordinate: 7
-        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 3
-        otherCoordinate: 6
-        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 3
-        otherCoordinate: 5
-        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
-    - Key: 49
-      Value:
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 1
-        otherCoordinate: 8
-        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 1
-        otherCoordinate: 7
-        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 1
-        otherCoordinate: 6
-        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 0
-        otherCoordinate: 1
-        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 0
-        otherCoordinate: 2
-        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 0
-        otherCoordinate: 3
-        commands: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
---- !u!4 &1450509014
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1450509012}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1469130008
 GameObject:
   m_ObjectHideFlags: 0
@@ -7051,6 +6948,8 @@ GameObject:
   - component: {fileID: 2124894459}
   - component: {fileID: 2124894461}
   - component: {fileID: 2124894460}
+  - component: {fileID: 2124894462}
+  - component: {fileID: 2124894463}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -7089,6 +6988,7 @@ MonoBehaviour:
   - {x: 6, y: 2}
   ticksUntilRespawn: 3
   numberOfLives: 3
+  previewableBase: {fileID: 4175597009222242078, guid: 9fb8fa15c00711e4c9bc59d0c67719ef, type: 3}
 --- !u!156049354 &2124894460
 Grid:
   m_ObjectHideFlags: 0
@@ -7117,6 +7017,35 @@ MonoBehaviour:
   gridWidth: 13
   gridHeight: 17
   boundsIncrease: 1.75
+--- !u!114 &2124894462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124894457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a85dbb51d6145674da00208a193ecf91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  commandBank:
+    _serializedList:
+    - Key: 1
+      Value: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
+--- !u!114 &2124894463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124894457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 443425fa254df9540afe44f75519a02b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawningDistance: 3
 --- !u!1001 &4531162659611141552
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7386,4 +7315,4 @@ SceneRoots:
   - {fileID: 2124894458}
   - {fileID: 1963192919}
   - {fileID: 710506044}
-  - {fileID: 1450509014}
+  - {fileID: 1155227439}

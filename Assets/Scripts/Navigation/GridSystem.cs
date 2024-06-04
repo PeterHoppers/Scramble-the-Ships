@@ -54,7 +54,17 @@ public class GridSystem : MonoBehaviour
                 tile.gridCoordinates = new Vector2(widthIndex, heightIndex);
                 tile.name = $"Tile ({widthIndex}, {heightIndex})";
                 //set a property for the tiles around the outer edge to allow objects that attempt to enter them to know they are leaving the grid
-                tile.IsVisible = !(widthIndex == 0 || widthIndex == gridWidth - 1 || heightIndex == 0 || heightIndex == gridHeight - 1);
+                var isSpawning = (widthIndex == 0 || widthIndex == gridWidth - 1 || heightIndex == 0 || heightIndex == gridHeight - 1);
+
+                if (isSpawning)
+                {
+                    tile.TileType = TileType.Spawning;
+                }
+                else
+                { 
+                    tile.TileType = TileType.Default;
+                }
+
                 _tiles[widthIndex].Add(tile);
             }
         }

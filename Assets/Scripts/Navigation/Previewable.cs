@@ -32,6 +32,11 @@ public abstract class Previewable : MonoBehaviour
         return new Color(.5f, .5f, .5f, .25f);
     }
 
+    public Tile GetCurrentTile()
+    { 
+        return currentTile;
+    }
+
     public virtual void TransitionToTile(Tile tileDestination, float duration)
     {
         var destination = tileDestination.GetTilePosition();

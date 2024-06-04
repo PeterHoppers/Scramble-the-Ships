@@ -21,7 +21,9 @@ public class EnemyShip : GridMovable
             {
                 var shootingTile = _manager.GetTileFromInput(this, inputValue);
                 var firingDirection = ConvertInputValueToDirection(inputValue);
-                var newPreview = _manager.CreateMovablePreviewAtTile(shipInfo.bullet, this, shootingTile, firingDirection);
+                var moveable = _manager.CreateMovableAtTile(shipInfo.bullet, this, shootingTile, firingDirection);
+                var newPreview = _manager.CreatePreviewOfPreviewableAtTile(moveable, shootingTile);
+                newPreview.isCreated = true;
                 _manager.AddPreviewAction(newPreview);
                 travelDirection = Vector2.zero;
             }

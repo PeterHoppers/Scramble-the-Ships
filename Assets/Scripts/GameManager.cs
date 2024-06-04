@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static GameManager;
 
 public class GameManager : MonoBehaviour
 {
     public List<Vector2> _startingPlayerPositions;
     public int ticksUntilRespawn = 3;
     public int numberOfLives = 3;
+    public PreviewableBase previewableBase;
 
     //GameManager Events
     public delegate void TickStart(float timeToTickEnd);
@@ -16,6 +18,9 @@ public class GameManager : MonoBehaviour
 
     public delegate void TickEnd(float timeToTickStart);
     public TickEnd OnTickEnd;
+
+    public delegate void ScreenChange();
+    public ScreenChange OnScreenChange;
 
     public delegate void GameStateChanged(GameState newState);
     public GameStateChanged OnGameStateChanged;
@@ -40,18 +45,23 @@ public class GameManager : MonoBehaviour
     private List<int> _playerLives = new List<int>();
 
     GridSystem _gridSystem;
+    SpawnSystem _spawnSystem;
+    CommandSystem _commandSystem;
 
     float _tickDuration = .5f;
     bool _isMovementAtInput = false;
 
     float _tickElapsed = 0f;
     bool _tickIsOccuring = false;
+    int _ticksSinceScreenStart = 0;
 
     int _lastIndexForScrambling = 4;
 
     void Awake()
     {
         _gridSystem = GetComponent<GridSystem>();
+        _spawnSystem = GetComponent<SpawnSystem>();
+        _commandSystem = GetComponent<CommandSystem>();
         //all these grabbing from the parameters should be temp code, but who knows
         TestParametersHandler.Instance.OnParametersChanged += UpdateAmountToScramble;
     }
@@ -127,12 +137,33 @@ public class GameManager : MonoBehaviour
         OnPlayerConditionEnd?.Invoke(player, condition);
     }
 
+    public void UpdateScreenInformation(Screen screen)
+    { 
+        var screenWaves = screen.waveInformation;
+
+        foreach (var screenPair in screenWaves)
+        {
+            var wave = screenPair.Value;
+
+            foreach (var spawn in wave)
+            {
+                _spawnSystem.QueueEnemyToSpawn(spawn, screenPair.Key);
+            }
+        }
+    }
+
+    public void SendEnemyCommands(EnemyShip enemyShip, int commandId)
+    {
+        enemyShip.shipCommands = _commandSystem.commandBank[commandId].shipCommands;
+    }
+
     void UpdateGameState(GameState gameState) 
     {
         _currentGameState = gameState;
 
         if (gameState == GameState.Playing) 
         {
+            OnScreenChange?.Invoke();
             StartCoroutine(StartNewTick());
         }
         else if (gameState == GameState.Finished) //this might run into a race condition with on tick end
@@ -167,6 +198,7 @@ public class GameManager : MonoBehaviour
                 {
                     var startingPosition = _startingPlayerPositions[player.PlayerId];
                     _gridSystem.TryGetTileByCoordinates(startingPosition.x, startingPosition.y, out var spawnTile);
+                    _spawnSystem.QueuePlayerToSpawn(player, spawnTile, _ticksSinceScreenStart + ticksUntilRespawn);
 
                     OnPlayerDeath?.Invoke(player, spawnTile, ticksUntilRespawn, lives);
                 }
@@ -218,13 +250,11 @@ public class GameManager : MonoBehaviour
 
     public PreviewAction CreatePreviewOfPreviewableAtTile(Previewable previewableObject, Tile previewTile, bool isMoving = true)
     {
+        var preview = _spawnSystem.SpawnObjectAtTile(previewableBase.gameObject, previewTile, previewableObject.transform.rotation);
+        preview.name = $"Preview of {previewableObject}";
         var previewImage = previewableObject.GetPreviewSprite();
 
-        var preview = new GameObject($"Preview of {previewableObject}");
-        preview.transform.SetParent(transform);
-        preview.transform.localPosition = previewTile.GetTilePosition();
-        preview.transform.rotation = previewableObject.transform.rotation;
-        var renderer = preview.AddComponent<SpriteRenderer>();
+        var renderer = preview.GetComponent<SpriteRenderer>();
         renderer.sprite = previewImage;
         renderer.color = previewableObject.GetPreviewColor();
         previewableObject.previewObject = preview;
@@ -237,17 +267,14 @@ public class GameManager : MonoBehaviour
         };    
     }
 
-    public PreviewAction CreateMovablePreviewAtTile(GridMovable movableToBeCreated, Previewable previewableCreatingMovable, Tile previewTile, Vector2 movingDirection)
+    public GridMovable CreateMovableAtTile(GridMovable movableToBeCreated, Previewable previewableCreatingMovable, Tile previewTile, Vector2 movingDirection)
     {
-        var bulletPreview = Instantiate(movableToBeCreated, transform);
-        bulletPreview.transform.SetParent(transform);
-        bulletPreview.transform.localPosition = previewableCreatingMovable.GetCurrentPosition();
-        bulletPreview.transform.rotation = previewableCreatingMovable.transform.rotation;
-        bulletPreview.SetupMoveable(this, previewTile);
-        bulletPreview.travelDirection = movingDirection;
-        var newPreview = CreatePreviewOfPreviewableAtTile(bulletPreview, previewTile);
-        newPreview.isCreated = true;
-        return newPreview;
+        var spawnedMovable = _spawnSystem.SpawnObjectAtTile(movableToBeCreated.gameObject, previewableCreatingMovable.GetCurrentTile(), previewableCreatingMovable.transform.rotation);
+        var moveable = spawnedMovable.GetComponent<GridMovable>();
+        moveable.SetupMoveable(this, previewTile);
+        moveable.travelDirection = movingDirection;
+        
+        return moveable;
     }
 
     public Tile AddPreviewAtPosition(Previewable previewObject, Tile currentTile, Vector2 previewDirection)
@@ -262,7 +289,6 @@ public class GameManager : MonoBehaviour
         }
 
         newPreview = CreatePreviewOfPreviewableAtTile(previewObject, tile);
-        newPreview.previewTile = tile;
 
         _previewActions.Add(newPreview);
         return tile;
@@ -319,6 +345,7 @@ public class GameManager : MonoBehaviour
             movingObject.TransitionToTile(preview.previewTile, tickEndDuration);
         }
 
+        _spawnSystem.OnTickEnd();
         OnTickEnd?.Invoke(tickEndDuration);
         yield return new WaitForSeconds(tickEndDuration);
 
@@ -331,6 +358,7 @@ public class GameManager : MonoBehaviour
         _attemptedPlayerActions.Clear();
         OnTickStart?.Invoke(_tickDuration);
         _tickIsOccuring = true;
+        _ticksSinceScreenStart++;
         _tickElapsed = 0;
     }
 

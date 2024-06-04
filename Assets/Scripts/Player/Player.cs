@@ -236,7 +236,10 @@ public class Player : Previewable
             if (playerAction.inputValue == InputValue.Fire)
             {
                 var firingDirection = ConvertInputValueToDirection(playerAction.inputValue);
-                newPreview = _manager.CreateMovablePreviewAtTile(playerActedUpon.shipInfo.bullet, playerActedUpon, targetTile, firingDirection);
+                var bullet = _manager.CreateMovableAtTile(playerActedUpon.shipInfo.bullet, playerActedUpon, targetTile, firingDirection);
+                newPreview = _manager.CreatePreviewOfPreviewableAtTile(bullet, targetTile);
+                newPreview.isCreated = true;
+                _manager.AddPreviewAction(newPreview);
             }
             else
             {
