@@ -138,7 +138,15 @@ public class GameManager : MonoBehaviour
     }
 
     public void UpdateScreenInformation(Screen screen)
-    { 
+    {
+        var screenStarters = screen.startingItems;
+        foreach(var spawn in screenStarters) 
+        {
+            var spawnPosition = GetByCoordinates(spawn.spawnCoordinates);
+            var spawnedObject = _spawnSystem.SpawnObjectAtTile(spawn.gridObject.gameObject, spawnPosition, spawn.gridObject.transform.rotation);
+            spawnedObject.GetComponent<GridObject>().SetupObject(this);
+        }
+
         var screenWaves = screen.enemySpawnInformation;
 
         foreach (var screenPair in screenWaves)

@@ -6,11 +6,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Screen", menuName = "Screen")]
 public class Screen : ScriptableObject
 {
-    //TODO: Stuff that spawn on screen load
+    public List<ScreenSpawns> startingItems = new List<ScreenSpawns>();
+
     [SerializedDictionary("Tick #", "Enemy Spawn Info")]
     public SerializedDictionary<int, EnemySpawn[]> enemySpawnInformation = new SerializedDictionary<int, EnemySpawn[]>();
 }
 
+[System.Serializable]
 public struct ScreenSpawns
 {
     public GridObject gridObject;
