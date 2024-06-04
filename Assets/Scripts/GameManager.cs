@@ -248,7 +248,7 @@ public class GameManager : MonoBehaviour
         return GetTileFromInput(targetPlayer, playerInputValue.inputValue);
     }
 
-    public PreviewAction CreatePreviewOfPreviewableAtTile(Previewable previewableObject, Tile previewTile, bool isMoving = true)
+    public PreviewAction CreatePreviewOfPreviewableAtTile(Previewable previewableObject, Tile previewTile, int duration = 0, bool isMoving = true)
     {
         var preview = _spawnSystem.SpawnObjectAtTile(previewableBase.gameObject, previewTile, previewableObject.transform.rotation);
         preview.name = $"Preview of {previewableObject}";
@@ -263,7 +263,8 @@ public class GameManager : MonoBehaviour
         {
             sourcePreviewable = previewableObject,
             isNotMoving = !isMoving,
-            previewTile = previewTile
+            previewTile = previewTile,
+            previewFinishedTick = _ticksSinceScreenStart + duration,
         };    
     }
 
@@ -349,12 +350,17 @@ public class GameManager : MonoBehaviour
         OnTickEnd?.Invoke(tickEndDuration);
         yield return new WaitForSeconds(tickEndDuration);
 
-        foreach (var preview in _previewActions)
+        //check if we should remove the preview, rather than always removing it
+        for (int index = _previewActions.Count - 1; index >= 0; index--)
         {
-            Destroy(preview.sourcePreviewable.previewObject);
+            var preview = _previewActions[index];
+            if (preview.previewFinishedTick - _ticksSinceScreenStart <= 0)
+            {
+                Destroy(preview.sourcePreviewable.previewObject);
+                _previewActions.Remove(preview);
+            }            
         }
 
-        _previewActions.Clear();
         _attemptedPlayerActions.Clear();
         OnTickStart?.Invoke(_tickDuration);
         _tickIsOccuring = true;
@@ -417,6 +423,7 @@ public struct PreviewAction
     public Tile previewTile;
     public bool isCreated;
     public bool isNotMoving;
+    public int previewFinishedTick;
 }
 
 public enum GameState

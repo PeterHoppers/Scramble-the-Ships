@@ -27,7 +27,7 @@ public class SpawnSystem : MonoBehaviour
                 if (spawn.spawnType == SpawnType.Preview)
                 {
                     var previewable = spawn.objectToSpawn.GetComponent<Previewable>();
-                    var previewAction = _gameManager.CreatePreviewOfPreviewableAtTile(previewable, spawn.tileToSpawnAt, false);
+                    var previewAction = _gameManager.CreatePreviewOfPreviewableAtTile(previewable, spawn.tileToSpawnAt, 1, false);
                     _gameManager.AddPreviewAction(previewAction);
                 }
                 else if (spawn.spawnType == SpawnType.Player)
