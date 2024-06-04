@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Previewable : MonoBehaviour
-{
-    protected Tile currentTile;
-    protected GameManager _manager;
+public abstract class Previewable : GridObject
+{    
     TransformTransition _transitioner;
 
     [HideInInspector]
@@ -16,25 +14,11 @@ public abstract class Previewable : MonoBehaviour
         _transitioner = GetComponent<TransformTransition>();
     }
 
-    public virtual void SetupPreviewable(GameManager manager)
-    {
-        _manager = manager;
-    }
-
     public abstract Sprite GetPreviewSprite();
-    public virtual Vector2 GetCurrentPosition()
-    { 
-        return transform.localPosition;
-    }
 
     public virtual Color GetPreviewColor()
     { 
         return new Color(.5f, .5f, .5f, .25f);
-    }
-
-    public Tile GetCurrentTile()
-    { 
-        return currentTile;
     }
 
     public virtual void TransitionToTile(Tile tileDestination, float duration)
@@ -46,7 +30,7 @@ public abstract class Previewable : MonoBehaviour
         }
 
         _transitioner.MoveTo(destination, duration);
-        SetTile(tileDestination);
+        CurrentTile = tileDestination;
     }
 
     public virtual void TransitionToPosition(Vector2 targetPosition, float duration)
@@ -54,36 +38,24 @@ public abstract class Previewable : MonoBehaviour
         _transitioner.MoveTo(targetPosition, duration);
     }
 
-    public virtual void SetTile(Tile newTile)
-    {
-        currentTile = newTile;
-    }
-
-    //Used for setting a tile directly at a position
-    public virtual void SetPosition(Tile directTile)
+    public override void SetPosition(Tile directTile)
     {
         if (_transitioner != null)
         {
             _transitioner.StopAllCoroutines();
         }
 
-        currentTile = directTile;
-        transform.localPosition = currentTile.GetTilePosition();
+        base.SetPosition(directTile);
     }
 
-    public virtual Vector2 GetGridCoordinates()
-    { 
-        return currentTile.gridCoordinates;
-    }
-
-    public virtual void DestroyPreviewable()
+    public override void DestroyObject()
     {
         if (previewObject != null) 
         { 
             Destroy(previewObject);
         }
 
-        Destroy(this.gameObject);
+        base.DestroyObject();
     }
 
     protected Vector2 ConvertInputValueToDirection(InputValue input)

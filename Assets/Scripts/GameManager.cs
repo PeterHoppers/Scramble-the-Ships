@@ -139,7 +139,7 @@ public class GameManager : MonoBehaviour
 
     public void UpdateScreenInformation(Screen screen)
     { 
-        var screenWaves = screen.waveInformation;
+        var screenWaves = screen.enemySpawnInformation;
 
         foreach (var screenPair in screenWaves)
         {
@@ -174,9 +174,9 @@ public class GameManager : MonoBehaviour
         OnGameStateChanged?.Invoke(_currentGameState);
     }
 
-    public void PreviewablesCollided(Previewable attacking, Previewable hit)
+    public void HandleGridObjectCollision(GridObject attacking, GridObject hit) //Should this be here in this state? Feels like something the grid object itself should be in charge of
     {
-        attacking.DestroyPreviewable();
+        attacking.DestroyObject();
         
         if (hit.TryGetComponent<Player>(out var player))
         {
@@ -210,7 +210,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        hit.DestroyPreviewable();
+        hit.DestroyObject();
     }
 
     public List<Player> GetAllCurrentPlayers()
@@ -270,7 +270,7 @@ public class GameManager : MonoBehaviour
 
     public GridMovable CreateMovableAtTile(GridMovable movableToBeCreated, Previewable previewableCreatingMovable, Tile previewTile, Vector2 movingDirection)
     {
-        var spawnedMovable = _spawnSystem.SpawnObjectAtTile(movableToBeCreated.gameObject, previewableCreatingMovable.GetCurrentTile(), previewableCreatingMovable.transform.rotation);
+        var spawnedMovable = _spawnSystem.SpawnObjectAtTile(movableToBeCreated.gameObject, previewableCreatingMovable.CurrentTile, previewableCreatingMovable.transform.rotation);
         var moveable = spawnedMovable.GetComponent<GridMovable>();
         moveable.SetupMoveable(this, previewTile);
         moveable.travelDirection = movingDirection;

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53eb3f1cbb508f54abbcf1790983544d, type: 3}
   m_Name: Basic Screen
   m_EditorClassIdentifier: 
-  waveInformation:
+  enemySpawnInformation:
     _serializedList:
     - Key: 2
       Value:
@@ -22,5 +22,5 @@ MonoBehaviour:
         commandId: 1
       - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
         spawnDirection: 1
-        otherCoordinate: 7
+        otherCoordinate: 5
         commandId: 1

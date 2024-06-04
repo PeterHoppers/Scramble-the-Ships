@@ -11,8 +11,8 @@ public class GridMovable : Previewable
 
     public virtual void SetupMoveable(GameManager manager, Tile startingTile, float spawningDistance = 3)
     {
-        base.SetupPreviewable(manager);
-        SetTile(startingTile);
+        base.SetupObject(manager);
+        CurrentTile = startingTile;
         _manager.OnTickStart += CreateNextPreview;
         _spawningDistance = spawningDistance;
     }
@@ -29,7 +29,7 @@ public class GridMovable : Previewable
             return;
         }
 
-        var previewTile = _manager.AddPreviewAtPosition(this, currentTile, travelDirection);
+        var previewTile = _manager.AddPreviewAtPosition(this, CurrentTile, travelDirection);
 
         if (!previewTile.IsVisible)
         {
@@ -63,13 +63,8 @@ public class GridMovable : Previewable
         return GetComponentInChildren<SpriteRenderer>().sprite;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected virtual Vector2 GetCurrentPosition()
     {
-        PerformInteraction(collision);
-    }
-
-    protected virtual void PerformInteraction(Collider2D collision)
-    {
-       
+        return transform.localPosition;
     }
 }

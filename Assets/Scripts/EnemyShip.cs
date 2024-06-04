@@ -38,13 +38,13 @@ public class EnemyShip : GridMovable
         _ticksSinceSpawn++;
     }
 
-    public override void DestroyPreviewable()
+    public override void DestroyObject()
     {
         //TODO: Rework this to use pooling, for right now this will cause a memory leak
         var deathEffect = Instantiate(shipInfo.deathVFX, transform.parent);
         deathEffect.transform.position = transform.position;
         deathEffect.Play();
-        base.DestroyPreviewable();
+        base.DestroyObject();
     }
 
     protected override void PerformInteraction(Collider2D collision)
@@ -53,7 +53,7 @@ public class EnemyShip : GridMovable
 
         if (collision.TryGetComponent(out Player playerHit))
         {
-            _manager.PreviewablesCollided(this, playerHit);
+            _manager.HandleGridObjectCollision(this, playerHit);
         }
     }
 }
