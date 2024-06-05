@@ -7,7 +7,7 @@ using static GameManager;
 
 public class GameManager : MonoBehaviour
 {
-    public List<Vector2> _startingPlayerPositions;
+    public List<GridCoordinate> _startingPlayerPositions;
     public int ticksUntilRespawn = 3;
     public int numberOfLives = 3;
     public PreviewableBase previewableBase;
@@ -142,9 +142,11 @@ public class GameManager : MonoBehaviour
         var screenStarters = screen.startingItems;
         foreach(var spawn in screenStarters) 
         {
-            var spawnPosition = GetByCoordinates(spawn.spawnCoordinates);
-            var spawnedObject = _spawnSystem.SpawnObjectAtTile(spawn.gridObject.gameObject, spawnPosition, spawn.gridObject.transform.rotation);
-            spawnedObject.GetComponent<GridObject>().SetupObject(this);
+            if (_gridSystem.TryGetTileByCoordinates(spawn.spawnCoordinates.x, spawn.spawnCoordinates.y, out var spawnPosition))
+            {
+                var spawnedObject = _spawnSystem.SpawnObjectAtTile(spawn.gridObject.gameObject, spawnPosition, spawn.gridObject.transform.rotation);
+                spawnedObject.GetComponent<GridObject>().SetupObject(this);
+            }           
         }
 
         var screenWaves = screen.enemySpawnInformation;
@@ -421,7 +423,7 @@ public class GameManager : MonoBehaviour
 
     public Vector2 GetGridLimits()
     { 
-        return new Vector2(_gridSystem.gridWidth - 1, _gridSystem.gridHeight - 1);
+        return new Vector2(_gridSystem.GetMaxWidthIndex(), _gridSystem.GetMaxHeightIndex());
     }
 }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -13,6 +14,7 @@ public class GridSystem : MonoBehaviour
     public int gridWidth = 20;
     public int gridHeight = 10;
     public float boundsIncrease;
+    int _titleSpawnDepth = 1; //how many rows/columns of tiles are dedicated to spawning
 
     void Start()
     {
@@ -20,11 +22,22 @@ public class GridSystem : MonoBehaviour
         CreateGrid();
     }
 
+    public bool TryGetTileByCoordinates(Coordinate x, Coordinate y, out Tile tile)
+    {
+        int xIndex = x.GetIndexFromMax(GetMaxWidthIndex());
+        int yIndex = y.GetIndexFromMax(GetMaxHeightIndex());
+        return TryGetTile(xIndex, yIndex, out tile);
+    }
+
     public bool TryGetTileByCoordinates(float x, float y, out Tile tile)
     {
         int xIndex = (int)x;
         int yIndex = (int)y;
+        return TryGetTile(xIndex, yIndex, out tile);
+    }
 
+    bool TryGetTile(int xIndex, int yIndex, out Tile tile)
+    {
         if (xIndex >= 0 && xIndex < _tiles.Count && yIndex >= 0 && yIndex < _tiles[xIndex].Count)
         {
             tile = GetPositionByCoordinate(xIndex, yIndex);
@@ -38,6 +51,16 @@ public class GridSystem : MonoBehaviour
     Tile GetPositionByCoordinate(int x, int y)
     {
         return _tiles[x][y];
+    }
+
+    public int GetMaxHeightIndex()
+    { 
+        return gridHeight - _titleSpawnDepth;
+    }
+
+    public int GetMaxWidthIndex() 
+    { 
+        return gridWidth - _titleSpawnDepth;
     }
 
     private void CreateGrid()
@@ -54,7 +77,7 @@ public class GridSystem : MonoBehaviour
                 tile.gridCoordinates = new Vector2(widthIndex, heightIndex);
                 tile.name = $"Tile ({widthIndex}, {heightIndex})";
                 //set a property for the tiles around the outer edge to allow objects that attempt to enter them to know they are leaving the grid
-                var isSpawning = (widthIndex == 0 || widthIndex == gridWidth - 1 || heightIndex == 0 || heightIndex == gridHeight - 1);
+                var isSpawning = (widthIndex == 0 || widthIndex == GetMaxWidthIndex() || heightIndex == 0 || heightIndex == GetMaxHeightIndex());
 
                 if (isSpawning)
                 {

@@ -7,6 +7,7 @@ using UnityEngine;
 public class Screen : ScriptableObject
 {
     public List<ScreenSpawns> startingItems = new List<ScreenSpawns>();
+    public List<GridCoordinate> transitionGrids = new List<GridCoordinate>();
 
     [SerializedDictionary("Tick #", "Enemy Spawn Info")]
     public SerializedDictionary<int, EnemySpawn[]> enemySpawnInformation = new SerializedDictionary<int, EnemySpawn[]>();
@@ -16,5 +17,5 @@ public class Screen : ScriptableObject
 public struct ScreenSpawns
 {
     public GridObject gridObject;
-    public Vector2 spawnCoordinates;
+    public GridCoordinate spawnCoordinates;
 }

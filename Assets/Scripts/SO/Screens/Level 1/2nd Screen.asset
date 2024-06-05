@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53eb3f1cbb508f54abbcf1790983544d, type: 3}
-  m_Name: Basic Screen
+  m_Name: 2nd Screen
   m_EditorClassIdentifier: 
   startingItems:
   - gridObject: {fileID: 4968857197367180557, guid: 5353b18247066644385330a06f51dc04, type: 3}
-    spawnCoordinates: {x: 5, y: 5}
+    spawnCoordinates: {x: 8, y: 8}
   enemySpawnInformation:
     _serializedList:
-    - Key: 2
+    - Key: 0
       Value:
       - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 0
-        otherCoordinate: 5
+        spawnDirection: 2
+        otherCoordinate: 7
         commandId: 1
       - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 1
-        otherCoordinate: 5
+        spawnDirection: 2
+        otherCoordinate: 8
         commandId: 1

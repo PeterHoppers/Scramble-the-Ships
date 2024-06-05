@@ -71,19 +71,20 @@ public class SpawnSystem : MonoBehaviour
         return spawnedObject;
     }
 
-    Vector2 GetSpawnCoordinates(SpawnDirections spawnDirection, int coordinateOffset)
+    Vector2 GetSpawnCoordinates(SpawnDirections spawnDirection, Coordinate coordinate)
     {
         var maxCoordinates = _gameManager.GetGridLimits();
+
         switch (spawnDirection)
         {
             case SpawnDirections.Left:
-                return new Vector2(0, coordinateOffset);
+                return new Vector2(0, coordinate.GetIndexFromMax(maxCoordinates.y));
             case SpawnDirections.Right:
-                return new Vector2(maxCoordinates.x, coordinateOffset);
+                return new Vector2(maxCoordinates.x, coordinate.GetIndexFromMax(maxCoordinates.y));
             case SpawnDirections.Top:
-                return new Vector2(coordinateOffset, maxCoordinates.y);
+                return new Vector2(coordinate.GetIndexFromMax(maxCoordinates.x), maxCoordinates.y);
             case SpawnDirections.Bottom:
-                return new Vector2(coordinateOffset, 0);
+                return new Vector2(coordinate.GetIndexFromMax(maxCoordinates.x), 0);
             default:
                 return Vector2.zero;
         }
