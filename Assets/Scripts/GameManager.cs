@@ -146,8 +146,10 @@ public class GameManager : MonoBehaviour
         UpdateGameState(GameState.Paused);
         //disable all players' controls
         _players.ForEach(x => x.SetInputStatus(false));
+
         //move player off screen
-        var offscreenPosition = player.CurrentTile.GetTilePosition() + (_spawnSystem.spawningDistance * (Vector2)player.transform.up); //consider consoladating with gridmovable's GoOffScreen code
+        var currentPos = player.CurrentTile.GetTilePosition();
+        var offscreenPosition = _spawnSystem.GetOffscreenPosition(player.transform.up, currentPos, false);
         player.TransitionToPosition(offscreenPosition, _tickDuration);
         //lets everyone know that the screen has been finished
 
@@ -325,7 +327,7 @@ public class GameManager : MonoBehaviour
     {
         var spawnedMovable = _spawnSystem.SpawnObjectAtTile(movableToBeCreated.gameObject, previewableCreatingMovable.CurrentTile, previewableCreatingMovable.transform.rotation);
         var moveable = spawnedMovable.GetComponent<GridMovable>();
-        moveable.SetupMoveable(this, previewTile);
+        moveable.SetupMoveable(this, _spawnSystem, previewTile);
         moveable.travelDirection = movingDirection;
         
         return moveable;

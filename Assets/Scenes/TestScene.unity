@@ -7053,6 +7053,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawningDistance: 3
+  spawningPercentageOffscreen: 0.25
 --- !u!1001 &4531162659611141552
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7198,30 +7199,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1688676433}
     m_Modifications:
-    - target: {fileID: 4035987068150972794, guid: 5632fe5e136509e45aedfcbdf0a4ad9c, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4035987068150972794, guid: 5632fe5e136509e45aedfcbdf0a4ad9c, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4035987068150972794, guid: 5632fe5e136509e45aedfcbdf0a4ad9c, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4035987068150972794, guid: 5632fe5e136509e45aedfcbdf0a4ad9c, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4035987068150972794, guid: 5632fe5e136509e45aedfcbdf0a4ad9c, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4035987068150972794, guid: 5632fe5e136509e45aedfcbdf0a4ad9c, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5772975794545554183, guid: 5632fe5e136509e45aedfcbdf0a4ad9c, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

@@ -6,6 +6,8 @@ using AYellowpaper.SerializedCollections;
 public class SpawnSystem : MonoBehaviour
 {
     public float spawningDistance = 3;
+    [Range(0f, 1f)]
+    public float spawningPercentageOffscreen = .25f;
     Dictionary<int, List<SpawnInfo>> _queuedSpawns = new Dictionary<int, List<SpawnInfo>>();
 
     GameManager _gameManager;
@@ -42,7 +44,7 @@ public class SpawnSystem : MonoBehaviour
 
                     if (spawnedObject.TryGetComponent<GridMovable>(out var damageable))
                     {
-                        damageable.SetupMoveable(_gameManager, spawn.tileToSpawnAt, spawningDistance);
+                        damageable.SetupMoveable(_gameManager, this, spawn.tileToSpawnAt);
 
                         if (damageable.TryGetComponent<EnemyShip>(out var enemyShip))
                         {
@@ -67,8 +69,42 @@ public class SpawnSystem : MonoBehaviour
     public GameObject SpawnObjectOffLevel(GameObject spawnObject, Tile spawnTile, Quaternion spawnRotation)
     {
         var spawnedObject = Instantiate(spawnObject, Vector2.zero, spawnRotation, transform);
-        spawnedObject.transform.localPosition = spawnTile.GetTilePosition() + (-1 * spawningDistance * (Vector2)spawnedObject.transform.up);
+        var offscreenPosition = GetOffscreenPosition(spawnedObject.transform.up, spawnTile.GetTilePosition(), true);
+        spawnedObject.transform.localPosition = offscreenPosition;
+
+        //the issue is that spawnedObject.transform.up handles which direction they should be spawning from
         return spawnedObject;
+    }
+
+    public Vector2 GetOffscreenPosition(Vector3 facingDirection, Vector2 currentPosition, bool isArriving)
+    {
+        var camera = Camera.main;
+        var offscreenPercentage = 1 + spawningPercentageOffscreen;
+        var bottomLeftPosition = camera.ViewportToWorldPoint(new Vector3(0, 0, camera.nearClipPlane));
+        var topRightPosition = camera.ViewportToWorldPoint(new Vector3(offscreenPercentage, offscreenPercentage, camera.nearClipPlane));
+
+        var targetDirection = (isArriving) ? facingDirection * -1 : facingDirection;
+
+        if (targetDirection == Vector3.left)
+        {
+            return new Vector2(bottomLeftPosition.x, currentPosition.y);
+        }
+        else if (targetDirection == Vector3.right)
+        {
+            return new Vector2(topRightPosition.x, currentPosition.y);
+        }
+        else if (targetDirection == Vector3.up)
+        {
+            return new Vector2(currentPosition.x, topRightPosition.y);
+        }
+        else if (targetDirection == Vector3.down)
+        {
+            return new Vector2(currentPosition.x, bottomLeftPosition.x);
+        }
+        else
+        {
+            return Vector2.zero;
+        }
     }
 
     Vector2 GetSpawnCoordinates(SpawnDirections spawnDirection, Coordinate coordinate)
