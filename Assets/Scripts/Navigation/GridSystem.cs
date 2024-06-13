@@ -31,8 +31,8 @@ public class GridSystem : MonoBehaviour
 
     public bool TryGetTileByCoordinates(float x, float y, out Tile tile)
     {
-        int xIndex = (int)x;
-        int yIndex = (int)y;
+        int xIndex = Mathf.RoundToInt(x);
+        int yIndex = Mathf.RoundToInt(y);
         return TryGetTile(xIndex, yIndex, out tile);
     }
 
@@ -68,7 +68,7 @@ public class GridSystem : MonoBehaviour
         var bounds = new Bounds();
         for (int widthIndex = 0; widthIndex < gridWidth; widthIndex++)
         {
-            _tiles.Add(new List<Tile>());
+            var rowTiles = new List<Tile>();
             for (int heightIndex = 0; heightIndex < gridHeight; heightIndex++)
             {
                 var worldPosition = _grid.GetCellCenterWorld(new Vector3Int(widthIndex, heightIndex));
@@ -88,8 +88,10 @@ public class GridSystem : MonoBehaviour
                     tile.TileType = TileType.Default;
                 }
 
-                _tiles[widthIndex].Add(tile);
+                rowTiles.Add(tile);
             }
+
+            _tiles.Add(rowTiles);
         }
 
         SetCamera(bounds);

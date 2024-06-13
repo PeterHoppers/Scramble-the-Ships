@@ -154,14 +154,15 @@ public class GameManager : MonoBehaviour
         //lets everyone know that the screen has been finished
 
         //remove everything that was on the grid
+        ClearGrid();
         //spawn new items
         //renable game loop
         //renable controls for players
     }
 
     public void ClearGrid()
-    { 
-        
+    {
+        _spawnSystem.ClearObjects();
     }
 
     public void SetScreenStarters(List<ScreenSpawns> screenStarters)
@@ -171,7 +172,7 @@ public class GameManager : MonoBehaviour
             if (_gridSystem.TryGetTileByCoordinates(spawn.spawnCoordinates.x, spawn.spawnCoordinates.y, out var spawnPosition))
             {
                 var spawnedObject = _spawnSystem.SpawnObjectAtTile(spawn.gridObject.gameObject, spawnPosition, spawn.gridObject.transform.rotation);
-                spawnedObject.GetComponent<GridObject>().SetupObject(this);
+                spawnedObject.GetComponent<GridObject>().SetupObject(this, _spawnSystem);
             }
         }
     }
@@ -197,7 +198,7 @@ public class GameManager : MonoBehaviour
             if (_gridSystem.TryGetTileByCoordinates(transition.x, transition.y, out var spawnPosition))
             {
                 var spawnedObject = _spawnSystem.SpawnObjectAtTile(baseTrigger.gameObject, spawnPosition, baseTrigger.transform.rotation);
-                spawnedObject.GetComponent<GridObject>().SetupObject(this);
+                spawnedObject.GetComponent<GridObject>().SetupObject(this, _spawnSystem);
                 var screenTrigger = spawnedObject.GetComponent<ScreenChangeTrigger>();
                 screenTriggers.Add(screenTrigger);
             }
@@ -335,7 +336,7 @@ public class GameManager : MonoBehaviour
 
     public Tile AddPreviewAtPosition(Previewable previewObject, Tile currentTile, Vector2 previewDirection)
     {
-        var possibleGridCoordinates = previewDirection + currentTile.GetTilePosition();
+        var possibleGridCoordinates = previewDirection + currentTile.GetTileCoordinates();
         var isPossibleTileSpace = _gridSystem.TryGetTileByCoordinates(possibleGridCoordinates.x, possibleGridCoordinates.y, out Tile tile);
 
         PreviewAction newPreview;

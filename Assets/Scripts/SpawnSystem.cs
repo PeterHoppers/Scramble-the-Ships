@@ -9,6 +9,7 @@ public class SpawnSystem : MonoBehaviour
     [Range(0f, 1f)]
     public float spawningPercentageOffscreen = .25f;
     Dictionary<int, List<SpawnInfo>> _queuedSpawns = new Dictionary<int, List<SpawnInfo>>();
+    List<GameObject> _spawnList = new List<GameObject>();
 
     GameManager _gameManager;
     int _ticksPassed;
@@ -63,6 +64,7 @@ public class SpawnSystem : MonoBehaviour
         var spawnedObject = Instantiate(spawnObject, transform);
         spawnedObject.transform.localPosition = spawnTile.GetTilePosition();
         spawnedObject.transform.rotation = spawnRotation;
+        _spawnList.Add(spawnedObject);
         return spawnedObject;
     }
 
@@ -71,6 +73,7 @@ public class SpawnSystem : MonoBehaviour
         var spawnedObject = Instantiate(spawnObject, Vector2.zero, spawnRotation, transform);
         var offscreenPosition = GetOffscreenPosition(spawnedObject.transform.up, spawnTile.GetTilePosition(), true);
         spawnedObject.transform.localPosition = offscreenPosition;
+        _spawnList.Add(spawnedObject);
 
         //the issue is that spawnedObject.transform.up handles which direction they should be spawning from
         return spawnedObject;
@@ -187,6 +190,30 @@ public class SpawnSystem : MonoBehaviour
         int spawnTickPreview = spawnTick - 1;
         AddSpawnInfoAtTick(playerSpawnPreview, spawnTickPreview);
         AddSpawnInfoAtTick(playerSpawn, spawnTick);
+    }
+
+    public void ClearObjects()
+    {
+        foreach (var item in _spawnList)
+        {
+            if (item == null) 
+            { 
+                continue;
+            }
+            DespawnObject(item);
+        }
+        _spawnList.Clear();
+    }
+
+    public void DespawnObject(GridObject gridObject)
+    {
+        DespawnObject(gridObject.gameObject); //we should eventually look into pooling
+        //gridObject.gameObject.SetActive(false);
+    }
+
+    public void DespawnObject(GameObject gameObject)
+    { 
+        Destroy(gameObject);
     }
 
     void AddSpawnInfoAtTick(SpawnInfo spawnInfo, int tick)

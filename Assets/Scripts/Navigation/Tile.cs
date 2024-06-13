@@ -68,6 +68,11 @@ public class Tile : MonoBehaviour
     {
         return transform.localPosition;
     }
+
+    public Vector2 GetTileCoordinates()
+    {
+        return gridCoordinates;
+    }
 }
 
 public enum TileType

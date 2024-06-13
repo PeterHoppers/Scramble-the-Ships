@@ -7,14 +7,11 @@ public class GridMovable : Previewable
     [HideInInspector]
     public Vector2 travelDirection = Vector2.up;
 
-    private SpawnSystem _spawnSystem;
-
     public virtual void SetupMoveable(GameManager manager, SpawnSystem spawnSystem, Tile startingTile)
     {
-        base.SetupObject(manager);
+        base.SetupObject(manager, spawnSystem);
         CurrentTile = startingTile;
         _manager.OnTickStart += CreateNextPreview;
-        _spawnSystem = spawnSystem;
     }
 
     private void OnDestroy()
@@ -55,7 +52,7 @@ public class GridMovable : Previewable
         var targetPosition = _spawnSystem.GetOffscreenPosition(travelDirection, currentPosition, false);
         TransitionToPosition(targetPosition, duration);
         yield return new WaitForSeconds(duration);
-        gameObject.SetActive(false);
+        _spawnSystem.DespawnObject(this);
     }
 
     public override Sprite GetPreviewSprite()

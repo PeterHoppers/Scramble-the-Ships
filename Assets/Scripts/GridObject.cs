@@ -19,10 +19,12 @@ public abstract class GridObject : MonoBehaviour
     }
 
     protected GameManager _manager;
+    protected SpawnSystem _spawnSystem;
 
-    public virtual void SetupObject(GameManager manager)
+    public virtual void SetupObject(GameManager manager, SpawnSystem system)
     {
         _manager = manager;
+        _spawnSystem = system;
     }
 
     public virtual Vector2 GetGridCoordinates()
@@ -39,7 +41,7 @@ public abstract class GridObject : MonoBehaviour
 
     public virtual void DestroyObject()
     { 
-        Destroy(gameObject);
+        _spawnSystem.DespawnObject(this);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
