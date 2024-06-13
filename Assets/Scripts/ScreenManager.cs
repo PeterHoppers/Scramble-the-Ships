@@ -7,6 +7,7 @@ using System;
 
 public class ScreenManager : MonoBehaviour, IManager
 {
+    public ScreenChangeTrigger screenTrigger;
     public Screen[] levelScreens;
     GameManager _gameManager;
     int _screenIndex;
@@ -24,6 +25,19 @@ public class ScreenManager : MonoBehaviour, IManager
 
     public void SetupScreen()
     {
-        _gameManager.UpdateScreenInformation(levelScreens[_screenIndex]);
+        var nextScreen = levelScreens[_screenIndex];
+        _gameManager.SetScreenStarters(nextScreen.startingItems);
+        _gameManager.SetQueuedEnemies(nextScreen.enemySpawnInformation);
+        var screenTriggers = _gameManager.SetScreenTranistions(screenTrigger, nextScreen.transitionGrids);
+        screenTriggers.ForEach(x => x.OnPlayerEntered += OnPlayerTriggeredScreenChange);
     }
+
+    void OnPlayerTriggeredScreenChange(Player player)
+    { 
+        _gameManager.PlayerTriggeredScreenChange(player);
+    }
+
+    //get message that the screen has finished
+    //perform animation for screen transition
+    //can either set up the next screen or queue up some cutscenes
 }

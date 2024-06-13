@@ -8,10 +8,12 @@ public class Tile : MonoBehaviour
     private bool _isVisible;
     private TileType _tileType;
     private SpriteRenderer _spriteRenderer;
+    private Color _defaultColor;
 
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _defaultColor = _spriteRenderer.color;
     }
 
     public bool IsVisible
@@ -46,6 +48,18 @@ public class Tile : MonoBehaviour
             else
             {
                 IsVisible = true;
+            }
+
+            if (_tileType == TileType.Transition)
+            {
+                _spriteRenderer.color = Color.white;
+                _spriteRenderer.sortingOrder = 1;
+            }
+            else
+            {
+                _spriteRenderer.color = _defaultColor;
+                _spriteRenderer.sortingOrder = 0;
+
             }
         }
     }

@@ -3603,6 +3603,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74992b410e746cf43a983c4db2fc2f3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  screenTrigger: {fileID: 2468367493126450250, guid: 7b5dc0bb57b038546b2c56ff24917b51, type: 3}
   levelScreens:
   - {fileID: 11400000, guid: 43c261739b65dd543ae69b6c6ee49f57, type: 2}
   - {fileID: 11400000, guid: c698287df4289ac4c839879fda959433, type: 2}

@@ -21,7 +21,7 @@ public class GameStateDisplay : MonoBehaviour
             case GameState.Waiting:
                 _gameStateText.text = "Waiting for Player to Join...";
                 break;
-            case GameState.Finished:
+            case GameState.GameOver:
                 _gameStateText.text = "Game Over";
                 break;
             case GameState.Playing:

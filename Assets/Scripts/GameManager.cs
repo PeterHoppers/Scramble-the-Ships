@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static GameManager;
+using AYellowpaper;
+using AYellowpaper.SerializedCollections;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -123,6 +125,7 @@ public class GameManager : MonoBehaviour
 
         if (_players.Count == 1)
         {
+            OnScreenChange?.Invoke();
             UpdateGameState(GameState.Playing);
         }
     }
@@ -137,20 +140,42 @@ public class GameManager : MonoBehaviour
         OnPlayerConditionEnd?.Invoke(player, condition);
     }
 
-    public void UpdateScreenInformation(Screen screen)
+    public void PlayerTriggeredScreenChange(Player player)
     {
-        var screenStarters = screen.startingItems;
-        foreach(var spawn in screenStarters) 
+        //stop the tick loop
+        UpdateGameState(GameState.Paused);
+        //disable all players' controls
+        _players.ForEach(x => x.SetInputStatus(false));
+        //move player off screen
+        var offscreenPosition = player.CurrentTile.GetTilePosition() + (_spawnSystem.spawningDistance * (Vector2)player.transform.up); //consider consoladating with gridmovable's GoOffScreen code
+        player.TransitionToPosition(offscreenPosition, _tickDuration);
+        //lets everyone know that the screen has been finished
+
+        //remove everything that was on the grid
+        //spawn new items
+        //renable game loop
+        //renable controls for players
+    }
+
+    public void ClearGrid()
+    { 
+        
+    }
+
+    public void SetScreenStarters(List<ScreenSpawns> screenStarters)
+    {
+        foreach (var spawn in screenStarters)
         {
             if (_gridSystem.TryGetTileByCoordinates(spawn.spawnCoordinates.x, spawn.spawnCoordinates.y, out var spawnPosition))
             {
                 var spawnedObject = _spawnSystem.SpawnObjectAtTile(spawn.gridObject.gameObject, spawnPosition, spawn.gridObject.transform.rotation);
                 spawnedObject.GetComponent<GridObject>().SetupObject(this);
-            }           
+            }
         }
+    }
 
-        var screenWaves = screen.enemySpawnInformation;
-
+    public void SetQueuedEnemies(SerializedDictionary<int, EnemySpawn[]> screenWaves)
+    {
         foreach (var screenPair in screenWaves)
         {
             var wave = screenPair.Value;
@@ -162,6 +187,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public List<ScreenChangeTrigger> SetScreenTranistions(ScreenChangeTrigger baseTrigger, List<GridCoordinate> transitionGrids)
+    {
+        var screenTriggers = new List<ScreenChangeTrigger>();
+        foreach (var transition in transitionGrids)
+        {
+            if (_gridSystem.TryGetTileByCoordinates(transition.x, transition.y, out var spawnPosition))
+            {
+                var spawnedObject = _spawnSystem.SpawnObjectAtTile(baseTrigger.gameObject, spawnPosition, baseTrigger.transform.rotation);
+                spawnedObject.GetComponent<GridObject>().SetupObject(this);
+                var screenTrigger = spawnedObject.GetComponent<ScreenChangeTrigger>();
+                screenTriggers.Add(screenTrigger);
+            }
+        }
+
+        return screenTriggers;
+    }
+
     public void SendEnemyCommands(EnemyShip enemyShip, int commandId)
     {
         enemyShip.shipCommands = _commandSystem.commandBank[commandId].shipCommands;
@@ -171,14 +213,15 @@ public class GameManager : MonoBehaviour
     {
         _currentGameState = gameState;
 
-        if (gameState == GameState.Playing) 
+        switch (gameState) 
         {
-            OnScreenChange?.Invoke();
-            StartCoroutine(StartNewTick());
-        }
-        else if (gameState == GameState.Finished) //this might run into a race condition with on tick end
-        {
-            _tickIsOccuring = false;
+            case GameState.Playing:
+                StartCoroutine(StartNewTick());
+                break;
+            case GameState.Paused:
+            case GameState.GameOver: //this might run into a race condition with on tick end
+                _tickIsOccuring = false;
+                break;
         }
 
         OnGameStateChanged?.Invoke(_currentGameState);
@@ -200,7 +243,7 @@ public class GameManager : MonoBehaviour
 
                 if (_playerLives.All(x => x <= 0))
                 {
-                    UpdateGameState(GameState.Finished);
+                    UpdateGameState(GameState.GameOver);
                     return;
                 }
 
@@ -323,7 +366,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (!_tickIsOccuring || _currentGameState == GameState.Finished)
+        if (!_tickIsOccuring || _currentGameState != GameState.Playing)
         {
             return;
         }
@@ -339,6 +382,18 @@ public class GameManager : MonoBehaviour
     {
         _tickIsOccuring = false;
         var tickEndDuration = _tickDuration / 4;
+        EndCurrentTick(tickEndDuration);
+        yield return new WaitForSeconds(tickEndDuration);
+
+        //something might have occured during the tick end where the game state changed from playing, so only start another tick if we're still playing
+        if (_currentGameState == GameState.Playing)
+        {
+            StartNextTick();
+        }
+    }
+
+    void EndCurrentTick(float tickEndDuration)
+    {        
         foreach (var preview in _previewActions)
         {
             if (preview.isNotMoving)
@@ -349,7 +404,7 @@ public class GameManager : MonoBehaviour
             var movingObject = preview.sourcePreviewable;
 
             if (movingObject == null)
-            { 
+            {
                 continue;
             }
 
@@ -358,8 +413,10 @@ public class GameManager : MonoBehaviour
 
         _spawnSystem.OnTickEnd();
         OnTickEnd?.Invoke(tickEndDuration);
-        yield return new WaitForSeconds(tickEndDuration);
+    }
 
+    void StartNextTick()
+    {
         //check if we should remove the preview, rather than always removing it
         for (int index = _previewActions.Count - 1; index >= 0; index--)
         {
@@ -368,7 +425,7 @@ public class GameManager : MonoBehaviour
             {
                 Destroy(preview.sourcePreviewable.previewObject);
                 _previewActions.Remove(preview);
-            }            
+            }
         }
 
         _attemptedPlayerActions.Clear();
@@ -440,5 +497,7 @@ public enum GameState
 { 
     Waiting,
     Playing,
-    Finished
+    Paused,
+    Cutscene,
+    GameOver
 }

@@ -39,4 +39,9 @@ public class InputRenderer : MonoBehaviour
     { 
         _renderer.color = Color.white;
     }
+
+    public void SetVisibility(bool isVisible)
+    { 
+        _renderer.gameObject.SetActive(isVisible);
+    }
 }

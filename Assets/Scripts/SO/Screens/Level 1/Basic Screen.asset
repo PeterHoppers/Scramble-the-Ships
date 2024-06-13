@@ -15,12 +15,19 @@ MonoBehaviour:
   startingItems:
   - gridObject: {fileID: 4968857197367180557, guid: 5353b18247066644385330a06f51dc04, type: 3}
     spawnCoordinates:
-      xCoordinate:
+      x:
         anchor: 1
         offset: 0
-      yCoordinate:
+      y:
         anchor: 1
         offset: 0
+  transitionGrids:
+  - x:
+      anchor: 1
+      offset: 0
+    y:
+      anchor: 0
+      offset: 3
   enemySpawnInformation:
     _serializedList:
     - Key: 2

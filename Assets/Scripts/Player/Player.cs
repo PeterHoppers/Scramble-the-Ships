@@ -18,6 +18,7 @@ public class Player : Previewable
 
     PlayerInput _playerInput;
     Sprite _shipSprite;
+    Collider2D _shipCollider;
 
     public int PlayerId { get; private set; }
     public bool AllowingInput { get; set; }
@@ -33,7 +34,7 @@ public class Player : Previewable
     private void Awake()
     {
         TestParametersHandler.Instance.OnParametersChanged += ChangeShootingCondition;
-        
+        _shipCollider = GetComponent<Collider2D>();
     }
 
     private void ChangeShootingCondition(TestParameters newParameters)
@@ -139,6 +140,13 @@ public class Player : Previewable
         }
 
         _lastInput = null;
+    }
+
+    public void SetInputStatus(bool isActive)
+    {
+        AllowingInput = isActive;
+        SetInputVisibility(isActive);
+        _shipCollider.enabled = isActive;
     }
 
     public void OnPlayerMove(InputAction.CallbackContext context)
@@ -288,7 +296,15 @@ public class Player : Previewable
             sprite.enabled = isVisible;
         }
 
-        GetComponent<Collider2D>().enabled = isVisible;
+        _shipCollider.enabled = isVisible;
+    }
+
+    void SetInputVisibility(bool isVisible)
+    {
+        foreach (var item in inputValueDisplays)
+        {
+            item.Value.SetVisibility(isVisible);
+        }
     }
 
     public void AddCondition<T>() where T : Condition
