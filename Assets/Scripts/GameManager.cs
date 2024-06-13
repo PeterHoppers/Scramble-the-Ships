@@ -151,18 +151,29 @@ public class GameManager : MonoBehaviour
         var currentPos = player.CurrentTile.GetTilePosition();
         var offscreenPosition = _spawnSystem.GetOffscreenPosition(player.transform.up, currentPos, false);
         player.TransitionToPosition(offscreenPosition, _tickDuration);
-        //lets everyone know that the screen has been finished
-
-        //remove everything that was on the grid
-        ClearGrid();
-        //spawn new items
-        //renable game loop
-        //renable controls for players
+        //lets everyone know that the screen has been finished        
     }
 
-    public void ClearGrid()
+    public void ClearObjects()
     {
+        //remove everything that was on the grid
         _spawnSystem.ClearObjects();
+        OnScreenChange?.Invoke();
+    }
+
+    public void ScreenAnimationChangeFinished()
+    {
+        //renable game loop
+        UpdateGameState(GameState.Playing);
+        //renable controls for players
+        foreach (Player player in _players)
+        {
+            player.SetInputStatus(true);
+            var startingPosition = _startingPlayerPositions[player.PlayerId];
+
+            _gridSystem.TryGetTileByCoordinates(startingPosition.x, startingPosition.y, out var startingTile);
+            player.SetPosition(startingTile);
+        }
     }
 
     public void SetScreenStarters(List<ScreenSpawns> screenStarters)

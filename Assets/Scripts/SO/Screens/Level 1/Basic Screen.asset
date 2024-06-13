@@ -26,7 +26,7 @@ MonoBehaviour:
       anchor: 1
       offset: 0
     y:
-      anchor: 2
+      anchor: 0
       offset: 0
   enemySpawnInformation:
     _serializedList:
@@ -39,8 +39,14 @@ MonoBehaviour:
           offset: -3
         commandId: 1
       - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 2
+        spawnDirection: 3
         otherCoordinate:
           anchor: 1
           offset: 3
+        commandId: 1
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
+        spawnDirection: 2
+        otherCoordinate:
+          anchor: 1
+          offset: -3
         commandId: 1
