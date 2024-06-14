@@ -447,8 +447,7 @@ public class GameManager : MonoBehaviour
 
             movingObject.TransitionToTile(preview.previewTile, tickEndDuration);
         }
-
-        _spawnSystem.OnTickEnd();
+        
         OnTickEnd?.Invoke(tickEndDuration);
     }
 

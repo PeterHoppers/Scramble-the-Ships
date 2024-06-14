@@ -16,7 +16,8 @@ public class GridMovable : Previewable
 
     private void OnDestroy()
     {
-        _manager.OnTickStart -= CreateNextPreview;
+        _manager.OnTickStart -= CreateNextPreview; 
+        _manager.OnTickStart -= HideMoveable;
         StopAllCoroutines();
     }
 
@@ -43,6 +44,11 @@ public class GridMovable : Previewable
 
     private void HideMoveable(float timeToTickStart)
     {
+        if (this == null) 
+        {
+            return;        
+        }
+
         StartCoroutine(GoOffScreen(timeToTickStart));
         _manager.OnTickStart -= HideMoveable;
     }

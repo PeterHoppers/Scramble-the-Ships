@@ -17,9 +17,11 @@ public class SpawnSystem : MonoBehaviour
     private void Awake()
     {
         _gameManager = GetComponent<GameManager>();
+        _gameManager.OnTickEnd += OnTickEnd;
+        _gameManager.OnScreenChange += ResetTickCounter;
     }
 
-    public void OnTickEnd()
+    public void OnTickEnd(float duration)
     {
         _queuedSpawns.TryGetValue(_ticksPassed, out var spawns);
 
@@ -53,6 +55,8 @@ public class SpawnSystem : MonoBehaviour
                     }
                 }
             }
+
+            _queuedSpawns.Remove(_ticksPassed);
         }
 
         _ticksPassed++;
@@ -189,6 +193,11 @@ public class SpawnSystem : MonoBehaviour
         int spawnTickPreview = spawnTick - 1;
         AddSpawnInfoAtTick(playerSpawnPreview, spawnTickPreview);
         AddSpawnInfoAtTick(playerSpawn, spawnTick);
+    }
+
+    public void ResetTickCounter()
+    {
+        _ticksPassed = 0;
     }
 
     public void ClearObjects()
