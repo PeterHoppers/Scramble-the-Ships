@@ -296,6 +296,10 @@ public class Player : Previewable
             sprite.enabled = isVisible;
         }
 
+        if (_shipCollider == null)
+        {
+            _shipCollider = GetComponent<Collider2D>();
+        }
         _shipCollider.enabled = isVisible;
     }
 

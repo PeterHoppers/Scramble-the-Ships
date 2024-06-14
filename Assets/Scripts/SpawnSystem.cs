@@ -36,8 +36,7 @@ public class SpawnSystem : MonoBehaviour
                 else if (spawn.spawnType == SpawnType.Player)
                 {
                     var playerToSpawn = spawn.objectToSpawn.GetComponent<Player>();
-                    playerToSpawn.OnSpawn();
-                    playerToSpawn.SetPosition(spawn.tileToSpawnAt);
+                    _gameManager.SpawnPlayer(playerToSpawn, spawn.tileToSpawnAt);
                 }
                 else
                 {

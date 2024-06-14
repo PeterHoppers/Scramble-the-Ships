@@ -17,6 +17,7 @@ public class GridMovable : Previewable
     private void OnDestroy()
     {
         _manager.OnTickStart -= CreateNextPreview;
+        StopAllCoroutines();
     }
 
     protected virtual void CreateNextPreview(float timeToTickEnd)

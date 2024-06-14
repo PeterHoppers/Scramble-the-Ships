@@ -48,7 +48,7 @@ public class ScreenManager : MonoBehaviour, IManager
         yield return new WaitForSeconds(.25f);
         animator.Play("close");
         yield return new WaitForSeconds(1f);
-        _gameManager.ScreenAnimationChangeFinished();
+        StartCoroutine(_gameManager.ScreenAnimationChangeFinished());
     }
 
     //get message that the screen has finished

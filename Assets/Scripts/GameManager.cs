@@ -111,12 +111,8 @@ public class GameManager : MonoBehaviour
             int playerId = _players.Count;
             newPlayer.InitPlayer(this, playerInput, playerId);
             newPlayer.transform.SetParent(transform);
-
-            var startingPosition = _startingPlayerPositions[playerId];
-            
-            //TODO: Add a default spawning position, if the one provided is no longer valid for some reason
-            _gridSystem.TryGetTileByCoordinates(startingPosition.x, startingPosition.y, out var startingTile);
-            newPlayer.SetPosition(startingTile);
+            var startingTile = GetStartingTileForPlayer(playerId);
+            SpawnPlayer(newPlayer, startingTile);            
 
             _players.Add(newPlayer);
             _playerLives.Add(numberOfLives);
@@ -128,6 +124,28 @@ public class GameManager : MonoBehaviour
             OnScreenChange?.Invoke();
             UpdateGameState(GameState.Playing);
         }
+    }
+
+    Tile GetStartingTileForPlayer(int playerId)
+    {
+        var startingPosition = _startingPlayerPositions[playerId];
+
+        //TODO: Add a default spawning position, if the one provided is no longer valid for some reason
+        _gridSystem.TryGetTileByCoordinates(startingPosition.x, startingPosition.y, out var startingTile);
+        return startingTile;
+    }
+
+    public void SpawnPlayer(Player player, Tile tile)
+    {
+        player.SetPosition(tile);
+        player.OnSpawn();
+    }
+
+    public void MovePlayerOntoSpawn(Player player, Tile tile, float duration)
+    {
+        var offscreenPosition = _spawnSystem.GetOffscreenPosition(player.transform.up, tile.GetTilePosition(), true);
+        player.TransitionToPosition(offscreenPosition, 0);
+        player.TransitionToTile(tile, duration);
     }
 
     public void PlayerGainedCondition(Player player, Condition condition)
@@ -161,19 +179,24 @@ public class GameManager : MonoBehaviour
         OnScreenChange?.Invoke();
     }
 
-    public void ScreenAnimationChangeFinished()
+    public IEnumerator ScreenAnimationChangeFinished()
     {
-        //renable game loop
-        UpdateGameState(GameState.Playing);
         //renable controls for players
         foreach (Player player in _players)
         {
-            player.SetInputStatus(true);
-            var startingPosition = _startingPlayerPositions[player.PlayerId];
-
-            _gridSystem.TryGetTileByCoordinates(startingPosition.x, startingPosition.y, out var startingTile);
-            player.SetPosition(startingTile);
+            var startingTile = GetStartingTileForPlayer(player.PlayerId);
+            MovePlayerOntoSpawn(player, startingTile, _tickDuration);
         }
+
+        yield return new WaitForSeconds(_tickDuration);        
+
+        foreach (Player player in _players)
+        {
+            player.SetInputStatus(true);
+        }
+        
+        //renable game loop
+        UpdateGameState(GameState.Playing);
     }
 
     public void SetScreenStarters(List<ScreenSpawns> screenStarters)
@@ -230,7 +253,7 @@ public class GameManager : MonoBehaviour
         switch (gameState) 
         {
             case GameState.Playing:
-                StartCoroutine(StartNewTick());
+                StartNextTick();
                 break;
             case GameState.Paused:
             case GameState.GameOver: //this might run into a race condition with on tick end
@@ -388,11 +411,11 @@ public class GameManager : MonoBehaviour
         _tickElapsed += Time.deltaTime;
         if (_tickElapsed >= _tickDuration) 
         {
-            StartCoroutine(StartNewTick());
+            StartCoroutine(SetupNewTick());
         }
     }
 
-    IEnumerator StartNewTick()
+    IEnumerator SetupNewTick()
     {
         _tickIsOccuring = false;
         var tickEndDuration = _tickDuration / 4;
