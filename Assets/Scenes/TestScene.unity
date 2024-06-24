@@ -4182,7 +4182,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 4
+  m_ChildAlignment: 7
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
@@ -7259,7 +7259,7 @@ MonoBehaviour:
   tilePrefab: {fileID: 5402147654185855045, guid: e93478bfeab8942418d4109af6323375, type: 3}
   gridWidth: 13
   gridHeight: 17
-  boundsIncrease: 1.85
+  boundsIncrease: 1.35
 --- !u!114 &2124894462
 MonoBehaviour:
   m_ObjectHideFlags: 0
