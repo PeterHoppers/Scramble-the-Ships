@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df69872ed23ca47408b79a87ee0fa191, type: 3}
-  m_Name: Player Ship
+  m_Name: Player 2 Ship
   m_EditorClassIdentifier: 
-  bullet: {fileID: 1014171297647524943, guid: d176f98117a525146b6616b1e92f26b2, type: 3}
-  shipSprite: {fileID: 21300000, guid: ea1ebd5f8ee9874478f1be61a27cf9f0, type: 3}
+  bullet: {fileID: 1014171297647524943, guid: f3cccd2594d5b3b4a84d6f19553e4f10, type: 3}
+  shipSprite: {fileID: 21300000, guid: ba981403310806a469301b151e978a3b, type: 3}
   inputsForSprites:
     _serializedList:
     - Key: 0
-      Value: {fileID: 21300000, guid: c2195878f8845ec4a8a0a42e2fd49fc6, type: 3}
+      Value: {fileID: 21300000, guid: 0e73d3c8d0dabb045907b19de8c1668d, type: 3}
     - Key: 1
       Value: {fileID: 21300000, guid: f2b8359f9aa81ea468e36125bfc35be2, type: 3}
     - Key: 2
-      Value: {fileID: 21300000, guid: 43e1ffe941348764f824695736030895, type: 3}
+      Value: {fileID: 21300000, guid: 1ba29ddf7ccf01b4ca8172d5584fece1, type: 3}
     - Key: 3
-      Value: {fileID: 21300000, guid: 9bc83efc054b7c04b82b7c9afc03e13c, type: 3}
+      Value: {fileID: 21300000, guid: f700a706d1383a54eaca32141ea1207e, type: 3}
     - Key: 4
       Value: {fileID: 21300000, guid: 8dd948bc889626d4d82c67c1120ba7f2, type: 3}
   deathVFX: {fileID: 725748389856807712, guid: e95db50273d4e5746b02ba9b960f0afd, type: 3}

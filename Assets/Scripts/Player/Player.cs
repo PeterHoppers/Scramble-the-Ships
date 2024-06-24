@@ -11,9 +11,8 @@ public class Player : Previewable
 {
     [SerializedDictionary]
     SerializedDictionary<InputValue, PlayerAction> scrambledActions = new SerializedDictionary<InputValue, PlayerAction>();
-
-    [SerializeField]
-    public ShipInfo shipInfo;
+    
+    private ShipInfo _shipInfo;
     private ParticleSystem _deathVFX;
 
     PlayerInput _playerInput;
@@ -63,12 +62,13 @@ public class Player : Previewable
         ChangeShootingCondition(TestParametersHandler.Instance.testParameters);
     }
 
-    public void InitPlayer(GameManager manager, PlayerInput playerInput, int id)
+    public void InitPlayer(GameManager manager, PlayerInput playerInput, ShipInfo shipInfo, int id)
     {
         _manager = manager;
         _manager.OnTickStart += OnTickStart;
         _manager.OnTickEnd += OnTickEnd;
         _playerInput = playerInput;
+        _shipInfo = shipInfo;
         PlayerId = id;
         AllowingInput = false;
 
@@ -77,8 +77,8 @@ public class Player : Previewable
             AddPossibleInput(inputValue);
         }
 
-        _deathVFX = Instantiate(shipInfo.deathVFX, transform);
-        _shipSprite = shipInfo.shipSprite;
+        _deathVFX = Instantiate(_shipInfo.deathVFX, transform);
+        _shipSprite = _shipInfo.shipSprite;
         GetComponentInChildren<SpriteRenderer>().sprite = _shipSprite;        
     }
 
@@ -136,7 +136,7 @@ public class Player : Previewable
         {
             playerActionPerformedOn = this,
             inputValue = inputToRemove,
-            actionUI = shipInfo.inputsForSprites[inputToRemove]
+            actionUI = _shipInfo.inputsForSprites[inputToRemove]
         });
     }
 
@@ -278,7 +278,7 @@ public class Player : Previewable
             if (playerAction.inputValue == InputValue.Fire)
             {
                 var firingDirection = ConvertInputValueToDirection(playerAction.inputValue);
-                var bullet = _manager.CreateMovableAtTile(playerActedUpon.shipInfo.bullet, playerActedUpon, targetTile, firingDirection);
+                var bullet = _manager.CreateMovableAtTile(playerActedUpon._shipInfo.bullet, playerActedUpon, targetTile, firingDirection);
                 newPreview = _manager.CreatePreviewOfPreviewableAtTile(bullet, targetTile);
                 newPreview.isCreated = true;
                 _manager.AddPreviewAction(newPreview);
@@ -374,7 +374,7 @@ public class Player : Previewable
 
     public Sprite GetSpriteForInput(InputValue input)
     {
-        if (shipInfo.inputsForSprites.TryGetValue(input, out var sprite))
+        if (_shipInfo.inputsForSprites.TryGetValue(input, out var sprite))
         {
             return sprite;
         }

@@ -9,7 +9,8 @@ using System;
 
 public class GameManager : MonoBehaviour
 {
-    public List<GridCoordinate> _startingPlayerPositions;
+    public List<ShipInfo> shipInfos = new List<ShipInfo>();
+    public SerializedDictionary<int, List<GridCoordinate>> _startingPlayerPositions;
     [Range(2, 10)]
     public int ticksUntilRespawn = 3;
     public int numberOfLives = 3;
@@ -110,13 +111,14 @@ public class GameManager : MonoBehaviour
         if (newPlayer != null)
         {
             int playerId = _players.Count;
-            newPlayer.InitPlayer(this, playerInput, playerId);
-            newPlayer.transform.SetParent(transform);
-            var startingTile = GetStartingTileForPlayer(playerId);
-            SpawnPlayer(newPlayer, startingTile);            
+            newPlayer.InitPlayer(this, playerInput, shipInfos[playerId], playerId);
+            newPlayer.transform.SetParent(transform);           
 
             _players.Add(newPlayer);
             _playerLives.Add(numberOfLives);
+
+            var startingTile = GetStartingTileForPlayer(_players.Count, playerId);
+            SpawnPlayer(newPlayer, startingTile);
             OnPlayerJoinedGame?.Invoke(newPlayer, numberOfLives);
         }
 
@@ -127,9 +129,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    Tile GetStartingTileForPlayer(int playerId)
+    Tile GetStartingTileForPlayer(int playerAmount, int playerId)
     {
-        var startingPosition = _startingPlayerPositions[playerId];
+        var startingPosition = _startingPlayerPositions[playerAmount][playerId];
 
         //TODO: Add a default spawning position, if the one provided is no longer valid for some reason
         _gridSystem.TryGetTileByCoordinates(startingPosition.x, startingPosition.y, out var startingTile);
@@ -164,12 +166,15 @@ public class GameManager : MonoBehaviour
         //stop the tick loop
         UpdateGameState(GameState.Paused);
         //disable all players' controls
-        _players.ForEach(x => x.SetInputStatus(false));
-
-        //move player off screen
-        var currentPos = player.CurrentTile.GetTilePosition();
-        var offscreenPosition = _spawnSystem.GetOffscreenPosition(player.transform.up, currentPos, false);
-        player.TransitionToPosition(offscreenPosition, _tickDuration);
+        _players.ForEach(player => 
+        {
+            player.SetInputStatus(false);
+            //move player off screen
+            var currentPos = player.CurrentTile.GetTilePosition();
+            var offscreenPosition = _spawnSystem.GetOffscreenPosition(player.transform.up, currentPos, false);
+            player.TransitionToPosition(offscreenPosition, _tickDuration);
+        });
+        
         //lets everyone know that the screen has been finished        
     }
 
@@ -185,7 +190,7 @@ public class GameManager : MonoBehaviour
         //renable controls for players
         foreach (Player player in _players)
         {
-            var startingTile = GetStartingTileForPlayer(player.PlayerId);
+            var startingTile = GetStartingTileForPlayer(_players.Count, player.PlayerId);
             MovePlayerOntoSpawn(player, startingTile, _tickDuration);
         }
 
@@ -296,8 +301,7 @@ public class GameManager : MonoBehaviour
 
                 if (lives >= 0)
                 {
-                    var startingPosition = _startingPlayerPositions[player.PlayerId];
-                    _gridSystem.TryGetTileByCoordinates(startingPosition.x, startingPosition.y, out var spawnTile);
+                    var spawnTile = GetStartingTileForPlayer(_players.Count, player.PlayerId);
                     _spawnSystem.QueuePlayerToSpawn(player, spawnTile, _ticksSinceScreenStart + ticksUntilRespawn);
 
                     OnPlayerDeath?.Invoke(player, spawnTile, ticksUntilRespawn, lives);
@@ -400,7 +404,7 @@ public class GameManager : MonoBehaviour
         _attemptedPlayerActions.Add(playerPerformingAction, newPreview);
         _previewActions.Add(newPreview);
 
-        if (_isMovementAtInput)
+        if (_isMovementAtInput && _attemptedPlayerActions.Count == _players.Count) //wait until all the players have inputted before advancing
         {
             _tickElapsed = _tickDuration;
         }
