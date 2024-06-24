@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     public delegate void PlayerJoined(Player player, int numberOfLives);
     public PlayerJoined OnPlayerJoinedGame;
 
-    public delegate void PlayerDeath(Player player, Tile playerSpawnTile, int ticksUntilSpawn, int livesLeft);
+    public delegate void PlayerDeath(Player player, int livesLeft);
     public PlayerDeath OnPlayerDeath;
 
     public delegate void PlayerConditionStart(Player player, Condition condition);
@@ -292,6 +292,7 @@ public class GameManager : MonoBehaviour
                 int lives = _playerLives[player.PlayerId];
                 lives--;
                 _playerLives[player.PlayerId] = lives;
+                OnPlayerDeath?.Invoke(player, lives);
 
                 if (_playerLives.All(x => x <= 0))
                 {
@@ -299,12 +300,10 @@ public class GameManager : MonoBehaviour
                     return;
                 }
 
-                if (lives >= 0)
+                if (lives > 0)
                 {
                     var spawnTile = GetStartingTileForPlayer(_players.Count, player.PlayerId);
                     _spawnSystem.QueuePlayerToSpawn(player, spawnTile, _ticksSinceScreenStart + ticksUntilRespawn);
-
-                    OnPlayerDeath?.Invoke(player, spawnTile, ticksUntilRespawn, lives);
                 }
                 else
                 { 

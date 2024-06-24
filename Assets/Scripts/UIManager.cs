@@ -36,7 +36,7 @@ public class UIManager : MonoBehaviour, IManager
         playerStatus.AddPlayerReference(player, numberOfLives);
     }
 
-    void OnPlayerDeath(Player player, Tile playerSpawnTile, int ticksUntilSpawn, int livesLeft)
+    void OnPlayerDeath(Player player, int livesLeft)
     {
         var playerStatus = playerStatusUIs[player.PlayerId];
         playerStatus.DiedPlayerReference(livesLeft);
