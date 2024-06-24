@@ -279,41 +279,54 @@ public class GameManager : MonoBehaviour
         OnGameStateChanged?.Invoke(_currentGameState);
     }
 
+    public void HandlePlayerCollision(Player playerAttack, Player playerHit)
+    {
+        PlayerCollision(playerAttack);
+        PlayerCollision(playerHit);
+    }
+
     public void HandleGridObjectCollision(GridObject attacking, GridObject hit) //Should this be here in this state? Feels like something the grid object itself should be in charge of
     {
         attacking.DestroyObject();
-        
+
         if (hit.TryGetComponent<Player>(out var player))
         {
-            bool canPlayerDie = player.OnHit();
-            if (canPlayerDie)
-            {
-                player.OnDeath();
-                int lives = _playerLives[player.PlayerId];
-                lives--;
-                _playerLives[player.PlayerId] = lives;
-                OnPlayerDeath?.Invoke(player, lives);
-
-                if (_playerLives.All(x => x <= 0))
-                {
-                    UpdateGameState(GameState.GameOver);
-                    return;
-                }
-
-                if (lives > 0)
-                {
-                    var spawnTile = GetStartingTileForPlayer(_players.Count, player.PlayerId);
-                    _spawnSystem.QueuePlayerToSpawn(player, spawnTile, _ticksSinceScreenStart + ticksUntilRespawn);
-                }
-                else
-                { 
-                    //TODO: Waiting for player to put in more money
-                }
-            }
-            return;
+            PlayerCollision(player);
+        }
+        else
+        {
+            hit.DestroyObject();
         }
 
-        hit.DestroyObject();
+    }
+
+    void PlayerCollision(Player player)
+    {
+        bool canPlayerDie = player.OnHit();
+        if (canPlayerDie)
+        {
+            player.OnDeath();
+            int lives = _playerLives[player.PlayerId];
+            lives--;
+            _playerLives[player.PlayerId] = lives;
+            OnPlayerDeath?.Invoke(player, lives);
+
+            if (_playerLives.All(x => x <= 0))
+            {
+                UpdateGameState(GameState.GameOver);
+                return;
+            }
+
+            if (lives > 0)
+            {
+                var spawnTile = GetStartingTileForPlayer(_players.Count, player.PlayerId);
+                _spawnSystem.QueuePlayerToSpawn(player, spawnTile, _ticksSinceScreenStart + ticksUntilRespawn);
+            }
+            else
+            {
+                //TODO: Waiting for player to put in more money
+            }
+        }
     }
 
     public List<Player> GetAllCurrentPlayers()

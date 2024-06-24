@@ -294,6 +294,11 @@ public class Player : Previewable
 
     public bool OnHit()
     {
+        if (_isDestroyed)
+        { 
+            return false;
+        }
+
         bool isPlayerDead = true;
         _playerConditions.ForEach(condition =>
         {
@@ -385,5 +390,15 @@ public class Player : Previewable
     public void AddInputRenderer(InputValue value, InputRenderer renderer)
     {
         inputValueDisplays.Add(value, renderer);
+    }
+
+    protected override void PerformInteraction(Collider2D collision)
+    {
+        if (collision.TryGetComponent<Player>(out var player))
+        {
+            _manager.HandlePlayerCollision(this, player);
+        }
+
+        base.PerformInteraction(collision);
     }
 }
