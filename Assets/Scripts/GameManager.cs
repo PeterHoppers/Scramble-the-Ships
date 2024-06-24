@@ -205,8 +205,17 @@ public class GameManager : MonoBehaviour
         {
             if (_gridSystem.TryGetTileByCoordinates(spawn.spawnCoordinates.x, spawn.spawnCoordinates.y, out var spawnPosition))
             {
-                var spawnedObject = _spawnSystem.SpawnObjectAtTile(spawn.gridObject.gameObject, spawnPosition, spawn.gridObject.transform.rotation);
-                spawnedObject.GetComponent<GridObject>().SetupObject(this, _spawnSystem);
+                var rotation = _spawnSystem.GetRotationFromSpawnDirection(spawn.facingDirection);
+                var spawnedObject = _spawnSystem.SpawnObjectAtTile(spawn.gridObject.gameObject, spawnPosition, rotation);
+
+                if (spawnedObject.TryGetComponent<GridMovable>(out var movable))
+                {
+                    movable.SetupMoveable(this, _spawnSystem, spawnPosition);
+                }
+                else
+                {
+                    spawnedObject.GetComponent<GridObject>().SetupObject(this, _spawnSystem);
+                }                
             }
         }
     }

@@ -132,7 +132,7 @@ public class SpawnSystem : MonoBehaviour
         }
     }
 
-    Quaternion GetRotationFromSpawnDirection(SpawnDirections spawnDirection)
+    public Quaternion GetRotationFromSpawnDirection(SpawnDirections spawnDirection)
     {
         Quaternion rotation = Quaternion.identity;
         switch (spawnDirection)

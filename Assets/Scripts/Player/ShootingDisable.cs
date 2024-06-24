@@ -5,14 +5,10 @@ using UnityEngine;
 public class ShootingDisable : Condition
 {
     protected InputValue _disabledValue = InputValue.Fire;
-    void Start()
-    {
-        Duration = int.MaxValue;
-    }
 
-    public override void OnConditionStart(Player player)
+    public override void OnConditionStart(Player player, int duration)
     {
-        base.OnConditionStart(player);
+        base.OnConditionStart(player, duration);
         player.RemovePossibleInput(_disabledValue);
     }
 

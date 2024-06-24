@@ -8,6 +8,8 @@ public class EnemyShip : GridMovable
     [SerializeField]
     private ShipInfo shipInfo;
 
+    public int tickThatLoops = 0;
+
     [SerializedDictionary]
     public SerializedDictionary<int, InputValue> shipCommands;
 
@@ -36,6 +38,11 @@ public class EnemyShip : GridMovable
 
         base.CreateNextPreview(timeToTickEnd);
         _ticksSinceSpawn++;
+
+        if (tickThatLoops > 0 && _ticksSinceSpawn >= tickThatLoops)
+        {
+            _ticksSinceSpawn = 0;
+        }
     }
 
     public override void DestroyObject()

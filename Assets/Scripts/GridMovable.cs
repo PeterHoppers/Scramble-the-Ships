@@ -5,7 +5,7 @@ using UnityEngine;
 public class GridMovable : Previewable
 {
     [HideInInspector]
-    public Vector2 travelDirection = Vector2.up;
+    public Vector2 travelDirection = Vector2.zero;
 
     public virtual void SetupMoveable(GameManager manager, SpawnSystem spawnSystem, Tile startingTile)
     {

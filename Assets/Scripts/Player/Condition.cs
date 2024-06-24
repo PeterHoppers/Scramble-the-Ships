@@ -8,9 +8,11 @@ public abstract class Condition : MonoBehaviour
     protected Player Player { get; set; }
     private int _ticksRemaining;
 
-    public virtual void OnConditionStart(Player player)
+    public virtual void OnConditionStart(Player player, int duration)
     {
         Player = player;
+        Duration = duration;
+        _ticksRemaining = Duration;
     }
 
     public virtual void OnTickEnd()

@@ -53,7 +53,7 @@ public class Player : Previewable
         
         if (!newParameters.isShootingEnabled) 
         {
-            AddCondition<ShootingDisable>();
+            AddCondition<ShootingDisable>(int.MaxValue);
         }
     }
 
@@ -283,7 +283,7 @@ public class Player : Previewable
     public void OnSpawn()
     {
         _isDestroyed = false;
-        AddCondition<Respawn>();
+        AddCondition<Respawn>(Respawn.RespawnDuration);
         SetShipVisiblity(true);
     }
 
@@ -311,10 +311,10 @@ public class Player : Previewable
         }
     }
 
-    public void AddCondition<T>() where T : Condition
+    public void AddCondition<T>(int duration) where T : Condition
     {
         var newCondition = gameObject.AddComponent<T>();
-        newCondition.OnConditionStart(this);
+        newCondition.OnConditionStart(this, duration);
         _playerConditions.Add(newCondition);
         _manager.PlayerGainedCondition(this, newCondition);
     }
