@@ -236,6 +236,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 4e52e00a-97a9-4405-859d-153604530b0e
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1531159744596222164}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: OnPlayerPause
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 7efb5666-42e4-409b-bdd7-100a090a0bf2
+    m_ActionName: Player/New action
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
@@ -254,7 +270,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previewObject: {fileID: 0}
-  shipInfo: {fileID: 11400000, guid: 734a50b407aa8d241912080d302100db, type: 2}
   inputValueDisplays:
     _serializedList:
     - Key: 0

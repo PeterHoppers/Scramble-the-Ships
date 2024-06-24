@@ -34,6 +34,7 @@ public class TestParametersHandler : MonoBehaviour
     public TestParameters testParameters;
 
     [Header("UI Components")]
+    public GameObject testParamsHolder;
     public TMP_Dropdown amountScrambledDropdown;
     public Slider tickDurationSlider;
     public Slider tickScrambleSlider;
@@ -62,6 +63,7 @@ public class TestParametersHandler : MonoBehaviour
         shootingEnabledDropdown.onValueChanged.AddListener(delegate { OnShootingEnabledUpdate(); });
 
         OnParametersChanged?.Invoke(testParameters);
+        testParamsHolder.gameObject.SetActive(false);
     }
 
     void OnScrambleDropdownUpdate()
@@ -93,6 +95,12 @@ public class TestParametersHandler : MonoBehaviour
     {
         testParameters.isShootingEnabled = (shootingEnabledDropdown.value == 1);
         OnParametersChanged?.Invoke(testParameters);
+    }
+
+    public void ToggleOptions()
+    {
+        var isActive = testParamsHolder.activeSelf;
+        testParamsHolder.gameObject.SetActive(!isActive);
     }
 }
 

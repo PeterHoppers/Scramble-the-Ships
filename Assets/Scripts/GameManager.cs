@@ -164,7 +164,7 @@ public class GameManager : MonoBehaviour
     public void PlayerTriggeredScreenChange(Player player)
     {
         //stop the tick loop
-        UpdateGameState(GameState.Paused);
+        UpdateGameState(GameState.Transition);
         //disable all players' controls
         _players.ForEach(player => 
         {
@@ -261,6 +261,20 @@ public class GameManager : MonoBehaviour
         enemyShip.shipCommands = _commandSystem.commandBank[commandId].shipCommands;
     }
 
+    public void PauseGame()
+    {
+        if (_currentGameState == GameState.Paused)
+        {
+            UpdateGameState(GameState.Playing);
+            TestParametersHandler.Instance.ToggleOptions();
+        }
+        else if (_currentGameState == GameState.Playing)
+        {
+            UpdateGameState(GameState.Paused);
+            TestParametersHandler.Instance.ToggleOptions();
+        }
+    }
+
     void UpdateGameState(GameState gameState) 
     {
         _currentGameState = gameState;
@@ -270,10 +284,19 @@ public class GameManager : MonoBehaviour
             case GameState.Playing:
                 StartNextTick();
                 break;
-            case GameState.Paused:
+            case GameState.Transition:
             case GameState.GameOver: //this might run into a race condition with on tick end
                 _tickIsOccuring = false;
                 break;
+        }
+
+        if (_currentGameState == GameState.Paused)
+        {
+            Time.timeScale = 0;
+        }
+        else
+        {
+            Time.timeScale = 1;
         }
 
         OnGameStateChanged?.Invoke(_currentGameState);
@@ -560,6 +583,7 @@ public enum GameState
     Waiting,
     Playing,
     Paused,
+    Transition,
     Cutscene,
     GameOver
 }
