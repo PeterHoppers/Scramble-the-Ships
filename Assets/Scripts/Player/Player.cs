@@ -66,6 +66,7 @@ public class Player : Previewable
     public void InitPlayer(GameManager manager, PlayerInput playerInput, int id)
     {
         _manager = manager;
+        _manager.OnTickStart += OnTickStart;
         _manager.OnTickEnd += OnTickEnd;
         _playerInput = playerInput;
         PlayerId = id;
@@ -81,8 +82,36 @@ public class Player : Previewable
         GetComponentInChildren<SpriteRenderer>().sprite = _shipSprite;        
     }
 
+    private void OnTickStart(float _)
+    {
+        if (_isDestroyed)
+        {
+            return;
+        }
+
+        AllowingInput = true;
+        ClearSelected();
+    }
+
     private void OnTickEnd(int _)
     {
+        if (_isDestroyed) 
+        {
+            return;
+        }
+
+        AllowingInput = false;
+
+        foreach (var inputValue in inputValueDisplays)
+        {
+            if (_lastInput != null && _lastInput == inputValue.Key)
+            {
+                continue;
+            }
+
+            inputValue.Value.SetVisibility(false);
+        }
+
         //looping backwards like this allows us to safely remove items from the list
         for (int i = _playerConditions.Count - 1; i >= 0; i--) 
         {
@@ -134,6 +163,11 @@ public class Player : Previewable
 
     public void ClearSelected()
     {
+        foreach (var inputValue in inputValueDisplays)
+        {
+            inputValue.Value.SetVisibility(true);
+        }
+
         if (_lastInput != null)
         {
             inputValueDisplays[_lastInput.Value].DeselectInput();

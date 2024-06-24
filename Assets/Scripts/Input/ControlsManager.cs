@@ -43,12 +43,6 @@ public class ControlsManager : MonoBehaviour, IManager
         {
             _ticksSinceLastScramble = 0;
             UpdateShuffledValues();
-        }        
-
-        foreach (var player in _players)
-        {
-            player.ClearSelected();
-            player.AllowingInput = true;
         }
     }
 
