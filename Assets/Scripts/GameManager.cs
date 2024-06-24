@@ -10,6 +10,7 @@ using System;
 public class GameManager : MonoBehaviour
 {
     public List<GridCoordinate> _startingPlayerPositions;
+    [Range(2, 10)]
     public int ticksUntilRespawn = 3;
     public int numberOfLives = 3;
     public PreviewableBase previewableBase;
@@ -18,7 +19,7 @@ public class GameManager : MonoBehaviour
     public delegate void TickStart(float timeToTickEnd);
     public TickStart OnTickStart;
 
-    public delegate void TickEnd(float timeToTickStart);
+    public delegate void TickEnd(int nextTickNumber);
     public TickEnd OnTickEnd;
 
     public delegate void ScreenChange();
@@ -457,7 +458,7 @@ public class GameManager : MonoBehaviour
             movingObject.TransitionToTile(preview.previewTile, tickEndDuration);
         }
         
-        OnTickEnd?.Invoke(tickEndDuration);
+        OnTickEnd?.Invoke(_ticksSinceScreenStart);
     }
 
     void StartNextTick()

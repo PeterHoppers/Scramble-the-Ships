@@ -81,7 +81,7 @@ public class Player : Previewable
         GetComponentInChildren<SpriteRenderer>().sprite = _shipSprite;        
     }
 
-    private void OnTickEnd(float timeToTickStart)
+    private void OnTickEnd(int _)
     {
         //looping backwards like this allows us to safely remove items from the list
         for (int i = _playerConditions.Count - 1; i >= 0; i--) 
@@ -284,7 +284,14 @@ public class Player : Previewable
     {
         _isDestroyed = false;
         AddCondition<Respawn>(Respawn.RespawnDuration);
-        SetShipVisiblity(true);
+        _manager.OnTickStart += ShowVisiblity;
+
+        //use a local function to queue up a function for the next call of a event
+        void ShowVisiblity(float _)
+        {
+            SetShipVisiblity(true);
+            _manager.OnTickStart -= ShowVisiblity;
+        }
     }
 
     void SetShipVisiblity(bool isVisible)

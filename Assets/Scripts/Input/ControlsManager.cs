@@ -130,7 +130,7 @@ public class ControlsManager : MonoBehaviour, IManager
         return shuffledValues;
     }
 
-    private void OnTickEnd(float timeToTickStart)
+    private void OnTickEnd(int _)
     {
         foreach (var player in _players)
         {

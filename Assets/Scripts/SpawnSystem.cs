@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using AYellowpaper.SerializedCollections;
+using System;
 
 public class SpawnSystem : MonoBehaviour
 {
@@ -12,18 +13,27 @@ public class SpawnSystem : MonoBehaviour
     List<GameObject> _spawnList = new List<GameObject>();
 
     GameManager _gameManager;
-    int _ticksPassed;
 
     private void Awake()
     {
         _gameManager = GetComponent<GameManager>();
         _gameManager.OnTickEnd += OnTickEnd;
-        _gameManager.OnScreenChange += ResetTickCounter;
+        _gameManager.OnScreenChange += OnScreenChange;
     }
 
-    public void OnTickEnd(float duration)
+    void OnScreenChange()
     {
-        _queuedSpawns.TryGetValue(_ticksPassed, out var spawns);
+        SpawnItemsForTick(0);
+    }
+
+    void OnTickEnd(int ticksPassed)
+    {
+        SpawnItemsForTick(ticksPassed);
+    }
+
+    void SpawnItemsForTick(int tickNumber)
+    {
+        _queuedSpawns.TryGetValue(tickNumber, out var spawns);
 
         if (spawns != null)
         {
@@ -56,10 +66,8 @@ public class SpawnSystem : MonoBehaviour
                 }
             }
 
-            _queuedSpawns.Remove(_ticksPassed);
+            _queuedSpawns.Remove(tickNumber);
         }
-
-        _ticksPassed++;
     }
 
     public GameObject SpawnObjectAtTile(GameObject spawnObject, Tile spawnTile, Quaternion spawnRotation)
@@ -156,6 +164,12 @@ public class SpawnSystem : MonoBehaviour
 
     public void QueueEnemyToSpawn(EnemySpawn enemySpawn, int spawnTick)
     {
+        if (spawnTick == 0)
+        {
+            Debug.LogWarning("Enemies can only be previewed at tick end, meaning that ships can't be spawn on the 0th tick. Consider either moving them to the first tick.");
+            spawnTick = 1;
+        }
+
         var spawnCoordiantes = GetSpawnCoordinates(enemySpawn.spawnDirection, enemySpawn.otherCoordinate);
         var spawnPosition = _gameManager.GetByCoordinates(spawnCoordiantes);
         var spawnRotation = GetRotationFromSpawnDirection(enemySpawn.spawnDirection);
@@ -193,11 +207,6 @@ public class SpawnSystem : MonoBehaviour
         int spawnTickPreview = spawnTick - 1;
         AddSpawnInfoAtTick(playerSpawnPreview, spawnTickPreview);
         AddSpawnInfoAtTick(playerSpawn, spawnTick);
-    }
-
-    public void ResetTickCounter()
-    {
-        _ticksPassed = 0;
     }
 
     public void ClearObjects()
