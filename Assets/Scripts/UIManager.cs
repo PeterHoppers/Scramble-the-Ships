@@ -7,6 +7,8 @@ public class UIManager : MonoBehaviour, IManager
     public TickDurationUI tickDurationUI;
     public PlayerStatusUI[] playerStatusUIs;
     public GameStateDisplay gameStateDisplay;
+    public WinScreenUI winScreenUI;
+    public GameObject gameUIHolder;
     public TextMeshProUGUI tickAmountDisplay;
     public TextMeshProUGUI screenRemainingDisplay;
 
@@ -23,6 +25,18 @@ public class UIManager : MonoBehaviour, IManager
         _gameManager.OnPlayerDeath += OnPlayerDeath;
         _gameManager.OnGameStateChanged += OnGameStateChanged;
         _gameManager.OnScreenChange += OnScreenChange;
+        _gameManager.OnLevelEnd += OnLevelEnd;
+    }
+
+    void Awake()
+    {
+        winScreenUI.gameObject.SetActive(false);
+    }
+
+    void OnLevelEnd()
+    {
+        gameUIHolder.SetActive(false);
+        winScreenUI.gameObject.SetActive(true);
     }
 
     void OnScreenChange(int screensRemaining)

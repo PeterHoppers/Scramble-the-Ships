@@ -177,23 +177,21 @@ public class GameManager : MonoBehaviour
             var currentPos = player.CurrentTile.GetTilePosition();
             var offscreenPosition = _spawnSystem.GetOffscreenPosition(player.transform.up, currentPos, false);
             player.TransitionToPosition(offscreenPosition, _tickDuration);
-        });  
+        });
+
+        _screensRemainingInLevel--;
+
+        if (_screensRemainingInLevel <= 0)
+        {
+            OnLevelEnd?.Invoke();
+        }
     }
 
     public void ClearObjects()
     {
         //remove everything that was on the grid
         _spawnSystem.ClearObjects();
-        _screensRemainingInLevel--;
-
-        if (_screensRemainingInLevel > 0)
-        {
-            OnScreenChange?.Invoke(_screensRemainingInLevel);
-        }
-        else
-        {
-            OnLevelEnd?.Invoke();
-        }
+        OnScreenChange?.Invoke(_screensRemainingInLevel);
     }
 
     public IEnumerator ScreenAnimationChangeFinished()

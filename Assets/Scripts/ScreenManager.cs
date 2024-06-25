@@ -17,8 +17,14 @@ public class ScreenManager : MonoBehaviour, IManager
     {
         _gameManager = manager;
         _gameManager.OnScreenChange += OnScreenChange;
+        _gameManager.OnLevelEnd += OnLevelEnd;
         _screenAmount = levelScreens.Length;
         _gameManager.SetLevelInformation(_screenAmount);
+    }
+
+    void OnLevelEnd()
+    {
+        StopAllCoroutines();
     }
 
     void OnScreenChange(int screensRemaining)
