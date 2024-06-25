@@ -22,7 +22,7 @@ public class ScreenManager : MonoBehaviour, IManager
         _gameManager.SetLevelInformation(_screenAmount);
     }
 
-    void OnLevelEnd()
+    void OnLevelEnd(int _)
     {
         StopAllCoroutines();
     }

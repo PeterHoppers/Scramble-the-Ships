@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     public delegate void LevelStart(int levelId);
     public LevelStart OnLevelStart;
 
-    public delegate void LevelEnd();
+    public delegate void LevelEnd(int ticksPassed);
     public LevelEnd OnLevelEnd;
 
     public delegate void TickStart(float timeToTickEnd);
@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour
     float _tickElapsed = 0f;
     bool _tickIsOccuring = false;
     int _ticksSinceScreenStart = 0;
+    int _ticksSinceLevelStart = 0;
     int _screensRemainingInLevel = 0;
 
     int _lastIndexForScrambling = 4;
@@ -183,7 +184,7 @@ public class GameManager : MonoBehaviour
 
         if (_screensRemainingInLevel <= 0)
         {
-            OnLevelEnd?.Invoke();
+            OnLevelEnd?.Invoke(_ticksSinceLevelStart);
         }
     }
 
@@ -532,6 +533,7 @@ public class GameManager : MonoBehaviour
         OnTickStart?.Invoke(_tickDuration);
         _tickIsOccuring = true;
         _ticksSinceScreenStart++;
+        _ticksSinceLevelStart++;
         _tickElapsed = 0;
     }
 

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -33,10 +34,17 @@ public class UIManager : MonoBehaviour, IManager
         winScreenUI.gameObject.SetActive(false);
     }
 
-    void OnLevelEnd()
+    void OnLevelEnd(int ticksPassed)
     {
         gameUIHolder.SetActive(false);
+        StartCoroutine(RevealLevelEndText(ticksPassed));
+    }
+
+    IEnumerator RevealLevelEndText(int ticksPassed) 
+    {
+        yield return new WaitForSeconds(1f); //Ew.. 
         winScreenUI.gameObject.SetActive(true);
+        winScreenUI.SetLevelScore(ticksPassed);
     }
 
     void OnScreenChange(int screensRemaining)
