@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour, IManager
@@ -6,8 +7,11 @@ public class UIManager : MonoBehaviour, IManager
     public TickDurationUI tickDurationUI;
     public PlayerStatusUI[] playerStatusUIs;
     public GameStateDisplay gameStateDisplay;
+    public TextMeshProUGUI tickAmountDisplay;
+    public TextMeshProUGUI screenRemainingDisplay;
 
     GameManager _gameManager;
+    int _ticksPassed = 0;
 
     public void InitManager(GameManager manager)
     {
@@ -18,11 +22,19 @@ public class UIManager : MonoBehaviour, IManager
         _gameManager.OnPlayerConditionEnd += OnPlayerConditionEnd;
         _gameManager.OnPlayerDeath += OnPlayerDeath;
         _gameManager.OnGameStateChanged += OnGameStateChanged;
+        _gameManager.OnScreenChange += OnScreenChange;
+    }
+
+    void OnScreenChange(int screensRemaining)
+    {
+        screenRemainingDisplay.text = screensRemaining.ToString();
     }
 
     void OnTickStart(float duration)
     {
         tickDurationUI.TickDuration = duration;
+        _ticksPassed++;
+        tickAmountDisplay.text = _ticksPassed.ToString();
     }
 
     void OnGameStateChanged(GameState newState)

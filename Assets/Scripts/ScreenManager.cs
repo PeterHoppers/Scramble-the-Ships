@@ -11,27 +11,29 @@ public class ScreenManager : MonoBehaviour, IManager
     public ScreenChangeTrigger screenTrigger;
     public Screen[] levelScreens;
     GameManager _gameManager;
-    int _screenIndex = 0;
+    int _screenAmount = 0;
 
     public void InitManager(GameManager manager)
     {
         _gameManager = manager;
         _gameManager.OnScreenChange += OnScreenChange;
+        _screenAmount = levelScreens.Length;
+        _gameManager.SetLevelInformation(_screenAmount);
     }
 
-    void OnScreenChange()
+    void OnScreenChange(int screensRemaining)
     {
-        SetupScreen();
+        int levelIndex = _screenAmount - screensRemaining;
+        SetupScreen(levelIndex);
     }
 
-    public void SetupScreen()
+    public void SetupScreen(int screenIndex)
     {
-        var nextScreen = levelScreens[_screenIndex];
+        var nextScreen = levelScreens[screenIndex];
         _gameManager.SetScreenStarters(nextScreen.startingItems);
         _gameManager.SetQueuedEnemies(nextScreen.enemySpawnInformation);
         var screenTriggers = _gameManager.SetScreenTranistions(screenTrigger, nextScreen.transitionGrids);
         screenTriggers.ForEach(x => x.OnPlayerEntered += OnPlayerTriggeredScreenChange);
-        _screenIndex++;
     }
 
     void OnPlayerTriggeredScreenChange(Player player)
@@ -50,8 +52,4 @@ public class ScreenManager : MonoBehaviour, IManager
         yield return new WaitForSeconds(1f);
         StartCoroutine(_gameManager.ScreenAnimationChangeFinished());
     }
-
-    //get message that the screen has finished
-    //perform animation for screen transition
-    //can either set up the next screen or queue up some cutscenes
 }

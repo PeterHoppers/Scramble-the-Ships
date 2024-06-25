@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using AYellowpaper;
 using AYellowpaper.SerializedCollections;
-using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,13 +15,19 @@ public class GameManager : MonoBehaviour
     public PreviewableBase previewableBase;
 
     //GameManager Events
+    public delegate void LevelStart(int levelId);
+    public LevelStart OnLevelStart;
+
+    public delegate void LevelEnd();
+    public LevelEnd OnLevelEnd;
+
     public delegate void TickStart(float timeToTickEnd);
     public TickStart OnTickStart;
 
     public delegate void TickEnd(int nextTickNumber);
     public TickEnd OnTickEnd;
 
-    public delegate void ScreenChange();
+    public delegate void ScreenChange(int screensRemaining);
     public ScreenChange OnScreenChange;
 
     public delegate void GameStateChanged(GameState newState);
@@ -58,6 +62,7 @@ public class GameManager : MonoBehaviour
     float _tickElapsed = 0f;
     bool _tickIsOccuring = false;
     int _ticksSinceScreenStart = 0;
+    int _screensRemainingInLevel = 0;
 
     int _lastIndexForScrambling = 4;
 
@@ -66,23 +71,22 @@ public class GameManager : MonoBehaviour
         _gridSystem = GetComponent<GridSystem>();
         _spawnSystem = GetComponent<SpawnSystem>();
         _commandSystem = GetComponent<CommandSystem>();
+
         //all these grabbing from the parameters should be temp code, but who knows
-        TestParametersHandler.Instance.OnParametersChanged += UpdateAmountToScramble;
-    }
-
-    private void UpdateAmountToScramble(TestParameters newParameters)
-    {
-        _tickDuration = newParameters.tickDuration;
-        _isMovementAtInput = newParameters.doesMoveOnInput;
-
-        if (newParameters.amountControlsScrambled == 5)
+        TestParametersHandler.Instance.OnParametersChanged += (TestParameters newParameters) => 
         {
-            _lastIndexForScrambling = 5;
-        }
-        else
-        {
-            _lastIndexForScrambling = 4;
-        }
+            _tickDuration = newParameters.tickDuration;
+            _isMovementAtInput = newParameters.doesMoveOnInput;
+
+            if (newParameters.amountControlsScrambled == 5)
+            {
+                _lastIndexForScrambling = 5;
+            }
+            else
+            {
+                _lastIndexForScrambling = 4;
+            }
+        };
     }
 
     void Start()
@@ -124,7 +128,7 @@ public class GameManager : MonoBehaviour
 
         if (_players.Count == 1)
         {
-            OnScreenChange?.Invoke();
+            OnScreenChange?.Invoke(_screensRemainingInLevel);
             UpdateGameState(GameState.Playing);
         }
     }
@@ -173,16 +177,23 @@ public class GameManager : MonoBehaviour
             var currentPos = player.CurrentTile.GetTilePosition();
             var offscreenPosition = _spawnSystem.GetOffscreenPosition(player.transform.up, currentPos, false);
             player.TransitionToPosition(offscreenPosition, _tickDuration);
-        });
-        
-        //lets everyone know that the screen has been finished        
+        });  
     }
 
     public void ClearObjects()
     {
         //remove everything that was on the grid
         _spawnSystem.ClearObjects();
-        OnScreenChange?.Invoke();
+        _screensRemainingInLevel--;
+
+        if (_screensRemainingInLevel > 0)
+        {
+            OnScreenChange?.Invoke(_screensRemainingInLevel);
+        }
+        else
+        {
+            OnLevelEnd?.Invoke();
+        }
     }
 
     public IEnumerator ScreenAnimationChangeFinished()
@@ -203,6 +214,12 @@ public class GameManager : MonoBehaviour
         
         //renable game loop
         UpdateGameState(GameState.Playing);
+    }
+
+    // we'll need to think of how we're handling level information. When a user selects a level, do we have seperate scenes for that, or just passing in a different object that holds screen information?
+    public void SetLevelInformation(int screenAmount)
+    {
+        _screensRemainingInLevel = screenAmount;
     }
 
     public void SetScreenStarters(List<ScreenSpawns> screenStarters)

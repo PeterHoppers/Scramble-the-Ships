@@ -18,12 +18,6 @@ public class SpawnSystem : MonoBehaviour
     {
         _gameManager = GetComponent<GameManager>();
         _gameManager.OnTickEnd += OnTickEnd;
-        _gameManager.OnScreenChange += OnScreenChange;
-    }
-
-    void OnScreenChange()
-    {
-        SpawnItemsForTick(0);
     }
 
     void OnTickEnd(int ticksPassed)
