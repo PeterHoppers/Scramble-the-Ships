@@ -257,6 +257,11 @@ public class Player : Previewable
         _manager.PauseGame();
     }
 
+    public void OnPlayerRestart(InputAction.CallbackContext context)
+    {
+        _manager.RestartGame();
+    }
+
     //Takes the input pressed and the action that press triggered
     public void SendInput(InputValue pressedValue, PlayerAction playerAction)
     {

@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using AYellowpaper.SerializedCollections;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -185,6 +186,7 @@ public class GameManager : MonoBehaviour
         if (_screensRemainingInLevel <= 0)
         {
             OnLevelEnd?.Invoke(_ticksSinceLevelStart);
+            UpdateGameState(GameState.Win);
         }
     }
 
@@ -288,6 +290,15 @@ public class GameManager : MonoBehaviour
         {
             UpdateGameState(GameState.Paused);
             TestParametersHandler.Instance.ToggleOptions();
+        }
+    }
+
+    public void RestartGame()
+    {
+        if (_currentGameState == GameState.Win || _currentGameState == GameState.GameOver)
+        {
+            string currentSceneName = SceneManager.GetActiveScene().name;
+            SceneManager.LoadScene(currentSceneName);
         }
     }
 
@@ -602,5 +613,6 @@ public enum GameState
     Paused,
     Transition,
     Cutscene,
-    GameOver
+    GameOver,
+    Win
 }

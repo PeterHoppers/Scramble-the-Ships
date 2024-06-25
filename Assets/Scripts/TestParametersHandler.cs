@@ -19,15 +19,6 @@ public class TestParametersHandler : MonoBehaviour
 
     void Awake()
     {
-        if (instance == null)
-        {
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
         instance = this;
     }
 
@@ -44,7 +35,12 @@ public class TestParametersHandler : MonoBehaviour
     public delegate void ParametersChanged(TestParameters newParameters);
     public ParametersChanged OnParametersChanged;
 
-    void Start() 
+    void Start()
+    {
+        SetupSettings();
+    }
+
+    void SetupSettings()
     {
         var dropdownOptions = amountScrambledDropdown.options.Select(option => option.text).ToList();
         amountScrambledDropdown.value = dropdownOptions.IndexOf(testParameters.amountControlsScrambled.ToString());
@@ -63,7 +59,11 @@ public class TestParametersHandler : MonoBehaviour
         shootingEnabledDropdown.onValueChanged.AddListener(delegate { OnShootingEnabledUpdate(); });
 
         OnParametersChanged?.Invoke(testParameters);
-        testParamsHolder.gameObject.SetActive(false);
+
+        if (testParamsHolder.gameObject != null)
+        {
+            testParamsHolder.gameObject.SetActive(false);
+        }
     }
 
     void OnScrambleDropdownUpdate()
