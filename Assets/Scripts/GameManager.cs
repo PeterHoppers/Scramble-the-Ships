@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     public delegate void TickEnd(int nextTickNumber);
     public TickEnd OnTickEnd;
 
-    public delegate void ScreenChange(int screensRemaining);
+    public delegate void ScreenChange(int screensRemaining, float tickDuration);
     public ScreenChange OnScreenChange;
 
     public delegate void GameStateChanged(GameState newState);
@@ -109,7 +109,7 @@ public class GameManager : MonoBehaviour
 
     //TODO: Rework this so that joining is called in a different manner. 
     //Right now, we have a manager handling this joining, but we'll need to reconfigure it to be a button press
-    //Will ask Sean about how joinging a dsecond player normally goes
+    //Will ask Sean about how joining a second player normally goes
     public void OnPlayerJoined(PlayerInput playerInput)
     {
         playerInput.gameObject.TryGetComponent(out Player newPlayer);
@@ -124,15 +124,16 @@ public class GameManager : MonoBehaviour
             _playerLives.Add(numberOfLives);
 
             var startingTile = GetStartingTileForPlayer(_players.Count, playerId);
+
             SpawnPlayer(newPlayer, startingTile);
             OnPlayerJoinedGame?.Invoke(newPlayer, numberOfLives);
-        }
 
-        if (_players.Count == 1)
-        {
-            OnScreenChange?.Invoke(_screensRemainingInLevel);
-            UpdateGameState(GameState.Playing);
-        }
+            if (_players.Count == 1)
+            {
+                OnScreenChange?.Invoke(_screensRemainingInLevel, 0);
+                UpdateGameState(GameState.Transition);
+            }            
+        }        
     }
 
     Tile GetStartingTileForPlayer(int playerAmount, int playerId)
@@ -146,11 +147,11 @@ public class GameManager : MonoBehaviour
 
     public void SpawnPlayer(Player player, Tile tile)
     {
-        player.SetPosition(tile);
+        MovePlayerToOffScreenRelativeToTile(player, tile, _tickDuration / 4);
         player.OnSpawn();
     }
 
-    public void MovePlayerOntoSpawn(Player player, Tile tile, float duration)
+    public void MovePlayerToOffScreenRelativeToTile(Player player, Tile tile, float duration)
     {
         var offscreenPosition = _spawnSystem.GetOffscreenPosition(player.transform.up, tile.GetTilePosition(), true);
         player.TransitionToPosition(offscreenPosition, 0);
@@ -167,7 +168,20 @@ public class GameManager : MonoBehaviour
         OnPlayerConditionEnd?.Invoke(player, condition);
     }
 
-    public void PlayerTriggeredScreenChange(Player player)
+    #region Screen Change
+    // we'll need to think of how we're handling level information. When a user selects a level, do we have seperate scenes for that, or just passing in a different object that holds screen information?
+    public void SetLevelInformation(int screenAmount)
+    {
+        _screensRemainingInLevel = screenAmount;
+    }
+
+    /// <summary>
+    /// Screen Trigger -> Game Manager disables the player, moves them offscreen, and checks if game is done
+    /// if game is not done, call ScreenChange event
+    /// if game is done, call GameEnd event
+    /// </summary>
+    /// <param name="player"></param>
+    public void ScreenChangeTriggered(Player player)
     {
         //stop the tick loop
         UpdateGameState(GameState.Transition);
@@ -188,42 +202,49 @@ public class GameManager : MonoBehaviour
             OnLevelEnd?.Invoke(_ticksSinceLevelStart);
             UpdateGameState(GameState.Win);
         }
+        else
+        {
+            OnScreenChange?.Invoke(_screensRemainingInLevel, _tickDuration);
+        }
     }
 
-    public void ClearObjects()
+    public void SetupNextScreen(Screen screen, ScreenChangeTrigger screenTrigger)
     {
-        //remove everything that was on the grid
         _spawnSystem.ClearObjects();
-        OnScreenChange?.Invoke(_screensRemainingInLevel);
+        SetScreenStarters(screen.startingItems);
+        SetQueuedEnemies(screen.enemySpawnInformation);
+
+        //game manager subscribes to the screen transitions so it knows when the next screen is triggered
+        var screenTriggers = SetScreenTranistions(screenTrigger, screen.transitionGrids);
+        screenTriggers.ForEach(x => x.OnPlayerEntered += ScreenChangeTriggered);
     }
 
-    public IEnumerator ScreenAnimationChangeFinished()
+    //Screen Loaded - Occurs 2X Amount of Time After the Screen Change Event Based Upon Time Passed In There
+    //Move Ships Into Position
+    //Check for Cutscenes
+    //Apply Effects That came from the screen mananger
+    //Enable Players/Start Stick
+    public IEnumerator ScreenLoaded()
     {
         //renable controls for players
         foreach (Player player in _players)
         {
             var startingTile = GetStartingTileForPlayer(_players.Count, player.PlayerId);
-            MovePlayerOntoSpawn(player, startingTile, _tickDuration);
+            MovePlayerToOffScreenRelativeToTile(player, startingTile, _tickDuration);
         }
 
-        yield return new WaitForSeconds(_tickDuration);        
+        yield return new WaitForSeconds(_tickDuration);
 
         foreach (Player player in _players)
         {
             player.SetInputStatus(true);
         }
-        
+
         //renable game loop
         UpdateGameState(GameState.Playing);
     }
 
-    // we'll need to think of how we're handling level information. When a user selects a level, do we have seperate scenes for that, or just passing in a different object that holds screen information?
-    public void SetLevelInformation(int screenAmount)
-    {
-        _screensRemainingInLevel = screenAmount;
-    }
-
-    public void SetScreenStarters(List<ScreenSpawns> screenStarters)
+    void SetScreenStarters(List<ScreenSpawns> screenStarters)
     {
         foreach (var spawn in screenStarters)
         {
@@ -244,7 +265,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void SetQueuedEnemies(SerializedDictionary<int, EnemySpawn[]> screenWaves)
+    void SetQueuedEnemies(SerializedDictionary<int, EnemySpawn[]> screenWaves)
     {
         foreach (var screenPair in screenWaves)
         {
@@ -257,7 +278,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public List<ScreenChangeTrigger> SetScreenTranistions(ScreenChangeTrigger baseTrigger, List<GridCoordinate> transitionGrids)
+    List<ScreenChangeTrigger> SetScreenTranistions(ScreenChangeTrigger baseTrigger, List<GridCoordinate> transitionGrids)
     {
         var screenTriggers = new List<ScreenChangeTrigger>();
         foreach (var transition in transitionGrids)
@@ -273,6 +294,8 @@ public class GameManager : MonoBehaviour
 
         return screenTriggers;
     }
+
+    #endregion
 
     public void SendEnemyCommands(EnemyShip enemyShip, int commandId)
     {

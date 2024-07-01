@@ -41,7 +41,12 @@ public class InputRenderer : MonoBehaviour
     }
 
     public void SetVisibility(bool isVisible)
-    { 
+    {
+        if (_renderer == null)
+        {
+            SetRenderer();
+        }
         _renderer.gameObject.SetActive(isVisible);
+        _renderer.isEnable = isVisible;
     }
 }

@@ -35,6 +35,11 @@ public abstract class Previewable : GridObject
 
     public virtual void TransitionToPosition(Vector2 targetPosition, float duration)
     {
+        if (_transitioner == null)
+        {
+            _transitioner = GetComponent<TransformTransition>();
+        }
+
         _transitioner.MoveTo(targetPosition, duration);
     }
 

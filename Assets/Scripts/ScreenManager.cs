@@ -27,35 +27,34 @@ public class ScreenManager : MonoBehaviour, IManager
         StopAllCoroutines();
     }
 
-    void OnScreenChange(int screensRemaining)
+    void OnScreenChange(int screensRemaining, float tickDuration)
     {
         int levelIndex = _screenAmount - screensRemaining;
-        SetupScreen(levelIndex);
+        var nextScreen = levelScreens[levelIndex];
+
+        if (tickDuration > 0)
+        {
+            StartCoroutine(SceenChange(tickDuration, nextScreen));
+        }
+        else
+        {
+            _gameManager.SetupNextScreen(nextScreen, screenTrigger);
+            StartCoroutine(_gameManager.ScreenLoaded());
+        }
     }
 
-    public void SetupScreen(int screenIndex)
+    //Screen Change Event
+    //hides the screen with duration based upon time given in screen change event
+    //gives the game manager the information needed to set up the next screen
+    //reveals the new screen based upon a time given in the screen change event
+    IEnumerator SceenChange(float tickDuration, Screen nextScreen)
     {
-        var nextScreen = levelScreens[screenIndex];
-        _gameManager.SetScreenStarters(nextScreen.startingItems);
-        _gameManager.SetQueuedEnemies(nextScreen.enemySpawnInformation);
-        var screenTriggers = _gameManager.SetScreenTranistions(screenTrigger, nextScreen.transitionGrids);
-        screenTriggers.ForEach(x => x.OnPlayerEntered += OnPlayerTriggeredScreenChange);
-    }
-
-    void OnPlayerTriggeredScreenChange(Player player)
-    {
-        StartCoroutine(PerformAnimation(player));        
-    }
-
-    IEnumerator PerformAnimation(Player player)
-    {
+        animator.SetFloat("animSpeed", tickDuration); //since our animations are set to being 1.0s, this will change our animation to be whatever the tick duration is
         animator.Play("pan");
-        _gameManager.PlayerTriggeredScreenChange(player);
-        yield return new WaitForSeconds(1f); //todo: hook this up so that it actually knows how long the animatation should go for
-        _gameManager.ClearObjects(); 
-        yield return new WaitForSeconds(.25f);
+        yield return new WaitForSeconds(tickDuration);
+        _gameManager.SetupNextScreen(nextScreen, screenTrigger);
         animator.Play("close");
-        yield return new WaitForSeconds(1f);
-        StartCoroutine(_gameManager.ScreenAnimationChangeFinished());
+        yield return new WaitForSeconds(tickDuration);
+        StartCoroutine(_gameManager.ScreenLoaded());
     }
 }

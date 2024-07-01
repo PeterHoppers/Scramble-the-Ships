@@ -180,6 +180,12 @@ public class Player : Previewable
     {
         AllowingInput = isActive;
         SetInputVisibility(isActive);
+
+        if (_shipCollider == null)
+        {
+            _shipCollider = GetComponent<Collider2D>();
+        }
+
         _shipCollider.enabled = isActive;
     }
 
@@ -335,11 +341,13 @@ public class Player : Previewable
         _isDestroyed = false;
         AddCondition<Respawn>(Respawn.RespawnDuration);
         _manager.OnTickStart += ShowVisiblity;
+        SetInputStatus(false);
+        SetShipVisiblity(true);
 
         //use a local function to queue up a function for the next call of a event
         void ShowVisiblity(float _)
         {
-            SetShipVisiblity(true);
+            SetInputStatus(true);
             _manager.OnTickStart -= ShowVisiblity;
         }
     }
