@@ -3691,8 +3691,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 467cd097f2a985945a10a1feaa8171ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  effectsSystem: {fileID: 2124894465}
   testParameters:
-    amountControlsScrambled: 3
+    amountControlsScrambled: 0
     tickDuration: 1
     amountTickPerScramble: 1
     doesMoveOnInput: 1
@@ -3703,7 +3704,6 @@ MonoBehaviour:
   tickScrambleSlider: {fileID: 1614334609}
   moveOnInputDropdown: {fileID: 1187286052}
   shootingEnabledDropdown: {fileID: 1087571383}
-  effectsSystem: {fileID: 2124894465}
 --- !u!4 &710506044
 Transform:
   m_ObjectHideFlags: 0

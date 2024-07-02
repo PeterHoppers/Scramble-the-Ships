@@ -12,6 +12,7 @@ public class Screen : ScriptableObject
 
     [Header("Action Items")]
     public Dialogue screenDialogue;
+    public List<Effect> effects;
 
     [SerializedDictionary("Tick #", "Enemy Spawn Info")]
     public SerializedDictionary<int, EnemySpawn[]> enemySpawnInformation = new SerializedDictionary<int, EnemySpawn[]>();

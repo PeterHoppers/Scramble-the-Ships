@@ -48,6 +48,11 @@ public class DialogueSystem : MonoBehaviour
 
     public void SetDialogue(Dialogue dialogue)
     {
+        if (dialogue == null)
+        {
+            return;
+        }
+
         _currentDialogueNodes = dialogue.dialogueNodes;
     }
 

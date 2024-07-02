@@ -231,7 +231,13 @@ public class GameManager : MonoBehaviour
         var screenTriggers = SetScreenTranistions(screenTrigger, screen.transitionGrids);
         screenTriggers.ForEach(x => x.OnPlayerEntered += ScreenChangeTriggered);
 
-        _dialogueSystem.SetDialogue(screen.screenDialogue);
+        foreach (var effect in screen.effects)
+        {
+            _effectsSystem.PerformEffect(effect);
+        }
+
+        var screenDialgoue = screen.screenDialogue ?? null;
+        _dialogueSystem.SetDialogue(screenDialgoue);
     }
 
     //Screen Loaded - Occurs 2X Amount of Time After the Screen Change Event Based Upon Time Passed In There

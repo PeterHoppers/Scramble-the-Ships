@@ -22,6 +22,8 @@ public class TestParametersHandler : MonoBehaviour
         instance = this;
     }
 
+    public EffectsSystem effectsSystem; //this is kind of hacky, but again, this is supposed to be temp code
+
     public TestParameters testParameters;
 
     [Header("UI Components")]
@@ -31,8 +33,6 @@ public class TestParametersHandler : MonoBehaviour
     public Slider tickScrambleSlider;
     public TMP_Dropdown moveOnInputDropdown;
     public TMP_Dropdown shootingEnabledDropdown;
-
-    public EffectsSystem effectsSystem; //this is kind of hacky, but again, this is supposed to be temp code
 
     void Start()
     {
