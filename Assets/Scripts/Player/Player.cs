@@ -32,17 +32,17 @@ public class Player : Previewable
 
     private void Awake()
     {
-        TestParametersHandler.Instance.OnParametersChanged += ChangeShootingCondition;
+        
         _shipCollider = GetComponent<Collider2D>();
     }
 
-    private void ChangeShootingCondition(TestParameters newParameters)
+    private void ChangeShootingCondition(bool isShootingEnabled)
     {
-        bool isShootingDisabled = _playerConditions.Any(x => x.GetType() == typeof(ShootingDisable));
+        bool wasShootingDisabled = _playerConditions.Any(x => x.GetType() == typeof(ShootingDisable));
 
-        if (isShootingDisabled) 
+        if (wasShootingDisabled) 
         {
-            if (newParameters.isShootingEnabled)
+            if (isShootingEnabled)
             {
                 var condition = _playerConditions.First(x => x.GetType() == typeof(ShootingDisable));
                 condition.RemoveCondition(); //kind of going through the backdoor here. The condition should normally end itself, not some UI
@@ -50,7 +50,7 @@ public class Player : Previewable
             }
         }
         
-        if (!newParameters.isShootingEnabled) 
+        if (!isShootingEnabled) 
         {
             AddCondition<ShootingDisable>(int.MaxValue);
         }
@@ -59,7 +59,7 @@ public class Player : Previewable
     private void Start()
     {
         //for now, let's just add removing shooting on start. Let's consider adding on conditional check to see if we should
-        ChangeShootingCondition(TestParametersHandler.Instance.testParameters);
+        ChangeShootingCondition(false);
     }
 
     public void InitPlayer(GameManager manager, PlayerInput playerInput, ShipInfo shipInfo, int id)
@@ -67,6 +67,8 @@ public class Player : Previewable
         _manager = manager;
         _manager.OnTickStart += OnTickStart;
         _manager.OnTickEnd += OnTickEnd;
+        _manager.EffectsSystem.OnShootingChanged += (bool isAdded) => ChangeShootingCondition(isAdded);
+
         _playerInput = playerInput;
         _shipInfo = shipInfo;
         PlayerId = id;
@@ -79,7 +81,7 @@ public class Player : Previewable
 
         _deathVFX = Instantiate(_shipInfo.deathVFX, transform);
         _shipSprite = _shipInfo.shipSprite;
-        GetComponentInChildren<SpriteRenderer>().sprite = _shipSprite;        
+        GetComponentInChildren<SpriteRenderer>().sprite = _shipSprite;
     }
 
     private void OnTickStart(float _)

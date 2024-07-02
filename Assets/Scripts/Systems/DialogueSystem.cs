@@ -28,13 +28,13 @@ public class DialogueSystem : MonoBehaviour
     List<DialogueNode> _currentDialogueNodes = null;
     int _currentIndex = 0;
 
-    bool currentLineShown;
+    bool _currentLineShown;
     bool CurrentLineShown
     {
-        get => currentLineShown;
+        get => _currentLineShown;
         set
         {
-            currentLineShown = value;
+            _currentLineShown = value;
             continuePrompt.SetActive(value);
         }
     }

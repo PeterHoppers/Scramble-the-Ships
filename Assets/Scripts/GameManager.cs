@@ -57,8 +57,20 @@ public class GameManager : MonoBehaviour
     SpawnSystem _spawnSystem;
     CommandSystem _commandSystem;
     DialogueSystem _dialogueSystem;
+    EffectsSystem _effectsSystem;
+    public EffectsSystem EffectsSystem { get => _effectsSystem; }
 
     float _tickDuration = .5f;
+    float _tickEndDuration = .5f / 4;
+    float TickDuration
+    {
+        get => _tickDuration;
+        set
+        {
+            _tickDuration = value;
+            _tickEndDuration = value / 4;
+        }
+    }
     bool _isMovementAtInput = false;
 
     float _tickElapsed = 0f;
@@ -75,14 +87,13 @@ public class GameManager : MonoBehaviour
         _spawnSystem = GetComponent<SpawnSystem>();
         _commandSystem = GetComponent<CommandSystem>();
         _dialogueSystem = GetComponent<DialogueSystem>();
+        _effectsSystem = GetComponent<EffectsSystem>();
 
-        //all these grabbing from the parameters should be temp code, but who knows
-        TestParametersHandler.Instance.OnParametersChanged += (TestParameters newParameters) => 
+        _effectsSystem.OnTickDurationChanged += (float newDuration) => TickDuration = newDuration;
+        _effectsSystem.OnMoveOnInputChanged += (bool isMoveOnInput) => _isMovementAtInput = isMoveOnInput;
+        _effectsSystem.OnScrambleAmountChanged += (int scrambleAmount) =>
         {
-            _tickDuration = newParameters.tickDuration;
-            _isMovementAtInput = newParameters.doesMoveOnInput;
-
-            if (newParameters.amountControlsScrambled == 5)
+            if (scrambleAmount == 5)
             {
                 _lastIndexForScrambling = 5;
             }
@@ -149,7 +160,7 @@ public class GameManager : MonoBehaviour
 
     public void SpawnPlayer(Player player, Tile tile)
     {
-        MovePlayerToOffScreenRelativeToTile(player, tile, _tickDuration / 4);
+        MovePlayerToOffScreenRelativeToTile(player, tile, _tickEndDuration);
         player.OnSpawn();
     }
 
@@ -194,7 +205,7 @@ public class GameManager : MonoBehaviour
             //move player off screen
             var currentPos = player.CurrentTile.GetTilePosition();
             var offscreenPosition = _spawnSystem.GetOffscreenPosition(player.transform.up, currentPos, false);
-            player.TransitionToPosition(offscreenPosition, _tickDuration);
+            player.TransitionToPosition(offscreenPosition, TickDuration);
         });
 
         _screensRemainingInLevel--;
@@ -206,7 +217,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            OnScreenChange?.Invoke(_screensRemainingInLevel, _tickDuration);
+            OnScreenChange?.Invoke(_screensRemainingInLevel, TickDuration);
         }
     }
 
@@ -234,10 +245,10 @@ public class GameManager : MonoBehaviour
         foreach (Player player in _players)
         {
             var startingTile = GetStartingTileForPlayer(_players.Count, player.PlayerId);
-            MovePlayerToOffScreenRelativeToTile(player, startingTile, _tickDuration);
+            MovePlayerToOffScreenRelativeToTile(player, startingTile, TickDuration);
         }
 
-        yield return new WaitForSeconds(_tickDuration);
+        yield return new WaitForSeconds(TickDuration);
 
         if (_dialogueSystem.HasDialgoue())
         {
@@ -524,7 +535,7 @@ public class GameManager : MonoBehaviour
 
         if (_isMovementAtInput && _attemptedPlayerActions.Count == _players.Count) //wait until all the players have inputted before advancing
         {
-            _tickElapsed = _tickDuration;
+            _tickElapsed = TickDuration;
         }
     }
 
@@ -541,7 +552,7 @@ public class GameManager : MonoBehaviour
         }
 
         _tickElapsed += Time.deltaTime;
-        if (_tickElapsed >= _tickDuration) 
+        if (_tickElapsed >= TickDuration) 
         {
             StartCoroutine(SetupNewTick());
         }
@@ -550,9 +561,8 @@ public class GameManager : MonoBehaviour
     IEnumerator SetupNewTick()
     {
         _tickIsOccuring = false;
-        var tickEndDuration = _tickDuration / 4;
-        EndCurrentTick(tickEndDuration);
-        yield return new WaitForSeconds(tickEndDuration);
+        EndCurrentTick(_tickEndDuration);
+        yield return new WaitForSeconds(_tickEndDuration);
 
         //something might have occured during the tick end where the game state changed from playing, so only start another tick if we're still playing
         if (_currentGameState == GameState.Playing)
@@ -597,7 +607,7 @@ public class GameManager : MonoBehaviour
         }
 
         _attemptedPlayerActions.Clear();
-        OnTickStart?.Invoke(_tickDuration);
+        OnTickStart?.Invoke(TickDuration);
         _tickIsOccuring = true;
         _ticksSinceScreenStart++;
         _ticksSinceLevelStart++;
@@ -633,7 +643,7 @@ public class GameManager : MonoBehaviour
 
     public float GetTimeRemainingInTick()
     {
-        float timeRemaining = _tickDuration - _tickElapsed;
+        float timeRemaining = TickDuration - _tickElapsed;
         if (timeRemaining < 0)
         { 
             timeRemaining = 0;

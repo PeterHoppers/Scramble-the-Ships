@@ -16,24 +16,16 @@ public class ControlsManager : MonoBehaviour, IManager
     int _ticksPerScramble = 1;
     int _ticksSinceLastScramble = 0;
 
-    private void Awake()
-    {
-        TestParametersHandler.Instance.OnParametersChanged += UpdateAmountToScramble;
-    }
-
-    private void UpdateAmountToScramble(TestParameters newParameters)
-    {
-        _amountToScramble = newParameters.amountControlsScrambled;
-        _ticksPerScramble = newParameters.amountTickPerScramble;
-    }
-
     public void InitManager(GameManager manager)
     {
         _gameManager = manager;
         _gameManager.OnTickStart += CheckIfScramble;
         _gameManager.OnTickEnd += OnTickEnd;
         _gameManager.OnPlayerJoinedGame += OnPlayerJoined;
-    }
+
+        _gameManager.EffectsSystem.OnScrambleAmountChanged += (int scrambleAmount) => _amountToScramble = scrambleAmount;
+        _gameManager.EffectsSystem.OnTicksUntilScrambleChanged += (int tickAmount) => _ticksPerScramble = tickAmount;
+    }  
 
     void CheckIfScramble(float tickTime)
     {

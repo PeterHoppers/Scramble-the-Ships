@@ -32,8 +32,7 @@ public class TestParametersHandler : MonoBehaviour
     public TMP_Dropdown moveOnInputDropdown;
     public TMP_Dropdown shootingEnabledDropdown;
 
-    public delegate void ParametersChanged(TestParameters newParameters);
-    public ParametersChanged OnParametersChanged;
+    public EffectsSystem effectsSystem; //this is kind of hacky, but again, this is supposed to be temp code
 
     void Start()
     {
@@ -56,45 +55,49 @@ public class TestParametersHandler : MonoBehaviour
         tickScrambleSlider.onValueChanged.AddListener(delegate { OnTickScrambleUpdate(); });
 
         shootingEnabledDropdown.value = (testParameters.isShootingEnabled) ? 1 : 0;
-        shootingEnabledDropdown.onValueChanged.AddListener(delegate { OnShootingEnabledUpdate(); });
-
-        OnParametersChanged?.Invoke(testParameters);
+        shootingEnabledDropdown.onValueChanged.AddListener(delegate { OnShootingEnabledUpdate(); });       
 
         if (testParamsHolder.gameObject != null)
         {
             testParamsHolder.gameObject.SetActive(false);
         }
+
+        effectsSystem.OnScrambleAmountChanged?.Invoke(testParameters.amountControlsScrambled);
+        effectsSystem.OnTickDurationChanged?.Invoke(testParameters.tickDuration);
+        effectsSystem.OnTicksUntilScrambleChanged?.Invoke(testParameters.amountTickPerScramble);
+        effectsSystem.OnMoveOnInputChanged?.Invoke(testParameters.doesMoveOnInput);
+        effectsSystem.OnShootingChanged?.Invoke(!testParameters.isShootingEnabled);
     }
 
     void OnScrambleDropdownUpdate()
     {
         var dropdownOptions = amountScrambledDropdown.options.Select(option => option.text).ToList();
         testParameters.amountControlsScrambled = int.Parse(dropdownOptions[amountScrambledDropdown.value]);
-        OnParametersChanged?.Invoke(testParameters);
+        effectsSystem.OnScrambleAmountChanged?.Invoke(testParameters.amountControlsScrambled);
     }
 
     void OnTickDurationUpdate()
     {
         testParameters.tickDuration = tickDurationSlider.value / 10;
-        OnParametersChanged?.Invoke(testParameters);
+        effectsSystem.OnTickDurationChanged?.Invoke(testParameters.tickDuration);
     }
 
     void OnMoveInputUpdate()
     {
         testParameters.doesMoveOnInput = (moveOnInputDropdown.value == 1);
-        OnParametersChanged?.Invoke(testParameters);
+        effectsSystem.OnMoveOnInputChanged?.Invoke(testParameters.doesMoveOnInput);
     }
 
     void OnTickScrambleUpdate()
     {
         testParameters.amountTickPerScramble = (int)tickScrambleSlider.value;
-        OnParametersChanged?.Invoke(testParameters);
+        effectsSystem.OnTicksUntilScrambleChanged?.Invoke(testParameters.amountTickPerScramble);
     }
 
     void OnShootingEnabledUpdate()
     {
         testParameters.isShootingEnabled = (shootingEnabledDropdown.value == 1);
-        OnParametersChanged?.Invoke(testParameters);
+        effectsSystem.OnShootingChanged?.Invoke(!testParameters.isShootingEnabled);
     }
 
     public void ToggleOptions()

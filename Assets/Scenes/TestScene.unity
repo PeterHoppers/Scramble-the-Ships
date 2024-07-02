@@ -3703,6 +3703,7 @@ MonoBehaviour:
   tickScrambleSlider: {fileID: 1614334609}
   moveOnInputDropdown: {fileID: 1187286052}
   shootingEnabledDropdown: {fileID: 1087571383}
+  effectsSystem: {fileID: 2124894465}
 --- !u!4 &710506044
 Transform:
   m_ObjectHideFlags: 0
@@ -10293,6 +10294,7 @@ GameObject:
   - component: {fileID: 2124894462}
   - component: {fileID: 2124894463}
   - component: {fileID: 2124894464}
+  - component: {fileID: 2124894465}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -10432,6 +10434,18 @@ MonoBehaviour:
   dialogueHolder: {fileID: 338661237}
   continuePrompt: {fileID: 149648192}
   dialogueText: {fileID: 1859451739}
+--- !u!114 &2124894465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124894457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d24e90462e2f8014a85fb1fd70a8f2f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4531162659611141552
 PrefabInstance:
   m_ObjectHideFlags: 0
