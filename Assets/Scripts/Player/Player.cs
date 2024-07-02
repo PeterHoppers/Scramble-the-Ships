@@ -239,14 +239,19 @@ public class Player : Previewable
 
     public void OnPlayerFire(InputAction.CallbackContext context)
     {
-        if (!AllowingInput || _isDestroyed)
+        var fired = context.ReadValueAsButton();
+
+        if (fired == false)
         {
             return;
         }
 
-        var fired = context.ReadValueAsButton();
+        if (_manager.IsInDialogue())
+        {
+            _manager.PlayerAdvancedDialogue();
+        }
 
-        if (fired == false)
+        if (!AllowingInput || _isDestroyed)
         {
             return;
         }

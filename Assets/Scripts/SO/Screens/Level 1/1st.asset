@@ -59,5 +59,6 @@ MonoBehaviour:
     y:
       anchor: 2
       offset: 0
+  screenDialogue: {fileID: 11400000, guid: e02ade380974da143a92ede59bb8e974, type: 2}
   enemySpawnInformation:
     _serializedList: []

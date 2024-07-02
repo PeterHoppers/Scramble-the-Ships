@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
     GridSystem _gridSystem;
     SpawnSystem _spawnSystem;
     CommandSystem _commandSystem;
+    DialogueSystem _dialogueSystem;
 
     float _tickDuration = .5f;
     bool _isMovementAtInput = false;
@@ -73,6 +74,7 @@ public class GameManager : MonoBehaviour
         _gridSystem = GetComponent<GridSystem>();
         _spawnSystem = GetComponent<SpawnSystem>();
         _commandSystem = GetComponent<CommandSystem>();
+        _dialogueSystem = GetComponent<DialogueSystem>();
 
         //all these grabbing from the parameters should be temp code, but who knows
         TestParametersHandler.Instance.OnParametersChanged += (TestParameters newParameters) => 
@@ -217,6 +219,8 @@ public class GameManager : MonoBehaviour
         //game manager subscribes to the screen transitions so it knows when the next screen is triggered
         var screenTriggers = SetScreenTranistions(screenTrigger, screen.transitionGrids);
         screenTriggers.ForEach(x => x.OnPlayerEntered += ScreenChangeTriggered);
+
+        _dialogueSystem.SetDialogue(screen.screenDialogue);
     }
 
     //Screen Loaded - Occurs 2X Amount of Time After the Screen Change Event Based Upon Time Passed In There
@@ -235,6 +239,35 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(_tickDuration);
 
+        if (_dialogueSystem.HasDialgoue())
+        {
+            _dialogueSystem.StartDialogue();
+            _dialogueSystem.OnDialogueEnd += WaitUntilDialogueEnds;
+            UpdateGameState(GameState.Dialogue);
+            void WaitUntilDialogueEnds()
+            {
+                RenablePlaying();
+                _dialogueSystem.OnDialogueEnd -= WaitUntilDialogueEnds;
+            }
+        }
+        else
+        {
+            RenablePlaying();
+        }
+    }
+
+    public bool IsInDialogue()
+    { 
+        return (_currentGameState == GameState.Dialogue);
+    }
+
+    public void PlayerAdvancedDialogue()
+    { 
+        _dialogueSystem.AdvanceDialoguePressed();
+    }
+
+    void RenablePlaying()
+    {
         foreach (Player player in _players)
         {
             player.SetInputStatus(true);
@@ -635,7 +668,7 @@ public enum GameState
     Playing,
     Paused,
     Transition,
-    Cutscene,
+    Dialogue,
     GameOver,
     Win
 }

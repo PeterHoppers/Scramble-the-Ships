@@ -6,8 +6,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Screen", menuName = "Screen")]
 public class Screen : ScriptableObject
 {
+    [Header("Start Grid Coordinates")]
     public List<ScreenSpawns> startingItems = new List<ScreenSpawns>();
     public List<GridCoordinate> transitionGrids = new List<GridCoordinate>();
+
+    [Header("Action Items")]
+    public Dialogue screenDialogue;
 
     [SerializedDictionary("Tick #", "Enemy Spawn Info")]
     public SerializedDictionary<int, EnemySpawn[]> enemySpawnInformation = new SerializedDictionary<int, EnemySpawn[]>();
