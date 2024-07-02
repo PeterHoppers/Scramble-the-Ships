@@ -77,6 +77,10 @@ MonoBehaviour:
     y:
       anchor: 2
       offset: 0
+  screenDialogue: {fileID: 0}
+  effects:
+  - type: 0
+    amount: 3
   enemySpawnInformation:
     _serializedList:
     - Key: 1

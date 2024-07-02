@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingItems:
   - gridObject: {fileID: 4968857197367180557, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
+    facingDirection: 0
     spawnCoordinates:
       x:
         anchor: 1
@@ -22,6 +23,7 @@ MonoBehaviour:
         anchor: 1
         offset: 0
   - gridObject: {fileID: 4968857197367180557, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
+    facingDirection: 0
     spawnCoordinates:
       x:
         anchor: 1
@@ -30,6 +32,7 @@ MonoBehaviour:
         anchor: 1
         offset: 2
   - gridObject: {fileID: 4968857197367180557, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
+    facingDirection: 0
     spawnCoordinates:
       x:
         anchor: 1
@@ -38,6 +41,7 @@ MonoBehaviour:
         anchor: 1
         offset: 2
   - gridObject: {fileID: 4968857197367180557, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
+    facingDirection: 0
     spawnCoordinates:
       x:
         anchor: 1
@@ -46,6 +50,7 @@ MonoBehaviour:
         anchor: 1
         offset: 4
   - gridObject: {fileID: 4968857197367180557, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
+    facingDirection: 0
     spawnCoordinates:
       x:
         anchor: 1
@@ -72,5 +77,9 @@ MonoBehaviour:
     y:
       anchor: 2
       offset: 0
+  screenDialogue: {fileID: 0}
+  effects:
+  - type: 4
+    amount: 1
   enemySpawnInformation:
     _serializedList: []

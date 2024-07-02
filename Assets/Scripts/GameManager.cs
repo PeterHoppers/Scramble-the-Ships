@@ -196,6 +196,7 @@ public class GameManager : MonoBehaviour
     /// <param name="player"></param>
     public void ScreenChangeTriggered(Player player)
     {
+        ClearAllPreviews();
         //stop the tick loop
         UpdateGameState(GameState.Transition);
         //disable all players' controls
@@ -226,18 +227,14 @@ public class GameManager : MonoBehaviour
         _spawnSystem.ClearObjects();
         SetScreenStarters(screen.startingItems);
         SetQueuedEnemies(screen.enemySpawnInformation);
-
-        //game manager subscribes to the screen transitions so it knows when the next screen is triggered
-        var screenTriggers = SetScreenTranistions(screenTrigger, screen.transitionGrids);
-        screenTriggers.ForEach(x => x.OnPlayerEntered += ScreenChangeTriggered);
+        SetScreenTranistions(screenTrigger, screen.transitionGrids);
 
         foreach (var effect in screen.effects)
         {
             _effectsSystem.PerformEffect(effect);
         }
 
-        var screenDialgoue = screen.screenDialogue ?? null;
-        _dialogueSystem.SetDialogue(screenDialgoue);
+        _dialogueSystem.SetDialogue(screen.screenDialogue);
     }
 
     //Screen Loaded - Occurs 2X Amount of Time After the Screen Change Event Based Upon Time Passed In There
@@ -601,6 +598,16 @@ public class GameManager : MonoBehaviour
 
     void StartNextTick()
     {
+        ClearAllPreviews();
+        OnTickStart?.Invoke(TickDuration);
+        _tickIsOccuring = true;
+        _ticksSinceScreenStart++;
+        _ticksSinceLevelStart++;
+        _tickElapsed = 0;
+    }
+
+    void ClearAllPreviews()
+    {
         //check if we should remove the preview, rather than always removing it
         for (int index = _previewActions.Count - 1; index >= 0; index--)
         {
@@ -613,11 +620,6 @@ public class GameManager : MonoBehaviour
         }
 
         _attemptedPlayerActions.Clear();
-        OnTickStart?.Invoke(TickDuration);
-        _tickIsOccuring = true;
-        _ticksSinceScreenStart++;
-        _ticksSinceLevelStart++;
-        _tickElapsed = 0;
     }
 
     public Tile GetTileFromInput(Previewable inputSource, InputValue input)

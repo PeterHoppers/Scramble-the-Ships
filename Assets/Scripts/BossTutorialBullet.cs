@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScreenChangeTrigger : GridObject
+public class BossTutorialBullet : Bullet
 {
     protected override void PerformInteraction(Collider2D collision)
     {
