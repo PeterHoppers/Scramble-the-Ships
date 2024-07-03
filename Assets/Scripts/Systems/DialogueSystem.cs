@@ -100,8 +100,10 @@ public class DialogueSystem : MonoBehaviour
 
     void EndDialogue()
     {
+        dialogueText.ShowText("");
         dialogueHolder.SetActive(false);
         OnDialogueEnd?.Invoke();
         _currentDialogueNodes = null;
+        CurrentLineShown = false;
     }
 }

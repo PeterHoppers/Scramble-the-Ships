@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53eb3f1cbb508f54abbcf1790983544d, type: 3}
-  m_Name: 4th
+  m_Name: 5th
   m_EditorClassIdentifier: 
   startingItems:
-  - gridObject: {fileID: 3855580939222141806, guid: 479e4e8526c713e40b4b6cc0a3eab0dd, type: 3}
+  - gridObject: {fileID: 4968857197367180557, guid: 5353b18247066644385330a06f51dc04, type: 3}
     facingDirection: 0
     spawnCoordinates:
       x:
@@ -21,34 +21,25 @@ MonoBehaviour:
         offset: 0
       y:
         anchor: 1
-        offset: 2
-  - gridObject: {fileID: 3855580939222141806, guid: 479e4e8526c713e40b4b6cc0a3eab0dd, type: 3}
-    facingDirection: 2
+        offset: 0
+  - gridObject: {fileID: 4968857197367180557, guid: 5353b18247066644385330a06f51dc04, type: 3}
+    facingDirection: 0
     spawnCoordinates:
       x:
         anchor: 0
         offset: 0
       y:
         anchor: 1
-        offset: -3
-  - gridObject: {fileID: 3855580939222141806, guid: 479e4e8526c713e40b4b6cc0a3eab0dd, type: 3}
-    facingDirection: 3
+        offset: 0
+  - gridObject: {fileID: 4968857197367180557, guid: 5353b18247066644385330a06f51dc04, type: 3}
+    facingDirection: 0
     spawnCoordinates:
       x:
         anchor: 2
         offset: 0
       y:
         anchor: 1
-        offset: -3
-  - gridObject: {fileID: 775629476141645173, guid: 27054de3c1525b44784b07572fd71a1a, type: 3}
-    facingDirection: 1
-    spawnCoordinates:
-      x:
-        anchor: 1
         offset: 0
-      y:
-        anchor: 2
-        offset: 2
   transitionGrids:
   - x:
       anchor: 1
@@ -68,7 +59,7 @@ MonoBehaviour:
     y:
       anchor: 2
       offset: 0
-  screenDialogue: {fileID: 0}
+  screenDialogue: {fileID: 11400000, guid: 1f2253c2284968e4798384dde544282e, type: 2}
   effects: []
   enemySpawnInformation:
     _serializedList: []

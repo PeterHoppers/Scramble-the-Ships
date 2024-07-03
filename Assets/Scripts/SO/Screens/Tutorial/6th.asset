@@ -10,45 +10,36 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53eb3f1cbb508f54abbcf1790983544d, type: 3}
-  m_Name: 4th
+  m_Name: 6th
   m_EditorClassIdentifier: 
   startingItems:
-  - gridObject: {fileID: 3855580939222141806, guid: 479e4e8526c713e40b4b6cc0a3eab0dd, type: 3}
+  - gridObject: {fileID: 7509605564329555489, guid: 96a8fb82fe2a705438af526bb65f60bf, type: 3}
+    facingDirection: 0
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: 2
+      y:
+        anchor: 2
+        offset: 3
+  - gridObject: {fileID: 7509605564329555489, guid: 96a8fb82fe2a705438af526bb65f60bf, type: 3}
     facingDirection: 0
     spawnCoordinates:
       x:
         anchor: 1
         offset: 0
       y:
-        anchor: 1
-        offset: 2
-  - gridObject: {fileID: 3855580939222141806, guid: 479e4e8526c713e40b4b6cc0a3eab0dd, type: 3}
-    facingDirection: 2
-    spawnCoordinates:
-      x:
-        anchor: 0
-        offset: 0
-      y:
-        anchor: 1
-        offset: -3
-  - gridObject: {fileID: 3855580939222141806, guid: 479e4e8526c713e40b4b6cc0a3eab0dd, type: 3}
-    facingDirection: 3
-    spawnCoordinates:
-      x:
         anchor: 2
-        offset: 0
-      y:
-        anchor: 1
-        offset: -3
-  - gridObject: {fileID: 775629476141645173, guid: 27054de3c1525b44784b07572fd71a1a, type: 3}
-    facingDirection: 1
+        offset: 3
+  - gridObject: {fileID: 7509605564329555489, guid: 96a8fb82fe2a705438af526bb65f60bf, type: 3}
+    facingDirection: 0
     spawnCoordinates:
       x:
         anchor: 1
-        offset: 0
+        offset: -2
       y:
         anchor: 2
-        offset: 2
+        offset: 3
   transitionGrids:
   - x:
       anchor: 1
