@@ -10,8 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9caf14b9ac11b424f8e1216a9c685b09, type: 3}
-  m_Name: Test
+  m_Name: Tutorial 2
   m_EditorClassIdentifier: 
   dialogueNodes:
-  - textToDisplay: Here is some text to show that it is working properly
-  - textToDisplay: And here's some more text to see if we can advance it
+  - textToDisplay: The main benefit of this time-modifying grid is that foreign objects
+      are wrapped into its time manipulation as well.
+  - textToDisplay: This will give you time to plan your route around the obstacles,
+      although that might be trivial for an experienced pilot like you.

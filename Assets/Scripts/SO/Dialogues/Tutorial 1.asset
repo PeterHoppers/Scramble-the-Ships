@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9caf14b9ac11b424f8e1216a9c685b09, type: 3}
+  m_Name: Tutorial 1
+  m_EditorClassIdentifier: 
+  dialogueNodes:
+  - textToDisplay: "As we\u2019re now entering alien territory, we will initialize
+      our cutting-edge time-modifying grid movement system whenever we find obstacles.\r"
+  - textToDisplay: "If the ship is ever destroyed, it will reform itself where it
+      first activated this system. The ship only has the ability to do this a certain
+      number of times.\r"
+  - textToDisplay: Navigate through the grid to the top where those glowing squares
+      are located to move onto the next screen.

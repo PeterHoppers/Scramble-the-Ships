@@ -5627,12 +5627,9 @@ MonoBehaviour:
   animator: {fileID: 75354761}
   screenTrigger: {fileID: 2468367493126450250, guid: 7b5dc0bb57b038546b2c56ff24917b51, type: 3}
   levelScreens:
-  - {fileID: 11400000, guid: 43c261739b65dd543ae69b6c6ee49f57, type: 2}
-  - {fileID: 11400000, guid: c698287df4289ac4c839879fda959433, type: 2}
-  - {fileID: 11400000, guid: 12a2c099ff6dd2e408e7579356a1bcc9, type: 2}
-  - {fileID: 11400000, guid: 54dc7bab36db67e4da0bb4fc83c8ca89, type: 2}
-  - {fileID: 11400000, guid: f22d92276758a57479dc359b11bbccf4, type: 2}
-  - {fileID: 11400000, guid: f0b4c55d7b116674388d7da27016b87b, type: 2}
+  - {fileID: 11400000, guid: d60b2debb31b3fa4fb3f821a0f2b3f02, type: 2}
+  - {fileID: 11400000, guid: 839a4d3cc2e7ddc4c8882198400194da, type: 2}
+  - {fileID: 11400000, guid: f51d075184bc8df4c9bab1033bebc6a0, type: 2}
 --- !u!1 &1187286050
 GameObject:
   m_ObjectHideFlags: 0
@@ -9314,7 +9311,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -100, y: 50}
+  m_SizeDelta: {x: -100, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1859451736
 MonoBehaviour:
@@ -9341,8 +9338,7 @@ MonoBehaviour:
   useDefaultStyleSheet: 1
   styleSheet: {fileID: 0}
   databaseActions: {fileID: 11400000, guid: 665758d28252c904baae0a7d6b55a71b, type: 2}
-  defaultAppearancesTags:
-  - size
+  defaultAppearancesTags: []
   defaultDisappearancesTags:
   - fade
   defaultBehaviorsTags: []
@@ -9394,15 +9390,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22.05
-  m_fontSizeBase: 36
+  m_fontSize: 22
+  m_fontSizeBase: 22
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 22
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
