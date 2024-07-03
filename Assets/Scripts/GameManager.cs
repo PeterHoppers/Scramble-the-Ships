@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour
     SpawnSystem _spawnSystem;
     CommandSystem _commandSystem;
     DialogueSystem _dialogueSystem;
+    CutsceneSystem _cutsceneSystem;
     EffectsSystem _effectsSystem;
     public EffectsSystem EffectsSystem { get => _effectsSystem; }
 
@@ -87,6 +88,7 @@ public class GameManager : MonoBehaviour
         _spawnSystem = GetComponent<SpawnSystem>();
         _commandSystem = GetComponent<CommandSystem>();
         _dialogueSystem = GetComponent<DialogueSystem>();
+        _cutsceneSystem = GetComponent<CutsceneSystem>();
         _effectsSystem = GetComponent<EffectsSystem>();
 
         _effectsSystem.OnTickDurationChanged += (float newDuration) => TickDuration = newDuration;
@@ -160,15 +162,15 @@ public class GameManager : MonoBehaviour
 
     public void SpawnPlayer(Player player, Tile tile)
     {
-        MovePlayerToOffScreenRelativeToTile(player, tile, _tickEndDuration);
+        MovePreviewableToOffScreenRelativeToTile(player, tile, _tickEndDuration);
         player.OnSpawn();
     }
 
-    public void MovePlayerToOffScreenRelativeToTile(Player player, Tile tile, float duration)
+    public void MovePreviewableToOffScreenRelativeToTile(Previewable preview, Tile tile, float duration)
     {
-        var offscreenPosition = _spawnSystem.GetOffscreenPosition(player.transform.up, tile.GetTilePosition(), true);
-        player.TransitionToPosition(offscreenPosition, 0);
-        player.TransitionToTile(tile, duration);
+        var offscreenPosition = _spawnSystem.GetOffscreenPosition(preview.transform.up, tile.GetTilePosition(), true);
+        preview.TransitionToPosition(offscreenPosition, 0);
+        preview.TransitionToTile(tile, duration);
     }
 
     public void PlayerGainedCondition(Player player, Condition condition)
@@ -248,7 +250,7 @@ public class GameManager : MonoBehaviour
         foreach (Player player in _players)
         {
             var startingTile = GetStartingTileForPlayer(_players.Count, player.PlayerId);
-            MovePlayerToOffScreenRelativeToTile(player, startingTile, TickDuration);
+            MovePreviewableToOffScreenRelativeToTile(player, startingTile, TickDuration);
         }
 
         yield return new WaitForSeconds(TickDuration);
