@@ -198,6 +198,11 @@ public class GameManager : MonoBehaviour
 
     public void ActivateCutscene(CutsceneType type)
     {
+        if (_currentGameState == GameState.Transition)
+        {
+            return;
+        }
+
         UpdateGameState(GameState.Transition);
         _cutsceneSystem.ActivateCutscene(type);
     }

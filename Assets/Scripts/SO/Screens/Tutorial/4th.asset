@@ -23,6 +23,15 @@ MonoBehaviour:
         anchor: 1
         offset: 2
   - gridObject: {fileID: 3855580939222141806, guid: 479e4e8526c713e40b4b6cc0a3eab0dd, type: 3}
+    facingDirection: 0
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: 0
+      y:
+        anchor: 1
+        offset: 1
+  - gridObject: {fileID: 3855580939222141806, guid: 479e4e8526c713e40b4b6cc0a3eab0dd, type: 3}
     facingDirection: 2
     spawnCoordinates:
       x:
@@ -32,11 +41,29 @@ MonoBehaviour:
         anchor: 1
         offset: -3
   - gridObject: {fileID: 3855580939222141806, guid: 479e4e8526c713e40b4b6cc0a3eab0dd, type: 3}
+    facingDirection: 2
+    spawnCoordinates:
+      x:
+        anchor: 0
+        offset: 1
+      y:
+        anchor: 1
+        offset: -3
+  - gridObject: {fileID: 3855580939222141806, guid: 479e4e8526c713e40b4b6cc0a3eab0dd, type: 3}
     facingDirection: 3
     spawnCoordinates:
       x:
         anchor: 2
         offset: 0
+      y:
+        anchor: 1
+        offset: -3
+  - gridObject: {fileID: 3855580939222141806, guid: 479e4e8526c713e40b4b6cc0a3eab0dd, type: 3}
+    facingDirection: 3
+    spawnCoordinates:
+      x:
+        anchor: 2
+        offset: 1
       y:
         anchor: 1
         offset: -3
@@ -68,7 +95,7 @@ MonoBehaviour:
     y:
       anchor: 2
       offset: 0
-  screenDialogue: {fileID: 0}
+  screenDialogue: {fileID: 11400000, guid: 9673cdcd92640f74bb75db0259c5ca19, type: 2}
   effects: []
   enemySpawnInformation:
     _serializedList: []
