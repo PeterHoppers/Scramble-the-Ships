@@ -9,8 +9,7 @@ public class GridMovable : Previewable
 
     public virtual void SetupMoveable(GameManager manager, SpawnSystem spawnSystem, Tile startingTile)
     {
-        base.SetupObject(manager, spawnSystem);
-        CurrentTile = startingTile;
+        base.SetupObject(manager, spawnSystem, startingTile);
         _manager.OnTickStart += CreateNextPreview;
     }
 

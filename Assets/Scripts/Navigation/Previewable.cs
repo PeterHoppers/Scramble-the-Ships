@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(TransformTransition))]
 public abstract class Previewable : GridObject
 {    
     TransformTransition _transitioner;

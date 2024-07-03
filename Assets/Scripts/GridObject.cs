@@ -21,10 +21,11 @@ public abstract class GridObject : MonoBehaviour
     protected GameManager _manager;
     protected SpawnSystem _spawnSystem;
 
-    public virtual void SetupObject(GameManager manager, SpawnSystem system)
+    public virtual void SetupObject(GameManager manager, SpawnSystem system, Tile startingTile)
     {
         _manager = manager;
         _spawnSystem = system;
+        CurrentTile = startingTile;
     }
 
     public virtual Vector2 GetGridCoordinates()

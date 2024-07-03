@@ -22,6 +22,6 @@ public class BossTutorialBullet : GridMovable
             return;
         }
 
-        _manager.ScreenChangeTriggered(playerCollided);
+        _manager.ActivateCutscene(CutsceneType.Tutorial);
     }
 }

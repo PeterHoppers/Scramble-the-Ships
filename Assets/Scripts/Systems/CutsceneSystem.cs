@@ -12,7 +12,31 @@ public class CutsceneSystem : MonoBehaviour
 
     public void ActivateCutscene(CutsceneType type)
     { 
-        
+        switch(type) 
+        { 
+            case CutsceneType.Tutorial:
+                StartCoroutine(TutorialCutscene());
+                break;
+        }
+    }
+
+    IEnumerator TutorialCutscene()
+    {
+        var bigBaddy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Previewable>();
+        _gameManager.MovePreviewableOffScreenToTile(bigBaddy, bigBaddy.CurrentTile, 1f);
+        yield return new WaitForSeconds(1f);
+        var lasers = FindObjectsOfType<BossTutorialBullet>();
+        foreach (var item in lasers)
+        {
+            item.DestroyObject();
+        }
+        yield return new WaitForSeconds(1f);
+        _gameManager.EffectsSystem.PerformEffect(new Effect() 
+        { 
+            type = EffectType.ScrambleAmount,
+            amount = 3
+        });
+        _gameManager.EndedCutscene();
     }
 }
 

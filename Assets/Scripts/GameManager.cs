@@ -166,6 +166,12 @@ public class GameManager : MonoBehaviour
         player.OnSpawn();
     }
 
+    public void MovePreviewableOffScreenToTile(Previewable preview, Tile tile, float duration)
+    {
+        var offscreenPosition = _spawnSystem.GetOffscreenPosition(preview.transform.up, tile.GetTilePosition(), false);
+        preview.TransitionToPosition(offscreenPosition, duration);
+    }
+
     public void MovePreviewableToOffScreenRelativeToTile(Previewable preview, Tile tile, float duration)
     {
         var offscreenPosition = _spawnSystem.GetOffscreenPosition(preview.transform.up, tile.GetTilePosition(), true);
@@ -188,6 +194,17 @@ public class GameManager : MonoBehaviour
     public void SetLevelInformation(int screenAmount)
     {
         _screensRemainingInLevel = screenAmount;
+    }
+
+    public void ActivateCutscene(CutsceneType type)
+    {
+        UpdateGameState(GameState.Transition);
+        _cutsceneSystem.ActivateCutscene(type);
+    }
+
+    public void EndedCutscene()
+    {
+        UpdateGameState(GameState.Playing);
     }
 
     /// <summary>
@@ -226,7 +243,7 @@ public class GameManager : MonoBehaviour
 
     public void SetupNextScreen(Screen screen, ScreenChangeTrigger screenTrigger)
     {
-        _spawnSystem.ClearObjects();
+        ClearObjects();
         SetScreenStarters(screen.startingItems);
         SetQueuedEnemies(screen.enemySpawnInformation);
         SetScreenTranistions(screenTrigger, screen.transitionGrids);
@@ -237,6 +254,11 @@ public class GameManager : MonoBehaviour
         }
 
         _dialogueSystem.SetDialogue(screen.screenDialogue);
+    }
+
+    public void ClearObjects()
+    {
+        _spawnSystem.ClearObjects();
     }
 
     //Screen Loaded - Occurs 2X Amount of Time After the Screen Change Event Based Upon Time Passed In There
@@ -297,6 +319,12 @@ public class GameManager : MonoBehaviour
     {
         foreach (var spawn in screenStarters)
         {
+            if (spawn.gridObject == null)
+            {
+                Debug.LogError("There is a null object trying to be spawned.");
+                continue;
+            }
+
             if (_gridSystem.TryGetTileByCoordinates(spawn.spawnCoordinates.x, spawn.spawnCoordinates.y, out var spawnPosition))
             {
                 var rotation = _spawnSystem.GetRotationFromSpawnDirection(spawn.facingDirection);
@@ -308,7 +336,7 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    spawnedObject.GetComponent<GridObject>().SetupObject(this, _spawnSystem);
+                    spawnedObject.GetComponent<GridObject>().SetupObject(this, _spawnSystem, spawnPosition);
                 }                
             }
         }
@@ -335,7 +363,7 @@ public class GameManager : MonoBehaviour
             if (_gridSystem.TryGetTileByCoordinates(transition.x, transition.y, out var spawnPosition))
             {
                 var spawnedObject = _spawnSystem.SpawnObjectAtTile(baseTrigger.gameObject, spawnPosition, baseTrigger.transform.rotation);
-                spawnedObject.GetComponent<GridObject>().SetupObject(this, _spawnSystem);
+                spawnedObject.GetComponent<GridObject>().SetupObject(this, _spawnSystem, spawnPosition);
                 var screenTrigger = spawnedObject.GetComponent<ScreenChangeTrigger>();
                 screenTriggers.Add(screenTrigger);
             }
