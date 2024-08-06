@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     public delegate void TickEnd(int nextTickNumber);
     public TickEnd OnTickEnd;
 
-    public delegate void ScreenChange(int screensRemaining, float tickDuration);
+    public delegate void ScreenChange(int screensRemaining);
     public ScreenChange OnScreenChange;
 
     public delegate void GameStateChanged(GameState newState);
@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviour
     CommandSystem _commandSystem;
     DialogueSystem _dialogueSystem;
     CutsceneSystem _cutsceneSystem;
+    ScreenSystem _screenSystem;
     EffectsSystem _effectsSystem;
     public EffectsSystem EffectsSystem { get => _effectsSystem; }
 
@@ -78,7 +79,6 @@ public class GameManager : MonoBehaviour
     bool _tickIsOccuring = false;
     int _ticksSinceScreenStart = 0;
     int _ticksSinceLevelStart = 0;
-    int _screensRemainingInLevel = 0;
 
     int _lastIndexForScrambling = 4;
 
@@ -90,6 +90,7 @@ public class GameManager : MonoBehaviour
         _dialogueSystem = GetComponent<DialogueSystem>();
         _cutsceneSystem = GetComponent<CutsceneSystem>();
         _effectsSystem = GetComponent<EffectsSystem>();
+        _screenSystem = GetComponent<ScreenSystem>();
 
         _effectsSystem.OnTickDurationChanged += (float newDuration) => TickDuration = newDuration;
         _effectsSystem.OnMoveOnInputChanged += (bool isMoveOnInput) => _isMovementAtInput = isMoveOnInput;
@@ -140,12 +141,12 @@ public class GameManager : MonoBehaviour
 
             var startingTile = GetStartingTileForPlayer(_players.Count, playerId);
 
-            SpawnPlayer(newPlayer, startingTile);
+            SpawnPlayer(newPlayer, startingTile, false);
             OnPlayerJoinedGame?.Invoke(newPlayer, numberOfLives);
 
             if (_players.Count == 1)
             {
-                OnScreenChange?.Invoke(_screensRemainingInLevel, 0);
+                StartCoroutine(SetupNextScreen(_screenSystem.GetScreensRemaining(), TickDuration, false));
                 UpdateGameState(GameState.Transition);
             }            
         }        
@@ -160,9 +161,9 @@ public class GameManager : MonoBehaviour
         return startingTile;
     }
 
-    public void SpawnPlayer(Player player, Tile tile)
+    public void SpawnPlayer(Player player, Tile tile, bool moveOnScreen = true)
     {
-        MovePreviewableToOffScreenRelativeToTile(player, tile, _tickEndDuration);
+        MovePreviewableToOffScreenRelativeToTile(player, tile, _tickEndDuration, moveOnScreen);
         player.OnSpawn();
     }
 
@@ -172,11 +173,15 @@ public class GameManager : MonoBehaviour
         preview.TransitionToPosition(offscreenPosition, duration);
     }
 
-    public void MovePreviewableToOffScreenRelativeToTile(Previewable preview, Tile tile, float duration)
+    public void MovePreviewableToOffScreenRelativeToTile(Previewable preview, Tile tile, float duration, bool moveOnScreen = true)
     {
         var offscreenPosition = _spawnSystem.GetOffscreenPosition(preview.transform.up, tile.GetTilePosition(), true);
         preview.TransitionToPosition(offscreenPosition, 0);
-        preview.TransitionToTile(tile, duration);
+
+        if (moveOnScreen)
+        {
+            preview.TransitionToTile(tile, duration);
+        }
     }
 
     public void PlayerGainedCondition(Player player, Condition condition)
@@ -189,95 +194,75 @@ public class GameManager : MonoBehaviour
         OnPlayerConditionEnd?.Invoke(player, condition);
     }
 
-    #region Screen Change
-    // we'll need to think of how we're handling level information. When a user selects a level, do we have seperate scenes for that, or just passing in a different object that holds screen information?
-    public void SetLevelInformation(int screenAmount)
+    public void ActivateCutscene(CutsceneType type, float cutsceneDuration)
     {
-        _screensRemainingInLevel = screenAmount;
-    }
-
-    public void ActivateCutscene(CutsceneType type)
-    {
-        if (_currentGameState == GameState.Transition)
+        if (_currentGameState == GameState.Cutscene)
         {
             return;
         }
 
-        UpdateGameState(GameState.Transition);
-        _cutsceneSystem.ActivateCutscene(type);
-    }
-
-    public void EndedCutscene()
-    {
-        UpdateGameState(GameState.Playing);
+        UpdateGameState(GameState.Cutscene);
+        _cutsceneSystem.ActivateCutscene(type, cutsceneDuration);
     }
 
     /// <summary>
-    /// Screen Trigger -> Game Manager disables the player, moves them offscreen, and checks if game is done
-    /// if game is not done, call ScreenChange event
-    /// if game is done, call GameEnd event
+    /// Screen Change Trigger occurs when a player hits the screen change trigger
     /// </summary>
     /// <param name="player"></param>
     public void ScreenChangeTriggered(Player player)
     {
         ClearAllPreviews();
-        //stop the tick loop
         UpdateGameState(GameState.Transition);
+        EndScreen(TickDuration);
+    }
+
+    void EndScreen(float endingDuation)
+    {
         //disable all players' controls
-        _players.ForEach(player => 
+        _players.ForEach(player =>
         {
             player.SetInputStatus(false);
             //move player off screen
             var currentPos = player.CurrentTile.GetTilePosition();
             var offscreenPosition = _spawnSystem.GetOffscreenPosition(player.transform.up, currentPos, false);
-            player.TransitionToPosition(offscreenPosition, TickDuration);
+            player.TransitionToPosition(offscreenPosition, endingDuation);
         });
 
-        _screensRemainingInLevel--;
-
-        if (_screensRemainingInLevel <= 0)
+        int screensRemainingInLevel = _screenSystem.GetScreensRemaining();
+        if (screensRemainingInLevel <= 0)
         {
             OnLevelEnd?.Invoke(_ticksSinceLevelStart);
             UpdateGameState(GameState.Win);
         }
         else
         {
-            OnScreenChange?.Invoke(_screensRemainingInLevel, TickDuration);
+            StartCoroutine(SetupNextScreen(screensRemainingInLevel, TickDuration));
         }
     }
 
-    public void SetupNextScreen(Screen screen, ScreenChangeTrigger screenTrigger)
+    IEnumerator SetupNextScreen(int screensRemainingInLevel, float screenLoadDuration, bool playTransitionCutscene = true)
     {
-        _spawnSystem.ClearObjects();
-        SetScreenStarters(screen.startingItems);
-        SetQueuedEnemies(screen.enemySpawnInformation);
-        SetScreenTranistions(screenTrigger, screen.transitionGrids);
+        OnScreenChange?.Invoke(screensRemainingInLevel);       
 
-        foreach (var effect in screen.effects)
+        if (playTransitionCutscene)
         {
-            _effectsSystem.PerformEffect(effect);
+            ActivateCutscene(CutsceneType.ScreenTransition, screenLoadDuration);
+            yield return new WaitForSeconds(screenLoadDuration);
         }
 
-        _dialogueSystem.SetDialogue(screen.screenDialogue);
-    }
+        _screenSystem.SetupNewScreen(_spawnSystem, _gridSystem, _effectsSystem, _dialogueSystem);
+        yield return new WaitForSeconds(screenLoadDuration);
 
-    //Screen Loaded - Occurs 2X Amount of Time After the Screen Change Event Based Upon Time Passed In There
-    //Move Ships Into Position
-    //Check for Cutscenes
-    //Apply Effects That came from the screen mananger
-    //Enable Players/Start Stick
-    public IEnumerator ScreenLoaded()
-    {
-        //renable controls for players
+        //move ships on screen
         foreach (Player player in _players)
         {
             var startingTile = GetStartingTileForPlayer(_players.Count, player.PlayerId);
-            MovePreviewableToOffScreenRelativeToTile(player, startingTile, TickDuration);
+            MovePreviewableToOffScreenRelativeToTile(player, startingTile, screenLoadDuration);
         }
 
-        yield return new WaitForSeconds(TickDuration);
+        yield return new WaitForSeconds(screenLoadDuration);
 
-        if (_dialogueSystem.HasDialgoue())
+        if (_dialogueSystem.HasDialogue())
         {
             _dialogueSystem.StartDialogue();
             _dialogueSystem.OnDialogueEnd += WaitUntilDialogueEnds;
@@ -304,7 +289,7 @@ public class GameManager : MonoBehaviour
         _dialogueSystem.AdvanceDialoguePressed();
     }
 
-    void RenablePlaying()
+    public void RenablePlaying()
     {
         foreach (Player player in _players)
         {
@@ -314,65 +299,6 @@ public class GameManager : MonoBehaviour
         //renable game loop
         UpdateGameState(GameState.Playing);
     }
-
-    void SetScreenStarters(List<ScreenSpawns> screenStarters)
-    {
-        foreach (var spawn in screenStarters)
-        {
-            if (spawn.gridObject == null)
-            {
-                Debug.LogError("There is a null object trying to be spawned.");
-                continue;
-            }
-
-            if (_gridSystem.TryGetTileByCoordinates(spawn.spawnCoordinates.x, spawn.spawnCoordinates.y, out var spawnPosition))
-            {
-                var rotation = _spawnSystem.GetRotationFromSpawnDirection(spawn.facingDirection);
-                var spawnedObject = _spawnSystem.SpawnObjectAtTile(spawn.gridObject.gameObject, spawnPosition, rotation);
-
-                if (spawnedObject.TryGetComponent<GridMovable>(out var movable))
-                {
-                    movable.SetupMoveable(this, _spawnSystem, spawnPosition);
-                }
-                else
-                {
-                    spawnedObject.GetComponent<GridObject>().SetupObject(this, _spawnSystem, spawnPosition);
-                }                
-            }
-        }
-    }
-
-    void SetQueuedEnemies(SerializedDictionary<int, EnemySpawn[]> screenWaves)
-    {
-        foreach (var screenPair in screenWaves)
-        {
-            var wave = screenPair.Value;
-
-            foreach (var spawn in wave)
-            {
-                _spawnSystem.QueueEnemyToSpawn(spawn, screenPair.Key);
-            }
-        }
-    }
-
-    List<ScreenChangeTrigger> SetScreenTranistions(ScreenChangeTrigger baseTrigger, List<GridCoordinate> transitionGrids)
-    {
-        var screenTriggers = new List<ScreenChangeTrigger>();
-        foreach (var transition in transitionGrids)
-        {
-            if (_gridSystem.TryGetTileByCoordinates(transition.x, transition.y, out var spawnPosition))
-            {
-                var spawnedObject = _spawnSystem.SpawnObjectAtTile(baseTrigger.gameObject, spawnPosition, baseTrigger.transform.rotation);
-                spawnedObject.GetComponent<GridObject>().SetupObject(this, _spawnSystem, spawnPosition);
-                var screenTrigger = spawnedObject.GetComponent<ScreenChangeTrigger>();
-                screenTriggers.Add(screenTrigger);
-            }
-        }
-
-        return screenTriggers;
-    }
-
-    #endregion
 
     public void SendEnemyCommands(EnemyShip enemyShip, int commandId)
     {
@@ -716,6 +642,7 @@ public enum GameState
     Playing,
     Paused,
     Transition,
+    Cutscene,
     Dialogue,
     GameOver,
     Win

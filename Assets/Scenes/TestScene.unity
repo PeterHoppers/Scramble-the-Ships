@@ -5630,59 +5630,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1155227438
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1155227439}
-  - component: {fileID: 1155227440}
-  m_Layer: 0
-  m_Name: Screen Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1155227439
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1155227438}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1155227440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1155227438}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74992b410e746cf43a983c4db2fc2f3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 75354761}
-  screenTrigger: {fileID: 2468367493126450250, guid: 7b5dc0bb57b038546b2c56ff24917b51, type: 3}
-  levelScreens:
-  - {fileID: 11400000, guid: d60b2debb31b3fa4fb3f821a0f2b3f02, type: 2}
-  - {fileID: 11400000, guid: 839a4d3cc2e7ddc4c8882198400194da, type: 2}
-  - {fileID: 11400000, guid: f51d075184bc8df4c9bab1033bebc6a0, type: 2}
-  - {fileID: 11400000, guid: af90f4945c3a8cb4190cc61fe61986d9, type: 2}
-  - {fileID: 11400000, guid: 245050a375714d345b4634a3bf460613, type: 2}
-  - {fileID: 11400000, guid: 1dfee220f773d734881d411c2d72b085, type: 2}
 --- !u!1 &1187286050
 GameObject:
   m_ObjectHideFlags: 0
@@ -10345,6 +10292,7 @@ GameObject:
   - component: {fileID: 2124894464}
   - component: {fileID: 2124894465}
   - component: {fileID: 2124894466}
+  - component: {fileID: 2124894467}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -10508,6 +10456,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6deed561694254d4c8f877d50a03cf63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fullscreenAnimator: {fileID: 75354761}
+--- !u!114 &2124894467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124894457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74992b410e746cf43a983c4db2fc2f3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  screenTrigger: {fileID: 2468367493126450250, guid: 7b5dc0bb57b038546b2c56ff24917b51, type: 3}
+  levelScreens:
+  - {fileID: 11400000, guid: d60b2debb31b3fa4fb3f821a0f2b3f02, type: 2}
+  - {fileID: 11400000, guid: 839a4d3cc2e7ddc4c8882198400194da, type: 2}
+  - {fileID: 11400000, guid: f51d075184bc8df4c9bab1033bebc6a0, type: 2}
+  - {fileID: 11400000, guid: af90f4945c3a8cb4190cc61fe61986d9, type: 2}
+  - {fileID: 11400000, guid: 245050a375714d345b4634a3bf460613, type: 2}
+  - {fileID: 11400000, guid: 1dfee220f773d734881d411c2d72b085, type: 2}
 --- !u!1001 &4531162659611141552
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10777,4 +10746,3 @@ SceneRoots:
   - {fileID: 2124894458}
   - {fileID: 1963192919}
   - {fileID: 710506044}
-  - {fileID: 1155227439}

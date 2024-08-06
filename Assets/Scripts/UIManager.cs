@@ -47,7 +47,7 @@ public class UIManager : MonoBehaviour, IManager
         winScreenUI.SetLevelScore(ticksPassed);
     }
 
-    void OnScreenChange(int screensRemaining, float _)
+    void OnScreenChange(int screensRemaining)
     {
         screenRemainingDisplay.text = screensRemaining.ToString();
     }

@@ -56,7 +56,7 @@ public class DialogueSystem : MonoBehaviour
         _currentDialogueNodes = dialogue.dialogueNodes;
     }
 
-    public bool HasDialgoue()
+    public bool HasDialogue()
     { 
         return (_currentDialogueNodes != null);
     }
