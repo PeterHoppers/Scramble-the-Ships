@@ -248,7 +248,7 @@ public class GameManager : MonoBehaviour
 
     public void SetupNextScreen(Screen screen, ScreenChangeTrigger screenTrigger)
     {
-        ClearObjects();
+        _spawnSystem.ClearObjects();
         SetScreenStarters(screen.startingItems);
         SetQueuedEnemies(screen.enemySpawnInformation);
         SetScreenTranistions(screenTrigger, screen.transitionGrids);
@@ -259,11 +259,6 @@ public class GameManager : MonoBehaviour
         }
 
         _dialogueSystem.SetDialogue(screen.screenDialogue);
-    }
-
-    public void ClearObjects()
-    {
-        _spawnSystem.ClearObjects();
     }
 
     //Screen Loaded - Occurs 2X Amount of Time After the Screen Change Event Based Upon Time Passed In There
