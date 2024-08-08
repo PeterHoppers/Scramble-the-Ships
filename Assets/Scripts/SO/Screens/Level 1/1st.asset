@@ -22,6 +22,7 @@ MonoBehaviour:
       y:
         anchor: 1
         offset: 0
+    spawnCommand: 0
   - gridObject: {fileID: 4968857197367180557, guid: 5353b18247066644385330a06f51dc04, type: 3}
     facingDirection: 0
     spawnCoordinates:
@@ -31,6 +32,7 @@ MonoBehaviour:
       y:
         anchor: 1
         offset: 0
+    spawnCommand: 0
   - gridObject: {fileID: 4968857197367180557, guid: 5353b18247066644385330a06f51dc04, type: 3}
     facingDirection: 0
     spawnCoordinates:
@@ -40,6 +42,7 @@ MonoBehaviour:
       y:
         anchor: 1
         offset: 0
+    spawnCommand: 0
   transitionGrids:
   - x:
       anchor: 1
@@ -59,6 +62,7 @@ MonoBehaviour:
     y:
       anchor: 2
       offset: 0
-  screenDialogue: {fileID: 11400000, guid: e02ade380974da143a92ede59bb8e974, type: 2}
+  screenDialogue: {fileID: 0}
+  effects: []
   enemySpawnInformation:
     _serializedList: []

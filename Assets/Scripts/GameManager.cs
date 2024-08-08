@@ -304,11 +304,21 @@ public class GameManager : MonoBehaviour
     {
         if (_currentGameState == GameState.Paused)
         {
+            foreach (Player player in _players)
+            {
+                player.SetInputStatus(true);
+            }
+
             UpdateGameState(GameState.Playing);
             TestParametersHandler.Instance.ToggleOptions();
         }
         else if (_currentGameState == GameState.Playing)
         {
+            foreach (Player player in _players)
+            {
+                player.SetInputStatus(false);
+            }
+
             UpdateGameState(GameState.Paused);
             TestParametersHandler.Instance.ToggleOptions();
         }
