@@ -326,7 +326,6 @@ public class GameManager : MonoBehaviour
             }
 
             UpdateGameState(GameState.Playing);
-            TestParametersHandler.Instance.ToggleOptions();
         }
         else if (_currentGameState == GameState.Playing)
         {
@@ -336,7 +335,6 @@ public class GameManager : MonoBehaviour
             }
 
             UpdateGameState(GameState.Paused);
-            TestParametersHandler.Instance.ToggleOptions();
         }
     }
 

@@ -37,7 +37,7 @@ public class GlobalGameStateManager : MonoBehaviour
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(gameObject);
         _levelSceneSystem = GetComponent<LevelSceneSystem>();
     }
 

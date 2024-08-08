@@ -262,12 +262,6 @@ public class Player : Previewable
         }
     }
 
-    //unsure if this should stay here, since there's a good chance that this might need to be brought up outside of normal play when we move to production
-    public void OnPlayerPause(InputAction.CallbackContext context)
-    {
-        _manager.PauseGame();
-    }
-
     public void OnPlayerRestart(InputAction.CallbackContext context)
     {
         _manager.RestartGame();

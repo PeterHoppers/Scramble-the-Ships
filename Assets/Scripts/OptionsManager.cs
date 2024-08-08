@@ -5,34 +5,49 @@ using UnityEngine.UI;
 using TMPro;
 using System.Linq;
 using System;
+using UnityEngine.EventSystems;
 
-public class TestParametersHandler : MonoBehaviour
+public class OptionsManager : MonoBehaviour, IManager
 {
-    private static TestParametersHandler instance;
-    public static TestParametersHandler Instance
+    private static OptionsManager instance;
+    public static OptionsManager Instance
     {
         get
         {
             return instance;
         }
+        private set { }
     }
 
-    void Awake()
+    private void Awake()
     {
-        instance = this;
+        if (Instance != null)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
-
-    public EffectsSystem effectsSystem; //this is kind of hacky, but again, this is supposed to be temp code
 
     public TestParameters testParameters;
 
     [Header("UI Components")]
-    public GameObject testParamsHolder;
     public TMP_Dropdown amountScrambledDropdown;
     public Slider tickDurationSlider;
     public Slider tickScrambleSlider;
     public TMP_Dropdown moveOnInputDropdown;
     public TMP_Dropdown shootingEnabledDropdown;
+
+    GameManager _gameManager;
+    EffectsSystem _effectsSystem;
+
+    public void InitManager(GameManager manager)
+    {
+        _gameManager = manager;
+        _effectsSystem = manager.EffectsSystem;
+        InvokeCurrentOptions();
+    }
 
     void Start()
     {
@@ -57,53 +72,87 @@ public class TestParametersHandler : MonoBehaviour
         shootingEnabledDropdown.value = (testParameters.isShootingEnabled) ? 1 : 0;
         shootingEnabledDropdown.onValueChanged.AddListener(delegate { OnShootingEnabledUpdate(); });       
 
-        if (testParamsHolder.gameObject != null)
-        {
-            testParamsHolder.gameObject.SetActive(false);
-        }
+        transform.GetChild(0).gameObject.SetActive(false);
+    }
 
-        effectsSystem.OnScrambleAmountChanged?.Invoke(testParameters.amountControlsScrambled);
-        effectsSystem.OnTickDurationChanged?.Invoke(testParameters.tickDuration);
-        effectsSystem.OnTicksUntilScrambleChanged?.Invoke(testParameters.amountTickPerScramble);
-        effectsSystem.OnMoveOnInputChanged?.Invoke(testParameters.doesMoveOnInput);
-        effectsSystem.OnShootingChanged?.Invoke(!testParameters.isShootingEnabled);
+    void InvokeCurrentOptions()
+    {
+        _effectsSystem.OnScrambleAmountChanged?.Invoke(testParameters.amountControlsScrambled);
+        _effectsSystem.OnTickDurationChanged?.Invoke(testParameters.tickDuration);
+        _effectsSystem.OnTicksUntilScrambleChanged?.Invoke(testParameters.amountTickPerScramble);
+        _effectsSystem.OnMoveOnInputChanged?.Invoke(testParameters.doesMoveOnInput);
+        _effectsSystem.OnShootingChanged?.Invoke(!testParameters.isShootingEnabled);
     }
 
     void OnScrambleDropdownUpdate()
     {
         var dropdownOptions = amountScrambledDropdown.options.Select(option => option.text).ToList();
         testParameters.amountControlsScrambled = int.Parse(dropdownOptions[amountScrambledDropdown.value]);
-        effectsSystem.OnScrambleAmountChanged?.Invoke(testParameters.amountControlsScrambled);
+
+        if (_effectsSystem)
+        {
+            _effectsSystem.OnScrambleAmountChanged?.Invoke(testParameters.amountControlsScrambled);
+        }
     }
 
     void OnTickDurationUpdate()
     {
         testParameters.tickDuration = tickDurationSlider.value / 10;
-        effectsSystem.OnTickDurationChanged?.Invoke(testParameters.tickDuration);
+        if (_effectsSystem)
+        {
+            _effectsSystem.OnTickDurationChanged?.Invoke(testParameters.tickDuration);
+        }
     }
 
     void OnMoveInputUpdate()
     {
         testParameters.doesMoveOnInput = (moveOnInputDropdown.value == 1);
-        effectsSystem.OnMoveOnInputChanged?.Invoke(testParameters.doesMoveOnInput);
+        if (_effectsSystem)
+        {
+            _effectsSystem.OnMoveOnInputChanged?.Invoke(testParameters.doesMoveOnInput);
+        }
     }
 
     void OnTickScrambleUpdate()
     {
         testParameters.amountTickPerScramble = (int)tickScrambleSlider.value;
-        effectsSystem.OnTicksUntilScrambleChanged?.Invoke(testParameters.amountTickPerScramble);
+        if (_effectsSystem)
+        {
+            _effectsSystem.OnTicksUntilScrambleChanged?.Invoke(testParameters.amountTickPerScramble);
+        }
     }
 
     void OnShootingEnabledUpdate()
     {
         testParameters.isShootingEnabled = (shootingEnabledDropdown.value == 1);
-        effectsSystem.OnShootingChanged?.Invoke(!testParameters.isShootingEnabled);
+        if (_effectsSystem)
+        {
+            _effectsSystem.OnShootingChanged?.Invoke(!testParameters.isShootingEnabled);
+        }
     }
 
     public void ToggleOptions()
     {
-        var isActive = testParamsHolder.activeSelf;
-        testParamsHolder.gameObject.SetActive(!isActive);
+        var holder = transform.GetChild(0);
+        var toggledActiveState = !holder.gameObject.activeSelf;
+        holder.gameObject.SetActive(toggledActiveState);
+
+        if (toggledActiveState)
+        {
+            EventSystem.current.SetSelectedGameObject(amountScrambledDropdown.gameObject);
+        }
+    }
+
+    void Update() 
+    { 
+        if (Input.GetKeyUp(KeyCode.Escape)) 
+        {
+            if (_gameManager)
+            {
+                _gameManager.PauseGame();
+            }
+            ToggleOptions();
+        }
     }
 }
 
