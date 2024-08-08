@@ -12,4 +12,10 @@ public class LevelSceneSystem : MonoBehaviour
     { 
         SceneManager.LoadScene(GAME_SCENE_INDEX);
     }
+
+    public void ReloadCurrentScene()
+    {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(currentSceneName);
+    }
 }

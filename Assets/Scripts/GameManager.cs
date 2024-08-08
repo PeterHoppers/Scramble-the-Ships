@@ -234,13 +234,26 @@ public class GameManager : MonoBehaviour
         int screensRemainingInLevel = _screenSystem.GetScreensRemaining();
         if (screensRemainingInLevel <= 0)
         {
-            OnLevelEnd?.Invoke(_ticksSinceLevelStart);
-            UpdateGameState(GameState.Win);
+            if (GlobalGameStateManager.Instance.IsActiveLevelTutorial())
+            {
+                StartCoroutine(MoveToNextLevel(endingDuation));
+            }
+            else
+            {
+                OnLevelEnd?.Invoke(_ticksSinceLevelStart);
+                UpdateGameState(GameState.Win);
+            }            
         }
         else
         {
             StartCoroutine(SetupNextScreen(screensRemainingInLevel, TickDuration));
         }
+    }
+
+    IEnumerator MoveToNextLevel(float waitDuation)
+    { 
+        yield return new WaitForSeconds(waitDuation);
+        GlobalGameStateManager.Instance.NextLevel();
     }
 
     IEnumerator SetupNextScreen(int screensRemainingInLevel, float screenLoadDuration, bool playTransitionCutscene = true)
@@ -331,8 +344,7 @@ public class GameManager : MonoBehaviour
     {
         if (_currentGameState == GameState.Win || _currentGameState == GameState.GameOver)
         {
-            string currentSceneName = SceneManager.GetActiveScene().name;
-            SceneManager.LoadScene(currentSceneName);
+            GlobalGameStateManager.Instance.RestartGameScene();
         }
     }
 

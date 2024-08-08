@@ -10,7 +10,8 @@ public class GlobalGameStateManager : MonoBehaviour
 
     [SerializeField]
     private List<Level> _levels = new List<Level>();
-    int _activeLevelIndex = 0;
+    const int TUTORIAL_INDEX = 0;
+    int _activeLevelIndex = TUTORIAL_INDEX;
     LevelSceneSystem _levelSceneSystem;
 
     public delegate void StateChange(GlobalGameStateStatus newState);
@@ -47,9 +48,25 @@ public class GlobalGameStateManager : MonoBehaviour
         _levelSceneSystem.LoadGameScene();
     }
 
+    public void NextLevel()
+    {
+        _activeLevelIndex++;
+        _levelSceneSystem.ReloadCurrentScene();
+    }
+
+    public void RestartGameScene()
+    { 
+        _levelSceneSystem.ReloadCurrentScene();
+    }
+
     public Level GetLevelInfo()
     { 
         return _levels[_activeLevelIndex];
+    }
+
+    public bool IsActiveLevelTutorial()
+    {
+        return (_activeLevelIndex == TUTORIAL_INDEX);
     }
 }
 
