@@ -117,10 +117,13 @@ public class GameManager : MonoBehaviour
 
         CreatePlayerShip();
 
-        if (GlobalGameState.Instance && GlobalGameState.Instance.PlayerCount == 2)
+        if (GlobalGameStateManager.Instance.PlayerCount == 2)
         {
             CreatePlayerShip();
         }
+
+        var activeLevel = GlobalGameStateManager.Instance.GetLevelInfo();
+        _screenSystem.SetScreens(activeLevel);
 
         StartCoroutine(SetupNextScreen(_screenSystem.GetScreensRemaining(), TickDuration, false));
         UpdateGameState(GameState.Transition);

@@ -9,16 +9,20 @@ using UnityEngine.Device;
 public class ScreenSystem : MonoBehaviour
 {
     public ScreenChangeTrigger screenTrigger;
-    public Screen[] levelScreens;
+    private Screen[] _levelScreens;
     GameManager _gameManager;
     int _screenAmount = 0;
     int _screensLoaded = 0;
 
     private void Awake()
-    {
-        //this function should get the screens from the game manager, which in turn gets it from the game logic holder
-        _screenAmount = levelScreens.Length;
+    {       
         _gameManager = GetComponent<GameManager>();
+    }
+
+    public void SetScreens(Level level)
+    {
+        _levelScreens = level.levelScreens;
+        _screenAmount = _levelScreens.Length;
     }
 
     public int GetScreensRemaining()
@@ -28,7 +32,7 @@ public class ScreenSystem : MonoBehaviour
 
     public void SetupNewScreen(SpawnSystem spawnSystem, GridSystem gridSystem, EffectsSystem effectsSystem, DialogueSystem dialogueSystem)
     {
-        var nextScreen = levelScreens[_screensLoaded];
+        var nextScreen = _levelScreens[_screensLoaded];
 
         spawnSystem.ClearObjects();
         SetScreenStarters(spawnSystem, gridSystem, nextScreen.startingItems);
