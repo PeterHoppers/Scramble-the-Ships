@@ -10287,7 +10287,6 @@ GameObject:
   - component: {fileID: 2124894459}
   - component: {fileID: 2124894461}
   - component: {fileID: 2124894460}
-  - component: {fileID: 2124894462}
   - component: {fileID: 2124894463}
   - component: {fileID: 2124894464}
   - component: {fileID: 2124894465}
@@ -10385,24 +10384,6 @@ MonoBehaviour:
   gridWidth: 13
   gridHeight: 17
   boundsIncrease: 1.35
---- !u!114 &2124894462
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2124894457}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a85dbb51d6145674da00208a193ecf91, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  commandBank:
-    _serializedList:
-    - Key: 0
-      Value: {fileID: 11400000, guid: a31722a9e2e3489419dcb8d0fae9e171, type: 2}
-    - Key: 1
-      Value: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
 --- !u!114 &2124894463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10417,6 +10398,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawningDistance: 3
   spawningPercentageOffscreen: 0.25
+  commandBank:
+    _serializedList:
+    - Key: 1
+      Value: {fileID: 11400000, guid: a31722a9e2e3489419dcb8d0fae9e171, type: 2}
+    - Key: 3
+      Value: {fileID: 11400000, guid: 93d0d970be511a9488889f44356c6a6a, type: 2}
+    - Key: 2
+      Value: {fileID: 11400000, guid: 05a01953c56be7845b67c4da335e1a73, type: 2}
 --- !u!114 &2124894464
 MonoBehaviour:
   m_ObjectHideFlags: 0

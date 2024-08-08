@@ -8,16 +8,20 @@ public class EnemyShip : GridMovable
     [SerializeField]
     private ShipInfo shipInfo;
 
-    public int tickThatLoops = 0;
-
     [SerializedDictionary]
-    public SerializedDictionary<int, InputValue> shipCommands;
-
+    private SerializedDictionary<int, InputValue> _shipCommands;
     private int _ticksSinceSpawn = 0;
+    private int _commandsLoopAtTick = 0;
+
+    public void SetCommands(SerializedDictionary<int, InputValue> commands, int commandsLoopAtTick)
+    {
+        _shipCommands = commands;
+        _commandsLoopAtTick = commandsLoopAtTick;
+    }
 
     protected override void CreateNextPreview(float timeToTickEnd)
     {
-        if (shipCommands.TryGetValue(_ticksSinceSpawn, out var inputValue)) 
+        if (_shipCommands.TryGetValue(_ticksSinceSpawn, out var inputValue)) 
         {
             if (inputValue == InputValue.Fire)
             {
@@ -39,7 +43,7 @@ public class EnemyShip : GridMovable
         base.CreateNextPreview(timeToTickEnd);
         _ticksSinceSpawn++;
 
-        if (tickThatLoops > 0 && _ticksSinceSpawn >= tickThatLoops)
+        if (_commandsLoopAtTick > 0 && _ticksSinceSpawn >= _commandsLoopAtTick)
         {
             _ticksSinceSpawn = 0;
         }

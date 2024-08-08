@@ -12,6 +12,10 @@ public class SpawnSystem : MonoBehaviour
     Dictionary<int, List<SpawnInfo>> _queuedSpawns = new Dictionary<int, List<SpawnInfo>>();
     List<GameObject> _spawnList = new List<GameObject>();
 
+    [Header("Commands")]
+    [SerializedDictionary("Command Id", "Command SO")]
+    public SerializedDictionary<SpawnCommand, GridObjectCommands> commandBank = new SerializedDictionary<SpawnCommand, GridObjectCommands>();
+
     GameManager _gameManager;
 
     private void Awake()
@@ -54,7 +58,7 @@ public class SpawnSystem : MonoBehaviour
 
                         if (damageable.TryGetComponent<EnemyShip>(out var enemyShip))
                         {
-                            _gameManager.SendEnemyCommands(enemyShip, spawn.spawnExtraInfo);
+                            SetCommandsForSpawnCommand(enemyShip, spawn.spawnCommand);
                         }
                     }
                 }
@@ -113,6 +117,17 @@ public class SpawnSystem : MonoBehaviour
         {
             return Vector2.zero;
         }
+    }
+
+    public void SetCommandsForSpawnCommand(EnemyShip enemy, SpawnCommand command)
+    {
+        if (command == SpawnCommand.None) 
+        { 
+            return; 
+        }
+
+        var commands = commandBank[command];
+        enemy.SetCommands(commands.commands, commands.commandsLoopAtTick);
     }
 
     Vector2 GetSpawnCoordinates(SpawnDirections spawnDirection, Coordinate coordinate)
@@ -174,7 +189,7 @@ public class SpawnSystem : MonoBehaviour
             tileToSpawnAt = spawnPosition,
             spawnRotation = spawnRotation,
             spawnType = SpawnType.Enemy,
-            spawnExtraInfo = enemySpawn.commandId,
+            spawnCommand = enemySpawn.spawnCommand,
         };
 
         AddSpawnInfoAtTick(enemySpawnInfo, spawnTick);
@@ -239,21 +254,13 @@ public class SpawnSystem : MonoBehaviour
         }
     }
 }
-
-public struct PlayerSpawnInfo
-{
-    public int tickToSpawn;
-    public Player playerToSpawn;
-    public Tile spawnTile;
-}
-
 public struct SpawnInfo
 {
     public GameObject objectToSpawn;
     public Tile tileToSpawnAt;
     public Quaternion spawnRotation;
     public SpawnType spawnType;
-    public int spawnExtraInfo;
+    public SpawnCommand spawnCommand;
 }
 
 public enum SpawnType
@@ -262,4 +269,12 @@ public enum SpawnType
     Enemy,
     Player,
     Preview
+}
+
+public enum SpawnCommand
+{ 
+    None,
+    BasicShoot,
+    BasicMovement,
+    LoopShoot
 }

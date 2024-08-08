@@ -32,7 +32,7 @@ public class CutsceneSystem : MonoBehaviour
     IEnumerator TutorialCutscene(float cutsceneDuration)
     {
         var bigBaddy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Previewable>();
-        _gameManager.MovePreviewableOffScreenToTile(bigBaddy, bigBaddy.CurrentTile, 1f);
+        _gameManager.MovePreviewableOffScreenToTile(bigBaddy, bigBaddy.CurrentTile, cutsceneDuration / 2);
         yield return new WaitForSeconds(cutsceneDuration / 2);
         var lasers = FindObjectsOfType<BossTutorialBullet>();
         foreach (var item in lasers)

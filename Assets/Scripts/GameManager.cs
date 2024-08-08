@@ -55,7 +55,6 @@ public class GameManager : MonoBehaviour
 
     GridSystem _gridSystem;
     SpawnSystem _spawnSystem;
-    CommandSystem _commandSystem;
     DialogueSystem _dialogueSystem;
     CutsceneSystem _cutsceneSystem;
     ScreenSystem _screenSystem;
@@ -86,7 +85,6 @@ public class GameManager : MonoBehaviour
     {
         _gridSystem = GetComponent<GridSystem>();
         _spawnSystem = GetComponent<SpawnSystem>();
-        _commandSystem = GetComponent<CommandSystem>();
         _dialogueSystem = GetComponent<DialogueSystem>();
         _cutsceneSystem = GetComponent<CutsceneSystem>();
         _effectsSystem = GetComponent<EffectsSystem>();
@@ -298,11 +296,6 @@ public class GameManager : MonoBehaviour
 
         //renable game loop
         UpdateGameState(GameState.Playing);
-    }
-
-    public void SendEnemyCommands(EnemyShip enemyShip, int commandId)
-    {
-        enemyShip.shipCommands = _commandSystem.commandBank[commandId].shipCommands;
     }
 
     public void PauseGame()

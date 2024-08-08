@@ -63,6 +63,11 @@ public class ScreenSystem : MonoBehaviour
                 if (spawnedObject.TryGetComponent<GridMovable>(out var movable))
                 {
                     movable.SetupMoveable(_gameManager, spawnSystem, spawnPosition);
+
+                    if (movable.TryGetComponent<EnemyShip>(out var enemyShip))
+                    {
+                        spawnSystem.SetCommandsForSpawnCommand(enemyShip, spawn.spawnCommand);
+                    }
                 }
                 else
                 {

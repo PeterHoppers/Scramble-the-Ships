@@ -22,6 +22,7 @@ MonoBehaviour:
       y:
         anchor: 1
         offset: -3
+    spawnCommand: 3
   - gridObject: {fileID: 7509605564329555489, guid: 96a8fb82fe2a705438af526bb65f60bf, type: 3}
     facingDirection: 2
     spawnCoordinates:
@@ -31,6 +32,7 @@ MonoBehaviour:
       y:
         anchor: 1
         offset: 0
+    spawnCommand: 3
   - gridObject: {fileID: 7509605564329555489, guid: 96a8fb82fe2a705438af526bb65f60bf, type: 3}
     facingDirection: 3
     spawnCoordinates:
@@ -40,6 +42,7 @@ MonoBehaviour:
       y:
         anchor: 1
         offset: 3
+    spawnCommand: 3
   transitionGrids:
   - x:
       anchor: 1

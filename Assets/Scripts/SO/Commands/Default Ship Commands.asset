@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2960700f51c1aea428b1a73bd9bb1597, type: 3}
   m_Name: Default Ship Commands
   m_EditorClassIdentifier: 
-  shipCommands:
+  commands:
     _serializedList:
     - Key: 0
       Value: 0
@@ -22,3 +22,4 @@ MonoBehaviour:
       Value: 4
     - Key: 10
       Value: 1
+  commandsLoopAtTick: 0

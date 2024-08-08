@@ -16,7 +16,7 @@ public struct EnemySpawn
     public SpawnDirections spawnDirection;
     [Tooltip("The remaining coordinate, depending on the spawn direction, i.e top/bottom: x coordinate vs left/right: y coordinate")]
     public Coordinate otherCoordinate;
-    public int commandId;
+    public SpawnCommand spawnCommand;
 }
 
 [System.Serializable]

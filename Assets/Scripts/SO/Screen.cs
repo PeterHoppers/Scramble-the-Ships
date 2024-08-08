@@ -24,4 +24,5 @@ public struct ScreenSpawns
     public GridObject gridObject;
     public SpawnDirections facingDirection;
     public GridCoordinate spawnCoordinates;
+    public SpawnCommand spawnCommand;
 }
