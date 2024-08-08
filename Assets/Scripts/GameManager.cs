@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public Player playerShip;
     public List<ShipInfo> shipInfos = new List<ShipInfo>();
     public SerializedDictionary<int, List<GridCoordinate>> _startingPlayerPositions;
     [Range(2, 10)]
@@ -105,12 +106,24 @@ public class GameManager : MonoBehaviour
         };
     }
 
-    void Start()
+    IEnumerator Start()
     {       
         foreach (IManager managerObjects in FindAllManagers())
         {
             managerObjects.InitManager(this);
         }
+
+        yield return new WaitForSeconds(.125f);
+
+        CreatePlayerShip();
+
+        if (GlobalGameState.Instance && GlobalGameState.Instance.PlayerCount == 2)
+        {
+            CreatePlayerShip();
+        }
+
+        StartCoroutine(SetupNextScreen(_screenSystem.GetScreensRemaining(), TickDuration, false));
+        UpdateGameState(GameState.Transition);
     }
 
     private List<IManager> FindAllManagers()
@@ -121,33 +134,22 @@ public class GameManager : MonoBehaviour
         return new List<IManager>(dataPersistenceObjects);
     }
 
-    //TODO: Rework this so that joining is called in a different manner. 
-    //Right now, we have a manager handling this joining, but we'll need to reconfigure it to be a button press
-    //Will ask Sean about how joining a second player normally goes
-    public void OnPlayerJoined(PlayerInput playerInput)
+    private void CreatePlayerShip()
     {
-        playerInput.gameObject.TryGetComponent(out Player newPlayer);
+        var playerObject = Instantiate(playerShip);
+        var newPlayer = playerObject.GetComponent<Player>();
 
-        if (newPlayer != null)
-        {
-            int playerId = _players.Count;
-            newPlayer.InitPlayer(this, playerInput, shipInfos[playerId], playerId);
-            newPlayer.transform.SetParent(transform);           
+        int playerId = _players.Count;
+        newPlayer.InitPlayer(this, shipInfos[playerId], playerId);
+        newPlayer.transform.SetParent(transform);
 
-            _players.Add(newPlayer);
-            _playerLives.Add(numberOfLives);
+        _players.Add(newPlayer);
+        _playerLives.Add(numberOfLives);
 
-            var startingTile = GetStartingTileForPlayer(_players.Count, playerId);
+        var startingTile = GetStartingTileForPlayer(_players.Count, playerId);
 
-            SpawnPlayer(newPlayer, startingTile, false);
-            OnPlayerJoinedGame?.Invoke(newPlayer, numberOfLives);
-
-            if (_players.Count == 1)
-            {
-                StartCoroutine(SetupNextScreen(_screenSystem.GetScreensRemaining(), TickDuration, false));
-                UpdateGameState(GameState.Transition);
-            }            
-        }        
+        SpawnPlayer(newPlayer, startingTile, false);
+        OnPlayerJoinedGame?.Invoke(newPlayer, numberOfLives);
     }
 
     Tile GetStartingTileForPlayer(int playerAmount, int playerId)

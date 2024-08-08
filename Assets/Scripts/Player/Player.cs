@@ -15,7 +15,6 @@ public class Player : Previewable
     private ShipInfo _shipInfo;
     private ParticleSystem _deathVFX;
 
-    PlayerInput _playerInput;
     Sprite _shipSprite;
     Collider2D _shipCollider;
 
@@ -62,14 +61,13 @@ public class Player : Previewable
         ChangeShootingCondition(false);
     }
 
-    public void InitPlayer(GameManager manager, PlayerInput playerInput, ShipInfo shipInfo, int id)
+    public void InitPlayer(GameManager manager, ShipInfo shipInfo, int id)
     {
         _manager = manager;
         _manager.OnTickStart += OnTickStart;
         _manager.OnTickEnd += OnTickEnd;
         _manager.EffectsSystem.OnShootingChanged += (bool isAdded) => ChangeShootingCondition(isAdded);
 
-        _playerInput = playerInput;
         _shipInfo = shipInfo;
         PlayerId = id;
         AllowingInput = false;
