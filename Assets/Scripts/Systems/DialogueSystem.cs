@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Febucci.UI.Core;
+using Febucci.UI;
+using UnityEditor.Rendering;
 
 public class DialogueSystem : MonoBehaviour
 {
+    [Range(0, .1f)]
+    public float dialogueSpeed;
     [SerializeField]
     private GameObject dialogueHolder;
     [SerializeField] 
     private GameObject continuePrompt;
     [SerializeField]
-    private TypewriterCore dialogueText;
+    private TypewriterByCharacter dialogueTypewriter;
 
     public delegate void DialogueStart();
     public DialogueStart OnDialogueStart;
@@ -42,7 +46,10 @@ public class DialogueSystem : MonoBehaviour
     void Awake()
     {
         CurrentLineShown = false;
-        dialogueText.onTextShowed.AddListener(() => CurrentLineShown = true);
+        dialogueTypewriter.onTextShowed.AddListener(() => CurrentLineShown = true);
+        dialogueTypewriter.waitForNormalChars = dialogueSpeed;
+        dialogueTypewriter.waitMiddle = dialogueSpeed * 10;
+        dialogueTypewriter.waitLong = dialogueSpeed * 20;
         dialogueHolder.SetActive(false);
     }
 
@@ -75,6 +82,10 @@ public class DialogueSystem : MonoBehaviour
         {
             AdvanceDialogue();
         }
+        else
+        {
+            dialogueTypewriter.SkipTypewriter();
+        }
     }
 
     void AdvanceDialogue()
@@ -95,12 +106,12 @@ public class DialogueSystem : MonoBehaviour
     void UpdateText(int index)
     {
         var nextText = _currentDialogueNodes[index].textToDisplay;
-        dialogueText.ShowText(nextText);
+        dialogueTypewriter.ShowText(nextText);
     }
 
     void EndDialogue()
     {
-        dialogueText.ShowText("");
+        dialogueTypewriter.ShowText("");
         dialogueHolder.SetActive(false);
         OnDialogueEnd?.Invoke();
         _currentDialogueNodes = null;

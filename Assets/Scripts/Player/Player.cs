@@ -241,7 +241,7 @@ public class Player : Previewable
     {
         var fired = context.ReadValueAsButton();
 
-        if (fired == false)
+        if (fired == false || !context.performed)
         {
             return;
         }

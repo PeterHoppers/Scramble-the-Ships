@@ -4892,6 +4892,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GlobalGameState
       objectReference: {fileID: 0}
+    - target: {fileID: 9073767258024068174, guid: 23998af3c46b757499df508b643cf3ed, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9150693046311024729, guid: 23998af3c46b757499df508b643cf3ed, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -5284,9 +5288,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f4a2db2f1fe1894db72a864f263c5f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogueSpeed: 0.015
   dialogueHolder: {fileID: 338661237}
   continuePrompt: {fileID: 149648192}
-  dialogueText: {fileID: 1859451739}
+  dialogueTypewriter: {fileID: 1859451739}
 --- !u!114 &2124894465
 MonoBehaviour:
   m_ObjectHideFlags: 0
