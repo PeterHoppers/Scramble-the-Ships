@@ -10,6 +10,8 @@ public class DialogueSystem : MonoBehaviour
 {
     [Range(0, .1f)]
     public float dialogueSpeed;
+    [Range(0, 3)]
+    public float autoTextAdvanceInSeconds;
     [SerializeField]
     private GameObject dialogueHolder;
     [SerializeField] 
@@ -46,7 +48,12 @@ public class DialogueSystem : MonoBehaviour
     void Awake()
     {
         CurrentLineShown = false;
-        dialogueTypewriter.onTextShowed.AddListener(() => CurrentLineShown = true);
+        dialogueTypewriter.onTextShowed.AddListener(() => 
+        {
+            CurrentLineShown = true;
+            StartCoroutine(AutoAdvanceDialogue(autoTextAdvanceInSeconds));
+        });
+
         dialogueTypewriter.waitForNormalChars = dialogueSpeed;
         dialogueTypewriter.waitMiddle = dialogueSpeed * 10;
         dialogueTypewriter.waitLong = dialogueSpeed * 20;
@@ -76,6 +83,12 @@ public class DialogueSystem : MonoBehaviour
         OnDialogueStart?.Invoke();
     }
 
+    IEnumerator AutoAdvanceDialogue(float waitDuration)
+    { 
+        yield return new WaitForSeconds(waitDuration);
+        AdvanceDialogue();
+    }
+
     public void AdvanceDialoguePressed()
     {
         if (CurrentLineShown)
@@ -90,6 +103,7 @@ public class DialogueSystem : MonoBehaviour
 
     void AdvanceDialogue()
     {
+        StopAllCoroutines();
         CurrentLineShown = false;
         _currentIndex++;
 

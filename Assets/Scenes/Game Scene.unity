@@ -5289,6 +5289,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueSpeed: 0.015
+  autoTextAdvanceInSeconds: 3
   dialogueHolder: {fileID: 338661237}
   continuePrompt: {fileID: 149648192}
   dialogueTypewriter: {fileID: 1859451739}
