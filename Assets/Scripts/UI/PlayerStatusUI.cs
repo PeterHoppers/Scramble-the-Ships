@@ -7,13 +7,11 @@ using TMPro;
 public class PlayerStatusUI : MonoBehaviour
 {
     public LivesUI livesUI;
-    public TextMeshProUGUI joinMessage;
     public FireUI fireUI;
     Player _player;
     
     void Awake()
     {
-        joinMessage.gameObject.SetActive(true);
         fireUI.gameObject.SetActive(false);
         livesUI.gameObject.SetActive(false);
     }
@@ -21,7 +19,6 @@ public class PlayerStatusUI : MonoBehaviour
     public void AddPlayerReference(Player player, int lives)
     {
         _player = player;
-        joinMessage.gameObject.SetActive(false);
         livesUI.gameObject.SetActive(true);
         livesUI.SetupLives(player, lives);
 
