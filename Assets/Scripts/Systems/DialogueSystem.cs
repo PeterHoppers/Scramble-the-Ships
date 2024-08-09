@@ -51,7 +51,10 @@ public class DialogueSystem : MonoBehaviour
         dialogueTypewriter.onTextShowed.AddListener(() => 
         {
             CurrentLineShown = true;
-            StartCoroutine(AutoAdvanceDialogue(autoTextAdvanceInSeconds));
+            if (autoTextAdvanceInSeconds > 0)
+            {
+                StartCoroutine(AutoAdvanceDialogue(autoTextAdvanceInSeconds));
+            }
         });
 
         dialogueTypewriter.waitForNormalChars = dialogueSpeed;

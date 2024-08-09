@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using URPGlitch.Runtime.AnalogGlitch;
+using URPGlitch.Runtime.DigitalGlitch;
+using UnityEngine.Rendering;
 
 public class EffectsSystem : MonoBehaviour
 {
@@ -19,6 +22,20 @@ public class EffectsSystem : MonoBehaviour
 
     public delegate void ConditionChanged<T>(bool isGained) where T : Condition;
     public ConditionChanged<ShootingDisable> OnShootingChanged;
+
+    //Visual Effects
+    [SerializeField]
+    Volume _mainCameraVolume;
+    private DigitalGlitchVolume _digitalGlitchVolume;
+    private AnalogGlitchVolume _analogueGlichVolume;
+
+    private void Awake()
+    {
+        _mainCameraVolume.profile.TryGet<DigitalGlitchVolume>(out var digitalGlitchVolume);
+        _digitalGlitchVolume = digitalGlitchVolume;
+        _mainCameraVolume.profile.TryGet<AnalogGlitchVolume>(out var analogGlitchVolume);
+        _analogueGlichVolume = analogGlitchVolume;
+    }
 
     public void PerformEffect(Effect effect)
     { 
@@ -39,6 +56,12 @@ public class EffectsSystem : MonoBehaviour
             case EffectType.ShootingChanged:
                 OnShootingChanged?.Invoke(Convert.ToBoolean(effect.amount));
                 break;
+            case EffectType.DigitalGlitchIntensity:
+                _digitalGlitchVolume.intensity.value = effect.amount;
+                break;
+            case EffectType.ScanLineJitter:
+                _analogueGlichVolume.scanLineJitter.value = effect.amount;
+                break;
         }
     }
 }
@@ -56,5 +79,7 @@ public enum EffectType
     TickDuration,
     TicksUntilScramble,
     MoveOnInputChanged,
-    ShootingChanged
+    ShootingChanged,
+    DigitalGlitchIntensity,
+    ScanLineJitter,
 }
