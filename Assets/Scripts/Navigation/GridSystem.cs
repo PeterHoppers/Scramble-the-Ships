@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class GridSystem : MonoBehaviour
 {
@@ -22,7 +18,12 @@ public class GridSystem : MonoBehaviour
         CreateGrid();
     }
 
-    public bool TryGetTileByCoordinates(Coordinate x, Coordinate y, out Tile tile)
+    public bool TryGetTileByCoordinates(GridCoordinate grid, out Tile tile)
+    {
+        return TryGetTileByCoordinates(grid.x, grid.y, out tile);
+    }
+
+    bool TryGetTileByCoordinates(Coordinate x, Coordinate y, out Tile tile)
     {
         int xIndex = x.GetIndexFromMax(GetMaxWidthIndex());
         int yIndex = y.GetIndexFromMax(GetMaxHeightIndex());

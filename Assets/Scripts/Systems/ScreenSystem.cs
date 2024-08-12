@@ -59,7 +59,7 @@ public class ScreenSystem : MonoBehaviour
                 continue;
             }
 
-            if (gridSystem.TryGetTileByCoordinates(spawn.spawnCoordinates.x, spawn.spawnCoordinates.y, out var spawnPosition))
+            if (gridSystem.TryGetTileByCoordinates(spawn.spawnCoordinates, out var spawnPosition))
             {
                 var rotation = spawnSystem.GetRotationFromSpawnDirection(spawn.facingDirection);
                 var spawnedObject = spawnSystem.SpawnObjectAtTile(spawn.gridObject.gameObject, spawnPosition, rotation);
@@ -99,7 +99,7 @@ public class ScreenSystem : MonoBehaviour
         var screenTriggers = new List<ScreenChangeTrigger>();
         foreach (var transition in transitionGrids)
         {
-            if (gridSystem.TryGetTileByCoordinates(transition.x, transition.y, out var spawnPosition))
+            if (gridSystem.TryGetTileByCoordinates(transition, out var spawnPosition))
             {
                 var spawnedObject = spawnSystem.SpawnObjectAtTile(baseTrigger.gameObject, spawnPosition, baseTrigger.transform.rotation);
                 spawnedObject.GetComponent<GridObject>().SetupObject(_gameManager, spawnSystem, spawnPosition);

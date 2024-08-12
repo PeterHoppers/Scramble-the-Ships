@@ -159,8 +159,7 @@ public class GameManager : MonoBehaviour
     {
         var startingPosition = _startingPlayerPositions[playerAmount][playerId];
 
-        //TODO: Add a default spawning position, if the one provided is no longer valid for some reason
-        _gridSystem.TryGetTileByCoordinates(startingPosition.x, startingPosition.y, out var startingTile);
+        _gridSystem.TryGetTileByCoordinates(startingPosition, out var startingTile);
         return startingTile;
     }
 
