@@ -150,8 +150,8 @@ public class GameManager : MonoBehaviour
         _playerLives.Add(numberOfLives);
 
         var startingTile = GetStartingTileForPlayer(_players.Count, playerId);
-
-        SpawnPlayer(newPlayer, startingTile, false);
+        MovePreviewableOffScreenToTile(playerObject, startingTile, 0);
+        newPlayer.OnSpawn();
         OnPlayerJoinedGame?.Invoke(newPlayer, numberOfLives);
     }
 
@@ -163,27 +163,21 @@ public class GameManager : MonoBehaviour
         return startingTile;
     }
 
-    public void SpawnPlayer(Player player, Tile tile, bool moveOnScreen = true)
-    {
-        MovePreviewableToOffScreenRelativeToTile(player, tile, _tickEndDuration, moveOnScreen);
-        player.OnSpawn();
-    }
-
     public void MovePreviewableOffScreenToTile(Previewable preview, Tile tile, float duration)
     {
-        var offscreenPosition = _spawnSystem.GetOffscreenPosition(preview.transform.up, tile.GetTilePosition(), false);
-        preview.TransitionToPosition(offscreenPosition, duration);
+        _spawnSystem.MovePreviewableOffScreenToPosition(preview, preview.transform.up, tile.GetTilePosition(), duration);
     }
 
-    public void MovePreviewableToOffScreenRelativeToTile(Previewable preview, Tile tile, float duration, bool moveOnScreen = true)
+    public void MovePlayerOnScreenToTile(Player player, Tile tile, float duration)
     {
-        var offscreenPosition = _spawnSystem.GetOffscreenPosition(preview.transform.up, tile.GetTilePosition(), true);
-        preview.TransitionToPosition(offscreenPosition, 0);
+        _spawnSystem.MovePreviewableOffScreenToPosition(player, player.transform.up, tile.GetTilePosition(), 0, true);
+        player.TransitionToTile(tile, duration);
+    }
 
-        if (moveOnScreen)
-        {
-            preview.TransitionToTile(tile, duration);
-        }
+    void MovePlayerOntoStartingTitle(Player player, float duration)
+    {
+        var startingTile = GetStartingTileForPlayer(_players.Count, player.PlayerId);
+        MovePlayerOnScreenToTile(player, startingTile, duration);
     }
 
     public void PlayerGainedCondition(Player player, Condition condition)
@@ -214,7 +208,7 @@ public class GameManager : MonoBehaviour
     public void ScreenChangeTriggered(Player player)
     {
         ClearAllPreviews();
-        UpdateGameState(GameState.Transition);
+        ToggleIsPlaying(false, GameState.Transition);
         EndScreen(TickDuration);
     }
 
@@ -222,12 +216,10 @@ public class GameManager : MonoBehaviour
     {
         //disable all players' controls
         _players.ForEach(player =>
-        {
-            player.SetInputStatus(false);
+        {            
             //move player off screen
             var currentPos = player.CurrentTile.GetTilePosition();
-            var offscreenPosition = _spawnSystem.GetOffscreenPosition(player.transform.up, currentPos, false);
-            player.TransitionToPosition(offscreenPosition, endingDuation);
+            _spawnSystem.MovePreviewableOffScreenToPosition(player, player.transform.up, currentPos, endingDuation);
         });
 
         int screensRemainingInLevel = _screenSystem.GetScreensRemaining();
@@ -271,8 +263,7 @@ public class GameManager : MonoBehaviour
         //move ships on screen
         foreach (Player player in _players)
         {
-            var startingTile = GetStartingTileForPlayer(_players.Count, player.PlayerId);
-            MovePreviewableToOffScreenRelativeToTile(player, startingTile, screenLoadDuration);
+            MovePlayerOntoStartingTitle(player, screenLoadDuration);
         }
 
         yield return new WaitForSeconds(screenLoadDuration);
@@ -304,14 +295,14 @@ public class GameManager : MonoBehaviour
         _dialogueSystem.AdvanceDialoguePressed();
     }
 
-    public void ToggleIsPlaying(bool isPlaying)
+    public void ToggleIsPlaying(bool isPlaying, GameState disabledState = GameState.Paused)
     {
         foreach (Player player in _players)
         {
             player.SetInputStatus(isPlaying);
         }
 
-        var newGameState = (isPlaying) ? GameState.Playing : GameState.Paused;
+        var newGameState = (isPlaying) ? GameState.Playing : disabledState;
         UpdateGameState(newGameState);
     }
 
@@ -391,6 +382,7 @@ public class GameManager : MonoBehaviour
             player.OnDeath();
             int lives = _playerLives[player.PlayerId];
             lives--;
+
             _playerLives[player.PlayerId] = lives;
             OnPlayerDeath?.Invoke(player, lives);
 
@@ -402,12 +394,39 @@ public class GameManager : MonoBehaviour
 
             if (lives > 0)
             {
-                var spawnTile = GetStartingTileForPlayer(_players.Count, player.PlayerId);
-                _spawnSystem.QueuePlayerToSpawn(player, spawnTile, _ticksSinceScreenStart + ticksUntilRespawn);
-
-                // reset the current screen
+                StartCoroutine(ResetScreen());
             }            
         }
+    }
+
+    IEnumerator ResetScreen()
+    {
+        ToggleIsPlaying(false, GameState.Transition);
+        ClearAllPreviews();
+
+        yield return new WaitForSeconds(_tickDuration * 2);
+
+        _effectsSystem.PerformEffect(EffectType.DigitalGlitchIntensity, .5f);
+        _effectsSystem.PerformEffect(EffectType.HorizontalShake, .125f);
+        _effectsSystem.PerformEffect(EffectType.ScanLineJitter, .25f);
+
+        yield return new WaitForSeconds(_tickDuration / 2);
+
+        _spawnSystem.ClearObjects();
+        _screenSystem.ResetScreenGridObjects(_spawnSystem, _gridSystem);
+
+        foreach (Player player in _players)
+        {
+            player.OnSpawn();
+            MovePlayerOntoStartingTitle(player, _tickDuration);
+        }       
+        
+        _effectsSystem.PerformEffect(EffectType.DigitalGlitchIntensity, 0);
+        _effectsSystem.PerformEffect(EffectType.ScanLineJitter, 0);
+        _effectsSystem.PerformEffect(EffectType.HorizontalShake, 0);
+        yield return new WaitForSeconds(_tickDuration);
+        
+        ToggleIsPlaying(true);
     }
 
     public List<Player> GetAllCurrentPlayers()
@@ -612,6 +631,11 @@ public class GameManager : MonoBehaviour
 
     public float GetTimeRemainingInTick()
     {
+        if (_currentGameState != GameState.Playing)
+        {
+            return 0f;
+        }
+
         float timeRemaining = TickDuration - _tickElapsed;
         if (timeRemaining < 0)
         { 

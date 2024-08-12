@@ -46,7 +46,8 @@ public class SpawnSystem : MonoBehaviour
                 else if (spawn.spawnType == SpawnType.Player)
                 {
                     var playerToSpawn = spawn.objectToSpawn.GetComponent<Player>();
-                    _gameManager.SpawnPlayer(playerToSpawn, spawn.tileToSpawnAt);
+                    playerToSpawn.OnSpawn();
+                    _gameManager.MovePlayerOnScreenToTile(playerToSpawn, spawn.tileToSpawnAt, 1.5f); //tick duration                    
                 }
                 else
                 {
@@ -86,6 +87,12 @@ public class SpawnSystem : MonoBehaviour
 
         //the issue is that spawnedObject.transform.up handles which direction they should be spawning from
         return spawnedObject;
+    }
+
+    public void MovePreviewableOffScreenToPosition(Previewable preview, Vector3 direction, Vector2 currentPosition, float duration, bool isArriving = false)
+    {
+        var offscreenPosition = GetOffscreenPosition(direction, currentPosition, isArriving);
+        preview.TransitionToPosition(offscreenPosition, duration);
     }
 
     public Vector2 GetOffscreenPosition(Vector3 facingDirection, Vector2 currentPosition, bool isArriving)

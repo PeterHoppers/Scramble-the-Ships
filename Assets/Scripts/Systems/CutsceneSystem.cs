@@ -40,11 +40,7 @@ public class CutsceneSystem : MonoBehaviour
             item.DestroyObject();
         }
         yield return new WaitForSeconds(cutsceneDuration / 2);
-        _gameManager.EffectsSystem.PerformEffect(new Effect() 
-        { 
-            type = EffectType.ScrambleAmount,
-            amount = 3
-        });
+        _gameManager.EffectsSystem.PerformEffect(EffectType.ScrambleAmount, 3);
         _gameManager.ToggleIsPlaying(true);
     }
 

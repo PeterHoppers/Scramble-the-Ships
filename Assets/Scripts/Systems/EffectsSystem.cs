@@ -37,6 +37,15 @@ public class EffectsSystem : MonoBehaviour
         _analogueGlichVolume = analogGlitchVolume;
     }
 
+    public void PerformEffect(EffectType effectType, float effectAmount)
+    {
+        PerformEffect(new Effect()
+        {
+            type = effectType,
+            amount = effectAmount
+        });
+    }
+
     public void PerformEffect(Effect effect)
     { 
         switch(effect.type) 
@@ -62,6 +71,9 @@ public class EffectsSystem : MonoBehaviour
             case EffectType.ScanLineJitter:
                 _analogueGlichVolume.scanLineJitter.value = effect.amount;
                 break;
+            case EffectType.HorizontalShake:
+                _analogueGlichVolume.horizontalShake.value = effect.amount;
+                break;
         }
     }
 }
@@ -82,4 +94,5 @@ public enum EffectType
     ShootingChanged,
     DigitalGlitchIntensity,
     ScanLineJitter,
+    HorizontalShake,
 }

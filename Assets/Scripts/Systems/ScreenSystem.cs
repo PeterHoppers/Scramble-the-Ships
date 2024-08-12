@@ -49,6 +49,14 @@ public class ScreenSystem : MonoBehaviour
         _screensLoaded++;
     }
 
+    public void ResetScreenGridObjects(SpawnSystem spawnSystem, GridSystem gridSystem)
+    {
+        var nextScreen = _levelScreens[_screensLoaded - 1];
+        SetScreenStarters(spawnSystem, gridSystem, nextScreen.startingItems);
+        SetQueuedEnemies(spawnSystem, gridSystem, nextScreen.enemySpawnInformation);
+        SetScreenTranistions(spawnSystem, gridSystem, screenTrigger, nextScreen.transitionGrids);
+    }
+
     void SetScreenStarters(SpawnSystem spawnSystem, GridSystem gridSystem, List<ScreenSpawns> screenStarters)
     {
         foreach (var spawn in screenStarters)
