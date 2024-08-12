@@ -289,16 +289,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public bool IsInDialogue()
-    { 
-        return (_currentGameState == GameState.Dialogue);
-    }
-
-    public void PlayerAdvancedDialogue()
-    { 
-        _dialogueSystem.AdvanceDialoguePressed();
-    }
-
     public void ToggleIsPlaying(bool isPlaying, GameState disabledState = GameState.Paused)
     {
         foreach (Player player in _players)

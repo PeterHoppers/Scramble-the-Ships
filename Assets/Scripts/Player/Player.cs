@@ -246,11 +246,6 @@ public class Player : Previewable
             return;
         }
 
-        if (_manager.IsInDialogue())
-        {
-            _manager.PlayerAdvancedDialogue();
-        }
-
         if (!AllowingInput || _isDestroyed)
         {
             return;

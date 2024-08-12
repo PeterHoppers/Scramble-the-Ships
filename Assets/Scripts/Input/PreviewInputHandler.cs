@@ -1,29 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem.UI;
 
+[RequireComponent(typeof(InputSystemUIInputModule))]
 public class PreviewInputHandler : MonoBehaviour
 {
-    // Update is called once per frame
-    void Update()
+    InputSystemUIInputModule _inputSystemUIInputModule;
+
+    private void Awake()
     {
-        if (GlobalGameStateManager.Instance.GlobalGameStateStatus != GlobalGameStateStatus.Preview) 
-        {
-            return;
-        }
+        _inputSystemUIInputModule = GetComponent<InputSystemUIInputModule>();
+        _inputSystemUIInputModule.middleClick.action.performed += SelectedOnePlayer;
+        _inputSystemUIInputModule.rightClick.action.performed += SelectedOnePlayer;
+    }
 
-        if (Input.GetKeyUp(KeyCode.Alpha1) || Input.GetKeyUp(KeyCode.Keypad1)) 
-        {
-            GlobalGameStateManager.Instance.PlayerCount = 1;
-            GlobalGameStateManager.Instance.GlobalGameStateStatus = GlobalGameStateStatus.LevelSelect;
-        }
+    private void SelectedOnePlayer(InputAction.CallbackContext obj)
+    {
+        GlobalGameStateManager.Instance.PlayerCount = 1;
+        GlobalGameStateManager.Instance.GlobalGameStateStatus = GlobalGameStateStatus.LevelSelect;
+    }
 
-        if (Input.GetKeyUp(KeyCode.Alpha2) || Input.GetKeyUp(KeyCode.Keypad2))
-        {
-            GlobalGameStateManager.Instance.PlayerCount = 2;
-            GlobalGameStateManager.Instance.GlobalGameStateStatus = GlobalGameStateStatus.LevelSelect;
-        }
+    private void SelectedTwoPlayers(InputAction.CallbackContext obj)
+    {
+        GlobalGameStateManager.Instance.PlayerCount = 2;
+        GlobalGameStateManager.Instance.GlobalGameStateStatus = GlobalGameStateStatus.LevelSelect;
     }
 }

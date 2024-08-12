@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
-using Febucci.UI.Core;
 using Febucci.UI;
-using UnityEditor.Rendering;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
+using UnityEngine.InputSystem;
 
 public class DialogueSystem : MonoBehaviour
 {
@@ -56,6 +56,17 @@ public class DialogueSystem : MonoBehaviour
                 StartCoroutine(AutoAdvanceDialogue(autoTextAdvanceInSeconds));
             }
         });
+
+        var inputSystem = EventSystem.current.gameObject.GetComponent<InputSystemUIInputModule>();
+        inputSystem.submit.action.performed += (InputAction.CallbackContext context) => 
+        {
+            var fired = context.ReadValueAsButton();
+
+            if (fired == true && context.performed && HasDialogue())
+            {
+                AdvanceDialoguePressed();
+            }
+        };
 
         dialogueTypewriter.waitForNormalChars = dialogueSpeed;
         dialogueTypewriter.waitMiddle = dialogueSpeed * 10;
