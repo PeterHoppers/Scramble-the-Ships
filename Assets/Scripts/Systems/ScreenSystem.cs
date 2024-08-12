@@ -19,9 +19,9 @@ public class ScreenSystem : MonoBehaviour
         _gameManager = GetComponent<GameManager>();
     }
 
-    public void SetScreens(Level level)
+    public void SetScreens(Level level, int playerAmount)
     {
-        _levelScreens = level.levelScreens;
+        _levelScreens = level.GetLevelScreens(playerAmount);
         _screenAmount = _levelScreens.Length;
     }
 

@@ -122,7 +122,7 @@ public class GameManager : MonoBehaviour
         }
 
         var activeLevel = GlobalGameStateManager.Instance.GetLevelInfo();
-        _screenSystem.SetScreens(activeLevel);
+        _screenSystem.SetScreens(activeLevel, _players.Count);
 
         StartCoroutine(SetupNextScreen(_screenSystem.GetScreensRemaining(), TickDuration, false));
         UpdateGameState(GameState.Transition);
