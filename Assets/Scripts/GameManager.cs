@@ -285,13 +285,13 @@ public class GameManager : MonoBehaviour
             UpdateGameState(GameState.Dialogue);
             void WaitUntilDialogueEnds()
             {
-                RenablePlaying();
+                ToggleIsPlaying(true);
                 _dialogueSystem.OnDialogueEnd -= WaitUntilDialogueEnds;
             }
         }
         else
         {
-            RenablePlaying();
+            ToggleIsPlaying(true);
         }
     }
 
@@ -305,36 +305,26 @@ public class GameManager : MonoBehaviour
         _dialogueSystem.AdvanceDialoguePressed();
     }
 
-    public void RenablePlaying()
+    public void ToggleIsPlaying(bool isPlaying)
     {
         foreach (Player player in _players)
         {
-            player.SetInputStatus(true);
+            player.SetInputStatus(isPlaying);
         }
 
-        //renable game loop
-        UpdateGameState(GameState.Playing);
+        var newGameState = (isPlaying) ? GameState.Playing : GameState.Paused;
+        UpdateGameState(newGameState);
     }
 
     public void PauseGame()
     {
         if (_currentGameState == GameState.Paused)
         {
-            foreach (Player player in _players)
-            {
-                player.SetInputStatus(true);
-            }
-
-            UpdateGameState(GameState.Playing);
+            ToggleIsPlaying(true);
         }
         else if (_currentGameState == GameState.Playing)
         {
-            foreach (Player player in _players)
-            {
-                player.SetInputStatus(false);
-            }
-
-            UpdateGameState(GameState.Paused);
+            ToggleIsPlaying(false);
         }
     }
 
@@ -415,11 +405,9 @@ public class GameManager : MonoBehaviour
             {
                 var spawnTile = GetStartingTileForPlayer(_players.Count, player.PlayerId);
                 _spawnSystem.QueuePlayerToSpawn(player, spawnTile, _ticksSinceScreenStart + ticksUntilRespawn);
-            }
-            else
-            {
-                //TODO: Waiting for player to put in more money
-            }
+
+                //
+            }            
         }
     }
 

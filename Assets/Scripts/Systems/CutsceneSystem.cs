@@ -45,7 +45,7 @@ public class CutsceneSystem : MonoBehaviour
             type = EffectType.ScrambleAmount,
             amount = 3
         });
-        _gameManager.RenablePlaying();
+        _gameManager.ToggleIsPlaying(true);
     }
 
     IEnumerator ScreenTransitionCutscene(float cutsceneDuration)
