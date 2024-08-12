@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviour
     public List<ShipInfo> shipInfos = new List<ShipInfo>();
     public SerializedDictionary<int, List<GridCoordinate>> _startingPlayerPositions;
     [Range(2, 10)]
-    public int ticksUntilRespawn = 3;
     public int numberOfLives = 3;
     public PreviewableBase previewableBase;
 
@@ -52,7 +51,7 @@ public class GameManager : MonoBehaviour
     Dictionary<Player, PreviewAction> _attemptedPlayerActions = new Dictionary<Player, PreviewAction>();
     List<PreviewAction> _previewActions = new List<PreviewAction>();
     private List<Player> _players = new List<Player>();
-    private List<int> _playerLives = new List<int>();
+    private int _playerLives = 0;
 
     GridSystem _gridSystem;
     SpawnSystem _spawnSystem;
@@ -147,7 +146,7 @@ public class GameManager : MonoBehaviour
         newPlayer.transform.SetParent(transform);
 
         _players.Add(newPlayer);
-        _playerLives.Add(numberOfLives);
+        _playerLives = _players.Count * numberOfLives;
 
         var startingTile = GetStartingTileForPlayer(_players.Count, playerId);
         MovePreviewableOffScreenToTile(playerObject, startingTile, 0);
@@ -188,6 +187,11 @@ public class GameManager : MonoBehaviour
     public void PlayerLostCondition(Player player, Condition condition)
     {
         OnPlayerConditionEnd?.Invoke(player, condition);
+    }
+
+    public int GetLivesRemaining()
+    {
+        return _playerLives;
     }
 
     public void ActivateCutscene(CutsceneType type, float cutsceneDuration)
@@ -380,22 +384,17 @@ public class GameManager : MonoBehaviour
         if (canPlayerDie)
         {
             player.OnDeath();
-            int lives = _playerLives[player.PlayerId];
-            lives--;
+            _playerLives--;
+            OnPlayerDeath?.Invoke(player, _playerLives);
 
-            _playerLives[player.PlayerId] = lives;
-            OnPlayerDeath?.Invoke(player, lives);
-
-            if (_playerLives.All(x => x <= 0))
-            {
-                UpdateGameState(GameState.GameOver);
-                return;
-            }
-
-            if (lives > 0)
+            if (_playerLives > 0)
             {
                 StartCoroutine(ResetScreen());
-            }            
+            }
+            else
+            {
+                UpdateGameState(GameState.GameOver);
+            }
         }
     }
 

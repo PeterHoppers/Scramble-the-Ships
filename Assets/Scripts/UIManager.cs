@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -12,6 +13,10 @@ public class UIManager : MonoBehaviour, IManager
     public GameObject gameUIHolder;
     public TextMeshProUGUI tickAmountDisplay;
     public TextMeshProUGUI screenRemainingDisplay;
+    public LivesUI livesUI;
+
+    [Header("Images")]
+    public List<Sprite> spritesForLives;
 
     GameManager _gameManager;
     int _ticksPassed = 0;
@@ -31,7 +36,7 @@ public class UIManager : MonoBehaviour, IManager
 
     void Awake()
     {
-        winScreenUI.gameObject.SetActive(false);
+        winScreenUI.gameObject.SetActive(false);        
     }
 
     void OnLevelEnd(int ticksPassed)
@@ -68,12 +73,14 @@ public class UIManager : MonoBehaviour, IManager
     {
         var playerStatus = playerStatusUIs[player.PlayerId];
         playerStatus.AddPlayerReference(player, numberOfLives);
+
+        var livesImages = spritesForLives[player.PlayerId];
+        livesUI.SetupLives(livesImages, _gameManager.GetLivesRemaining());
     }
 
     void OnPlayerDeath(Player player, int livesLeft)
     {
-        var playerStatus = playerStatusUIs[player.PlayerId];
-        playerStatus.DiedPlayerReference(livesLeft);
+        livesUI.LossLife(livesLeft);
     }
 
     void OnPlayerConditionStart(Player player, Condition condition)

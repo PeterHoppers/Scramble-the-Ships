@@ -8,9 +8,14 @@ public class LivesUI : MonoBehaviour
     public Image baseLifeDisplay;
     List<Image> shipImages = new List<Image>();
 
-    public void SetupLives(Player player, int lives)
+    public void SetupLives(Sprite sprite, int lives)
     {
-        var sprite = player.GetPreviewSprite();
+        foreach (var image in shipImages)
+        {
+            Destroy(image.gameObject);
+        }
+
+        shipImages.Clear();
 
         for (int index = 0; index < lives; index++)
         { 
