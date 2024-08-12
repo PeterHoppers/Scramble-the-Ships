@@ -467,6 +467,7 @@ public class GameManager : MonoBehaviour
     {
         var preview = _spawnSystem.SpawnObjectAtTile(previewableBase.gameObject, previewTile, previewableObject.transform.rotation);
         preview.name = $"Preview of {previewableObject}";
+        preview.transform.localScale = previewableObject.GetPreviewScale();
         var previewImage = previewableObject.GetPreviewSprite();
 
         var renderer = preview.GetComponent<SpriteRenderer>();

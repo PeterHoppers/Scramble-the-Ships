@@ -17,6 +17,11 @@ public abstract class Previewable : GridObject
 
     public abstract Sprite GetPreviewSprite();
 
+    public virtual Vector2 GetPreviewScale()
+    { 
+        return transform.localScale;
+    }
+
     public virtual Color GetPreviewColor()
     { 
         return new Color(.5f, .5f, .5f, .25f);

@@ -8,9 +8,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1392424010226996427, guid: c6637a20210e93244a7a33441c56caac, type: 3}
+      propertyPath: m_Size.x
+      value: 0.9
+      objectReference: {fileID: 0}
     - target: {fileID: 1436052264247922692, guid: c6637a20210e93244a7a33441c56caac, type: 3}
       propertyPath: m_Name
       value: Boss Laser
+      objectReference: {fileID: 0}
+    - target: {fileID: 5805042547421835825, guid: c6637a20210e93244a7a33441c56caac, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7275690079357888255, guid: c6637a20210e93244a7a33441c56caac, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7910747077131624722, guid: c6637a20210e93244a7a33441c56caac, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7910747077131624722, guid: c6637a20210e93244a7a33441c56caac, type: 3}
       propertyPath: m_LocalPosition.x
@@ -81,3 +97,4 @@ MonoBehaviour:
   previewObject: {fileID: 0}
   travelDirection: {x: 0, y: 0}
   inputValue: 0
+  cutsceneDuration: 2
