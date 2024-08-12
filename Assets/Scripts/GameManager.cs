@@ -406,7 +406,7 @@ public class GameManager : MonoBehaviour
                 var spawnTile = GetStartingTileForPlayer(_players.Count, player.PlayerId);
                 _spawnSystem.QueuePlayerToSpawn(player, spawnTile, _ticksSinceScreenStart + ticksUntilRespawn);
 
-                //
+                // reset the current screen
             }            
         }
     }
@@ -418,7 +418,7 @@ public class GameManager : MonoBehaviour
 
     public int GetLastIndexOfScramble()
     { 
-        return _lastIndexForScrambling; //TODO: Change this magic number to reflect gameplay progression
+        return _lastIndexForScrambling;
     }
 
     public void ClearPreviousPlayerAction(Player playerSent)
@@ -619,17 +619,6 @@ public class GameManager : MonoBehaviour
             timeRemaining = 0;
         }
         return timeRemaining;
-    }
-
-    public Tile GetByCoordinates(Vector2 targetCoordinates)
-    { 
-        _gridSystem.TryGetTileByCoordinates((int)targetCoordinates.x, (int)targetCoordinates.y, out var tile);
-        return tile;
-    }
-
-    public Vector2 GetGridLimits()
-    { 
-        return new Vector2(_gridSystem.GetMaxWidthIndex(), _gridSystem.GetMaxHeightIndex());
     }
 }
 

@@ -63,6 +63,11 @@ public class GridSystem : MonoBehaviour
         return gridWidth - _titleSpawnDepth;
     }
 
+    public Vector2 GetGridLimits()
+    {
+        return new Vector2(GetMaxWidthIndex(), GetMaxHeightIndex());
+    }
+
     private void CreateGrid()
     {
         var bounds = new Bounds();

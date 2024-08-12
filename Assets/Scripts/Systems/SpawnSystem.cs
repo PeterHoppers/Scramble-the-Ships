@@ -130,9 +130,9 @@ public class SpawnSystem : MonoBehaviour
         enemy.SetCommands(commands.commands, commands.commandsLoopAtTick);
     }
 
-    Vector2 GetSpawnCoordinates(SpawnDirections spawnDirection, Coordinate coordinate)
+    Vector2 GetSpawnCoordinates(GridSystem gridSystem, SpawnDirections spawnDirection, Coordinate coordinate)
     {
-        var maxCoordinates = _gameManager.GetGridLimits();
+        var maxCoordinates = gridSystem.GetGridLimits();
 
         switch (spawnDirection)
         {
@@ -171,7 +171,7 @@ public class SpawnSystem : MonoBehaviour
         return rotation;
     }
 
-    public void QueueEnemyToSpawn(EnemySpawn enemySpawn, int spawnTick)
+    public void QueueEnemyToSpawn(GridSystem gridSystem, EnemySpawn enemySpawn, int spawnTick)
     {
         if (spawnTick == 0)
         {
@@ -179,8 +179,8 @@ public class SpawnSystem : MonoBehaviour
             spawnTick = 1;
         }
 
-        var spawnCoordiantes = GetSpawnCoordinates(enemySpawn.spawnDirection, enemySpawn.otherCoordinate);
-        var spawnPosition = _gameManager.GetByCoordinates(spawnCoordiantes);
+        var spawnCoordiantes = GetSpawnCoordinates(gridSystem, enemySpawn.spawnDirection, enemySpawn.otherCoordinate);
+        var isSpawnable = gridSystem.TryGetTileByCoordinates((int)spawnCoordiantes.x, (int)spawnCoordiantes.y, out var spawnPosition);
         var spawnRotation = GetRotationFromSpawnDirection(enemySpawn.spawnDirection);
 
         var enemySpawnInfo = new SpawnInfo()

@@ -36,7 +36,7 @@ public class ScreenSystem : MonoBehaviour
 
         spawnSystem.ClearObjects();
         SetScreenStarters(spawnSystem, gridSystem, nextScreen.startingItems);
-        SetQueuedEnemies(spawnSystem, nextScreen.enemySpawnInformation);
+        SetQueuedEnemies(spawnSystem, gridSystem, nextScreen.enemySpawnInformation);
         SetScreenTranistions(spawnSystem, gridSystem, screenTrigger, nextScreen.transitionGrids);
 
         foreach (var effect in nextScreen.effects)
@@ -81,7 +81,7 @@ public class ScreenSystem : MonoBehaviour
         }
     }
 
-    void SetQueuedEnemies(SpawnSystem spawnSystem, SerializedDictionary<int, EnemySpawn[]> screenWaves)
+    void SetQueuedEnemies(SpawnSystem spawnSystem, GridSystem gridSystem, SerializedDictionary<int, EnemySpawn[]> screenWaves)
     {
         foreach (var screenPair in screenWaves)
         {
@@ -89,7 +89,7 @@ public class ScreenSystem : MonoBehaviour
 
             foreach (var spawn in wave)
             {
-                spawnSystem.QueueEnemyToSpawn(spawn, screenPair.Key);
+                spawnSystem.QueueEnemyToSpawn(gridSystem, spawn, screenPair.Key);
             }
         }
     }
