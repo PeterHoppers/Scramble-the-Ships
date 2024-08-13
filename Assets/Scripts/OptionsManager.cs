@@ -35,13 +35,20 @@ public class OptionsManager : MonoBehaviour, IManager
 
     public GameSettingParameters gameSettingParameters;
 
-    [Header("UI Components")]
+    [Header("UI Components for Game")]
     public TMP_Dropdown amountScrambledDropdown;
     public Slider tickDurationSlider;
     public Slider tickScrambleSlider;
     public TMP_Dropdown moveOnInputDropdown;
     public TMP_Dropdown shootingEnabledDropdown;
     public Slider livesPerSlider;
+
+    [Space]
+
+    public SystemSettingParameters systemSettingParameters;
+    [Header("UI Components for System")]
+    public TMP_Dropdown modeTypeDropdown;
+    public Slider creditsForPlaySlider;
 
     GameManager _gameManager;
     EffectsSystem _effectsSystem;
@@ -62,28 +69,58 @@ public class OptionsManager : MonoBehaviour, IManager
     {
         var dropdownOptions = amountScrambledDropdown.options.Select(option => option.text).ToList();
         amountScrambledDropdown.value = dropdownOptions.IndexOf(gameSettingParameters.amountControlsScrambled.ToString());
-        amountScrambledDropdown.onValueChanged.AddListener(delegate { OnScrambleDropdownUpdate(); });
+        amountScrambledDropdown.onValueChanged.AddListener((int newValue) => 
+        {
+            var dropdownOptions = amountScrambledDropdown.options.Select(option => option.text).ToList();
+            gameSettingParameters.amountControlsScrambled = int.Parse(dropdownOptions[newValue]);
+        });
 
         tickDurationSlider.value = gameSettingParameters.tickDuration * 10; //eww, I know, but there's no good way of forcing a slider to do steps on non whole numbers
-        tickDurationSlider.onValueChanged.AddListener(delegate { OnTickDurationUpdate(); });
+        tickDurationSlider.onValueChanged.AddListener((float newValue) => 
+        {
+            gameSettingParameters.tickDuration = newValue / 10;
+        });
 
-        moveOnInputDropdown.value = (gameSettingParameters.doesMoveOnInput) ? 1 : 0;
-        moveOnInputDropdown.onValueChanged.AddListener(delegate { OnMoveInputUpdate(); });
+        moveOnInputDropdown.value = BoolToDropdownIndex(gameSettingParameters.doesMoveOnInput);
+        moveOnInputDropdown.onValueChanged.AddListener((int newSelection) =>
+        {
+            gameSettingParameters.doesMoveOnInput = DropdownValueToBool(newSelection);
+        });
 
         tickScrambleSlider.value = gameSettingParameters.amountTickPerScramble;
-        tickScrambleSlider.onValueChanged.AddListener(delegate { OnTickScrambleUpdate(); });
+        tickScrambleSlider.onValueChanged.AddListener((float newValue) =>
+        {
+            gameSettingParameters.amountTickPerScramble = (int)newValue;
+        });
 
-        shootingEnabledDropdown.value = (gameSettingParameters.isShootingEnabled) ? 1 : 0;
-        shootingEnabledDropdown.onValueChanged.AddListener(delegate { OnShootingEnabledUpdate(); });
+        shootingEnabledDropdown.value = BoolToDropdownIndex(gameSettingParameters.isShootingEnabled);
+        shootingEnabledDropdown.onValueChanged.AddListener((int newSelection) =>
+        {
+            gameSettingParameters.isShootingEnabled = DropdownValueToBool(newSelection);
+        });
 
         livesPerSlider.value = gameSettingParameters.amountLivesPerPlayer;
-        livesPerSlider.onValueChanged.AddListener(delegate { OnLivesAmountUpdate(); });
+        livesPerSlider.onValueChanged.AddListener((float newValue) => 
+        {
+            gameSettingParameters.amountLivesPerPlayer = (int)newValue;
+        });
+
+        modeTypeDropdown.value = BoolToDropdownIndex(systemSettingParameters.isFreeplay);
+        modeTypeDropdown.onValueChanged.AddListener((int newSelection) =>
+        {
+            systemSettingParameters.isFreeplay = DropdownValueToBool(newSelection);
+        });
 
         transform.GetChild(0).gameObject.SetActive(false);
     }
 
     void InvokeCurrentOptions()
     {
+        if (!_effectsSystem)
+        {
+            return;
+        }
+
         _effectsSystem.OnScrambleAmountChanged?.Invoke(gameSettingParameters.amountControlsScrambled);
         _effectsSystem.OnTickDurationChanged?.Invoke(gameSettingParameters.tickDuration);
         _effectsSystem.OnTicksUntilScrambleChanged?.Invoke(gameSettingParameters.amountTickPerScramble);
@@ -91,56 +128,19 @@ public class OptionsManager : MonoBehaviour, IManager
         _effectsSystem.OnShootingChanged?.Invoke(!gameSettingParameters.isShootingEnabled);
     }
 
-    void OnScrambleDropdownUpdate()
+    bool DropdownToBool(TMP_Dropdown dropdown)
     {
-        var dropdownOptions = amountScrambledDropdown.options.Select(option => option.text).ToList();
-        gameSettingParameters.amountControlsScrambled = int.Parse(dropdownOptions[amountScrambledDropdown.value]);
-
-        if (_effectsSystem)
-        {
-            _effectsSystem.OnScrambleAmountChanged?.Invoke(gameSettingParameters.amountControlsScrambled);
-        }
+        return DropdownValueToBool(dropdown.value);
     }
 
-    void OnTickDurationUpdate()
+    bool DropdownValueToBool(int dropdownValue)
     {
-        gameSettingParameters.tickDuration = tickDurationSlider.value / 10;
-        if (_effectsSystem)
-        {
-            _effectsSystem.OnTickDurationChanged?.Invoke(gameSettingParameters.tickDuration);
-        }
+        return (dropdownValue == 1);
     }
 
-    void OnMoveInputUpdate()
+    int BoolToDropdownIndex(bool isSelected)
     {
-        gameSettingParameters.doesMoveOnInput = (moveOnInputDropdown.value == 1);
-        if (_effectsSystem)
-        {
-            _effectsSystem.OnMoveOnInputChanged?.Invoke(gameSettingParameters.doesMoveOnInput);
-        }
-    }
-
-    void OnTickScrambleUpdate()
-    {
-        gameSettingParameters.amountTickPerScramble = (int)tickScrambleSlider.value;
-        if (_effectsSystem)
-        {
-            _effectsSystem.OnTicksUntilScrambleChanged?.Invoke(gameSettingParameters.amountTickPerScramble);
-        }
-    }
-
-    void OnLivesAmountUpdate()
-    {
-        gameSettingParameters.amountLivesPerPlayer = (int)livesPerSlider.value;
-    }
-
-    void OnShootingEnabledUpdate()
-    {
-        gameSettingParameters.isShootingEnabled = (shootingEnabledDropdown.value == 1);
-        if (_effectsSystem)
-        {
-            _effectsSystem.OnShootingChanged?.Invoke(!gameSettingParameters.isShootingEnabled);
-        }
+        return (isSelected) ? 1 : 0;
     }
 
     public void ToggleOptions()
@@ -152,6 +152,10 @@ public class OptionsManager : MonoBehaviour, IManager
         if (toggledActiveState)
         {
             EventSystem.current.SetSelectedGameObject(amountScrambledDropdown.gameObject);
+        }
+        else
+        {
+            InvokeCurrentOptions();
         }
     }
 
@@ -179,7 +183,9 @@ public struct GameSettingParameters
     public int amountLivesPerPlayer;
 }
 
+[System.Serializable]
 public struct SystemSettingParameters
 {
     public bool isFreeplay;
+    public int coinsPerPlay;
 }
