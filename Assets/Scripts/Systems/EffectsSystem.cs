@@ -35,6 +35,17 @@ public class EffectsSystem : MonoBehaviour
         _digitalGlitchVolume = digitalGlitchVolume;
         _mainCameraVolume.profile.TryGet<AnalogGlitchVolume>(out var analogGlitchVolume);
         _analogueGlichVolume = analogGlitchVolume;
+
+        OptionsManager.Instance.OnParametersChanged += InvokeCurrentParameters;
+    }
+
+    private void InvokeCurrentParameters(GameSettingParameters gameSettings, SystemSettingParameters systemSettingParameters)
+    {
+        OnScrambleAmountChanged?.Invoke(gameSettings.amountControlsScrambled);
+        OnTickDurationChanged?.Invoke(gameSettings.tickDuration);
+        OnTicksUntilScrambleChanged?.Invoke(gameSettings.amountTickPerScramble);
+        OnMoveOnInputChanged?.Invoke(gameSettings.doesMoveOnInput);
+        OnShootingChanged?.Invoke(!gameSettings.isShootingEnabled);
     }
 
     public void PerformEffect(EffectType effectType, float effectAmount)

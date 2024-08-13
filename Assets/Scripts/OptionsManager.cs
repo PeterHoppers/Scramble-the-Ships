@@ -22,17 +22,6 @@ public class OptionsManager : MonoBehaviour, IManager
         }
     }
 
-    private void Awake()
-    {
-        if (Instance != null)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
-
     public GameSettingParameters gameSettingParameters;
 
     [Header("UI Components for Game")]
@@ -50,14 +39,30 @@ public class OptionsManager : MonoBehaviour, IManager
     public TMP_Dropdown modeTypeDropdown;
     public Slider creditsForPlaySlider;
 
+    public delegate void ParametersChanged(GameSettingParameters gameSettings, SystemSettingParameters systemSettingParameters);
+    public ParametersChanged OnParametersChanged;
+
     GameManager _gameManager;
-    EffectsSystem _effectsSystem;
 
     public void InitManager(GameManager manager)
     {
         _gameManager = manager;
-        _effectsSystem = manager.EffectsSystem;
-        InvokeCurrentOptions();
+    }
+
+    public void AfterInitManager()
+    { 
+        OnParametersChanged?.Invoke(gameSettingParameters, systemSettingParameters);
+    }
+
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     void Start()
@@ -111,21 +116,13 @@ public class OptionsManager : MonoBehaviour, IManager
             systemSettingParameters.isFreeplay = DropdownValueToBool(newSelection);
         });
 
-        transform.GetChild(0).gameObject.SetActive(false);
-    }
-
-    void InvokeCurrentOptions()
-    {
-        if (!_effectsSystem)
+        creditsForPlaySlider.value = systemSettingParameters.coinsPerPlay;
+        creditsForPlaySlider.onValueChanged.AddListener((float newValue) =>
         {
-            return;
-        }
+            systemSettingParameters.coinsPerPlay = (int)newValue;
+        });
 
-        _effectsSystem.OnScrambleAmountChanged?.Invoke(gameSettingParameters.amountControlsScrambled);
-        _effectsSystem.OnTickDurationChanged?.Invoke(gameSettingParameters.tickDuration);
-        _effectsSystem.OnTicksUntilScrambleChanged?.Invoke(gameSettingParameters.amountTickPerScramble);
-        _effectsSystem.OnMoveOnInputChanged?.Invoke(gameSettingParameters.doesMoveOnInput);
-        _effectsSystem.OnShootingChanged?.Invoke(!gameSettingParameters.isShootingEnabled);
+        transform.GetChild(0).gameObject.SetActive(false);
     }
 
     bool DropdownToBool(TMP_Dropdown dropdown)
@@ -155,7 +152,7 @@ public class OptionsManager : MonoBehaviour, IManager
         }
         else
         {
-            InvokeCurrentOptions();
+            OnParametersChanged?.Invoke(gameSettingParameters, systemSettingParameters);
         }
     }
 

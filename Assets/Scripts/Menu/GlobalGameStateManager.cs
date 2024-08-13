@@ -7,6 +7,7 @@ public class GlobalGameStateManager : MonoBehaviour
 {
     public static GlobalGameStateManager Instance { get; private set; }
     public int PlayerCount { get; set; }
+    public int CreditCount { get; set; }
 
     [SerializeField]
     private List<Level> _levels = new List<Level>();
@@ -16,6 +17,9 @@ public class GlobalGameStateManager : MonoBehaviour
 
     public delegate void StateChange(GlobalGameStateStatus newState);
     public StateChange OnStateChange;
+
+    public delegate void CreditsChange(int creditAmount);
+    public CreditsChange OnCreditsChange;
 
     GlobalGameStateStatus _globalGameStateStatus;
     public GlobalGameStateStatus GlobalGameStateStatus 
@@ -67,6 +71,26 @@ public class GlobalGameStateManager : MonoBehaviour
     public bool IsActiveLevelTutorial()
     {
         return (_activeLevelIndex == TUTORIAL_INDEX);
+    }
+
+    void CoinInserted()
+    {
+        CreditCount++;
+        OnCreditsChange.Invoke(CreditCount);
+    }
+
+    public void ClearCredits()
+    {
+        CreditCount = 0;
+        OnCreditsChange.Invoke(CreditCount);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Alpha5) || Input.GetKeyUp(KeyCode.Keypad5) || Input.GetKeyUp(KeyCode.Alpha6) || Input.GetKeyUp(KeyCode.Keypad6))
+        {
+            CoinInserted();
+        }
     }
 }
 

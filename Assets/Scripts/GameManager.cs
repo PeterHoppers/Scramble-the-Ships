@@ -112,8 +112,8 @@ public class GameManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(.125f);
-
         var numberOfLives = OptionsManager.Instance.gameSettingParameters.amountLivesPerPlayer;
+        OptionsManager.Instance.AfterInitManager();
 
         CreatePlayerShip(numberOfLives);
 
