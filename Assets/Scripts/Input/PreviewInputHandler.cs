@@ -11,7 +11,7 @@ public class PreviewInputHandler : MonoBehaviour
     {
         _inputSystemUIInputModule = GetComponent<InputSystemUIInputModule>();
         _inputSystemUIInputModule.middleClick.action.performed += SelectedOnePlayer;
-        _inputSystemUIInputModule.rightClick.action.performed += SelectedOnePlayer;
+        _inputSystemUIInputModule.rightClick.action.performed += SelectedTwoPlayers;
     }
 
     private void SelectedOnePlayer(InputAction.CallbackContext obj)

@@ -16,7 +16,10 @@ public class OptionsManager : MonoBehaviour, IManager
         {
             return instance;
         }
-        private set { }
+        private set 
+        {
+            instance = value;
+        }
     }
 
     private void Awake()
@@ -30,7 +33,7 @@ public class OptionsManager : MonoBehaviour, IManager
         DontDestroyOnLoad(gameObject);
     }
 
-    public TestParameters testParameters;
+    public GameSettingParameters gameSettingParameters;
 
     [Header("UI Components")]
     public TMP_Dropdown amountScrambledDropdown;
@@ -38,6 +41,7 @@ public class OptionsManager : MonoBehaviour, IManager
     public Slider tickScrambleSlider;
     public TMP_Dropdown moveOnInputDropdown;
     public TMP_Dropdown shootingEnabledDropdown;
+    public Slider livesPerSlider;
 
     GameManager _gameManager;
     EffectsSystem _effectsSystem;
@@ -57,77 +61,85 @@ public class OptionsManager : MonoBehaviour, IManager
     void SetupSettings()
     {
         var dropdownOptions = amountScrambledDropdown.options.Select(option => option.text).ToList();
-        amountScrambledDropdown.value = dropdownOptions.IndexOf(testParameters.amountControlsScrambled.ToString());
+        amountScrambledDropdown.value = dropdownOptions.IndexOf(gameSettingParameters.amountControlsScrambled.ToString());
         amountScrambledDropdown.onValueChanged.AddListener(delegate { OnScrambleDropdownUpdate(); });
 
-        tickDurationSlider.value = testParameters.tickDuration * 10; //eww, I know, but there's no good way of forcing a slider to do steps on non whole numbers
+        tickDurationSlider.value = gameSettingParameters.tickDuration * 10; //eww, I know, but there's no good way of forcing a slider to do steps on non whole numbers
         tickDurationSlider.onValueChanged.AddListener(delegate { OnTickDurationUpdate(); });
 
-        moveOnInputDropdown.value = (testParameters.doesMoveOnInput) ? 1 : 0;
+        moveOnInputDropdown.value = (gameSettingParameters.doesMoveOnInput) ? 1 : 0;
         moveOnInputDropdown.onValueChanged.AddListener(delegate { OnMoveInputUpdate(); });
 
-        tickScrambleSlider.value = testParameters.amountTickPerScramble;
+        tickScrambleSlider.value = gameSettingParameters.amountTickPerScramble;
         tickScrambleSlider.onValueChanged.AddListener(delegate { OnTickScrambleUpdate(); });
 
-        shootingEnabledDropdown.value = (testParameters.isShootingEnabled) ? 1 : 0;
-        shootingEnabledDropdown.onValueChanged.AddListener(delegate { OnShootingEnabledUpdate(); });       
+        shootingEnabledDropdown.value = (gameSettingParameters.isShootingEnabled) ? 1 : 0;
+        shootingEnabledDropdown.onValueChanged.AddListener(delegate { OnShootingEnabledUpdate(); });
+
+        livesPerSlider.value = gameSettingParameters.amountLivesPerPlayer;
+        livesPerSlider.onValueChanged.AddListener(delegate { OnLivesAmountUpdate(); });
 
         transform.GetChild(0).gameObject.SetActive(false);
     }
 
     void InvokeCurrentOptions()
     {
-        _effectsSystem.OnScrambleAmountChanged?.Invoke(testParameters.amountControlsScrambled);
-        _effectsSystem.OnTickDurationChanged?.Invoke(testParameters.tickDuration);
-        _effectsSystem.OnTicksUntilScrambleChanged?.Invoke(testParameters.amountTickPerScramble);
-        _effectsSystem.OnMoveOnInputChanged?.Invoke(testParameters.doesMoveOnInput);
-        _effectsSystem.OnShootingChanged?.Invoke(!testParameters.isShootingEnabled);
+        _effectsSystem.OnScrambleAmountChanged?.Invoke(gameSettingParameters.amountControlsScrambled);
+        _effectsSystem.OnTickDurationChanged?.Invoke(gameSettingParameters.tickDuration);
+        _effectsSystem.OnTicksUntilScrambleChanged?.Invoke(gameSettingParameters.amountTickPerScramble);
+        _effectsSystem.OnMoveOnInputChanged?.Invoke(gameSettingParameters.doesMoveOnInput);
+        _effectsSystem.OnShootingChanged?.Invoke(!gameSettingParameters.isShootingEnabled);
     }
 
     void OnScrambleDropdownUpdate()
     {
         var dropdownOptions = amountScrambledDropdown.options.Select(option => option.text).ToList();
-        testParameters.amountControlsScrambled = int.Parse(dropdownOptions[amountScrambledDropdown.value]);
+        gameSettingParameters.amountControlsScrambled = int.Parse(dropdownOptions[amountScrambledDropdown.value]);
 
         if (_effectsSystem)
         {
-            _effectsSystem.OnScrambleAmountChanged?.Invoke(testParameters.amountControlsScrambled);
+            _effectsSystem.OnScrambleAmountChanged?.Invoke(gameSettingParameters.amountControlsScrambled);
         }
     }
 
     void OnTickDurationUpdate()
     {
-        testParameters.tickDuration = tickDurationSlider.value / 10;
+        gameSettingParameters.tickDuration = tickDurationSlider.value / 10;
         if (_effectsSystem)
         {
-            _effectsSystem.OnTickDurationChanged?.Invoke(testParameters.tickDuration);
+            _effectsSystem.OnTickDurationChanged?.Invoke(gameSettingParameters.tickDuration);
         }
     }
 
     void OnMoveInputUpdate()
     {
-        testParameters.doesMoveOnInput = (moveOnInputDropdown.value == 1);
+        gameSettingParameters.doesMoveOnInput = (moveOnInputDropdown.value == 1);
         if (_effectsSystem)
         {
-            _effectsSystem.OnMoveOnInputChanged?.Invoke(testParameters.doesMoveOnInput);
+            _effectsSystem.OnMoveOnInputChanged?.Invoke(gameSettingParameters.doesMoveOnInput);
         }
     }
 
     void OnTickScrambleUpdate()
     {
-        testParameters.amountTickPerScramble = (int)tickScrambleSlider.value;
+        gameSettingParameters.amountTickPerScramble = (int)tickScrambleSlider.value;
         if (_effectsSystem)
         {
-            _effectsSystem.OnTicksUntilScrambleChanged?.Invoke(testParameters.amountTickPerScramble);
+            _effectsSystem.OnTicksUntilScrambleChanged?.Invoke(gameSettingParameters.amountTickPerScramble);
         }
+    }
+
+    void OnLivesAmountUpdate()
+    {
+        gameSettingParameters.amountLivesPerPlayer = (int)livesPerSlider.value;
     }
 
     void OnShootingEnabledUpdate()
     {
-        testParameters.isShootingEnabled = (shootingEnabledDropdown.value == 1);
+        gameSettingParameters.isShootingEnabled = (shootingEnabledDropdown.value == 1);
         if (_effectsSystem)
         {
-            _effectsSystem.OnShootingChanged?.Invoke(!testParameters.isShootingEnabled);
+            _effectsSystem.OnShootingChanged?.Invoke(!gameSettingParameters.isShootingEnabled);
         }
     }
 
@@ -157,11 +169,17 @@ public class OptionsManager : MonoBehaviour, IManager
 }
 
 [System.Serializable]
-public struct TestParameters
+public struct GameSettingParameters
 {
     public int amountControlsScrambled;
     public float tickDuration;
     public int amountTickPerScramble;
     public bool doesMoveOnInput;
     public bool isShootingEnabled;
+    public int amountLivesPerPlayer;
+}
+
+public struct SystemSettingParameters
+{
+    public bool isFreeplay;
 }

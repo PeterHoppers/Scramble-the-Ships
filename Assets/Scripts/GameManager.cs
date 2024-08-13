@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviour
     public List<ShipInfo> shipInfos = new List<ShipInfo>();
     public SerializedDictionary<int, List<GridCoordinate>> _startingPlayerPositions;
     [Range(2, 10)]
-    public int numberOfLives = 3;
     public PreviewableBase previewableBase;
 
     //GameManager Events
@@ -114,11 +113,13 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(.125f);
 
-        CreatePlayerShip();
+        var numberOfLives = OptionsManager.Instance.gameSettingParameters.amountLivesPerPlayer;
+
+        CreatePlayerShip(numberOfLives);
 
         if (GlobalGameStateManager.Instance.PlayerCount == 2)
         {
-            CreatePlayerShip();
+            CreatePlayerShip(numberOfLives);
         }
 
         var activeLevel = GlobalGameStateManager.Instance.GetLevelInfo();
@@ -136,7 +137,7 @@ public class GameManager : MonoBehaviour
         return new List<IManager>(dataPersistenceObjects);
     }
 
-    private void CreatePlayerShip()
+    private void CreatePlayerShip(int numberOfLives)
     {
         var playerObject = Instantiate(playerShip);
         var newPlayer = playerObject.GetComponent<Player>();
