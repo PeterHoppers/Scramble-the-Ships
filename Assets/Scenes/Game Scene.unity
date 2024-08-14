@@ -2422,6 +2422,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 81c3dc71ff4cd7d4ca6bd8dea0c443ca, type: 3}
+--- !u!114 &934627133 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5146906471628420707, guid: 81c3dc71ff4cd7d4ca6bd8dea0c443ca, type: 3}
+  m_PrefabInstance: {fileID: 934627132}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &986242557
 GameObject:
   m_ObjectHideFlags: 0
@@ -5794,7 +5805,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueSpeed: 0.015
-  autoTextAdvanceInSeconds: 0
+  autoTextAdvanceInSeconds: 3
   dialogueHolder: {fileID: 338661237}
   continuePrompt: {fileID: 149648192}
   dialogueTypewriter: {fileID: 1859451739}
@@ -5810,7 +5821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d24e90462e2f8014a85fb1fd70a8f2f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mainCameraVolume: {fileID: 0}
+  _mainCameraVolume: {fileID: 934627133}
 --- !u!114 &2124894466
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -14,11 +14,12 @@ public class PanningBackground : MonoBehaviour
     SpriteRenderer _topRenderer;
     SpriteRenderer _bottomRenderer;
 
-    bool _isTopBeingViewed = true;
+    bool _isTopBeingViewed = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        _isTopBeingViewed = (panningDirection.y > 0);
         _backgroundSectionHeight = backgroundRenderer.bounds.size.y;
 
         var topBackgroundPiece = Instantiate(backgroundRenderer.gameObject, backgroundHolder);

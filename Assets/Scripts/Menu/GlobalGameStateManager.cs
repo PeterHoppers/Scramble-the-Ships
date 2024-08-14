@@ -9,6 +9,8 @@ public class GlobalGameStateManager : MonoBehaviour
     public int PlayerCount { get; set; }
     public int CreditCount { get; set; }
 
+    public int CutsceneID { get; set; }
+
     [SerializeField]
     private List<Level> _levels = new List<Level>();
     const int TUTORIAL_INDEX = 0;
@@ -45,7 +47,7 @@ public class GlobalGameStateManager : MonoBehaviour
         _levelSceneSystem = GetComponent<LevelSceneSystem>();
     }
 
-    public void SetStartingLevel(int level)
+    public void SetLevel(int level)
     {
         _activeLevelIndex = level;
         GlobalGameStateStatus = GlobalGameStateStatus.Game;
@@ -56,6 +58,11 @@ public class GlobalGameStateManager : MonoBehaviour
     {
         _activeLevelIndex++;
         _levelSceneSystem.ReloadCurrentScene();
+    }
+
+    public void AdvanceFromCutsceneToGame()
+    {
+        SetLevel(0);
     }
 
     public void RestartGameScene()

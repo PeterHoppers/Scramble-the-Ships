@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
     public Player playerShip;
     public List<ShipInfo> shipInfos = new List<ShipInfo>();
     public SerializedDictionary<int, List<GridCoordinate>> _startingPlayerPositions;
-    [Range(2, 10)]
     public PreviewableBase previewableBase;
 
     //GameManager Events
