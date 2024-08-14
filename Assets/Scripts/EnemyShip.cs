@@ -21,7 +21,7 @@ public class EnemyShip : GridMovable
 
     protected override void CreateNextPreview(float timeToTickEnd)
     {
-        if (_shipCommands.TryGetValue(_ticksSinceSpawn, out var inputValue)) 
+        if (_shipCommands != null && _shipCommands.TryGetValue(_ticksSinceSpawn, out var inputValue)) 
         {
             if (inputValue == InputValue.Fire)
             {
