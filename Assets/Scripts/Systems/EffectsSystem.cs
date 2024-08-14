@@ -35,7 +35,10 @@ public class EffectsSystem : MonoBehaviour
         _digitalGlitchVolume = digitalGlitchVolume;
         _mainCameraVolume.profile.TryGet<AnalogGlitchVolume>(out var analogGlitchVolume);
         _analogueGlichVolume = analogGlitchVolume;
+    }
 
+    private void Start()
+    {
         OptionsManager.Instance.OnParametersChanged += InvokeCurrentParameters;
     }
 

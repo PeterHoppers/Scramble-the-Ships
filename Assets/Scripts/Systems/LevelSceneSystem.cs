@@ -7,10 +7,16 @@ public class LevelSceneSystem : MonoBehaviour
 {
     public const int PREVIEW_SCENE_INDEX = 0;
     public const int GAME_SCENE_INDEX = 1;
+    public const int CUTSCENE_SCENE_INDEX = 2;
 
     public void LoadGameScene()
     { 
         SceneManager.LoadScene(GAME_SCENE_INDEX);
+    }
+
+    public void LoadCutsceneScene()
+    {
+        SceneManager.LoadScene(CUTSCENE_SCENE_INDEX);
     }
 
     public void ReloadCurrentScene()

@@ -268,7 +268,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Admin Panel
+  m_text: Config Menu
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -518,7 +518,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levels:
-  - {fileID: 11400000, guid: 441b03407b426ff48b02378352246728, type: 2}
+  - {fileID: 11400000, guid: d59490141739f2d4694f11cd5d33adf1, type: 2}
+  - {fileID: 11400000, guid: d59490141739f2d4694f11cd5d33adf1, type: 2}
   - {fileID: 11400000, guid: 728a1716cff4b284b9ad127715156fc7, type: 2}
 --- !u!114 &719655402535580406
 MonoBehaviour:

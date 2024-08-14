@@ -54,6 +54,13 @@ public class GlobalGameStateManager : MonoBehaviour
         _levelSceneSystem.LoadGameScene();
     }
 
+    public void StartNextCutscene()
+    {
+        CutsceneID++;
+        GlobalGameStateStatus = GlobalGameStateStatus.Cutscene;
+        _levelSceneSystem.LoadCutsceneScene();
+    }
+
     public void NextLevel()
     {
         _activeLevelIndex++;
@@ -62,7 +69,8 @@ public class GlobalGameStateManager : MonoBehaviour
 
     public void AdvanceFromCutsceneToGame()
     {
-        SetLevel(0);
+        _activeLevelIndex++;
+        SetLevel(_activeLevelIndex);
     }
 
     public void RestartGameScene()
@@ -105,5 +113,6 @@ public enum GlobalGameStateStatus
 { 
     Preview,
     LevelSelect,
+    Cutscene,
     Game
 }

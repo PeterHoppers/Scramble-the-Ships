@@ -248,7 +248,7 @@ public class GameManager : MonoBehaviour
     IEnumerator MoveToNextLevel(float waitDuation)
     { 
         yield return new WaitForSeconds(waitDuation);
-        GlobalGameStateManager.Instance.NextLevel();
+        GlobalGameStateManager.Instance.StartNextCutscene();
     }
 
     IEnumerator SetupNextScreen(int screensRemainingInLevel, float screenLoadDuration, bool playTransitionCutscene = true)
