@@ -20,7 +20,6 @@ public class ControlsManager : MonoBehaviour, IManager
     {
         _gameManager = manager;
         _gameManager.OnTickStart += CheckIfScramble;
-        _gameManager.OnTickEnd += OnTickEnd;
         _gameManager.OnPlayerJoinedGame += OnPlayerJoined;
 
         _gameManager.EffectsSystem.OnScrambleAmountChanged += (int scrambleAmount) => _amountToScramble = scrambleAmount;
@@ -114,14 +113,6 @@ public class ControlsManager : MonoBehaviour, IManager
             .Take(unshuffledValues.Count - amountScrambleOptions));        
 
         return shuffledValues;
-    }
-
-    private void OnTickEnd(int _)
-    {
-        foreach (var player in _players)
-        {
-            player.AllowingInput = false;
-        }
     }
 
     private void OnPlayerJoined(Player player, int numberOfLives)

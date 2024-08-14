@@ -19,8 +19,8 @@ public class Player : Previewable
     Collider2D _shipCollider;
 
     public int PlayerId { get; private set; }
-    public bool AllowingInput { get; set; }
-    private bool _isDestroyed = false;
+    private bool _allowingInput;
+    private bool _isInactive = false;
     InputValue? _lastInput;
 
     List<PlayerAction> _possibleActions = new List<PlayerAction>();
@@ -31,7 +31,6 @@ public class Player : Previewable
 
     private void Awake()
     {
-        
         _shipCollider = GetComponent<Collider2D>();
     }
 
@@ -70,7 +69,7 @@ public class Player : Previewable
 
         _shipInfo = shipInfo;
         PlayerId = id;
-        AllowingInput = false;
+        _allowingInput = false;
 
         foreach (InputValue inputValue in Enum.GetValues(typeof(InputValue)))
         {
@@ -84,23 +83,23 @@ public class Player : Previewable
 
     private void OnTickStart(float _)
     {
-        if (_isDestroyed)
+        if (_isInactive)
         {
             return;
         }
 
-        AllowingInput = true;
+        _allowingInput = true;
         ClearSelected();
     }
 
     private void OnTickEnd(int _)
     {
-        if (_isDestroyed) 
+        if (_isInactive) 
         {
             return;
         }
 
-        AllowingInput = false;
+        _allowingInput = false;
 
         foreach (var inputValue in inputValueDisplays)
         {
@@ -178,7 +177,7 @@ public class Player : Previewable
 
     public void SetInputStatus(bool isActive)
     {
-        AllowingInput = isActive;
+        _allowingInput = isActive;
         SetInputVisibility(isActive);
 
         if (_shipCollider == null)
@@ -189,9 +188,14 @@ public class Player : Previewable
         _shipCollider.enabled = isActive;
     }
 
+    public void SetActiveStatus(bool isActive)
+    { 
+        _isInactive = !isActive;
+    }
+
     public void OnPlayerMove(InputAction.CallbackContext context)
     {
-        if (!AllowingInput || _isDestroyed)
+        if (!_allowingInput || _isInactive)
         {
             return;
         }
@@ -246,7 +250,7 @@ public class Player : Previewable
             return;
         }
 
-        if (!AllowingInput || _isDestroyed)
+        if (!_allowingInput || _isInactive)
         {
             return;
         }
@@ -305,7 +309,7 @@ public class Player : Previewable
 
     public bool OnHit()
     {
-        if (_isDestroyed)
+        if (_isInactive)
         { 
             return false;
         }
@@ -326,13 +330,13 @@ public class Player : Previewable
     public void OnDeath() 
     {
         _deathVFX.Play();
-        _isDestroyed = true;
+        _isInactive = true;
         SetShipVisiblity(false);
     }
 
     public void OnSpawn()
     {
-        _isDestroyed = false;
+        _isInactive = false;
         AddCondition<Respawn>(Respawn.RespawnDuration);
         _manager.OnTickStart += ShowVisiblity;
         SetInputStatus(false);

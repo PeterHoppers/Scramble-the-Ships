@@ -73,6 +73,7 @@ public class GameManager : MonoBehaviour
     bool _isMovementAtInput = false;
 
     float _tickElapsed = 0f;
+    int _playerFinishedWithScreen;
     bool _tickIsOccuring = false;
     int _ticksSinceScreenStart = 0;
     int _ticksSinceLevelStart = 0;
@@ -211,21 +212,29 @@ public class GameManager : MonoBehaviour
     /// <param name="player"></param>
     public void ScreenChangeTriggered(Player player)
     {
-        ClearAllPreviews();
-        ToggleIsPlaying(false, GameState.Transition);
-        EndScreen(TickDuration);
+        //disable the player who touched it and move them offscreen
+        //move player off screen
+        var currentPos = player.CurrentTile.GetTilePosition();
+        _spawnSystem.MovePreviewableOffScreenToPosition(player, player.transform.up, currentPos, TickDuration);
+
+        _playerFinishedWithScreen++;
+
+        if (_playerFinishedWithScreen >= _players.Count)
+        {
+            _playerFinishedWithScreen = 0;
+            ClearAllPreviews();
+            ToggleIsPlaying(false, GameState.Transition);
+            EndScreen(TickDuration);
+        }
+        else
+        {
+            player.SetInputStatus(false);
+            player.SetActiveStatus(false);
+        }        
     }
 
     void EndScreen(float endingDuation)
     {
-        //disable all players' controls
-        _players.ForEach(player =>
-        {            
-            //move player off screen
-            var currentPos = player.CurrentTile.GetTilePosition();
-            _spawnSystem.MovePreviewableOffScreenToPosition(player, player.transform.up, currentPos, endingDuation);
-        });
-
         int screensRemainingInLevel = _screenSystem.GetScreensRemaining();
         if (screensRemainingInLevel <= 0)
         {
@@ -401,6 +410,7 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(_tickDuration / 2);
 
+        _playerFinishedWithScreen = 0;
         _spawnSystem.ClearObjects();
         _screenSystem.ResetScreenGridObjects(_spawnSystem, _gridSystem);
 
@@ -506,7 +516,7 @@ public class GameManager : MonoBehaviour
         _attemptedPlayerActions.Add(playerPerformingAction, newPreview);
         _previewActions.Add(newPreview);
 
-        if (_isMovementAtInput && _attemptedPlayerActions.Count == _players.Count) //wait until all the players have inputted before advancing
+        if (_isMovementAtInput && (_attemptedPlayerActions.Count + _playerFinishedWithScreen) >= _players.Count) //wait until all the players have inputted before advancing
         {
             _tickElapsed = TickDuration;
         }
