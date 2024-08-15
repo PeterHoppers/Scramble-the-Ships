@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class UIManager : MonoBehaviour, IManager
 {
@@ -39,17 +40,17 @@ public class UIManager : MonoBehaviour, IManager
         winScreenUI.gameObject.SetActive(false);        
     }
 
-    void OnLevelEnd(int ticksPassed)
+    void OnLevelEnd(int ticksPassed, float tickDelay)
     {
         gameUIHolder.SetActive(false);
-        StartCoroutine(RevealLevelEndText(ticksPassed));
+        StartCoroutine(RevealLevelEndText(ticksPassed, tickDelay));
     }
 
-    IEnumerator RevealLevelEndText(int ticksPassed) 
+    IEnumerator RevealLevelEndText(int ticksPassed, float tickDelay) 
     {
-        yield return new WaitForSeconds(1f); //Ew.. 
+        yield return new WaitForSeconds(tickDelay);
         winScreenUI.gameObject.SetActive(true);
-        winScreenUI.SetLevelScore(ticksPassed);
+        winScreenUI.SetLevelScore(ticksPassed, tickDelay);
     }
 
     void OnScreenChange(int screensRemaining)

@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     public delegate void LevelStart(int levelId);
     public LevelStart OnLevelStart;
 
-    public delegate void LevelEnd(int ticksPassed);
+    public delegate void LevelEnd(int ticksPassed, float tickDuration);
     public LevelEnd OnLevelEnd;
 
     public delegate void TickStart(float timeToTickEnd);
@@ -244,7 +244,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                OnLevelEnd?.Invoke(_ticksSinceLevelStart);
+                OnLevelEnd?.Invoke(_ticksSinceLevelStart, TickDuration);
                 UpdateGameState(GameState.Win);
             }            
         }
