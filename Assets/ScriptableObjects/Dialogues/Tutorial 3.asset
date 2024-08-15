@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueNodes:
   - textToDisplay: "Our sensors have scanned ahead and calculated how many screens
-      are remaining between you and your destination.\r"
-  - textToDisplay: "You\u2019re almost there. After you successfully fulfill your
-      mission, we can discuss further plans."
+      are remaining in this sector. We\u2019re detecting minimal resistance.\r"
+  - textToDisplay: "You\u2019re almost done with this sector. After you successfully
+      fulfill your scouting mission, we can discuss further plans."

@@ -13,51 +13,86 @@ MonoBehaviour:
   m_Name: 3rd
   m_EditorClassIdentifier: 
   startingItems:
-  - gridObject: {fileID: 4968857197367180557, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
-    facingDirection: 0
+  - gridObject: {fileID: 7509605564329555489, guid: 96a8fb82fe2a705438af526bb65f60bf, type: 3}
+    facingDirection: 2
     spawnCoordinates:
       x:
-        anchor: 1
+        anchor: 0
         offset: 0
       y:
-        anchor: 1
-        offset: 0
-  - gridObject: {fileID: 4968857197367180557, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
-    facingDirection: 0
-    spawnCoordinates:
-      x:
         anchor: 1
         offset: -2
-      y:
-        anchor: 1
-        offset: 2
-  - gridObject: {fileID: 4968857197367180557, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
-    facingDirection: 0
+    spawnCommand: 3
+  - gridObject: {fileID: 7509605564329555489, guid: 96a8fb82fe2a705438af526bb65f60bf, type: 3}
+    facingDirection: 3
     spawnCoordinates:
       x:
-        anchor: 1
-        offset: 2
-      y:
-        anchor: 1
-        offset: 2
-  - gridObject: {fileID: 4968857197367180557, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
-    facingDirection: 0
-    spawnCoordinates:
-      x:
-        anchor: 1
-        offset: 4
+        anchor: 2
+        offset: 0
       y:
         anchor: 1
         offset: 4
+    spawnCommand: 3
   - gridObject: {fileID: 4968857197367180557, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
     facingDirection: 0
     spawnCoordinates:
       x:
+        anchor: 1
+        offset: 0
+      y:
+        anchor: 1
+        offset: 0
+    spawnCommand: 0
+  - gridObject: {fileID: 4968857197367180557, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
+    facingDirection: 0
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: -3
+      y:
+        anchor: 1
+        offset: 2
+    spawnCommand: 0
+  - gridObject: {fileID: 4968857197367180557, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
+    facingDirection: 0
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: 3
+      y:
+        anchor: 1
+        offset: 2
+    spawnCommand: 0
+  - gridObject: {fileID: 4968857197367180557, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
+    facingDirection: 0
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: 0
+      y:
+        anchor: 1
+        offset: 5
+    spawnCommand: 0
+  - gridObject: {fileID: 4968857197367180557, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
+    facingDirection: 0
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: -3
+      y:
         anchor: 1
         offset: -4
+    spawnCommand: 0
+  - gridObject: {fileID: 4968857197367180557, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
+    facingDirection: 0
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: 3
       y:
         anchor: 1
-        offset: 4
+        offset: -4
+    spawnCommand: 0
   transitionGrids:
   - x:
       anchor: 1

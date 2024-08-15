@@ -31,16 +31,38 @@ public class CutsceneSystem : MonoBehaviour
 
     IEnumerator TutorialCutscene(float cutsceneDuration)
     {
+        var effects = _gameManager.EffectsSystem;
         var bigBaddy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Previewable>();
         _gameManager.MovePreviewableOffScreenToTile(bigBaddy, bigBaddy.CurrentTile, cutsceneDuration / 2);
-        yield return new WaitForSeconds(cutsceneDuration / 2);
+
+        effects.PerformEffect(EffectType.DigitalGlitchIntensity, .8f);
+        effects.PerformEffect(EffectType.ScanLineJitter, .2f);
+        effects.PerformEffect(EffectType.VerticalJump, .05f);
+        effects.PerformEffect(EffectType.HorizontalShake, 1);
+        effects.PerformEffect(EffectType.ColorDrift, .3f);
+        
+        yield return new WaitForSeconds(cutsceneDuration);
+        
         var lasers = FindObjectsOfType<BossTutorialBullet>();
         foreach (var item in lasers)
         {
-            item.DestroyObject();
+            item.DestroyObject();        
         }
+
+        effects.PerformEffect(EffectType.DigitalGlitchIntensity, .2f);
+        effects.PerformEffect(EffectType.HorizontalShake, 0);
+
+        yield return new WaitForSeconds(cutsceneDuration);
+
+        effects.PerformEffect(EffectType.DigitalGlitchIntensity, 0);
+        effects.PerformEffect(EffectType.VerticalJump, 0);
+        effects.PerformEffect(EffectType.ColorDrift, .1f);
+
         yield return new WaitForSeconds(cutsceneDuration / 2);
-        _gameManager.EffectsSystem.PerformEffect(EffectType.ScrambleAmount, 3);
+
+        effects.ClearCameraEffects();
+        effects.PerformEffect(EffectType.ScanLineJitter, .05f);
+        effects.PerformEffect(EffectType.ScrambleAmount, 3);
         _gameManager.ToggleIsPlaying(true);
     }
 

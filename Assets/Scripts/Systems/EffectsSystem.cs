@@ -85,10 +85,25 @@ public class EffectsSystem : MonoBehaviour
             case EffectType.ScanLineJitter:
                 _analogueGlichVolume.scanLineJitter.value = effect.amount;
                 break;
+            case EffectType.VerticalJump:
+                _analogueGlichVolume.verticalJump.value = effect.amount;
+                break;
             case EffectType.HorizontalShake:
                 _analogueGlichVolume.horizontalShake.value = effect.amount;
                 break;
+            case EffectType.ColorDrift:
+                _analogueGlichVolume.colorDrift.value = effect.amount;
+                break;
         }
+    }
+
+    public void ClearCameraEffects()
+    {
+        _digitalGlitchVolume.intensity.value = 0;
+        _analogueGlichVolume.scanLineJitter.value = 0;
+        _analogueGlichVolume.verticalJump.value = 0;
+        _analogueGlichVolume.horizontalShake.value = 0;
+        _analogueGlichVolume.colorDrift.value = 0;
     }
 }
 
@@ -108,5 +123,7 @@ public enum EffectType
     ShootingChanged,
     DigitalGlitchIntensity,
     ScanLineJitter,
+    VerticalJump,
     HorizontalShake,
+    ColorDrift
 }

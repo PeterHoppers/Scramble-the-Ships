@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Tutorial 2
   m_EditorClassIdentifier: 
   dialogueNodes:
-  - textToDisplay: The main benefit of this time-modifying grid is that foreign objects
-      are wrapped into its time manipulation as well.
-  - textToDisplay: This will give you time to plan your route around the obstacles,
-      although that might be trivial for an experienced pilot like you.
+  - textToDisplay: It looks like the alien forces have planted some turrets to deter
+      us. Your scouting mission has started to produce some helpful intel.
+  - textToDisplay: Your time-modifying grid will capture any foreign objects into
+      its time manipulation. This will give you time to plan your route around the
+      obstacles, although we understand that process might be trivial for an experienced
+      pilot like you.

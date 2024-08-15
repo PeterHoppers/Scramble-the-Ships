@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Tutorial
   m_EditorClassIdentifier: 
   onePlayerLevelScreens:
-  - {fileID: 11400000, guid: af90f4945c3a8cb4190cc61fe61986d9, type: 2}
   - {fileID: 11400000, guid: d60b2debb31b3fa4fb3f821a0f2b3f02, type: 2}
   - {fileID: 11400000, guid: 839a4d3cc2e7ddc4c8882198400194da, type: 2}
   - {fileID: 11400000, guid: f51d075184bc8df4c9bab1033bebc6a0, type: 2}
+  - {fileID: 11400000, guid: af90f4945c3a8cb4190cc61fe61986d9, type: 2}
   - {fileID: 11400000, guid: 245050a375714d345b4634a3bf460613, type: 2}
   - {fileID: 11400000, guid: 1dfee220f773d734881d411c2d72b085, type: 2}
   twoPlayerLevelScreens:

@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: Tutorial 1
   m_EditorClassIdentifier: 
   dialogueNodes:
-  - textToDisplay: "As we\u2019re now entering alien territory, we will initialize
-      our cutting-edge time-modifying grid movement system whenever we find obstacles.\r"
-  - textToDisplay: "If the ship is ever destroyed, it will reform itself where it
-      first activated this system. The ship only has the ability to do this a certain
-      number of times.\r"
-  - textToDisplay: Navigate through the grid to the top where those glowing squares
-      are located to move onto the next screen.
+  - textToDisplay: "You\u2019ve entered alien territory, pilot. Now, your ship will
+      activate its cutting-edge time-modifying grid movement system whenever it detects
+      obstacles.\r\r"
+  - textToDisplay: "If your ship is ever destroyed by said obstacles, it will rewind
+      time back to when it first activated this system. The ship only has the ability
+      to do this a certain number of times.\r"
+  - textToDisplay: Some squares in the grid have been calculated as safe transition
+      zones. They should be the glowing ones at the top of the grid. Navigate through
+      the grid to them to move onto the next screen.

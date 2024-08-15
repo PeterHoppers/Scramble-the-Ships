@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Tutorial 4
   m_EditorClassIdentifier: 
   dialogueNodes:
-  - textToDisplay: "It\u2019s a trap! They also are producing some sort of electrical
-      interference. It\u2019s preventing the system from-"
+  - textToDisplay: "What- they\u2019ve set a trap! They\u2019re producing some sort
+      of electrical interference. It\u2019s prevented our sensors from\u2026 <waitfor=.75>
+      and now it\u2019s interfering with\u2026 <waitfor=.75> communication\u2026"
   - textToDisplay: <waitfor=.75>.<waitfor=.75>.<waitfor=.75>.
