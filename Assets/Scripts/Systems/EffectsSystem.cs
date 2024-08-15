@@ -48,7 +48,7 @@ public class EffectsSystem : MonoBehaviour
         OnTickDurationChanged?.Invoke(gameSettings.tickDuration);
         OnTicksUntilScrambleChanged?.Invoke(gameSettings.amountTickPerScramble);
         OnMoveOnInputChanged?.Invoke(gameSettings.doesMoveOnInput);
-        OnShootingChanged?.Invoke(!gameSettings.isShootingEnabled);
+        OnShootingChanged?.Invoke(gameSettings.isShootingEnabled);
     }
 
     public void PerformEffect(EffectType effectType, float effectAmount)
