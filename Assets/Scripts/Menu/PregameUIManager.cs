@@ -36,4 +36,14 @@ public class PregameUIManager : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(firstInput.gameObject);
         }
     }
+
+    public void PlayTutorial()
+    {
+        GlobalGameStateManager.Instance.PlayTutorial();
+    }
+
+    public void SkipTutorial()
+    {
+        GlobalGameStateManager.Instance.SkipTutorial();
+    }
 }

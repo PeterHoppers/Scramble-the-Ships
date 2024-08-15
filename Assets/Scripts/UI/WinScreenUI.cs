@@ -35,7 +35,9 @@ public class WinScreenUI : MonoBehaviour
         tickScoreText.text = tickScore.ToString();
         totalScoreText.text = totalScore.ToString();
 
-        EventSystem.current.SetSelectedGameObject(gameObject.GetComponentInChildren<Button>().gameObject);
+        var advanceButton = gameObject.GetComponentInChildren<Button>().gameObject;
+
+        EventSystem.current.SetSelectedGameObject(advanceButton);
 
         StartCoroutine(AutoadvanceLevel(tickDuration * _ticksUntilAutoContinue));
     }
@@ -43,6 +45,11 @@ public class WinScreenUI : MonoBehaviour
     IEnumerator AutoadvanceLevel(float waitDuration)
     { 
         yield return new WaitForSeconds(waitDuration);
+        MoveOntoNextLevel();
+    }
+
+    public void MoveOntoNextLevel()
+    {
         GlobalGameStateManager.Instance.StartNextCutscene();
     }
 }

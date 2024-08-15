@@ -260,12 +260,6 @@ public class GameManager : MonoBehaviour
         GlobalGameStateManager.Instance.PlayCutscene();
     }
 
-    IEnumerator MoveToNextLevel(float waitDuation)
-    { 
-        yield return new WaitForSeconds(waitDuation);
-        GlobalGameStateManager.Instance.StartNextCutscene();
-    }
-
     IEnumerator SetupNextScreen(int screensRemainingInLevel, float screenLoadDuration, bool playTransitionCutscene = true)
     {
         OnScreenChange?.Invoke(screensRemainingInLevel);       
@@ -398,7 +392,9 @@ public class GameManager : MonoBehaviour
             }
             else
             {
+                ClearAllPreviews();
                 UpdateGameState(GameState.GameOver);
+                StartCoroutine(ResetGame(TickDuration * 3)); //TODO: have the ability to put in more quaters to prevent this
             }
         }
     }
@@ -432,6 +428,12 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(_tickDuration);
         
         ToggleIsPlaying(true);
+    }
+
+    IEnumerator ResetGame(float delayUntilReset)
+    { 
+        yield return new WaitForSeconds(delayUntilReset);
+        GlobalGameStateManager.Instance.ResetGame();
     }
 
     public List<Player> GetAllCurrentPlayers()

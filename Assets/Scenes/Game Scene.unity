@@ -1337,6 +1337,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 324801064}
+    - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: MoveOntoNextLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: WinScreenUI, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

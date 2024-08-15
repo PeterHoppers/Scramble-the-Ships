@@ -1540,7 +1540,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1308066075c527b4bb474b11e5de6035, type: 2}
   dialogues:
   - {fileID: 11400000, guid: abb8114a56a3dd648bc3725256122f0e, type: 2}
-  - {fileID: 11400000, guid: e02ade380974da143a92ede59bb8e974, type: 2}
+  - {fileID: 11400000, guid: ed63c7b867bb7d349ba6e1d453c00e21, type: 2}
   _dialogueDelay: 1
   shipHolder: {fileID: 29882608}
   shipBase: {fileID: 114738620554226329, guid: d8ad17f790c94434fa8a53fcf50ee920, type: 3}

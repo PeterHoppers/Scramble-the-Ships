@@ -85,12 +85,28 @@ public class GlobalGameStateManager : MonoBehaviour
     public void AdvanceFromCutsceneToGame()
     {
         _activeLevelIndex++;
-        SetLevel(_activeLevelIndex);
+
+        if (_activeLevelIndex < _levels.Count)
+        {
+            SetLevel(_activeLevelIndex);
+        }
+        else
+        { 
+            ResetGame();
+        }
     }
 
     public void RestartGameScene()
     { 
         _levelSceneSystem.ReloadCurrentScene();
+    }
+
+    public void ResetGame()
+    {
+        _activeLevelIndex = 0;
+        CutsceneID = 0;
+        GlobalGameStateStatus = GlobalGameStateStatus.Preview;
+        _levelSceneSystem.LoadPreviewScene();
     }
 
     public Level GetLevelInfo()

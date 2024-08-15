@@ -347,7 +347,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1955108354912561096, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
       propertyPath: m_Name
-      value: Menu Button
+      value: Play Tutorial Button
       objectReference: {fileID: 0}
     - target: {fileID: 3746346280026828925, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
       propertyPath: m_text
@@ -440,7 +440,7 @@ PrefabInstance:
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1475559611}
+      objectReference: {fileID: 1073339968}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -451,7 +451,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GlobalGameStateManager, Assembly-CSharp
+      value: PregameUIManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
@@ -1109,17 +1109,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1149487593}
   m_CullTransparentMesh: 1
---- !u!114 &1475559611 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6824546314571791643, guid: 23998af3c46b757499df508b643cf3ed, type: 3}
-  m_PrefabInstance: {fileID: 1455856893036608962}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 986dacde7c3b98d47b48284ee9ea4bf8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1502661614
 GameObject:
   m_ObjectHideFlags: 0
@@ -1588,7 +1577,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1955108354912561096, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
       propertyPath: m_Name
-      value: Menu Button (1)
+      value: Skip Tutorial Button
       objectReference: {fileID: 0}
     - target: {fileID: 5314884732497332390, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
       propertyPath: m_Pivot.x
@@ -1673,7 +1662,7 @@ PrefabInstance:
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1475559611}
+      objectReference: {fileID: 1073339968}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -1684,7 +1673,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GlobalGameStateManager, Assembly-CSharp
+      value: PregameUIManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
@@ -1761,7 +1750,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 719655402535580406, guid: 23998af3c46b757499df508b643cf3ed, type: 3}
-      propertyPath: systemSettingParameters.isFreeplay
+      propertyPath: gameSettingParameters.amountLivesPerPlayer
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 747205774178758877, guid: 23998af3c46b757499df508b643cf3ed, type: 3}
@@ -2371,6 +2360,10 @@ PrefabInstance:
     - target: {fileID: 6775914062944931744, guid: 23998af3c46b757499df508b643cf3ed, type: 3}
       propertyPath: m_Spacing
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6824546314571791643, guid: 23998af3c46b757499df508b643cf3ed, type: 3}
+      propertyPath: _levels.Array.data[2]
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6856579681233464659, guid: 23998af3c46b757499df508b643cf3ed, type: 3}
       propertyPath: m_AnchorMax.y
