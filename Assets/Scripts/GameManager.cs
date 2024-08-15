@@ -240,7 +240,7 @@ public class GameManager : MonoBehaviour
         {
             if (GlobalGameStateManager.Instance.IsActiveLevelTutorial())
             {
-                StartCoroutine(MoveToNextLevel(endingDuation));
+                StartCoroutine(PlayFirstCutscene(endingDuation));
             }
             else
             {
@@ -252,6 +252,12 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(SetupNextScreen(screensRemainingInLevel, TickDuration));
         }
+    }
+
+    IEnumerator PlayFirstCutscene(float waitDuration)
+    {
+        yield return new WaitForSeconds(waitDuration);
+        GlobalGameStateManager.Instance.PlayCutscene();
     }
 
     IEnumerator MoveToNextLevel(float waitDuation)

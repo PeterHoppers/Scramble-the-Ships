@@ -47,6 +47,16 @@ public class GlobalGameStateManager : MonoBehaviour
         _levelSceneSystem = GetComponent<LevelSceneSystem>();
     }
 
+    public void PlayTutorial()
+    {
+        SetLevel(TUTORIAL_INDEX);
+    }
+
+    public void SkipTutorial()
+    {
+        PlayCutscene();
+    }
+
     public void SetLevel(int level)
     {
         _activeLevelIndex = level;
@@ -54,11 +64,16 @@ public class GlobalGameStateManager : MonoBehaviour
         _levelSceneSystem.LoadGameScene();
     }
 
+    public void PlayCutscene()
+    {
+        GlobalGameStateStatus = GlobalGameStateStatus.Cutscene;
+        _levelSceneSystem.LoadCutsceneScene();
+    }
+
     public void StartNextCutscene()
     {
         CutsceneID++;
-        GlobalGameStateStatus = GlobalGameStateStatus.Cutscene;
-        _levelSceneSystem.LoadCutsceneScene();
+        PlayCutscene();
     }
 
     public void NextLevel()
