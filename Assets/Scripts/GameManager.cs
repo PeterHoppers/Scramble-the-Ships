@@ -271,6 +271,7 @@ public class GameManager : MonoBehaviour
         }
 
         _screenSystem.SetupNewScreen(_spawnSystem, _gridSystem, _effectsSystem, _dialogueSystem);
+        _ticksSinceScreenStart = 0;
         yield return new WaitForSeconds(screenLoadDuration);
 
         //move ships on screen
@@ -413,6 +414,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(_tickDuration / 2);
 
         _playerFinishedWithScreen = 0;
+        _ticksSinceScreenStart = 0;
         _spawnSystem.ClearObjects();
         _screenSystem.ResetScreenGridObjects(_spawnSystem, _gridSystem);
 

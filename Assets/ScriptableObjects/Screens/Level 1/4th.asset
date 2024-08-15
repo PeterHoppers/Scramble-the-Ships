@@ -13,36 +13,46 @@ MonoBehaviour:
   m_Name: 4th
   m_EditorClassIdentifier: 
   startingItems:
-  - gridObject: {fileID: 7509605564329555489, guid: 96a8fb82fe2a705438af526bb65f60bf, type: 3}
-    facingDirection: 3
+  - gridObject: {fileID: 4968857197367180557, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
+    facingDirection: 0
     spawnCoordinates:
       x:
-        anchor: 2
+        anchor: 1
         offset: 0
       y:
         anchor: 1
-        offset: -3
-    spawnCommand: 3
-  - gridObject: {fileID: 7509605564329555489, guid: 96a8fb82fe2a705438af526bb65f60bf, type: 3}
-    facingDirection: 2
+        offset: 4
+    spawnCommand: 0
+  - gridObject: {fileID: 4968857197367180557, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
+    facingDirection: 0
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: 0
+      y:
+        anchor: 1
+        offset: -4
+    spawnCommand: 0
+  - gridObject: {fileID: 4968857197367180557, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
+    facingDirection: 0
     spawnCoordinates:
       x:
         anchor: 0
-        offset: 0
+        offset: 3
       y:
         anchor: 1
-        offset: -1
-    spawnCommand: 3
-  - gridObject: {fileID: 7509605564329555489, guid: 96a8fb82fe2a705438af526bb65f60bf, type: 3}
-    facingDirection: 3
+        offset: 0
+    spawnCommand: 0
+  - gridObject: {fileID: 4968857197367180557, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
+    facingDirection: 0
     spawnCoordinates:
       x:
         anchor: 2
-        offset: 0
+        offset: 3
       y:
         anchor: 1
-        offset: 1
-    spawnCommand: 3
+        offset: 0
+    spawnCommand: 0
   transitionGrids:
   - x:
       anchor: 1
@@ -65,4 +75,32 @@ MonoBehaviour:
   screenDialogue: {fileID: 0}
   effects: []
   enemySpawnInformation:
-    _serializedList: []
+    _serializedList:
+    - Key: 2
+      Value:
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
+        spawnDirection: 3
+        otherCoordinate:
+          anchor: 1
+          offset: 1
+        spawnCommand: 2
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
+        spawnDirection: 2
+        otherCoordinate:
+          anchor: 1
+          offset: -1
+        spawnCommand: 2
+    - Key: 15
+      Value:
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
+        spawnDirection: 3
+        otherCoordinate:
+          anchor: 1
+          offset: 1
+        spawnCommand: 2
+      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
+        spawnDirection: 2
+        otherCoordinate:
+          anchor: 1
+          offset: -1
+        spawnCommand: 2
