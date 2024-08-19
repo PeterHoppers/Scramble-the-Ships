@@ -6,6 +6,7 @@ using UnityEngine;
 public abstract class Previewable : GridObject
 {    
     TransformTransition _transitioner;
+    ParticleSystem _deathSFX;
 
     [HideInInspector]
     public GameObject previewObject;
@@ -59,11 +60,23 @@ public abstract class Previewable : GridObject
         base.SetPosition(directTile);
     }
 
+    public virtual void SetDeathSFX(ParticleSystem particleSystem)
+    {
+        _deathSFX = particleSystem;
+    }
+
     public override void DestroyObject()
     {
         if (previewObject != null) 
         { 
             Destroy(previewObject);
+        }
+
+        if (_deathSFX)
+        {
+            var deathEffect = Instantiate(_deathSFX, transform.parent);
+            deathEffect.transform.position = transform.position;
+            deathEffect.Play();
         }
 
         base.DestroyObject();

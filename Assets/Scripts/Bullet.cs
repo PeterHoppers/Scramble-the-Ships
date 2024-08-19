@@ -6,6 +6,7 @@ using UnityEngine;
 public class Bullet : GridMovable
 {
     public bool isFriendly = true;
+    public ParticleSystem bulletExplosion;
 
     protected override void PerformInteraction(Collider2D collision)
     {
@@ -14,12 +15,32 @@ public class Bullet : GridMovable
             return;
         }
 
-        if (collision.CompareTag("Player") && !isFriendly)
-        {            
-            _manager.HandleGridObjectCollision(this, collidedPreviewable);
-        }
-        else if (collision.CompareTag("Enemy") && isFriendly) //right now, these are the same, but unsure if that'll be true in the future
+        if (collision.TryGetComponent<ScreenChangeTrigger>(out var _))
         {
+            return;
+        }
+
+        if (collision.CompareTag("Player"))
+        {
+            if (!isFriendly)
+            {
+                _manager.HandleGridObjectCollision(this, collidedPreviewable);
+            }
+        }
+        else if (collision.CompareTag("Enemy")) //right now, these are the same, but unsure if that'll be true in the future
+        {
+            if (isFriendly)
+            {
+                _manager.HandleGridObjectCollision(this, collidedPreviewable);
+            }
+        }
+        else
+        {
+            //we only do this here because we presume that the player and enemies have their own death effect to play
+            if (bulletExplosion)
+            {
+                SetDeathSFX(bulletExplosion);
+            }
             _manager.HandleGridObjectCollision(this, collidedPreviewable);
         }
     }

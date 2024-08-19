@@ -51,10 +51,7 @@ public class EnemyShip : GridMovable
 
     public override void DestroyObject()
     {
-        //TODO: Rework this to use pooling, for right now this will cause a memory leak
-        var deathEffect = Instantiate(shipInfo.deathVFX, transform.parent);
-        deathEffect.transform.position = transform.position;
-        deathEffect.Play();
+        SetDeathSFX(shipInfo.deathVFX);
         base.DestroyObject();
     }
 

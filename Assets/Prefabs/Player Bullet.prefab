@@ -20,6 +20,10 @@ PrefabInstance:
       propertyPath: isFriendly
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4358801067479974209, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+      propertyPath: bulletExplosion
+      value: 
+      objectReference: {fileID: 725748389856807712, guid: e95db50273d4e5746b02ba9b960f0afd, type: 3}
     - target: {fileID: 7910747077131624722, guid: 325e66a33d45622429c2008f98d14266, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
