@@ -31,6 +31,7 @@ public class OptionsManager : MonoBehaviour, IManager
     public TMP_Dropdown moveOnInputDropdown;
     public TMP_Dropdown shootingEnabledDropdown;
     public Slider livesPerSlider;
+    public Slider bulletsPerSlider;
 
     [Space]
 
@@ -102,6 +103,12 @@ public class OptionsManager : MonoBehaviour, IManager
         shootingEnabledDropdown.onValueChanged.AddListener((int newSelection) =>
         {
             gameSettingParameters.isShootingEnabled = DropdownValueToBool(newSelection);
+        });
+
+        bulletsPerSlider.value = gameSettingParameters.bulletsPerScreen;
+        bulletsPerSlider.onValueChanged.AddListener((float newValue) =>
+        {
+            gameSettingParameters.bulletsPerScreen = (int)newValue;
         });
 
         livesPerSlider.value = gameSettingParameters.amountLivesPerPlayer;
@@ -178,6 +185,7 @@ public struct GameSettingParameters
     public bool doesMoveOnInput;
     public bool isShootingEnabled;
     public int amountLivesPerPlayer;
+    public int bulletsPerScreen;
 }
 
 [System.Serializable]

@@ -20,6 +20,9 @@ public class EffectsSystem : MonoBehaviour
     public delegate void MoveOnInputChanged(bool isMoveOnInput);
     public MoveOnInputChanged OnMoveOnInputChanged;
 
+    public delegate void BulletsPerScreenChanged(int bulletAmount);
+    public BulletsPerScreenChanged OnBulletsPerScreenChanged;
+
     public delegate void ConditionChanged<T>(bool isGained) where T : Condition;
     public ConditionChanged<ShootingDisable> OnShootingChanged;
 
@@ -49,6 +52,7 @@ public class EffectsSystem : MonoBehaviour
         OnTicksUntilScrambleChanged?.Invoke(gameSettings.amountTickPerScramble);
         OnMoveOnInputChanged?.Invoke(gameSettings.doesMoveOnInput);
         OnShootingChanged?.Invoke(gameSettings.isShootingEnabled);
+        OnBulletsPerScreenChanged?.Invoke(gameSettings.bulletsPerScreen);
     }
 
     public void PerformEffect(EffectType effectType, float effectAmount)
@@ -78,6 +82,9 @@ public class EffectsSystem : MonoBehaviour
                 break;
             case EffectType.ShootingChanged:
                 OnShootingChanged?.Invoke(Convert.ToBoolean(effect.amount));
+                break;
+            case EffectType.BulletAmountChanged:
+                OnBulletsPerScreenChanged?.Invoke(Mathf.RoundToInt(effect.amount));
                 break;
             case EffectType.DigitalGlitchIntensity:
                 _digitalGlitchVolume.intensity.value = effect.amount;
@@ -120,6 +127,7 @@ public enum EffectType
     TickDuration,
     TicksUntilScramble,
     MoveOnInputChanged,
+    BulletAmountChanged,
     ShootingChanged,
     DigitalGlitchIntensity,
     ScanLineJitter,

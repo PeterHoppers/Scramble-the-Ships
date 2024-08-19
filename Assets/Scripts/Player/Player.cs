@@ -28,7 +28,7 @@ public class Player : Previewable
     public int PlayerId { get; private set; }
     private bool _allowingInput;
     private bool _isInactive = false;
-    int numberOfBulletsPerScreen = 3;
+    int _numberOfBulletsPerScreen = 3;
     public int BulletsRemaining 
     {
         get
@@ -58,7 +58,9 @@ public class Player : Previewable
         _manager = manager;
         _manager.OnTickStart += OnTickStart;
         _manager.OnTickEnd += OnTickEnd;
-        _manager.EffectsSystem.OnShootingChanged += (bool isAdded) => ChangeShootingCondition(isAdded);        
+        _manager.OnScreenChange += OnScreenChange;
+        _manager.EffectsSystem.OnShootingChanged += (bool isAdded) => ChangeShootingCondition(isAdded);
+        _manager.EffectsSystem.OnBulletsPerScreenChanged += (int numBullets) => _numberOfBulletsPerScreen = numBullets;
 
         _shipInfo = shipInfo;
         foreach (InputValue inputValue in Enum.GetValues(typeof(InputValue)))
@@ -74,7 +76,8 @@ public class Player : Previewable
         _shipRenderer = GetComponentInChildren<SpriteRenderer>();
         _shipRenderer.sprite = _shipSprite;
 
-        BulletsRemaining = numberOfBulletsPerScreen;
+        _numberOfBulletsPerScreen = OptionsManager.Instance.gameSettingParameters.bulletsPerScreen;
+        BulletsRemaining = _numberOfBulletsPerScreen;
         ChangeShootingCondition(isShootingEnabled);
     }
 
@@ -135,6 +138,11 @@ public class Player : Previewable
             var condition = _playerConditions[i];
             condition.OnTickEnd();
         }
+    }
+
+    private void OnScreenChange(int screensRemaining)
+    {
+        BulletsRemaining = _numberOfBulletsPerScreen;
     }
 
     public List<PlayerAction> GetPossibleAction()

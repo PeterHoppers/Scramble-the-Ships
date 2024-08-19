@@ -319,7 +319,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unableToFireUI: {fileID: 5303037977244463214}
-  ableToFireUI: {fileID: 3005067824135792147}
+  ableToFireUI: {fileID: 3873071197184568056}
   fireControlRenderer: {fileID: 2773603816718480790}
   bulletImage: {fileID: 529714300654844851}
   bulletsRemainingText: {fileID: 8981864358282601314}
