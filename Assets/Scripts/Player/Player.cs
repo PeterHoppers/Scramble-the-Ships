@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 using AYellowpaper.SerializedCollections;
 using System.Linq;
 using System;
-using UnityEngine.Windows;
 
 public class Player : Previewable
 {
@@ -35,26 +34,6 @@ public class Player : Previewable
         _shipCollider = GetComponent<Collider2D>();
     }
 
-    private void ChangeShootingCondition(bool isShootingEnabled)
-    {
-        bool wasShootingDisabled = _playerConditions.Any(x => x.GetType() == typeof(ShootingDisable));
-
-        if (wasShootingDisabled) 
-        {
-            if (isShootingEnabled)
-            {
-                var condition = _playerConditions.First(x => x.GetType() == typeof(ShootingDisable));
-                condition.RemoveCondition(); //kind of going through the backdoor here. The condition should normally end itself, not some UI
-                RemoveCondition(condition);
-            }
-        }
-        
-        if (!isShootingEnabled) 
-        {
-            AddCondition<ShootingDisable>(int.MaxValue);
-        }
-    }
-
     public void InitPlayer(GameManager manager, ShipInfo shipInfo, int id, bool isShootingEnabled)
     {      
         _manager = manager;
@@ -79,6 +58,26 @@ public class Player : Previewable
         ChangeShootingCondition(isShootingEnabled);
     }
 
+    private void ChangeShootingCondition(bool isShootingEnabled)
+    {
+        bool wasShootingDisabled = _playerConditions.Any(x => x.GetType() == typeof(ShootingDisable));
+
+        if (wasShootingDisabled)
+        {
+            if (isShootingEnabled)
+            {
+                var condition = _playerConditions.First(x => x.GetType() == typeof(ShootingDisable));
+                condition.RemoveCondition(); //kind of going through the backdoor here. The condition should normally end itself, not some UI
+                RemoveCondition(condition);
+            }
+        }
+
+        if (!isShootingEnabled)
+        {
+            AddCondition<ShootingDisable>(int.MaxValue);
+        }
+    }
+
     private void OnTickStart(float _)
     {
         if (_isInactive)
@@ -98,9 +97,10 @@ public class Player : Previewable
         }
 
         _allowingInput = false;
-
+        
         foreach (var inputValue in inputValueDisplays)
         {
+            //if it is the key we inputted, keep it visible
             if (_lastInput != null && _lastInput == inputValue.Key)
             {
                 continue;

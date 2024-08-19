@@ -19,7 +19,7 @@ public class ImageAdapter : RendererAdapter
     public override Sprite sprite { get => adaptee.sprite; set => adaptee.sprite = value; }
     public override Color color { get => adaptee.color; set => adaptee.color = value; }
     public override GameObject gameObject { get => adaptee.gameObject; }
-    public override bool isEnable { get => adaptee.enabled; set => adaptee.enabled = value; }
+    public override bool isEnable { get => adaptee.enabled; set => adaptee.enabled = true; } //this is set like this so that items in the UI can't be turned off individually
 }
 
 public class SpriteRendererAdapter : RendererAdapter
