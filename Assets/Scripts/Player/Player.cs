@@ -13,6 +13,7 @@ public class Player : Previewable
     
     private ShipInfo _shipInfo;
     private ParticleSystem _deathVFX;
+    private Bullet _firingBullet;
 
     Sprite _shipSprite;
     SpriteRenderer _shipRenderer;
@@ -292,6 +293,7 @@ public class Player : Previewable
             {
                 var firingDirection = ConvertInputValueToDirection(playerAction.inputValue);
                 var bullet = _manager.CreateMovableAtTile(playerActedUpon._shipInfo.bullet, playerActedUpon, targetTile, firingDirection);
+                bullet.GetComponentInChildren<SpriteRenderer>().sprite = _shipInfo.bulletSprite;
                 newPreview = _manager.CreatePreviewOfPreviewableAtTile(bullet, targetTile);
                 newPreview.isCreated = true;
                 _manager.AddPreviewAction(newPreview);

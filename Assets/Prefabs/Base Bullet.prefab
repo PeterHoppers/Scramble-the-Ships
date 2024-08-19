@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
       propertyPath: m_Name
-      value: Player Bullet
+      value: Base Bullet
       objectReference: {fileID: 0}
     - target: {fileID: 4070071728427121044, guid: 325e66a33d45622429c2008f98d14266, type: 3}
       propertyPath: m_Sprite

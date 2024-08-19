@@ -12,6 +12,7 @@ public class ShipInfo : ScriptableObject
     [Header("Sprites")]
     public Sprite shipSprite;
     public Sprite cutsceneSprite;
+    public Sprite bulletSprite;
     [SerializedDictionary("Input", "Sprite to Represent")]
     public SerializedDictionary<InputValue, Sprite> inputsForSprites;
     [Header("Effects")]
