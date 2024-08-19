@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class PlayerStatusUI : MonoBehaviour
 {
@@ -19,7 +20,13 @@ public class PlayerStatusUI : MonoBehaviour
         _player = player;
         fireUI.gameObject.SetActive(true);
         fireUI.SetFireControlSprite(player.GetSpriteForInput(InputValue.Fire));
+        fireUI.SetBulletSprite(player.GetBulletSprite());
+        fireUI.UpdateBulletUI(player.BulletsRemaining);
         player.AddInputRenderer(InputValue.Fire, fireUI.fireControlRenderer);
+        player.OnPlayerFired += (Player player, int bullets) =>
+        { 
+            fireUI.UpdateBulletUI(bullets);
+        };
     }
 
     public void GainedCondition(Condition condition)

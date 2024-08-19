@@ -65,6 +65,9 @@ public abstract class Previewable : GridObject
         _deathSFX = particleSystem;
     }
 
+    public virtual void CreatedNewPreviewable(Previewable createdPreviewabled)
+    { }    
+
     public override void DestroyObject()
     {
         if (previewObject != null) 

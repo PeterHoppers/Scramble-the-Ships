@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
             managerObjects.InitManager(this);
         }
 
-        yield return new WaitForSeconds(.125f);
+        yield return new WaitForSeconds(.125f); //TODO: Fix race condition
         var numberOfLives = OptionsManager.Instance.gameSettingParameters.amountLivesPerPlayer;
         OptionsManager.Instance.AfterInitManager();
 
@@ -460,7 +460,7 @@ public class GameManager : MonoBehaviour
 
             Destroy(previousPreview.sourcePreviewable.previewObject); //look into using pooling instead
 
-            if (previousPreview.isCreated)
+            if (previousPreview.creatorOfPreview)
             {
                 Destroy(previousPreview.sourcePreviewable.gameObject);
             }
@@ -525,7 +525,7 @@ public class GameManager : MonoBehaviour
     public void AddPlayerPreviewAction(Player playerPerformingAction, PreviewAction newPreview)
     {
         _attemptedPlayerActions.Add(playerPerformingAction, newPreview);
-        _previewActions.Add(newPreview);
+        AddPreviewAction(newPreview);
 
         if (_isMovementAtInput && (_attemptedPlayerActions.Count + _playerFinishedWithScreen) >= _players.Count) //wait until all the players have inputted before advancing
         {
@@ -566,7 +566,7 @@ public class GameManager : MonoBehaviour
     }
 
     void EndCurrentTick(float tickEndDuration)
-    {        
+    {
         foreach (var preview in _previewActions)
         {
             if (preview.isNotMoving)
@@ -582,6 +582,11 @@ public class GameManager : MonoBehaviour
             }
 
             movingObject.TransitionToTile(preview.previewTile, tickEndDuration);
+
+            if (preview.creatorOfPreview)
+            {
+                preview.creatorOfPreview.CreatedNewPreviewable(movingObject);
+            }
         }
         
         OnTickEnd?.Invoke(_ticksSinceScreenStart);
@@ -659,8 +664,10 @@ public class GameManager : MonoBehaviour
 public struct PreviewAction
 { 
     public Previewable sourcePreviewable;
+    #nullable enable
+    public Previewable? creatorOfPreview;
+    #nullable disable
     public Tile previewTile;
-    public bool isCreated;
     public bool isNotMoving;
     public int previewFinishedTick;
 }

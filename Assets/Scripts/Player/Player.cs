@@ -9,11 +9,17 @@ using System;
 public class Player : Previewable
 {
     [SerializedDictionary]
+    public SerializedDictionary<InputValue, InputRenderer> inputValueDisplays;
+
+    public delegate void PlayerFired(Player player, int bulletsLeft);
+    public PlayerFired OnPlayerFired;
+
+
+    [SerializedDictionary]
     SerializedDictionary<InputValue, PlayerAction> scrambledActions = new SerializedDictionary<InputValue, PlayerAction>();
     
     private ShipInfo _shipInfo;
     private ParticleSystem _deathVFX;
-    private Bullet _firingBullet;
 
     Sprite _shipSprite;
     SpriteRenderer _shipRenderer;
@@ -22,13 +28,25 @@ public class Player : Previewable
     public int PlayerId { get; private set; }
     private bool _allowingInput;
     private bool _isInactive = false;
+    int numberOfBulletsPerScreen = 3;
+    public int BulletsRemaining 
+    {
+        get
+        {
+            return _currentBulletRemaining;
+        }
+        set
+        {
+            _currentBulletRemaining = value;
+            OnPlayerFired?.Invoke(this, _currentBulletRemaining);
+        }    
+    }
+
+    int _currentBulletRemaining;
     InputValue? _lastInput;
 
     List<PlayerAction> _possibleActions = new List<PlayerAction>();
-    List<Condition> _playerConditions = new List<Condition>();
-
-    [SerializedDictionary]
-    public SerializedDictionary<InputValue, InputRenderer> inputValueDisplays;
+    List<Condition> _playerConditions = new List<Condition>();    
 
     private void Awake()
     {
@@ -56,6 +74,7 @@ public class Player : Previewable
         _shipRenderer = GetComponentInChildren<SpriteRenderer>();
         _shipRenderer.sprite = _shipSprite;
 
+        BulletsRemaining = numberOfBulletsPerScreen;
         ChangeShootingCondition(isShootingEnabled);
     }
 
@@ -115,7 +134,7 @@ public class Player : Previewable
         {
             var condition = _playerConditions[i];
             condition.OnTickEnd();
-        }       
+        }
     }
 
     public List<PlayerAction> GetPossibleAction()
@@ -260,6 +279,11 @@ public class Player : Previewable
         }
     }
 
+    public int GetRemainingBullets()
+    {
+        return _currentBulletRemaining;
+    }
+
     public void OnPlayerRestart(InputAction.CallbackContext context)
     {
         _manager.RestartGame();
@@ -291,12 +315,17 @@ public class Player : Previewable
 
             if (playerAction.inputValue == InputValue.Fire)
             {
+                if (playerActedUpon.GetRemainingBullets() <= 0)
+                {
+                    inputValueDisplays[_lastInput.Value].DeselectInput();
+                    return;
+                }
+
                 var firingDirection = ConvertInputValueToDirection(playerAction.inputValue);
                 var bullet = _manager.CreateMovableAtTile(playerActedUpon._shipInfo.bullet, playerActedUpon, targetTile, firingDirection);
                 bullet.GetComponentInChildren<SpriteRenderer>().sprite = _shipInfo.bulletSprite;
                 newPreview = _manager.CreatePreviewOfPreviewableAtTile(bullet, targetTile);
-                newPreview.isCreated = true;
-                _manager.AddPreviewAction(newPreview);
+                newPreview.creatorOfPreview = this;
             }
             else
             {
@@ -304,6 +333,14 @@ public class Player : Previewable
             }
 
             _manager.AddPlayerPreviewAction(this, newPreview);
+        }
+    }
+
+    public override void CreatedNewPreviewable(Previewable createdPreviewabled)
+    {
+        if (createdPreviewabled.TryGetComponent<Bullet>(out var bullet))
+        {
+            BulletsRemaining--;
         }
     }
 
@@ -388,6 +425,11 @@ public class Player : Previewable
     public override Sprite GetPreviewSprite()
     {
         return _shipSprite;
+    }
+
+    public Sprite GetBulletSprite()
+    {
+        return _shipInfo.bulletSprite;
     }
 
     public Sprite GetSpriteForInput(InputValue input)

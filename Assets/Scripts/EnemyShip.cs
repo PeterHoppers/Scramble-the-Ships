@@ -31,7 +31,7 @@ public class EnemyShip : GridMovable
                 moveable.GetComponent<Bullet>().isFriendly = false;
                 moveable.GetComponentInChildren<SpriteRenderer>().sprite = shipInfo.bulletSprite;
                 var newPreview = _manager.CreatePreviewOfPreviewableAtTile(moveable, shootingTile);
-                newPreview.isCreated = true;
+                newPreview.creatorOfPreview = this;
                 _manager.AddPreviewAction(newPreview);
                 travelDirection = Vector2.zero;
             }

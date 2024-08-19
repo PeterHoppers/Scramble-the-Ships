@@ -222,36 +222,12 @@ MonoBehaviour:
     m_ActionName: UI/ScrollWheel[/Mouse/scroll]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: df78477b-572b-49ae-b737-d0fdfa47de87
-    m_ActionName: UI/MiddleClick[/Mouse/middleButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 8c3fb613-d5d1-42c1-ac2a-24f5f93a217b
-    m_ActionName: UI/RightClick[/Mouse/rightButton]
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: a771c5a2-72bf-419b-bd37-983b58236393
     m_ActionName: UI/TrackedDevicePosition
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 4e52e00a-97a9-4405-859d-153604530b0e
     m_ActionName: UI/TrackedDeviceOrientation
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1531159744596222164}
-        m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: OnPlayerPause
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 7efb5666-42e4-409b-bdd7-100a090a0bf2
-    m_ActionName: Player/New action
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1531159744596222164}
@@ -268,6 +244,14 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 8f8d81ae-331a-47a7-85b9-309ab5de5d5d
     m_ActionName: Player/New action
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6cdd423c-5793-470d-9d66-e413f4e1532a
+    m_ActionName: UI/OnePlayerSelection[/Keyboard/1,/Mouse/middleButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 45919d41-eb65-4e81-830d-d3a8537b173f
+    m_ActionName: UI/TwoPlayerSelection[/Keyboard/2,/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
