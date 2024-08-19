@@ -46,7 +46,7 @@ public class InputRenderer : MonoBehaviour
         {
             SetRenderer();
         }
-        _renderer.gameObject.SetActive(isVisible);
+
         _renderer.isEnable = isVisible;
     }
 }

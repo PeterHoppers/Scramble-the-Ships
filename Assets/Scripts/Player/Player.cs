@@ -16,6 +16,7 @@ public class Player : Previewable
     private ParticleSystem _deathVFX;
 
     Sprite _shipSprite;
+    SpriteRenderer _shipRenderer;
     Collider2D _shipCollider;
 
     public int PlayerId { get; private set; }
@@ -54,31 +55,28 @@ public class Player : Previewable
         }
     }
 
-    private void Start()
-    {
-        //for now, let's just add removing shooting on start. Let's consider adding on conditional check to see if we should
-        ChangeShootingCondition(false);
-    }
-
-    public void InitPlayer(GameManager manager, ShipInfo shipInfo, int id)
-    {
+    public void InitPlayer(GameManager manager, ShipInfo shipInfo, int id, bool isShootingEnabled)
+    {      
         _manager = manager;
         _manager.OnTickStart += OnTickStart;
         _manager.OnTickEnd += OnTickEnd;
-        _manager.EffectsSystem.OnShootingChanged += (bool isAdded) => ChangeShootingCondition(isAdded);
+        _manager.EffectsSystem.OnShootingChanged += (bool isAdded) => ChangeShootingCondition(isAdded);        
 
         _shipInfo = shipInfo;
-        PlayerId = id;
-        _allowingInput = false;
-
         foreach (InputValue inputValue in Enum.GetValues(typeof(InputValue)))
         {
             AddPossibleInput(inputValue);
         }
 
+        PlayerId = id;
+        _allowingInput = false;
+
         _deathVFX = Instantiate(_shipInfo.deathVFX, transform);
         _shipSprite = _shipInfo.shipSprite;
-        GetComponentInChildren<SpriteRenderer>().sprite = _shipSprite;
+        _shipRenderer = GetComponentInChildren<SpriteRenderer>();
+        _shipRenderer.sprite = _shipSprite;
+
+        ChangeShootingCondition(isShootingEnabled);
     }
 
     private void OnTickStart(float _)
@@ -124,9 +122,9 @@ public class Player : Previewable
         return _possibleActions;
     }
 
-    public void AddPossibleInput(InputValue inputToRemove)
+    public void AddPossibleInput(InputValue inputToAdd)
     {
-        if (_possibleActions.Count(x => x.inputValue == inputToRemove) > 0)
+        if (_possibleActions.Count(x => x.inputValue == inputToAdd) > 0)
         {
             //return;
         }
@@ -134,8 +132,8 @@ public class Player : Previewable
         _possibleActions.Add(new PlayerAction()
         {
             playerActionPerformedOn = this,
-            inputValue = inputToRemove,
-            actionUI = _shipInfo.inputsForSprites[inputToRemove]
+            inputValue = inputToAdd,
+            actionUI = _shipInfo.inputsForSprites[inputToAdd]
         });
     }
 
@@ -332,6 +330,7 @@ public class Player : Previewable
         _deathVFX.Play();
         _isInactive = true;
         SetShipVisiblity(false);
+        SetInputVisibility(false);
     }
 
     public void OnSpawn()
@@ -352,12 +351,7 @@ public class Player : Previewable
 
     void SetShipVisiblity(bool isVisible)
     {
-        var sprites = GetComponentsInChildren<SpriteRenderer>();
-
-        foreach(var sprite in sprites) 
-        { 
-            sprite.enabled = isVisible;
-        }
+        _shipRenderer.enabled = isVisible;
 
         if (_shipCollider == null)
         {

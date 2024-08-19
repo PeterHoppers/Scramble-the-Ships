@@ -18,7 +18,6 @@ public class PlayerStatusUI : MonoBehaviour
     {
         _player = player;
         fireUI.gameObject.SetActive(true);
-        fireUI.SetFirableState(true);
         fireUI.SetFireControlSprite(player.GetSpriteForInput(InputValue.Fire));
         player.AddInputRenderer(InputValue.Fire, fireUI.fireControlRenderer);
     }
