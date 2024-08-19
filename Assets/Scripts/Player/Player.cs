@@ -126,7 +126,7 @@ public class Player : Previewable
     {
         if (_possibleActions.Count(x => x.inputValue == inputToAdd) > 0)
         {
-            //return;
+            return;
         }
 
         _possibleActions.Add(new PlayerAction()
