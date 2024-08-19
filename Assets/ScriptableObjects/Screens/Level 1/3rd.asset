@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 3rd
   m_EditorClassIdentifier: 
   startingItems:
-  - gridObject: {fileID: 4968857197367180557, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
+  - gridObject: {fileID: 610308519021217872, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
     facingDirection: 0
     spawnCoordinates:
       x:
@@ -23,7 +23,7 @@ MonoBehaviour:
         anchor: 1
         offset: 1
     spawnCommand: 0
-  - gridObject: {fileID: 4968857197367180557, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
+  - gridObject: {fileID: 610308519021217872, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
     facingDirection: 0
     spawnCoordinates:
       x:
@@ -56,7 +56,7 @@ MonoBehaviour:
   effects: []
   enemySpawnInformation:
     _serializedList:
-    - Key: 2
+    - Key: 6
       Value:
       - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
         spawnDirection: 0

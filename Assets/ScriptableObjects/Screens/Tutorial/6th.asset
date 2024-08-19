@@ -33,7 +33,7 @@ MonoBehaviour:
         anchor: 0
         offset: 4
     spawnCommand: 3
-  - gridObject: {fileID: 4968857197367180557, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
+  - gridObject: {fileID: 610308519021217872, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
     facingDirection: 0
     spawnCoordinates:
       x:
@@ -43,7 +43,7 @@ MonoBehaviour:
         anchor: 1
         offset: 0
     spawnCommand: 0
-  - gridObject: {fileID: 4968857197367180557, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
+  - gridObject: {fileID: 610308519021217872, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
     facingDirection: 0
     spawnCoordinates:
       x:
