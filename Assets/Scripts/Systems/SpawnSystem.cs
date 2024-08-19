@@ -9,6 +9,8 @@ public class SpawnSystem : MonoBehaviour
     public float spawningDistance = 3;
     [Range(0f, 1f)]
     public float spawningPercentageOffscreen = .25f;
+    public int LoopTick { private get; set; }
+    private int _loopTickOffset;
     Dictionary<int, List<SpawnInfo>> _queuedSpawns = new Dictionary<int, List<SpawnInfo>>();
     List<GameObject> _spawnList = new List<GameObject>();
 
@@ -26,7 +28,13 @@ public class SpawnSystem : MonoBehaviour
 
     void OnTickEnd(int ticksPassed)
     {
-        SpawnItemsForTick(ticksPassed);
+        var tickToPull = ticksPassed - _loopTickOffset;
+        SpawnItemsForTick(tickToPull);
+
+        if (LoopTick != 0 && ticksPassed - _loopTickOffset >= LoopTick)
+        {
+            _loopTickOffset = ticksPassed;
+        }
     }
 
     void SpawnItemsForTick(int tickNumber)
@@ -64,8 +72,6 @@ public class SpawnSystem : MonoBehaviour
                     }
                 }
             }
-
-            _queuedSpawns.Remove(tickNumber);
         }
     }
 
@@ -235,7 +241,9 @@ public class SpawnSystem : MonoBehaviour
             }
             DespawnObject(item);
         }
+
         _spawnList.Clear();
+        _queuedSpawns.Clear();
     }
 
     public void DespawnObject(GridObject gridObject)

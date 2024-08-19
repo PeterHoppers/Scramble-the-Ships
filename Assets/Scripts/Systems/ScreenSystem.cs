@@ -35,6 +35,7 @@ public class ScreenSystem : MonoBehaviour
         var nextScreen = _levelScreens[_screensLoaded];
 
         spawnSystem.ClearObjects();
+        spawnSystem.LoopTick = nextScreen.spawnsLoopAtTick;
         SetScreenStarters(spawnSystem, gridSystem, nextScreen.startingItems);
         SetQueuedEnemies(spawnSystem, gridSystem, nextScreen.enemySpawnInformation);
         SetScreenTranistions(spawnSystem, gridSystem, screenTrigger, nextScreen.transitionGrids);

@@ -16,6 +16,8 @@ public class Screen : ScriptableObject
 
     [SerializedDictionary("Tick #", "Enemy Spawn Info")]
     public SerializedDictionary<int, EnemySpawn[]> enemySpawnInformation = new SerializedDictionary<int, EnemySpawn[]>();
+
+    public int spawnsLoopAtTick;
 }
 
 [System.Serializable]
