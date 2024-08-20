@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53eb3f1cbb508f54abbcf1790983544d, type: 3}
-  m_Name: 4th
+  m_Name: T-4
   m_EditorClassIdentifier: 
   startingItems:
   - gridObject: {fileID: 3855580939222141806, guid: 479e4e8526c713e40b4b6cc0a3eab0dd, type: 3}

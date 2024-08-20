@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6e1ca9cdebeea74e97319e82b7ad330, type: 3}
   m_Name: Level1
   m_EditorClassIdentifier: 
+  useOnePlayerForBoth: 1
   onePlayerLevelScreens:
   - {fileID: 11400000, guid: 43c261739b65dd543ae69b6c6ee49f57, type: 2}
   - {fileID: 11400000, guid: a88d57be80c1ea240a8349fc06845ed9, type: 2}
