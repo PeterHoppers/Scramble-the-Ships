@@ -10,7 +10,10 @@ public class ScreenSystem : MonoBehaviour
 {
     public ScreenChangeTrigger screenTrigger;
     private Screen[] _levelScreens;
+    private Level _level;
     GameManager _gameManager;
+    Screen _currentScreen;
+    int _playerAmount = 0;
     int _screenAmount = 0;
     int _screensLoaded = 0;
 
@@ -19,10 +22,17 @@ public class ScreenSystem : MonoBehaviour
         _gameManager = GetComponent<GameManager>();
     }
 
-    public void SetScreens(Level level, int playerAmount)
+    public void SetScreens(EffectsSystem effectsSystem, Level level, int playerAmount)
     {
+        _level = level;
+        _playerAmount = playerAmount;
         _levelScreens = level.GetLevelScreens(playerAmount);
         _screenAmount = _levelScreens.Length;
+
+        foreach (var effect in _level.startingEffects)
+        {
+            effectsSystem.PerformEffect(effect);
+        }
     }
 
     public int GetScreensRemaining()
@@ -30,32 +40,43 @@ public class ScreenSystem : MonoBehaviour
         return _screenAmount - _screensLoaded;
     }
 
+    public List<GridCoordinate> GetStartingPlayerPositions(int playerAmount)
+    {
+        if (_currentScreen == null)
+        {
+            _currentScreen = _levelScreens[0];
+        }
+
+        return _level.GetStartingPlayerPositions(playerAmount, _currentScreen);
+    }
+
     public void SetupNewScreen(SpawnSystem spawnSystem, GridSystem gridSystem, EffectsSystem effectsSystem, DialogueSystem dialogueSystem)
     {
-        var nextScreen = _levelScreens[_screensLoaded];
+        _currentScreen = _levelScreens[_screensLoaded];
+
+        var screenTransitions = _level.GetTransitionGridPositions(_currentScreen);
 
         spawnSystem.ClearObjects();
-        spawnSystem.LoopTick = nextScreen.spawnsLoopAtTick;
-        SetScreenStarters(spawnSystem, gridSystem, nextScreen.startingItems);
-        SetQueuedEnemies(spawnSystem, gridSystem, nextScreen.enemySpawnInformation);
-        SetScreenTranistions(spawnSystem, gridSystem, screenTrigger, nextScreen.transitionGrids);
+        spawnSystem.LoopTick = _currentScreen.spawnsLoopAtTick;
+        SetScreenStarters(spawnSystem, gridSystem, _currentScreen.startingItems);
+        SetQueuedEnemies(spawnSystem, gridSystem, _currentScreen.enemySpawnInformation);
+        SetScreenTransitions(spawnSystem, gridSystem, screenTrigger, screenTransitions);
 
-        foreach (var effect in nextScreen.effects)
+        foreach (var effect in _currentScreen.effects)
         {
             effectsSystem.PerformEffect(effect);
         }
 
-        dialogueSystem.SetDialogue(nextScreen.screenDialogue);
+        dialogueSystem.SetDialogue(_currentScreen.GetDialogue(_playerAmount));
         
         _screensLoaded++;
     }
 
     public void ResetScreenGridObjects(SpawnSystem spawnSystem, GridSystem gridSystem)
     {
-        var nextScreen = _levelScreens[_screensLoaded - 1];
-        SetScreenStarters(spawnSystem, gridSystem, nextScreen.startingItems);
-        SetQueuedEnemies(spawnSystem, gridSystem, nextScreen.enemySpawnInformation);
-        SetScreenTranistions(spawnSystem, gridSystem, screenTrigger, nextScreen.transitionGrids);
+        SetScreenStarters(spawnSystem, gridSystem, _currentScreen.startingItems);
+        SetQueuedEnemies(spawnSystem, gridSystem, _currentScreen.enemySpawnInformation);
+        SetScreenTransitions(spawnSystem, gridSystem, screenTrigger, _currentScreen.transitionGrids);
     }
 
     void SetScreenStarters(SpawnSystem spawnSystem, GridSystem gridSystem, List<ScreenSpawns> screenStarters)
@@ -103,7 +124,7 @@ public class ScreenSystem : MonoBehaviour
         }
     }
 
-    List<ScreenChangeTrigger> SetScreenTranistions(SpawnSystem spawnSystem, GridSystem gridSystem, ScreenChangeTrigger baseTrigger, List<GridCoordinate> transitionGrids)
+    List<ScreenChangeTrigger> SetScreenTransitions(SpawnSystem spawnSystem, GridSystem gridSystem, ScreenChangeTrigger baseTrigger, List<GridCoordinate> transitionGrids)
     {
         var screenTriggers = new List<ScreenChangeTrigger>();
         foreach (var transition in transitionGrids)

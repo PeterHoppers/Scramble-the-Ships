@@ -3091,7 +3091,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 399567859019574104, guid: 5632fe5e136509e45aedfcbdf0a4ad9c, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 399567859019574104, guid: 5632fe5e136509e45aedfcbdf0a4ad9c, type: 3}
       propertyPath: m_SizeDelta.y
@@ -3275,7 +3275,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7838317201633952713, guid: 5632fe5e136509e45aedfcbdf0a4ad9c, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 7838317201633952713, guid: 5632fe5e136509e45aedfcbdf0a4ad9c, type: 3}
       propertyPath: m_SizeDelta.y
@@ -5068,11 +5068,11 @@ PrefabInstance:
     - target: {fileID: 6824546314571791643, guid: 23998af3c46b757499df508b643cf3ed, type: 3}
       propertyPath: _levels.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 728a1716cff4b284b9ad127715156fc7, type: 2}
+      objectReference: {fileID: 11400000, guid: 441b03407b426ff48b02378352246728, type: 2}
     - target: {fileID: 6824546314571791643, guid: 23998af3c46b757499df508b643cf3ed, type: 3}
       propertyPath: _levels.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 441b03407b426ff48b02378352246728, type: 2}
+      objectReference: {fileID: 11400000, guid: 728a1716cff4b284b9ad127715156fc7, type: 2}
     - target: {fileID: 6856579681233464659, guid: 23998af3c46b757499df508b643cf3ed, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -5491,30 +5491,6 @@ MonoBehaviour:
   shipInfos:
   - {fileID: 11400000, guid: 734a50b407aa8d241912080d302100db, type: 2}
   - {fileID: 11400000, guid: 1308066075c527b4bb474b11e5de6035, type: 2}
-  _startingPlayerPositions:
-    _serializedList:
-    - Key: 1
-      Value:
-      - x:
-          anchor: 1
-          offset: 0
-        y:
-          anchor: 0
-          offset: 1
-    - Key: 2
-      Value:
-      - x:
-          anchor: 1
-          offset: -2
-        y:
-          anchor: 0
-          offset: 1
-      - x:
-          anchor: 1
-          offset: 2
-        y:
-          anchor: 0
-          offset: 1
   previewableBase: {fileID: 4175597009222242078, guid: 9fb8fa15c00711e4c9bc59d0c67719ef, type: 3}
 --- !u!156049354 &2124894460
 Grid:
@@ -5761,7 +5737,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 399567859019574104, guid: 5632fe5e136509e45aedfcbdf0a4ad9c, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 399567859019574104, guid: 5632fe5e136509e45aedfcbdf0a4ad9c, type: 3}
       propertyPath: m_SizeDelta.y
@@ -5953,7 +5929,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7838317201633952713, guid: 5632fe5e136509e45aedfcbdf0a4ad9c, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 7838317201633952713, guid: 5632fe5e136509e45aedfcbdf0a4ad9c, type: 3}
       propertyPath: m_SizeDelta.y

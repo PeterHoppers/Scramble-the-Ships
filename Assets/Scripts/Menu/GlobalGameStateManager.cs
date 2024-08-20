@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using AYellowpaper.SerializedCollections;
 
 public class GlobalGameStateManager : MonoBehaviour
 {
@@ -13,6 +14,11 @@ public class GlobalGameStateManager : MonoBehaviour
 
     [SerializeField]
     private List<Level> _levels = new List<Level>();
+
+    [Header("Default Locations")]
+    public List<GridCoordinate> defaultLocationForTransitionGrids = new List<GridCoordinate>();
+    public SerializedDictionary<int, List<GridCoordinate>> startingPlayerPositions;
+
     const int TUTORIAL_INDEX = 0;
     int _activeLevelIndex = TUTORIAL_INDEX;
     LevelSceneSystem _levelSceneSystem;

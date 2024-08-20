@@ -27,3 +27,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: af90f4945c3a8cb4190cc61fe61986d9, type: 2}
   - {fileID: 11400000, guid: 245050a375714d345b4634a3bf460613, type: 2}
   - {fileID: 11400000, guid: 1dfee220f773d734881d411c2d72b085, type: 2}
+  startingEffects:
+  - type: 0
+    amount: 0
+  overrideDefaultTransitionGrids: 0
+  transitionGrids: []
+  overrideDefaultStartingPositions: 0
+  startingPlayerPositions:
+    _serializedList: []

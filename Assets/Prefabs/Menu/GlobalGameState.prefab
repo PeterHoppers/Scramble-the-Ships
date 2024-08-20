@@ -521,6 +521,49 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 441b03407b426ff48b02378352246728, type: 2}
   - {fileID: 11400000, guid: 728a1716cff4b284b9ad127715156fc7, type: 2}
   - {fileID: 11400000, guid: d59490141739f2d4694f11cd5d33adf1, type: 2}
+  defaultLocationForTransitionGrids:
+  - x:
+      anchor: 1
+      offset: 0
+    y:
+      anchor: 2
+      offset: 0
+  - x:
+      anchor: 1
+      offset: -1
+    y:
+      anchor: 2
+      offset: 0
+  - x:
+      anchor: 1
+      offset: 1
+    y:
+      anchor: 2
+      offset: 0
+  startingPlayerPositions:
+    _serializedList:
+    - Key: 1
+      Value:
+      - x:
+          anchor: 1
+          offset: 0
+        y:
+          anchor: 0
+          offset: 1
+    - Key: 2
+      Value:
+      - x:
+          anchor: 1
+          offset: -1
+        y:
+          anchor: 0
+          offset: 1
+      - x:
+          anchor: 1
+          offset: 1
+        y:
+          anchor: 0
+          offset: 1
 --- !u!114 &719655402535580406
 MonoBehaviour:
   m_ObjectHideFlags: 0

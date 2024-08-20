@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
-[CustomPropertyDrawer(typeof(Coordinate))]
+/*[CustomPropertyDrawer(typeof(Coordinate))]
 public class CoordinateDrawer : PropertyDrawer
 {
     public override VisualElement CreatePropertyGUI(SerializedProperty property)
@@ -27,4 +27,4 @@ public class CoordinateDrawer : PropertyDrawer
 
         return container;
     }
-}
+}*/

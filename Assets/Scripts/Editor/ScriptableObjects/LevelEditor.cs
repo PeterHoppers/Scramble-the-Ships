@@ -7,12 +7,15 @@ public class LevelEditor : Editor
     SerializedProperty twoPlayerScreens;
     SerializedProperty areLevelsSameToggle;
 
+    SerializedProperty startingEffects;
+
     void OnEnable()
     {
         // Setup the SerializedProperties.
         onePlayerScreens = serializedObject.FindProperty("onePlayerLevelScreens");
         twoPlayerScreens = serializedObject.FindProperty("twoPlayerLevelScreens");
         areLevelsSameToggle = serializedObject.FindProperty("useOnePlayerForBoth");
+        startingEffects = serializedObject.FindProperty("startingEffects");
     }
 
     // Update is called once per frame
@@ -29,6 +32,9 @@ public class LevelEditor : Editor
         {
             EditorGUILayout.PropertyField(twoPlayerScreens);
         }
+
+        EditorGUILayout.Space();
+        EditorGUILayout.PropertyField(startingEffects);
 
         // Apply changes to the serializedProperty - always do this in the end of OnInspectorGUI.
         serializedObject.ApplyModifiedProperties();

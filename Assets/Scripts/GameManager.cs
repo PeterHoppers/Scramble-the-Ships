@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
 {
     public Player playerShip;
     public List<ShipInfo> shipInfos = new List<ShipInfo>();
-    public SerializedDictionary<int, List<GridCoordinate>> _startingPlayerPositions;
     public PreviewableBase previewableBase;
 
     //GameManager Events
@@ -50,6 +49,9 @@ public class GameManager : MonoBehaviour
     List<PreviewAction> _previewActions = new List<PreviewAction>();
     private List<Player> _players = new List<Player>();
     private int _playerLives = 0;
+    private int _playerCount = 0;
+    private Level _currentLevel;
+    List<GridCoordinate> _startingPlayerPositions;
 
     GridSystem _gridSystem;
     SpawnSystem _spawnSystem;
@@ -115,15 +117,23 @@ public class GameManager : MonoBehaviour
         var numberOfLives = OptionsManager.Instance.gameSettingParameters.amountLivesPerPlayer;
         OptionsManager.Instance.AfterInitManager();
 
+        _currentLevel = GlobalGameStateManager.Instance.GetLevelInfo();
+        _playerCount = GlobalGameStateManager.Instance.PlayerCount;
+
+        if (_playerCount == 0)
+        {
+            _playerCount = 1;
+        }
+
+        _screenSystem.SetScreens(_effectsSystem, _currentLevel, _playerCount);
+        _startingPlayerPositions = _screenSystem.GetStartingPlayerPositions(_playerCount);
+
         CreatePlayerShip(numberOfLives);
 
-        if (GlobalGameStateManager.Instance.PlayerCount == 2)
+        if (_playerCount == 2)
         {
             CreatePlayerShip(numberOfLives);
         }
-
-        var activeLevel = GlobalGameStateManager.Instance.GetLevelInfo();
-        _screenSystem.SetScreens(activeLevel, _players.Count);
 
         StartCoroutine(SetupNextScreen(_screenSystem.GetScreensRemaining(), TickDuration, false));
         UpdateGameState(GameState.Transition);
@@ -150,15 +160,15 @@ public class GameManager : MonoBehaviour
         _players.Add(newPlayer);
         _playerLives = _players.Count * numberOfLives;
 
-        var startingTile = GetStartingTileForPlayer(_players.Count, playerId);
+        var startingTile = GetStartingTileForPlayer(playerId);
         MovePreviewableOffScreenToTile(playerObject, startingTile, 0);
         newPlayer.OnSpawn();
         OnPlayerJoinedGame?.Invoke(newPlayer, numberOfLives);
     }
 
-    Tile GetStartingTileForPlayer(int playerAmount, int playerId)
+    Tile GetStartingTileForPlayer(int playerId)
     {
-        var startingPosition = _startingPlayerPositions[playerAmount][playerId];
+        var startingPosition = _startingPlayerPositions[playerId];
 
         _gridSystem.TryGetTileByCoordinates(startingPosition, out var startingTile);
         return startingTile;
@@ -177,7 +187,7 @@ public class GameManager : MonoBehaviour
 
     void MovePlayerOntoStartingTitle(Player player, float duration)
     {
-        var startingTile = GetStartingTileForPlayer(_players.Count, player.PlayerId);
+        var startingTile = GetStartingTileForPlayer(player.PlayerId);
         MovePlayerOnScreenToTile(player, startingTile, duration);
     }
 
@@ -272,6 +282,7 @@ public class GameManager : MonoBehaviour
         }
 
         _screenSystem.SetupNewScreen(_spawnSystem, _gridSystem, _effectsSystem, _dialogueSystem);
+        _startingPlayerPositions = _screenSystem.GetStartingPlayerPositions(_playerCount);
         _ticksSinceScreenStart = 0;
         yield return new WaitForSeconds(screenLoadDuration);
 
