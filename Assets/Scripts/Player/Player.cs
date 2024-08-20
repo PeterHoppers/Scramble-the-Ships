@@ -228,7 +228,7 @@ public class Player : Previewable
 
         Vector2 playerMovement = context.ReadValue<Vector2>();
 
-        if (playerMovement == Vector2.zero)
+        if (playerMovement == Vector2.zero || !context.performed)
         {
             return;
         }

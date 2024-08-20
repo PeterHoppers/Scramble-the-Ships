@@ -25,7 +25,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 12a2c099ff6dd2e408e7579356a1bcc9, type: 2}
   - {fileID: 11400000, guid: 213d9669239c252479e1120960b948e6, type: 2}
   - {fileID: 11400000, guid: f0b4c55d7b116674388d7da27016b87b, type: 2}
-  startingEffects: []
+  startingEffects:
+  - type: 0
+    amount: 3
   overrideDefaultTransitionGrids: 0
   transitionGrids: []
   overrideDefaultStartingPositions: 0

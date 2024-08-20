@@ -22,13 +22,16 @@ public class ScreenSystem : MonoBehaviour
         _gameManager = GetComponent<GameManager>();
     }
 
-    public void SetScreens(EffectsSystem effectsSystem, Level level, int playerAmount)
+    public void SetScreens(Level level, int playerAmount)
     {
         _level = level;
         _playerAmount = playerAmount;
         _levelScreens = level.GetLevelScreens(playerAmount);
         _screenAmount = _levelScreens.Length;
+    }
 
+    public void TriggerStartingEffects(EffectsSystem effectsSystem)
+    {
         foreach (var effect in _level.startingEffects)
         {
             effectsSystem.PerformEffect(effect);
@@ -74,9 +77,10 @@ public class ScreenSystem : MonoBehaviour
 
     public void ResetScreenGridObjects(SpawnSystem spawnSystem, GridSystem gridSystem)
     {
+        var screenTransitions = _level.GetTransitionGridPositions(_currentScreen);
         SetScreenStarters(spawnSystem, gridSystem, _currentScreen.startingItems);
         SetQueuedEnemies(spawnSystem, gridSystem, _currentScreen.enemySpawnInformation);
-        SetScreenTransitions(spawnSystem, gridSystem, screenTrigger, _currentScreen.transitionGrids);
+        SetScreenTransitions(spawnSystem, gridSystem, screenTrigger, screenTransitions);
     }
 
     void SetScreenStarters(SpawnSystem spawnSystem, GridSystem gridSystem, List<ScreenSpawns> screenStarters)

@@ -125,7 +125,7 @@ public class GameManager : MonoBehaviour
             _playerCount = 1;
         }
 
-        _screenSystem.SetScreens(_effectsSystem, _currentLevel, _playerCount);
+        _screenSystem.SetScreens(_currentLevel, _playerCount);
         _startingPlayerPositions = _screenSystem.GetStartingPlayerPositions(_playerCount);
 
         CreatePlayerShip(numberOfLives);
@@ -135,6 +135,7 @@ public class GameManager : MonoBehaviour
             CreatePlayerShip(numberOfLives);
         }
 
+        _screenSystem.TriggerStartingEffects(_effectsSystem);
         StartCoroutine(SetupNextScreen(_screenSystem.GetScreensRemaining(), TickDuration, false));
         UpdateGameState(GameState.Transition);
     }
@@ -385,9 +386,11 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            hit.DestroyObject();
+            if (hit.CanBeShot())
+            {
+                hit.DestroyObject();
+            }
         }
-
     }
 
     void PlayerCollision(Player player)

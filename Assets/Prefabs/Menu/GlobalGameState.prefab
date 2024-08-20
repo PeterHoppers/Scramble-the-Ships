@@ -520,7 +520,7 @@ MonoBehaviour:
   _levels:
   - {fileID: 11400000, guid: 441b03407b426ff48b02378352246728, type: 2}
   - {fileID: 11400000, guid: 728a1716cff4b284b9ad127715156fc7, type: 2}
-  - {fileID: 11400000, guid: d59490141739f2d4694f11cd5d33adf1, type: 2}
+  - {fileID: 11400000, guid: aa418f0335562b942a3316ffdf744c38, type: 2}
   defaultLocationForTransitionGrids:
   - x:
       anchor: 1

@@ -15,7 +15,7 @@ public class Bullet : GridMovable
             return;
         }
 
-        if (collision.TryGetComponent<ScreenChangeTrigger>(out var _))
+        if (collidedPreviewable.IsIgnoredByBullets())
         {
             return;
         }

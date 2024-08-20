@@ -20,6 +20,7 @@ public abstract class GridObject : MonoBehaviour
 
     protected GameManager _manager;
     protected SpawnSystem _spawnSystem;
+    protected ForeignCollisionStatus _foreignCollisionStatus = ForeignCollisionStatus.Default;
 
     public virtual void SetupObject(GameManager manager, SpawnSystem system, Tile startingTile)
     {
@@ -45,6 +46,16 @@ public abstract class GridObject : MonoBehaviour
         _spawnSystem.DespawnObject(this);
     }
 
+    public virtual bool CanBeShot()
+    {
+        return (_foreignCollisionStatus == ForeignCollisionStatus.Default);
+    }
+
+    public virtual bool IsIgnoredByBullets()
+    {
+        return (_foreignCollisionStatus == ForeignCollisionStatus.None);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         PerformInteraction(collision);
@@ -54,4 +65,11 @@ public abstract class GridObject : MonoBehaviour
     {
 
     }
+}
+
+public enum ForeignCollisionStatus
+{ 
+    Default,
+    Undestroyable,
+    None
 }

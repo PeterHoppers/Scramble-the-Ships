@@ -21,7 +21,24 @@ public class CutsceneSystem : MonoBehaviour
         switch(type) 
         { 
             case CutsceneType.Tutorial:
-                StartCoroutine(TutorialCutscene(duration));
+                StartCoroutine(HackingCutscene(duration, new List<Effect>
+                { 
+                    new()
+                    { 
+                        type = EffectType.ScrambleAmount,
+                        amount = 3f
+                    }
+                }));
+                break;
+            case CutsceneType.ShootingHacking:
+                StartCoroutine(HackingCutscene(duration, new List<Effect>
+                {
+                    new()
+                    {
+                        type = EffectType.ScrambleAmount,
+                        amount = 5f
+                    }
+                }));
                 break;
             case CutsceneType.ScreenTransition:
                 StartCoroutine(ScreenTransitionCutscene(duration));
@@ -29,7 +46,7 @@ public class CutsceneSystem : MonoBehaviour
         }
     }
 
-    IEnumerator TutorialCutscene(float cutsceneDuration)
+    IEnumerator HackingCutscene(float cutsceneDuration, List<Effect> effectsToApply)
     {
         var effects = _gameManager.EffectsSystem;
         var bigBaddy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Previewable>();
@@ -62,7 +79,12 @@ public class CutsceneSystem : MonoBehaviour
 
         effects.ClearCameraEffects();
         effects.PerformEffect(EffectType.ScanLineJitter, .05f);
-        effects.PerformEffect(EffectType.ScrambleAmount, 3);
+
+        effectsToApply.ForEach(effect =>
+        {
+            effects.PerformEffect(effect);
+        });
+        
         _gameManager.ToggleIsPlaying(true);
     }
 
@@ -79,4 +101,5 @@ public enum CutsceneType
 { 
     Tutorial,
     ScreenTransition,
+    ShootingHacking
 }

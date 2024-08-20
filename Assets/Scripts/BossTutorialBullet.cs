@@ -8,6 +8,13 @@ public class BossTutorialBullet : GridMovable
 {
     public InputValue inputValue;
     public float cutsceneDuration = 2f;
+    public CutsceneType triggeredCutscene = CutsceneType.Tutorial;
+
+    private void Awake()
+    {
+        _foreignCollisionStatus = ForeignCollisionStatus.Undestroyable;
+    }
+
     protected override void CreateNextPreview(float timeToTickEnd)
     {
         var newDirection = ConvertInputValueToDirection(inputValue);
@@ -23,6 +30,6 @@ public class BossTutorialBullet : GridMovable
             return;
         }
 
-        _manager.ActivateCutscene(CutsceneType.Tutorial, cutsceneDuration);
+        _manager.ActivateCutscene(triggeredCutscene, cutsceneDuration);
     }
 }
