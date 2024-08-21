@@ -231,6 +231,12 @@ public class SpawnSystem : MonoBehaviour
         AddSpawnInfoAtTick(playerSpawn, spawnTick);
     }
 
+    public void ResetSpawns()
+    { 
+        ClearObjects();
+        _loopTickOffset = 0;
+    }
+
     public void ClearObjects()
     {
         foreach (var item in _spawnList)

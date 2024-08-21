@@ -58,9 +58,9 @@ public class ScreenSystem : MonoBehaviour
         _currentScreen = _levelScreens[_screensLoaded];
 
         var screenTransitions = _level.GetTransitionGridPositions(_currentScreen);
-
-        spawnSystem.ClearObjects();
         spawnSystem.LoopTick = _currentScreen.spawnsLoopAtTick;
+
+        spawnSystem.ResetSpawns();
         SetScreenStarters(spawnSystem, gridSystem, _currentScreen.startingItems);
         SetQueuedEnemies(spawnSystem, gridSystem, _currentScreen.enemySpawnInformation);
         SetScreenTransitions(spawnSystem, gridSystem, screenTrigger, screenTransitions);
@@ -77,7 +77,8 @@ public class ScreenSystem : MonoBehaviour
 
     public void ResetScreenGridObjects(SpawnSystem spawnSystem, GridSystem gridSystem)
     {
-        var screenTransitions = _level.GetTransitionGridPositions(_currentScreen);
+        var screenTransitions = _level.GetTransitionGridPositions(_currentScreen); 
+        spawnSystem.ResetSpawns();
         SetScreenStarters(spawnSystem, gridSystem, _currentScreen.startingItems);
         SetQueuedEnemies(spawnSystem, gridSystem, _currentScreen.enemySpawnInformation);
         SetScreenTransitions(spawnSystem, gridSystem, screenTrigger, screenTransitions);

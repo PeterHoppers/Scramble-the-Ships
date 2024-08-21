@@ -430,7 +430,6 @@ public class GameManager : MonoBehaviour
 
         _playerFinishedWithScreen = 0;
         _ticksSinceScreenStart = 0;
-        _spawnSystem.ClearObjects();
         _screenSystem.ResetScreenGridObjects(_spawnSystem, _gridSystem);
 
         foreach (Player player in _players)

@@ -33,6 +33,7 @@ MonoBehaviour:
         anchor: 1
         offset: 1
     spawnCommand: 0
+  overrideDefaultTransitionGrids: 0
   transitionGrids:
   - x:
       anchor: 1
@@ -52,11 +53,16 @@ MonoBehaviour:
     y:
       anchor: 2
       offset: 0
+  overrideDefaultStartingPositions: 0
+  startingPlayerPositions:
+    _serializedList: []
+  useDifferentDialogueForBothPlayers: 0
   screenDialogue: {fileID: 11400000, guid: 138bb14268f41d44e97e16bf1d247dd6, type: 2}
+  twoPlayerDialogue: {fileID: 0}
   effects: []
   enemySpawnInformation:
     _serializedList:
-    - Key: 6
+    - Key: 2
       Value:
       - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
         spawnDirection: 0
@@ -76,3 +82,4 @@ MonoBehaviour:
           anchor: 0
           offset: 3
         spawnCommand: 2
+  spawnsLoopAtTick: 0
