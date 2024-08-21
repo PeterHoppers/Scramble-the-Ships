@@ -10,7 +10,7 @@ public class DialogueSystem : MonoBehaviour
 {
     [Range(0, .1f)]
     public float dialogueSpeed;
-    [Range(0, 3)]
+    [Range(0, 15)]
     public float autoTextAdvanceInSeconds;
     [SerializeField]
     private GameObject dialogueHolder;
