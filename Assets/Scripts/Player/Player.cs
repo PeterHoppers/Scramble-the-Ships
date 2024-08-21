@@ -53,14 +53,23 @@ public class Player : Previewable
         _shipCollider = GetComponent<Collider2D>();
     }
 
+    private void OnDisable()
+    {
+        if (_manager != null)
+        {
+            _manager.EffectsSystem.OnShootingChanged -= OnShootingChanged;
+            _manager.EffectsSystem.OnBulletsPerScreenChanged -= OnBulletsChanged;
+        }        
+    }
+
     public void InitPlayer(GameManager manager, ShipInfo shipInfo, int id, bool isShootingEnabled)
     {      
         _manager = manager;
         _manager.OnTickStart += OnTickStart;
         _manager.OnTickEnd += OnTickEnd;
         _manager.OnScreenChange += OnScreenChange;
-        _manager.EffectsSystem.OnShootingChanged += (bool isAdded) => ChangeShootingCondition(isAdded);
-        _manager.EffectsSystem.OnBulletsPerScreenChanged += (int numBullets) => _numberOfBulletsPerScreen = numBullets;
+        _manager.EffectsSystem.OnShootingChanged += OnShootingChanged;
+        _manager.EffectsSystem.OnBulletsPerScreenChanged += OnBulletsChanged;
 
         _shipInfo = shipInfo;
         foreach (InputValue inputValue in Enum.GetValues(typeof(InputValue)))
@@ -79,6 +88,16 @@ public class Player : Previewable
         _numberOfBulletsPerScreen = OptionsManager.Instance.gameSettingParameters.bulletsPerScreen;
         BulletsRemaining = _numberOfBulletsPerScreen;
         ChangeShootingCondition(isShootingEnabled);
+    }
+
+    private void OnShootingChanged(bool isAdded)
+    {
+        ChangeShootingCondition(isAdded);
+    }
+
+    private void OnBulletsChanged(int numBullets) 
+    {
+        _numberOfBulletsPerScreen = numBullets;
     }
 
     private void ChangeShootingCondition(bool isShootingEnabled)
