@@ -137,6 +137,7 @@ public class GameManager : MonoBehaviour
             CreatePlayerShip(numberOfLives);
         }
 
+        _energySystem.SetEnergy(_playerCount);
         _screenSystem.TriggerStartingEffects(_effectsSystem);
         StartCoroutine(SetupNextScreen(_screenSystem.GetScreensRemaining(), TickDuration, false));
         UpdateGameState(GameState.Transition);
@@ -456,6 +457,11 @@ public class GameManager : MonoBehaviour
     public List<Player> GetAllCurrentPlayers()
     {
         return _players;
+    }
+
+    public int GetPlayersRemaining()
+    {
+        return _playerCount - _playerFinishedWithScreen;
     }
 
     public int GetLastIndexOfScramble()

@@ -16,6 +16,7 @@ public class EnergySystem : MonoBehaviour
 
     public int maxEnergy;
     int _currentEnergy;
+    int _playerCount = 1;
 
     GameManager _gameManager;
 
@@ -24,9 +25,9 @@ public class EnergySystem : MonoBehaviour
         get { return _currentEnergy; }
         set 
         {
-            if (value > maxEnergy)
+            if (value > maxEnergy * _playerCount)
             { 
-                value = maxEnergy;
+                value = maxEnergy * _playerCount;
             }
 
             _currentEnergy = value;
@@ -39,13 +40,17 @@ public class EnergySystem : MonoBehaviour
         _gameManager = GetComponent<GameManager>();
         _gameManager.OnTickEnd += OnTickEnd;
         _gameManager.OnScreenChange += OnScreenChange;
+    }
 
-        CurrentEnergy = maxEnergy;
+    public void SetEnergy(int playerCount)
+    {
+        _playerCount = playerCount;
+        CurrentEnergy = maxEnergy * _playerCount;
     }
 
     private void OnTickEnd(int _)
     {
-        CurrentEnergy -= energyPerMove;
+        CurrentEnergy -= energyPerMove * _gameManager.GetPlayersRemaining();
     }
 
     private void OnScreenChange(int screensRemaining)
