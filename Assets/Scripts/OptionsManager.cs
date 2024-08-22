@@ -30,8 +30,10 @@ public class OptionsManager : MonoBehaviour, IManager
     public Slider tickScrambleSlider;
     public TMP_Dropdown moveOnInputDropdown;
     public TMP_Dropdown shootingEnabledDropdown;
-    public Slider livesPerSlider;
-    public Slider bulletsPerSlider;
+    public Slider maxEnergySlider;
+    public Slider energyPerMoveSlider;
+    public Slider energyPerShotSlider;
+    public Slider energyPerDeathSlider;
 
     [Space]
 
@@ -105,16 +107,28 @@ public class OptionsManager : MonoBehaviour, IManager
             gameSettingParameters.isShootingEnabled = DropdownValueToBool(newSelection);
         });
 
-        bulletsPerSlider.value = gameSettingParameters.bulletsPerScreen;
-        bulletsPerSlider.onValueChanged.AddListener((float newValue) =>
+        maxEnergySlider.value = gameSettingParameters.maxEnergy / 10;
+        maxEnergySlider.onValueChanged.AddListener((float newValue) =>
         {
-            gameSettingParameters.bulletsPerScreen = (int)newValue;
+            gameSettingParameters.maxEnergy = (int)newValue * 10;
         });
 
-        livesPerSlider.value = gameSettingParameters.amountLivesPerPlayer;
-        livesPerSlider.onValueChanged.AddListener((float newValue) => 
+        energyPerMoveSlider.value = gameSettingParameters.energyPerMove;
+        energyPerMoveSlider.onValueChanged.AddListener((float newValue) => 
         {
-            gameSettingParameters.amountLivesPerPlayer = (int)newValue;
+            gameSettingParameters.energyPerMove = (int)newValue;
+        });
+
+        energyPerShotSlider.value = gameSettingParameters.energyPerShot;
+        energyPerShotSlider.onValueChanged.AddListener((float newValue) =>
+        {
+            gameSettingParameters.energyPerShot = (int)newValue;
+        });
+
+        energyPerDeathSlider.value = gameSettingParameters.energyPerDeath;
+        energyPerDeathSlider.onValueChanged.AddListener((float newValue) =>
+        {
+            gameSettingParameters.energyPerDeath = (int)newValue;
         });
 
         modeTypeDropdown.value = BoolToDropdownIndex(systemSettingParameters.isFreeplay);
@@ -184,8 +198,10 @@ public struct GameSettingParameters
     public int amountTickPerScramble;
     public bool doesMoveOnInput;
     public bool isShootingEnabled;
-    public int amountLivesPerPlayer;
-    public int bulletsPerScreen;
+    public int maxEnergy;
+    public int energyPerMove;
+    public int energyPerShot;
+    public int energyPerDeath;
 }
 
 [System.Serializable]

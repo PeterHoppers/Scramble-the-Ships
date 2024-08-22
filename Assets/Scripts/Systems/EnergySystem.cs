@@ -8,13 +8,13 @@ public class EnergySystem : MonoBehaviour
     public delegate void EnergyChange(int currentEnergy);
     public EnergyChange OnEnergyChange;
 
-    public int energyPerMove;
-    public int energyPerFire;
-    public int energyPerLifeLoss;
-
     public int energyRegainedOnScreenEnd;
 
-    public int maxEnergy;
+    int _energyPerMove;
+    int _energyPerFire;
+    int _energyPerLifeLoss;
+    int _maxEnergy;
+    int _maxEnergyPerPlayer;
     int _currentEnergy;
     int _playerCount = 1;
 
@@ -25,9 +25,9 @@ public class EnergySystem : MonoBehaviour
         get { return _currentEnergy; }
         set 
         {
-            if (value > maxEnergy * _playerCount)
+            if (value > _maxEnergy)
             { 
-                value = maxEnergy * _playerCount;
+                value = _maxEnergy;
             }
 
             _currentEnergy = value;
@@ -40,17 +40,45 @@ public class EnergySystem : MonoBehaviour
         _gameManager = GetComponent<GameManager>();
         _gameManager.OnTickEnd += OnTickEnd;
         _gameManager.OnScreenChange += OnScreenChange;
+        _gameManager.EffectsSystem.OnMaxEnergyChanged += OnMaxEnergyPerPersonChanged;
+
+        if (OptionsManager.Instance != null) 
+        {
+            OptionsManager.Instance.OnParametersChanged += OnParametersChanged;
+            OnParametersChanged(OptionsManager.Instance.gameSettingParameters, OptionsManager.Instance.systemSettingParameters);
+        }        
+    }
+
+    private void OnParametersChanged(GameSettingParameters gameSettings, SystemSettingParameters _)
+    {
+        _energyPerMove = gameSettings.energyPerMove;
+        _energyPerFire = gameSettings.energyPerShot;
+        _energyPerLifeLoss = gameSettings.energyPerDeath;
+
+        OnMaxEnergyPerPersonChanged(gameSettings.maxEnergy);
     }
 
     public void SetEnergy(int playerCount)
     {
+        UpdateMaxEnergy(_maxEnergyPerPlayer, playerCount);
+    }
+
+    void OnMaxEnergyPerPersonChanged(int newMaxEnergyPerPerson)
+    {
+        UpdateMaxEnergy(newMaxEnergyPerPerson, _playerCount);
+    }
+
+    void UpdateMaxEnergy(int maxEnergyPerPerson, int playerCount)
+    {
+        _maxEnergyPerPlayer = maxEnergyPerPerson;
         _playerCount = playerCount;
-        CurrentEnergy = maxEnergy * _playerCount;
+        _maxEnergy = _maxEnergyPerPlayer * _playerCount;
+        CurrentEnergy = _maxEnergy;
     }
 
     private void OnTickEnd(int _)
     {
-        CurrentEnergy -= energyPerMove * _gameManager.GetPlayersRemaining();
+        CurrentEnergy -= _energyPerMove * _gameManager.GetPlayersRemaining();
     }
 
     private void OnScreenChange(int screensRemaining)
@@ -60,13 +88,13 @@ public class EnergySystem : MonoBehaviour
 
     public int OnPlayerFired()
     {
-        CurrentEnergy -= (energyPerFire - energyPerMove);
+        CurrentEnergy -= (_energyPerFire - _energyPerMove);
         return CurrentEnergy;
     }
 
     public int OnPlayerDied()
     { 
-        CurrentEnergy -= energyPerLifeLoss;
+        CurrentEnergy -= _energyPerLifeLoss;
         return CurrentEnergy;
     }
 }

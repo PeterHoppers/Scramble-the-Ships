@@ -30,6 +30,8 @@ MonoBehaviour:
   startingEffects:
   - type: 0
     amount: 0
+  - type: 10
+    amount: 500
   overrideDefaultTransitionGrids: 0
   transitionGrids: []
   overrideDefaultStartingPositions: 0

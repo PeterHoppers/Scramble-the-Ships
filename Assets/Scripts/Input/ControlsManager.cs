@@ -115,7 +115,7 @@ public class ControlsManager : MonoBehaviour, IManager
         return shuffledValues;
     }
 
-    private void OnPlayerJoined(Player player, int numberOfLives)
+    private void OnPlayerJoined(Player player)
     {
         _players = _gameManager.GetAllCurrentPlayers();
         UpdateShuffledValues();

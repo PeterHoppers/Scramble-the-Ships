@@ -32,5 +32,6 @@ public class TabbedPanelUI : MonoBehaviour
 public enum SettingPanelTypes
 { 
     Game,
-    System
+    System,
+    Energy
 }

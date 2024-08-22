@@ -11,10 +11,6 @@ public class Player : Previewable
     [SerializedDictionary]
     public SerializedDictionary<InputValue, InputRenderer> inputValueDisplays;
 
-    public delegate void PlayerFired(Player player, int bulletsLeft);
-    public PlayerFired OnPlayerFired;
-
-
     [SerializedDictionary]
     SerializedDictionary<InputValue, PlayerAction> scrambledActions = new SerializedDictionary<InputValue, PlayerAction>();
     
@@ -28,21 +24,7 @@ public class Player : Previewable
     public int PlayerId { get; private set; }
     private bool _allowingInput;
     private bool _isInactive = false;
-    int _numberOfBulletsPerScreen = 3;
-    public int BulletsRemaining 
-    {
-        get
-        {
-            return _currentBulletRemaining;
-        }
-        set
-        {
-            _currentBulletRemaining = value;
-            OnPlayerFired?.Invoke(this, _currentBulletRemaining);
-        }    
-    }
 
-    int _currentBulletRemaining;
     InputValue? _lastInput;
 
     List<PlayerAction> _possibleActions = new List<PlayerAction>();
@@ -58,7 +40,6 @@ public class Player : Previewable
         if (_manager != null)
         {
             _manager.EffectsSystem.OnShootingChanged -= OnShootingChanged;
-            _manager.EffectsSystem.OnBulletsPerScreenChanged -= OnBulletsChanged;
         }        
     }
 
@@ -67,9 +48,7 @@ public class Player : Previewable
         _manager = manager;
         _manager.OnTickStart += OnTickStart;
         _manager.OnTickEnd += OnTickEnd;
-        _manager.OnScreenChange += OnScreenChange;
         _manager.EffectsSystem.OnShootingChanged += OnShootingChanged;
-        _manager.EffectsSystem.OnBulletsPerScreenChanged += OnBulletsChanged;
 
         _shipInfo = shipInfo;
         foreach (InputValue inputValue in Enum.GetValues(typeof(InputValue)))
@@ -85,19 +64,12 @@ public class Player : Previewable
         _shipRenderer = GetComponentInChildren<SpriteRenderer>();
         _shipRenderer.sprite = _shipSprite;
 
-        _numberOfBulletsPerScreen = OptionsManager.Instance.gameSettingParameters.bulletsPerScreen;
-        BulletsRemaining = _numberOfBulletsPerScreen;
         ChangeShootingCondition(isShootingEnabled);
     }
 
     private void OnShootingChanged(bool isAdded)
     {
         ChangeShootingCondition(isAdded);
-    }
-
-    private void OnBulletsChanged(int numBullets) 
-    {
-        _numberOfBulletsPerScreen = numBullets;
     }
 
     private void ChangeShootingCondition(bool isShootingEnabled)
@@ -157,11 +129,6 @@ public class Player : Previewable
             var condition = _playerConditions[i];
             condition.OnTickEnd();
         }
-    }
-
-    private void OnScreenChange(int screensRemaining)
-    {
-        BulletsRemaining = _numberOfBulletsPerScreen;
     }
 
     public List<PlayerAction> GetPossibleAction()
@@ -306,11 +273,6 @@ public class Player : Previewable
         }
     }
 
-    public int GetRemainingBullets()
-    {
-        return _currentBulletRemaining;
-    }
-
     public void OnPlayerRestart(InputAction.CallbackContext context)
     {
         _manager.RestartGame();
@@ -354,14 +316,6 @@ public class Player : Previewable
             }
 
             _manager.AddPlayerPreviewAction(this, newPreview);
-        }
-    }
-
-    public override void CreatedNewPreviewable(Previewable createdPreviewabled)
-    {
-        if (createdPreviewabled.TryGetComponent<Bullet>(out var bullet))
-        {
-            BulletsRemaining--;
         }
     }
 

@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     public delegate void GameStateChanged(GameState newState);
     public GameStateChanged OnGameStateChanged;
 
-    public delegate void PlayerJoined(Player player, int numberOfLives);
+    public delegate void PlayerJoined(Player player);
     public PlayerJoined OnPlayerJoinedGame;
 
     public delegate void PlayerDeath(Player player);
@@ -116,7 +116,6 @@ public class GameManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(.125f); //TODO: Fix race condition
-        var numberOfLives = OptionsManager.Instance.gameSettingParameters.amountLivesPerPlayer;
         OptionsManager.Instance.AfterInitManager();
 
         _currentLevel = GlobalGameStateManager.Instance.GetLevelInfo();
@@ -130,11 +129,11 @@ public class GameManager : MonoBehaviour
         _screenSystem.SetScreens(_currentLevel, _playerCount);
         _startingPlayerPositions = _screenSystem.GetStartingPlayerPositions(_playerCount);
 
-        CreatePlayerShip(numberOfLives);
+        CreatePlayerShip();
 
         if (_playerCount == 2)
         {
-            CreatePlayerShip(numberOfLives);
+            CreatePlayerShip();
         }
 
         _energySystem.SetEnergy(_playerCount);
@@ -151,7 +150,7 @@ public class GameManager : MonoBehaviour
         return new List<IManager>(dataPersistenceObjects);
     }
 
-    private void CreatePlayerShip(int numberOfLives)
+    private void CreatePlayerShip()
     {
         var playerObject = Instantiate(playerShip);
         var newPlayer = playerObject.GetComponent<Player>();
@@ -166,7 +165,7 @@ public class GameManager : MonoBehaviour
         var startingTile = GetStartingTileForPlayer(playerId);
         MovePreviewableOffScreenToTile(playerObject, startingTile, 0);
         newPlayer.OnSpawn();
-        OnPlayerJoinedGame?.Invoke(newPlayer, numberOfLives);
+        OnPlayerJoinedGame?.Invoke(newPlayer);
     }
 
     Tile GetStartingTileForPlayer(int playerId)

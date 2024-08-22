@@ -68,10 +68,10 @@ public class UIManager : MonoBehaviour, IManager
         gameStateDisplay.UpdateStateDisplay(newState);
     }
 
-    void OnPlayerJoined(Player player, int numberOfLives)
+    void OnPlayerJoined(Player player)
     {
         var playerStatus = playerStatusUIs[player.PlayerId];
-        playerStatus.AddPlayerReference(player, numberOfLives);
+        playerStatus.AddPlayerReference(player);
     }
 
     void OnPlayerConditionStart(Player player, Condition condition)

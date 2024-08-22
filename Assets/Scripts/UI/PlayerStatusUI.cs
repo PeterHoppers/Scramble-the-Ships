@@ -15,18 +15,13 @@ public class PlayerStatusUI : MonoBehaviour
         fireUI.gameObject.SetActive(false);
     }
 
-    public void AddPlayerReference(Player player, int lives)
+    public void AddPlayerReference(Player player)
     {
         _player = player;
         fireUI.gameObject.SetActive(true);
         fireUI.SetFireControlSprite(player.GetSpriteForInput(InputValue.Fire));
         fireUI.SetBulletSprite(player.GetBulletSprite());
-        fireUI.UpdateBulletUI(player.BulletsRemaining);
-        player.AddInputRenderer(InputValue.Fire, fireUI.fireControlRenderer);
-        player.OnPlayerFired += (Player player, int bullets) =>
-        { 
-            fireUI.UpdateBulletUI(bullets);
-        };
+        player.AddInputRenderer(InputValue.Fire, fireUI.fireControlRenderer);        
     }
 
     public void GainedCondition(Condition condition)

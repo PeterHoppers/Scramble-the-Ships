@@ -22,7 +22,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2576f78066da254419d7e0da2ea1d443, type: 2}
   twoPlayerLevelScreens: []
   startingEffects:
-  - type: 5
+  - type: 4
     amount: 1
   overrideDefaultTransitionGrids: 0
   transitionGrids: []
