@@ -558,13 +558,13 @@ MonoBehaviour:
       Value:
       - x:
           anchor: 1
-          offset: -1
+          offset: -2
         y:
           anchor: 0
           offset: 1
       - x:
           anchor: 1
-          offset: 1
+          offset: 2
         y:
           anchor: 0
           offset: 1
