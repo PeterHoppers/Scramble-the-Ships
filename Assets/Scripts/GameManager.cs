@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     public delegate void PlayerJoined(Player player, int numberOfLives);
     public PlayerJoined OnPlayerJoinedGame;
 
-    public delegate void PlayerDeath(Player player, int livesLeft);
+    public delegate void PlayerDeath(Player player);
     public PlayerDeath OnPlayerDeath;
 
     public delegate void PlayerConditionStart(Player player, Condition condition);
@@ -48,7 +48,6 @@ public class GameManager : MonoBehaviour
     Dictionary<Player, PreviewAction> _attemptedPlayerActions = new Dictionary<Player, PreviewAction>();
     List<PreviewAction> _previewActions = new List<PreviewAction>();
     private List<Player> _players = new List<Player>();
-    private int _playerLives = 0;
     private int _playerCount = 0;
     private Level _currentLevel;
     List<GridCoordinate> _startingPlayerPositions;
@@ -58,8 +57,10 @@ public class GameManager : MonoBehaviour
     DialogueSystem _dialogueSystem;
     CutsceneSystem _cutsceneSystem;
     ScreenSystem _screenSystem;
+    EnergySystem _energySystem;
     EffectsSystem _effectsSystem;
     public EffectsSystem EffectsSystem { get => _effectsSystem; }
+    public EnergySystem EnergySystem { get => _energySystem; }
 
     float _tickDuration = .5f;
     float _tickEndDuration = .5f / 4;
@@ -90,6 +91,7 @@ public class GameManager : MonoBehaviour
         _cutsceneSystem = GetComponent<CutsceneSystem>();
         _effectsSystem = GetComponent<EffectsSystem>();
         _screenSystem = GetComponent<ScreenSystem>();
+        _energySystem = GetComponent<EnergySystem>();
 
         _effectsSystem.OnTickDurationChanged += (float newDuration) => TickDuration = newDuration;
         _effectsSystem.OnMoveOnInputChanged += (bool isMoveOnInput) => _isMovementAtInput = isMoveOnInput;
@@ -159,7 +161,6 @@ public class GameManager : MonoBehaviour
         newPlayer.transform.SetParent(transform);
 
         _players.Add(newPlayer);
-        _playerLives = _players.Count * numberOfLives;
 
         var startingTile = GetStartingTileForPlayer(playerId);
         MovePreviewableOffScreenToTile(playerObject, startingTile, 0);
@@ -200,11 +201,6 @@ public class GameManager : MonoBehaviour
     public void PlayerLostCondition(Player player, Condition condition)
     {
         OnPlayerConditionEnd?.Invoke(player, condition);
-    }
-
-    public int GetLivesRemaining()
-    {
-        return _playerLives;
     }
 
     public void ActivateCutscene(CutsceneType type, float cutsceneDuration)
@@ -398,21 +394,26 @@ public class GameManager : MonoBehaviour
         bool canPlayerDie = player.OnHit();
         if (canPlayerDie)
         {
-            player.OnDeath();
-            _playerLives--;
-            OnPlayerDeath?.Invoke(player, _playerLives);
+            player.OnDeath();            
+            OnPlayerDeath?.Invoke(player);
+            var currentEnergy = _energySystem.OnPlayerDied();
 
-            if (_playerLives > 0)
+            if (currentEnergy > 0)
             {
                 StartCoroutine(ResetScreen());
             }
             else
             {
-                ClearAllPreviews();
-                UpdateGameState(GameState.GameOver);
-                StartCoroutine(ResetGame(TickDuration * 3)); //TODO: have the ability to put in more quaters to prevent this
+                OnGameOver();
             }
         }
+    }
+
+    void OnGameOver()
+    {
+        ClearAllPreviews();
+        UpdateGameState(GameState.GameOver);
+        StartCoroutine(ResetGame(TickDuration * 3)); //TODO: have the ability to put in more quaters to prevent this
     }
 
     IEnumerator ResetScreen()
@@ -571,6 +572,11 @@ public class GameManager : MonoBehaviour
         EndCurrentTick(_tickEndDuration);
         yield return new WaitForSeconds(_tickEndDuration);
 
+        if (_energySystem.CurrentEnergy <= 0)
+        {
+            OnGameOver();
+        }
+
         //something might have occured during the tick end where the game state changed from playing, so only start another tick if we're still playing
         if (_currentGameState == GameState.Playing)
         {
@@ -599,6 +605,11 @@ public class GameManager : MonoBehaviour
             if (preview.creatorOfPreview)
             {
                 preview.creatorOfPreview.CreatedNewPreviewable(movingObject);
+
+                if (preview.creatorOfPreview.TryGetComponent<Player>(out var player))
+                {
+                    _energySystem.OnPlayerFired();
+                }
             }
         }
         

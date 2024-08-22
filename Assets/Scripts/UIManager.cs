@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour, IManager
     public GameStateDisplay gameStateDisplay;
     public WinScreenUI winScreenUI;
     public GameObject gameUIHolder;
-    public TextMeshProUGUI tickAmountDisplay;
+    public TextMeshProUGUI energyAmountDisplay;
     public TextMeshProUGUI screenRemainingDisplay;
     public LivesUI livesUI;
 
@@ -20,7 +20,6 @@ public class UIManager : MonoBehaviour, IManager
     public List<Sprite> spritesForLives;
 
     GameManager _gameManager;
-    int _ticksPassed = 0;
 
     public void InitManager(GameManager manager)
     {
@@ -29,10 +28,11 @@ public class UIManager : MonoBehaviour, IManager
         _gameManager.OnPlayerJoinedGame += OnPlayerJoined;
         _gameManager.OnPlayerConditionStart += OnPlayerConditionStart;
         _gameManager.OnPlayerConditionEnd += OnPlayerConditionEnd;
-        _gameManager.OnPlayerDeath += OnPlayerDeath;
         _gameManager.OnGameStateChanged += OnGameStateChanged;
         _gameManager.OnScreenChange += OnScreenChange;
         _gameManager.OnLevelEnd += OnLevelEnd;
+
+        _gameManager.EnergySystem.OnEnergyChange += OnEnergyChange;
     }
 
     void Awake()
@@ -61,8 +61,6 @@ public class UIManager : MonoBehaviour, IManager
     void OnTickStart(float duration)
     {
         tickDurationUI.TickDuration = duration;
-        _ticksPassed++;
-        tickAmountDisplay.text = _ticksPassed.ToString();
     }
 
     void OnGameStateChanged(GameState newState)
@@ -74,14 +72,6 @@ public class UIManager : MonoBehaviour, IManager
     {
         var playerStatus = playerStatusUIs[player.PlayerId];
         playerStatus.AddPlayerReference(player, numberOfLives);
-
-        var livesImages = spritesForLives[player.PlayerId];
-        livesUI.SetupLives(livesImages, _gameManager.GetLivesRemaining());
-    }
-
-    void OnPlayerDeath(Player player, int livesLeft)
-    {
-        livesUI.LossLife(livesLeft);
     }
 
     void OnPlayerConditionStart(Player player, Condition condition)
@@ -94,6 +84,11 @@ public class UIManager : MonoBehaviour, IManager
     {
         var playerStatus = playerStatusUIs[player.PlayerId];
         playerStatus.LostCondition(condition);
+    }
+
+    void OnEnergyChange(int currentEnergy)
+    {
+        energyAmountDisplay.text = currentEnergy.ToString();
     }
 
     // Update is called once per frame

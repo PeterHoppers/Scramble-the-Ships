@@ -27,6 +27,6 @@ public class LivesUI : MonoBehaviour
 
     public void LossLife(int livesRemaining)
     {
-        shipImages[livesRemaining].gameObject.SetActive(false);
+        //shipImages[livesRemaining].gameObject.SetActive(false);
     }
 }

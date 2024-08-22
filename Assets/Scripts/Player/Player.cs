@@ -341,13 +341,7 @@ public class Player : Previewable
             Player playerActedUpon = playerAction.playerActionPerformedOn;
 
             if (playerAction.inputValue == InputValue.Fire)
-            {
-                if (playerActedUpon.GetRemainingBullets() <= 0)
-                {
-                    inputValueDisplays[_lastInput.Value].DeselectInput();
-                    return;
-                }
-
+            { 
                 var firingDirection = ConvertInputValueToDirection(playerAction.inputValue);
                 var bullet = _manager.CreateMovableAtTile(playerActedUpon._shipInfo.bullet, playerActedUpon, targetTile, firingDirection);
                 bullet.GetComponentInChildren<SpriteRenderer>().sprite = _shipInfo.bulletSprite;
