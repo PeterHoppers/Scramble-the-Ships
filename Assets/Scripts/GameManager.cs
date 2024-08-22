@@ -28,6 +28,9 @@ public class GameManager : MonoBehaviour
     public delegate void ScreenChange(int screensRemaining);
     public ScreenChange OnScreenChange;
 
+    public delegate void ScreenReset();
+    public ScreenReset OnScreenReset;
+
     public delegate void GameStateChanged(GameState newState);
     public GameStateChanged OnGameStateChanged;
 
@@ -396,9 +399,8 @@ public class GameManager : MonoBehaviour
         {
             player.OnDeath();            
             OnPlayerDeath?.Invoke(player);
-            var currentEnergy = _energySystem.OnPlayerDied();
 
-            if (currentEnergy > 0)
+            if (_energySystem.CanPlayerDieAndGameContinue())
             {
                 StartCoroutine(ResetScreen());
             }
@@ -429,6 +431,7 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(_tickDuration / 2);
 
+        OnScreenReset?.Invoke();
         _playerFinishedWithScreen = 0;
         _ticksSinceScreenStart = 0;
         _screenSystem.ResetScreenGridObjects(_spawnSystem, _gridSystem);
@@ -443,7 +446,7 @@ public class GameManager : MonoBehaviour
         _effectsSystem.PerformEffect(EffectType.ScanLineJitter, 0);
         _effectsSystem.PerformEffect(EffectType.HorizontalShake, 0);
         yield return new WaitForSeconds(_tickDuration);
-        
+
         ToggleIsPlaying(true);
     }
 

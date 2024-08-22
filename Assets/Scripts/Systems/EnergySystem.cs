@@ -40,6 +40,7 @@ public class EnergySystem : MonoBehaviour
         _gameManager = GetComponent<GameManager>();
         _gameManager.OnTickEnd += OnTickEnd;
         _gameManager.OnScreenChange += OnScreenChange;
+        _gameManager.OnScreenReset += OnPlayerDied;
         _gameManager.EffectsSystem.OnMaxEnergyChanged += OnMaxEnergyPerPersonChanged;
 
         if (OptionsManager.Instance != null) 
@@ -86,15 +87,20 @@ public class EnergySystem : MonoBehaviour
         CurrentEnergy += energyRegainedOnScreenEnd;
     }
 
+    private void OnPlayerDied()
+    {
+        CurrentEnergy -= _energyPerLifeLoss;
+    }
+
     public int OnPlayerFired()
     {
         CurrentEnergy -= (_energyPerFire - _energyPerMove);
         return CurrentEnergy;
-    }
+    }    
 
-    public int OnPlayerDied()
+    //use this to update the UI after the reset happens to highlight the change in value
+    public bool CanPlayerDieAndGameContinue()
     { 
-        CurrentEnergy -= _energyPerLifeLoss;
-        return CurrentEnergy;
+        return (CurrentEnergy - _energyPerLifeLoss > 0);
     }
 }
