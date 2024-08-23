@@ -589,7 +589,7 @@ MonoBehaviour:
     maxEnergy: 100
     energyPerMove: 1
     energyPerShot: 3
-    energyPerDeath: 5
+    energyPerDeath: 15
   amountScrambledDropdown: {fileID: 8532600925012978276}
   tickDurationSlider: {fileID: 5822802253607343893}
   tickScrambleSlider: {fileID: 1847850295099279978}

@@ -73,6 +73,16 @@ MonoBehaviour:
         anchor: 1
         offset: 6
     spawnCommand: 3
+  - gridObject: {fileID: 4968857197367180557, guid: 5353b18247066644385330a06f51dc04, type: 3}
+    facingDirection: 2
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: 0
+      y:
+        anchor: 1
+        offset: 0
+    spawnCommand: 0
   overrideDefaultTransitionGrids: 0
   transitionGrids:
   - x:

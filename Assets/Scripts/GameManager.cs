@@ -28,8 +28,11 @@ public class GameManager : MonoBehaviour
     public delegate void ScreenChange(int screensRemaining);
     public ScreenChange OnScreenChange;
 
-    public delegate void ScreenReset();
-    public ScreenReset OnScreenReset;
+    public delegate void ScreenResetStart();
+    public ScreenResetStart OnScreenResetStart;
+
+    public delegate void ScreenResetEnd();
+    public ScreenResetEnd OnScreenResetEnd;
 
     public delegate void GameStateChanged(GameState newState);
     public GameStateChanged OnGameStateChanged;
@@ -414,6 +417,7 @@ public class GameManager : MonoBehaviour
     void OnGameOver()
     {
         ClearAllPreviews();
+        _energySystem.CurrentEnergy = 0;
         UpdateGameState(GameState.GameOver);
         StartCoroutine(ResetGame(TickDuration * 3)); //TODO: have the ability to put in more quaters to prevent this
     }
@@ -425,13 +429,13 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(_tickDuration * 2);
 
+        OnScreenResetStart?.Invoke();
         _effectsSystem.PerformEffect(EffectType.DigitalGlitchIntensity, .5f);
         _effectsSystem.PerformEffect(EffectType.HorizontalShake, .125f);
         _effectsSystem.PerformEffect(EffectType.ScanLineJitter, .25f);
 
         yield return new WaitForSeconds(_tickDuration / 2);
 
-        OnScreenReset?.Invoke();
         _playerFinishedWithScreen = 0;
         _ticksSinceScreenStart = 0;
         _screenSystem.ResetScreenGridObjects(_spawnSystem, _gridSystem);
@@ -447,6 +451,7 @@ public class GameManager : MonoBehaviour
         _effectsSystem.PerformEffect(EffectType.HorizontalShake, 0);
         yield return new WaitForSeconds(_tickDuration);
 
+        OnScreenResetEnd?.Invoke();
         ToggleIsPlaying(true);
     }
 

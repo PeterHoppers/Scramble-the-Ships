@@ -18,6 +18,8 @@ public class EnergySystem : MonoBehaviour
     int _currentEnergy;
     int _playerCount = 1;
 
+    int _energyAtScreenStart;
+
     GameManager _gameManager;
 
     public int CurrentEnergy
@@ -40,7 +42,8 @@ public class EnergySystem : MonoBehaviour
         _gameManager = GetComponent<GameManager>();
         _gameManager.OnTickEnd += OnTickEnd;
         _gameManager.OnScreenChange += OnScreenChange;
-        _gameManager.OnScreenReset += OnPlayerDied;
+        _gameManager.OnScreenResetStart += OnScreenResetStart;
+        _gameManager.OnScreenResetEnd += OnScreenResetEnd;
         _gameManager.EffectsSystem.OnMaxEnergyChanged += OnMaxEnergyPerPersonChanged;
 
         if (OptionsManager.Instance != null) 
@@ -75,6 +78,7 @@ public class EnergySystem : MonoBehaviour
         _playerCount = playerCount;
         _maxEnergy = _maxEnergyPerPlayer * _playerCount;
         CurrentEnergy = _maxEnergy;
+        _energyAtScreenStart = CurrentEnergy;
     }
 
     private void OnTickEnd(int _)
@@ -85,9 +89,15 @@ public class EnergySystem : MonoBehaviour
     private void OnScreenChange(int screensRemaining)
     {
         CurrentEnergy += energyRegainedOnScreenEnd;
+        _energyAtScreenStart = CurrentEnergy;
     }
 
-    private void OnPlayerDied()
+    void OnScreenResetStart()
+    {
+        CurrentEnergy = _energyAtScreenStart;
+    }
+
+    void OnScreenResetEnd()
     {
         CurrentEnergy -= _energyPerLifeLoss;
     }
@@ -96,7 +106,7 @@ public class EnergySystem : MonoBehaviour
     {
         CurrentEnergy -= (_energyPerFire - _energyPerMove);
         return CurrentEnergy;
-    }    
+    }
 
     //use this to update the UI after the reset happens to highlight the change in value
     public bool CanPlayerDieAndGameContinue()
