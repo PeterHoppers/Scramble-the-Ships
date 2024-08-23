@@ -9,6 +9,7 @@ public class EnergySystem : MonoBehaviour
     public EnergyChange OnEnergyChange;
 
     public int energyRegainedOnScreenEnd;
+    public int minEnergyOnScreenStart;
 
     int _energyPerMove;
     int _energyPerFire;
@@ -88,7 +89,19 @@ public class EnergySystem : MonoBehaviour
 
     private void OnScreenChange(int screensRemaining)
     {
-        CurrentEnergy += energyRegainedOnScreenEnd;
+        var energyToHave = CurrentEnergy + (energyRegainedOnScreenEnd * _playerCount);
+        
+        if (energyToHave < (_maxEnergy / 2))
+        {
+            energyToHave += energyRegainedOnScreenEnd / 2 * _playerCount;
+        } 
+
+        if (energyToHave < minEnergyOnScreenStart * _playerCount)
+        {
+            energyToHave = minEnergyOnScreenStart * _playerCount;
+        }
+
+        CurrentEnergy = energyToHave;
         _energyAtScreenStart = CurrentEnergy;
     }
 

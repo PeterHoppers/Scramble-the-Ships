@@ -184,7 +184,7 @@ MonoBehaviour:
   effects: []
   enemySpawnInformation:
     _serializedList:
-    - Key: 3
+    - Key: 1
       Value:
       - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
         spawnDirection: 1
@@ -216,4 +216,4 @@ MonoBehaviour:
           anchor: 1
           offset: 3
         spawnCommand: 1
-  spawnsLoopAtTick: 14
+  spawnsLoopAtTick: 13
