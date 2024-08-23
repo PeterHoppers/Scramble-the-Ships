@@ -12,27 +12,27 @@ public class WinScreenUI : MonoBehaviour
     [SerializeField]
     private int _levelValue; //should this be in charge of calcuating the score? Probably not
     [SerializeField]
-    private int _tickValue;
+    private int _energyValue;
 
     [Header("UI Configuration")]
     public TextMeshProUGUI levelValueText;
-    public TextMeshProUGUI tickValueText;
-    public TextMeshProUGUI ticksPassedText;
-    public TextMeshProUGUI tickScoreText;
+    public TextMeshProUGUI valueText;
+    public TextMeshProUGUI energyLeftText;
+    public TextMeshProUGUI addedScoreText;
     public TextMeshProUGUI totalScoreText;
 
     [SerializeField]
     private int _ticksUntilAutoContinue;
 
-    public void SetLevelScore(int ticksPassed, float tickDuration)
+    public void SetLevelScore(int energyLeft, float tickDuration)
     {
-        int tickScore = _tickValue * ticksPassed;
-        int totalScore = _levelValue + tickScore;
+        int energyScore = _energyValue * energyLeft;
+        int totalScore = _levelValue + energyScore;
 
         levelValueText.text = _levelValue.ToString();
-        tickValueText.text = _tickValue.ToString();
-        ticksPassedText.text = ticksPassed.ToString();
-        tickScoreText.text = tickScore.ToString();
+        valueText.text = _energyValue.ToString();
+        energyLeftText.text = energyLeft.ToString();
+        addedScoreText.text = energyScore.ToString();
         totalScoreText.text = totalScore.ToString();
 
         var advanceButton = gameObject.GetComponentInChildren<Button>().gameObject;
