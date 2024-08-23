@@ -297,5 +297,6 @@ public enum SpawnCommand
     None,
     BasicShoot,
     BasicMovement,
-    LoopShoot
+    LoopShoot,
+    SlowLoopShoot
 }

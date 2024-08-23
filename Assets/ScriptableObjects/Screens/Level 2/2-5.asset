@@ -62,7 +62,7 @@ MonoBehaviour:
       y:
         anchor: 2
         offset: 2
-    spawnCommand: 3
+    spawnCommand: 4
   - gridObject: {fileID: 7509605564329555489, guid: 96a8fb82fe2a705438af526bb65f60bf, type: 3}
     facingDirection: 0
     spawnCoordinates:
@@ -72,7 +72,7 @@ MonoBehaviour:
       y:
         anchor: 2
         offset: 0
-    spawnCommand: 3
+    spawnCommand: 4
   - gridObject: {fileID: 7509605564329555489, guid: 96a8fb82fe2a705438af526bb65f60bf, type: 3}
     facingDirection: 0
     spawnCoordinates:
@@ -82,7 +82,7 @@ MonoBehaviour:
       y:
         anchor: 2
         offset: 0
-    spawnCommand: 3
+    spawnCommand: 4
   - gridObject: {fileID: 4968857197367180557, guid: 5353b18247066644385330a06f51dc04, type: 3}
     facingDirection: 0
     spawnCoordinates:
@@ -92,7 +92,7 @@ MonoBehaviour:
       y:
         anchor: 1
         offset: 0
-    spawnCommand: 3
+    spawnCommand: 0
   - gridObject: {fileID: 4968857197367180557, guid: 5353b18247066644385330a06f51dc04, type: 3}
     facingDirection: 0
     spawnCoordinates:
@@ -102,7 +102,7 @@ MonoBehaviour:
       y:
         anchor: 1
         offset: 0
-    spawnCommand: 3
+    spawnCommand: 0
   overrideDefaultTransitionGrids: 0
   transitionGrids: []
   overrideDefaultStartingPositions: 0

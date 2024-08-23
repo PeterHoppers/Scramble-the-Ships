@@ -40,17 +40,17 @@ public class UIManager : MonoBehaviour, IManager
         winScreenUI.gameObject.SetActive(false);        
     }
 
-    void OnLevelEnd(int ticksPassed, float tickDelay)
+    void OnLevelEnd(int energyLeft, float tickDelay)
     {
         gameUIHolder.SetActive(false);
-        StartCoroutine(RevealLevelEndText(ticksPassed, tickDelay));
+        StartCoroutine(RevealLevelEndText(energyLeft, tickDelay));
     }
 
-    IEnumerator RevealLevelEndText(int ticksPassed, float tickDelay) 
+    IEnumerator RevealLevelEndText(int energyLeft, float tickDelay) 
     {
         yield return new WaitForSeconds(tickDelay);
         winScreenUI.gameObject.SetActive(true);
-        winScreenUI.SetLevelScore(ticksPassed, tickDelay);
+        winScreenUI.SetLevelScore(energyLeft, tickDelay);
     }
 
     void OnScreenChange(int screensRemaining)

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Level1-3
   m_EditorClassIdentifier: 
   dialogueNodes:
-  - textToDisplay: 'Warning: our sensors have detected readings of alien ships in
-      the region heading your way.'
-  - textToDisplay: They'll be here soon, so be on the look-out.
+  - textToDisplay: Heads up, pilot. We have been running some scans and our sensors
+      have detected readings of alien ships in the region heading your way.
+  - textToDisplay: They should be appearing on your screen momentarily. Thankfully,
+      your time-modifying grid will impact them as well, but please still be careful.

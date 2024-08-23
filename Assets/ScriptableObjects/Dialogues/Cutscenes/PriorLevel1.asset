@@ -17,6 +17,8 @@ MonoBehaviour:
       strange readings from your ship, however. Running a diagnostic test on its
       systems.\r"
   - textToDisplay: "Results show that an alien virus of sorts has compromised your
-      navigational controls. All your inputs are now scrambled.\r"
-  - textToDisplay: How it works is beyond our understanding though. We need to send
-      you out there to gather more intel and track down what is causing this.
+      system. All your navigational controls have been scrambled and have greatly
+      decreased your ship\u2019s max energy.\r\r"
+  - textToDisplay: "We\u2019ll need you to navigate back into safe territory so we
+      can do more through testing. We will try to assist any way we can as you navigate
+      through alien sectors."

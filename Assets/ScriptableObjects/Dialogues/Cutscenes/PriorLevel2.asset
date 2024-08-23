@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9caf14b9ac11b424f8e1216a9c685b09, type: 3}
+  m_Name: PriorLevel2
+  m_EditorClassIdentifier: 
+  dialogueNodes:
+  - textToDisplay: We bring some good news, pilot! We have successfully been able
+      to isolate the alien virus enough to bring your firing systems back online.
+  - textToDisplay: "It\u2019s important to note that spawning a missile does take
+      a considerable amount of energy to do. While normally your ship would be equipped
+      to constantly blast at the aliens, the lowered max energy of your ship makes
+      that more difficult."
+  - textToDisplay: "We hope you don\u2019t have to use them too often as you travel
+      through this next sector."

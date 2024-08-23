@@ -113,6 +113,7 @@ public class EnergySystem : MonoBehaviour
     void OnScreenResetEnd()
     {
         CurrentEnergy -= _energyPerLifeLoss;
+        _energyAtScreenStart = CurrentEnergy;
     }
 
     public int OnPlayerFired()
