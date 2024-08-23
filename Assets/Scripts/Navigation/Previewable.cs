@@ -78,7 +78,7 @@ public abstract class Previewable : GridObject
         if (_deathSFX)
         {
             var deathEffect = Instantiate(_deathSFX, transform.parent);
-            deathEffect.transform.position = transform.position;
+            deathEffect.transform.position = new Vector3(transform.position.x, transform.position.y, 5); //TODO: Fix hard-coding, but this gets it rendering above the other objects
             deathEffect.Play();
         }
 

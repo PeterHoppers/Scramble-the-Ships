@@ -28,4 +28,4 @@ MonoBehaviour:
       Value: {fileID: 21300000, guid: 9bc83efc054b7c04b82b7c9afc03e13c, type: 3}
     - Key: 4
       Value: {fileID: 21300000, guid: 8dd948bc889626d4d82c67c1120ba7f2, type: 3}
-  deathVFX: {fileID: 725748389856807712, guid: e95db50273d4e5746b02ba9b960f0afd, type: 3}
+  deathVFX: {fileID: 8011153890280474160, guid: 2e9a99bb253ca914583823885a70ba57, type: 3}

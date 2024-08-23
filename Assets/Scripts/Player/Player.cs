@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using AYellowpaper.SerializedCollections;
 using System.Linq;
 using System;
+using CartoonFX;
 
 public class Player : Previewable
 {
@@ -60,6 +61,7 @@ public class Player : Previewable
         _allowingInput = false;
 
         _deathVFX = Instantiate(_shipInfo.deathVFX, transform);
+        _deathVFX.gameObject.SetActive(false);
         _shipSprite = _shipInfo.shipSprite;
         _shipRenderer = GetComponentInChildren<SpriteRenderer>();
         _shipRenderer.sprite = _shipSprite;
@@ -341,7 +343,13 @@ public class Player : Previewable
 
     public void OnDeath() 
     {
+        _deathVFX.gameObject.SetActive(true);
         _deathVFX.Play();
+        var cfxrEffects = _deathVFX.GetComponentsInChildren<CFXR_Effect>();
+        foreach (var cfxr in cfxrEffects)
+        {
+            cfxr.ResetState();
+        }
         _isInactive = true;
         SetShipVisiblity(false);
         SetInputVisibility(false);
