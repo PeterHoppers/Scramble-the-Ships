@@ -483,6 +483,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4064699851793637912}
+  - component: {fileID: 6410744668483794592}
   - component: {fileID: 6824546314571791643}
   - component: {fileID: 719655402535580406}
   - component: {fileID: 7809812056227272665}
@@ -509,6 +510,22 @@ Transform:
   - {fileID: 5078402051012826297}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6410744668483794592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9073767258024068174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 597957510deb3624eb812952dbc16ebf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initializeDataIfNull: 0
+  disableLoading: 0
+  fileName: scramble
+  useEncryption: 1
 --- !u!114 &6824546314571791643
 MonoBehaviour:
   m_ObjectHideFlags: 0

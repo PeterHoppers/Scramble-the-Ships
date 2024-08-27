@@ -7,7 +7,7 @@ using System.Linq;
 using System;
 using UnityEngine.EventSystems;
 
-public class OptionsManager : MonoBehaviour, IManager
+public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
 {
     private static OptionsManager instance;
     public static OptionsManager Instance
@@ -187,6 +187,29 @@ public class OptionsManager : MonoBehaviour, IManager
             }
             ToggleOptions();
         }
+    }
+
+    public void LoadData(SaveData data)
+    {
+        if (data == null)
+        {
+            return;
+        }
+
+        //if the data is empty, use the information found in the inspector
+        if (data.gameSettingParameters.tickDuration == 0 || data.gameSettingParameters.maxEnergy == 0)
+        {
+            return;
+        }
+
+        gameSettingParameters = data.gameSettingParameters;
+        systemSettingParameters = data.systemSettingParameters;
+    }
+
+    public void SaveData(SaveData data)
+    {
+        data.gameSettingParameters = gameSettingParameters;
+        data.systemSettingParameters = systemSettingParameters;
     }
 }
 
