@@ -169,10 +169,12 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
 
         if (toggledActiveState)
         {
+            Time.timeScale = 0;
             EventSystem.current.SetSelectedGameObject(amountScrambledDropdown.gameObject);
         }
         else
         {
+            Time.timeScale = 1;
             OnParametersChanged?.Invoke(gameSettingParameters, systemSettingParameters);
         }
     }
