@@ -112,7 +112,7 @@ public class EnergySystem : MonoBehaviour
 
     void OnScreenResetEnd()
     {
-        CurrentEnergy -= _energyPerLifeLoss;
+        CurrentEnergy -= GetEnergyLossWhenDied();
         _energyAtScreenStart = CurrentEnergy;
     }
 
@@ -125,6 +125,11 @@ public class EnergySystem : MonoBehaviour
     //use this to update the UI after the reset happens to highlight the change in value
     public bool CanPlayerDieAndGameContinue()
     { 
-        return (CurrentEnergy - _energyPerLifeLoss > 0);
+        return (CurrentEnergy - GetEnergyLossWhenDied() > 0);
+    }
+
+    int GetEnergyLossWhenDied()
+    {
+        return _energyPerLifeLoss * _playerCount;
     }
 }
