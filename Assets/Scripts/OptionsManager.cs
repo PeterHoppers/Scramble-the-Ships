@@ -22,6 +22,8 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
         }
     }
 
+    public GameObject optionsCanvas;
+    [Space]
     public GameSettingParameters gameSettingParameters;
 
     [Header("UI Components for Game")]
@@ -90,8 +92,8 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
             gameSettingParameters.isMultiplayerScrambleSame = DropdownValueToBool(newSelection);
         });
 
-        tickDurationSlider.SetTextValue(gameSettingParameters.tickDuration);
-        tickDurationSlider.OnSliderChange += (float baseValue, float convertedValue) => 
+        tickDurationSlider.SetValueToRead(gameSettingParameters.tickDuration);
+        tickDurationSlider.OnSliderChange += (float baseValue, float convertedValue, string _) => 
         {
             gameSettingParameters.tickDuration = convertedValue;
         };
@@ -114,8 +116,8 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
             gameSettingParameters.isShootingEnabled = DropdownValueToBool(newSelection);
         });
 
-        maxEnergySlider.SetTextValue(gameSettingParameters.maxEnergy);
-        maxEnergySlider.OnSliderChange += (float baseValue, float convertedValue) =>
+        maxEnergySlider.SetValueToRead(gameSettingParameters.maxEnergy);
+        maxEnergySlider.OnSliderChange += (float baseValue, float convertedValue, string _) =>
         {
             gameSettingParameters.maxEnergy = (int)convertedValue;
         };
@@ -144,10 +146,11 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
             systemSettingParameters.isFreeplay = DropdownValueToBool(newSelection);
         });
 
-        creditsForPlaySlider.SetTextValue(systemSettingParameters.coinsPerPlay);
-        creditsForPlaySlider.OnSliderChange += (float baseValue, float convertedValue) =>
+        creditsForPlaySlider.SetValueToRead(systemSettingParameters.coinsPerPlay);
+        creditsForPlaySlider.OnSliderChange += (float baseValue, float convertedValue, string renderedText) =>
         {
             systemSettingParameters.coinsPerPlay = (int)baseValue;
+            systemSettingParameters.creditDisplay = renderedText;
         };
 
         transform.GetChild(0).gameObject.SetActive(false);
@@ -170,9 +173,8 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
 
     public void ToggleOptions()
     {
-        var holder = transform.GetChild(0);
-        var toggledActiveState = !holder.gameObject.activeSelf;
-        holder.gameObject.SetActive(toggledActiveState);
+        var toggledActiveState = !optionsCanvas.activeSelf;
+        optionsCanvas.SetActive(toggledActiveState);
 
         if (toggledActiveState)
         {
@@ -242,4 +244,6 @@ public struct SystemSettingParameters
 {
     public bool isFreeplay;
     public int coinsPerPlay;
+    [HideInInspector]
+    public string creditDisplay;
 }

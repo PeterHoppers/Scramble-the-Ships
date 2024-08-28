@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class SliderReader : MonoBehaviour
 {
     public Slider slider;
     public float stepFactor;
-    public string textPrepender;
     public TextMeshProUGUI sliderDisplay;
+    public bool isMoney = false;
 
-    public delegate void SliderChange(float baseValue, float convertedValue);
+    public delegate void SliderChange(float baseValue, float convertedValue, string renderedText);
     public SliderChange OnSliderChange;
 
     // Start is called before the first frame update
@@ -24,14 +25,29 @@ public class SliderReader : MonoBehaviour
     void OnSliderUpdate(float sliderValue)
     {
         var convertedValue = sliderValue * stepFactor;
-        sliderDisplay.text = $"{textPrepender}{convertedValue}";
-        OnSliderChange?.Invoke(sliderValue, convertedValue);
+        var textDisplay = SetText(convertedValue);
+        OnSliderChange?.Invoke(sliderValue, convertedValue, textDisplay);
     }
 
-    public void SetTextValue(float baseValue)
+    string SetText(float valueToPrint)
+    {
+        if (isMoney)
+        {
+            decimal moneyNumber = (decimal)valueToPrint;
+            sliderDisplay.text = String.Format("{0:C}", moneyNumber);
+        }
+        else
+        {
+            sliderDisplay.text = $"{valueToPrint}";
+        }
+
+        return sliderDisplay.text;
+    }
+
+    public void SetValueToRead(float baseValue)
     { 
         var convertedValue = baseValue /= stepFactor;
-        sliderDisplay.text = $"{textPrepender}{convertedValue}";
+        SetText(convertedValue);
         slider.value = baseValue;
     }
 

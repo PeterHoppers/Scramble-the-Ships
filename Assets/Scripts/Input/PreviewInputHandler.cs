@@ -10,9 +10,8 @@ public class PreviewInputHandler : MonoBehaviour
 {
     public TextMeshProUGUI previewMessage;
 
-    PreviewState _currentPreviewState = PreviewState.InsertCoins;
     int _coinsPerPlay;
-    int _currentCoints;
+    double _currentCredits = 0;
 
     private void Start()
     {
@@ -25,13 +24,24 @@ public class PreviewInputHandler : MonoBehaviour
     {
         if (systemSettingParameters.isFreeplay)
         {
-            UpdateState(PreviewState.FullUnlock);
+            _coinsPerPlay = 0;
         }
         else
         {
             _coinsPerPlay = systemSettingParameters.coinsPerPlay;
-            CheckIfCanPlay(GlobalGameStateManager.Instance.CreditCount);
-        }        
+        }
+    }
+
+    private void CheckIfCanPlay(int insertedCoins)
+    {
+        if (_coinsPerPlay == 0)
+        {
+            _currentCredits = int.MaxValue;
+        }
+        else
+        {
+            _currentCredits = insertedCoins / _coinsPerPlay;
+        }
     }
 
     private void Update()
@@ -43,7 +53,7 @@ public class PreviewInputHandler : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.Alpha1) || Input.GetKeyUp(KeyCode.Keypad1))
         {
-            if (_currentPreviewState != PreviewState.InsertCoins)
+            if (_currentCredits >= 1)
             {
                 SelectedOnePlayer();
             }
@@ -51,7 +61,7 @@ public class PreviewInputHandler : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.Alpha2) || Input.GetKeyUp(KeyCode.Keypad2))
         {
-            if (_currentPreviewState == PreviewState.FullUnlock)
+            if (_currentCredits >= 2)
             {
                 SelectedTwoPlayers();
             }
@@ -68,49 +78,5 @@ public class PreviewInputHandler : MonoBehaviour
     {
         GlobalGameStateManager.Instance.PlayerCount = 2;
         GlobalGameStateManager.Instance.GlobalGameStateStatus = GlobalGameStateStatus.LevelSelect;
-    }
-
-    private void CheckIfCanPlay(int credits)
-    {
-        if (_coinsPerPlay * 2 <= credits)
-        {
-            UpdateState(PreviewState.FullUnlock);
-        }
-        else if (_coinsPerPlay <= credits)
-        {
-            UpdateState(PreviewState.OnePlayerUnlock);
-        }
-        else
-        {
-            UpdateState(PreviewState.InsertCoins);
-        }
-    }
-
-    void UpdateState(PreviewState newState)
-    {
-        string displayMessage;
-        switch (newState) 
-        {
-            case PreviewState.InsertCoins:
-                displayMessage = $"Credits: {GlobalGameStateManager.Instance.CreditCount}/{_coinsPerPlay}";
-                break;
-            case PreviewState.OnePlayerUnlock:
-                displayMessage = $"Press the 1 Player Button to begin. \n Credits: {GlobalGameStateManager.Instance.CreditCount}/{_coinsPerPlay}";
-                break;
-            case PreviewState.FullUnlock:
-            default:
-                displayMessage = "Choose Amount of Players (1 | 2)";
-                break;
-        }
-
-        previewMessage.text = displayMessage;
-        _currentPreviewState = newState;
-    }
-}
-
-public enum PreviewState
-{ 
-    InsertCoins,
-    OnePlayerUnlock,
-    FullUnlock
+    }    
 }
