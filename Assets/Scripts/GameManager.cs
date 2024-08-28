@@ -341,10 +341,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void RestartGame()
+    public void RestartLevel()
     {
         if (_currentGameState == GameState.Win || _currentGameState == GameState.GameOver)
         {
+            GlobalGameStateManager.Instance.ConsumeCredits(_playerCount);
             GlobalGameStateManager.Instance.RestartGameScene();
         }
     }
@@ -424,7 +425,7 @@ public class GameManager : MonoBehaviour
         _energySystem.CurrentEnergy = 0;
         UpdateGameState(GameState.GameOver);
         GlobalGameStateManager.Instance.GlobalGameStateStatus = GlobalGameStateStatus.GameOver;
-        StartCoroutine(ResetGame(TickDuration * 3)); //TODO: have the ability to put in more quaters to prevent this
+        StartCoroutine(ResetGame(TickDuration * 10)); //TODO: have the ability to put in more quaters to delay this
     }
 
     IEnumerator ResetScreen()
@@ -466,7 +467,7 @@ public class GameManager : MonoBehaviour
         GlobalGameStateManager.Instance.ResetGame();
     }
 
-    public List<Player> GetAllCurrentPlayers()
+    public List<Player> GetAllPlayers()
     {
         return _players;
     }

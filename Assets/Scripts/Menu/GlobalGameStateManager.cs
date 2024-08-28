@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using AYellowpaper.SerializedCollections;
 
 public class GlobalGameStateManager : MonoBehaviour
@@ -22,6 +21,7 @@ public class GlobalGameStateManager : MonoBehaviour
     const int TUTORIAL_INDEX = 0;
     int _activeLevelIndex = TUTORIAL_INDEX;
     LevelSceneSystem _levelSceneSystem;
+    CreditsSystem _creditsSystem;
 
     public delegate void StateChange(GlobalGameStateStatus newState);
     public StateChange OnStateChange;
@@ -51,8 +51,10 @@ public class GlobalGameStateManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
         _levelSceneSystem = GetComponent<LevelSceneSystem>();
-    }
 
+        _creditsSystem = GetComponentInChildren<CreditsSystem>();
+        _creditsSystem.OnCoinsChange += OnCoinsChange;
+    }
     public void PlayTutorial()
     {
         SetLevel(TUTORIAL_INDEX);
@@ -126,24 +128,34 @@ public class GlobalGameStateManager : MonoBehaviour
         return (_activeLevelIndex == TUTORIAL_INDEX);
     }
 
-    void CoinInserted()
+    private void OnCoinsChange(int coinsInserted, int creditsEarned)
     {
-        CreditCount++;
-        OnCreditsChange.Invoke(CreditCount);
+        if (CreditCount != creditsEarned)
+        {
+            CreditCount = creditsEarned;
+            OnCreditsChange?.Invoke(CreditCount);
+        }
+    }
+
+    public bool CanPlay(int playerAmount)
+    {
+        return (CreditCount >= playerAmount);
+    }
+
+    public void SetPlayerCount(int playerAmount)
+    {
+        PlayerCount = playerAmount;
+        ConsumeCredits(playerAmount);        
+    }
+
+    public void ConsumeCredits(int creditAmount)
+    { 
+        _creditsSystem.RemoveCredits(creditAmount);
     }
 
     public void ClearCredits()
     {
-        CreditCount = 0;
-        OnCreditsChange.Invoke(CreditCount);
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.Alpha5) || Input.GetKeyUp(KeyCode.Keypad5) || Input.GetKeyUp(KeyCode.Alpha6) || Input.GetKeyUp(KeyCode.Keypad6))
-        {
-            CoinInserted();
-        }
+        _creditsSystem.ClearCoins();
     }
 }
 

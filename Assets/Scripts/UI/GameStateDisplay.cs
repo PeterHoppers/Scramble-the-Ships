@@ -2,32 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using AYellowpaper.SerializedCollections;
 
 public class GameStateDisplay : MonoBehaviour
 {
-    TextMeshProUGUI _gameStateText;
+    [SerializeField]
+    private SerializedDictionary<GameState, GameObject> gameStateDisplays = new();
     
     // Start is called before the first frame update
     void Awake()
     {
-        _gameStateText = GetComponentInChildren<TextMeshProUGUI>();
         UpdateStateDisplay(GameState.Waiting);
     }
 
     public void UpdateStateDisplay(GameState gameState)
     { 
-        switch (gameState) 
-        { 
-            case GameState.Waiting:
-                _gameStateText.text = "Waiting for game to load...";
-                break;
-            case GameState.GameOver:
-                _gameStateText.text = "Game Over";
-                break;
-            case GameState.Playing:
-            default:
-                _gameStateText.text = "";
-                break;
+        foreach (var game in gameStateDisplays) 
+        {
+            game.Value.SetActive((gameState == game.Key));
         }
     }
 }

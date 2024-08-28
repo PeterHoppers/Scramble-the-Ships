@@ -150,7 +150,7 @@ public class ControlsManager : MonoBehaviour, IManager
 
     private void OnPlayerJoined(Player player)
     {
-        _players = _gameManager.GetAllCurrentPlayers();
+        _players = _gameManager.GetAllPlayers();
         UpdateShuffledValues();
     }
 }
