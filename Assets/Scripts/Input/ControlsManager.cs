@@ -50,8 +50,19 @@ public class ControlsManager : MonoBehaviour, IManager
         {
             //TODO: Allow different players to get other player's actions
             var unshuffled = unshuffledActions.Where(x => x.playerActionPerformedOn == player).ToList();
-            
-            var shuffledValues = ShuffleInputs(unshuffled, _gameManager.GetLastIndexOfScramble());
+            var amountToScramble = _gameManager.GetLastIndexOfScramble();
+
+            List<PlayerAction> shuffledValues;
+
+            if (amountToScramble == 0)
+            {
+                shuffledValues = unshuffled;
+            }
+            else
+            {
+                shuffledValues = ShuffleInputs(unshuffled, amountToScramble);
+            }
+
             var unShuffledInputs = unshuffled.Select(x => x.inputValue).ToList();
 
             var playerActions = new SerializedDictionary<InputValue, PlayerAction>();

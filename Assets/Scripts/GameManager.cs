@@ -107,7 +107,11 @@ public class GameManager : MonoBehaviour
             {
                 _lastIndexForScrambling = 5;
             }
-            else
+            else if (scrambleAmount == 0)
+            {
+                _lastIndexForScrambling = 0;
+            }
+            else 
             {
                 _lastIndexForScrambling = 4;
             }
@@ -582,8 +586,14 @@ public class GameManager : MonoBehaviour
     IEnumerator SetupNewTick()
     {
         _tickIsOccuring = false;
-        EndCurrentTick(_tickEndDuration);
-        yield return new WaitForSeconds(_tickEndDuration);
+        var tickEndDuration = _tickEndDuration;
+        if (_lastIndexForScrambling == 0) //if we're not scrambled, speed up the animation between ticks because people know their next input will be
+        {
+            tickEndDuration /= 1.5f;
+        }
+
+        EndCurrentTick(tickEndDuration);
+        yield return new WaitForSeconds(tickEndDuration);
 
         if (_energySystem.CurrentEnergy <= 0)
         {

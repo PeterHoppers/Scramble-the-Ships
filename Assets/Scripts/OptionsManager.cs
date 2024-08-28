@@ -26,11 +26,11 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
 
     [Header("UI Components for Game")]
     public TMP_Dropdown amountScrambledDropdown;
-    public Slider tickDurationSlider;
+    public SliderReader tickDurationSlider;
     public Slider tickScrambleSlider;
     public TMP_Dropdown moveOnInputDropdown;
     public TMP_Dropdown shootingEnabledDropdown;
-    public Slider maxEnergySlider;
+    public SliderReader maxEnergySlider;
     public Slider energyPerMoveSlider;
     public Slider energyPerShotSlider;
     public Slider energyPerDeathSlider;
@@ -40,7 +40,7 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
     public SystemSettingParameters systemSettingParameters;
     [Header("UI Components for System")]
     public TMP_Dropdown modeTypeDropdown;
-    public Slider creditsForPlaySlider;
+    public SliderReader creditsForPlaySlider;
 
     public delegate void ParametersChanged(GameSettingParameters gameSettings, SystemSettingParameters systemSettingParameters);
     public ParametersChanged OnParametersChanged;
@@ -83,11 +83,11 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
             gameSettingParameters.amountControlsScrambled = int.Parse(dropdownOptions[newValue]);
         });
 
-        tickDurationSlider.value = gameSettingParameters.tickDuration * 10; //eww, I know, but there's no good way of forcing a slider to do steps on non whole numbers
-        tickDurationSlider.onValueChanged.AddListener((float newValue) => 
+        tickDurationSlider.SetTextValue(gameSettingParameters.tickDuration);
+        tickDurationSlider.OnSliderChange += (float baseValue, float convertedValue) => 
         {
-            gameSettingParameters.tickDuration = newValue / 10;
-        });
+            gameSettingParameters.tickDuration = convertedValue;
+        };
 
         moveOnInputDropdown.value = BoolToDropdownIndex(gameSettingParameters.doesMoveOnInput);
         moveOnInputDropdown.onValueChanged.AddListener((int newSelection) =>
@@ -107,11 +107,11 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
             gameSettingParameters.isShootingEnabled = DropdownValueToBool(newSelection);
         });
 
-        maxEnergySlider.value = gameSettingParameters.maxEnergy / 10;
-        maxEnergySlider.onValueChanged.AddListener((float newValue) =>
+        maxEnergySlider.SetTextValue(gameSettingParameters.maxEnergy);
+        maxEnergySlider.OnSliderChange += (float baseValue, float convertedValue) =>
         {
-            gameSettingParameters.maxEnergy = (int)newValue * 10;
-        });
+            gameSettingParameters.maxEnergy = (int)convertedValue;
+        };
 
         energyPerMoveSlider.value = gameSettingParameters.energyPerMove;
         energyPerMoveSlider.onValueChanged.AddListener((float newValue) => 
@@ -137,11 +137,11 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
             systemSettingParameters.isFreeplay = DropdownValueToBool(newSelection);
         });
 
-        creditsForPlaySlider.value = systemSettingParameters.coinsPerPlay;
-        creditsForPlaySlider.onValueChanged.AddListener((float newValue) =>
+        creditsForPlaySlider.SetTextValue(systemSettingParameters.coinsPerPlay);
+        creditsForPlaySlider.OnSliderChange += (float baseValue, float convertedValue) =>
         {
-            systemSettingParameters.coinsPerPlay = (int)newValue;
-        });
+            systemSettingParameters.coinsPerPlay = (int)baseValue;
+        };
 
         transform.GetChild(0).gameObject.SetActive(false);
     }
