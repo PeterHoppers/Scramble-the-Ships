@@ -423,6 +423,7 @@ public class GameManager : MonoBehaviour
         ClearAllPreviews();
         _energySystem.CurrentEnergy = 0;
         UpdateGameState(GameState.GameOver);
+        GlobalGameStateManager.Instance.GlobalGameStateStatus = GlobalGameStateStatus.GameOver;
         StartCoroutine(ResetGame(TickDuration * 3)); //TODO: have the ability to put in more quaters to prevent this
     }
 

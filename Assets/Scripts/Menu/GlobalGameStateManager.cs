@@ -116,7 +116,8 @@ public class GlobalGameStateManager : MonoBehaviour
     }
 
     public Level GetLevelInfo()
-    { 
+    {
+        GlobalGameStateStatus = GlobalGameStateStatus.Game;
         return _levels[_activeLevelIndex];
     }
 
@@ -151,5 +152,6 @@ public enum GlobalGameStateStatus
     Preview,
     LevelSelect,
     Cutscene,
-    Game
+    Game,
+    GameOver
 }

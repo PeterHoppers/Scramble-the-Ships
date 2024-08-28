@@ -23,22 +23,19 @@ public class CreditsDisplayHandler : MonoBehaviour
         GlobalGameStateManager.Instance.OnStateChange -= UpdateCreditsBasedOnState;
     }
 
-    private void Awake()
-    {
-        UpdateCreditsBasedOnState(GlobalGameStateManager.Instance.GlobalGameStateStatus);
-    }
-
-    private void UpdateCreditsBasedOnState(GlobalGameStateStatus newState)
-    {
-        creditsHolder.SetActive(newState == GlobalGameStateStatus.Preview);
-    }
-
     private void Start()
     {
         ConfigParameters(OptionsManager.Instance.gameSettingParameters, OptionsManager.Instance.systemSettingParameters);
         OptionsManager.Instance.OnParametersChanged += ConfigParameters;
         UpdateCreditDisplay(GlobalGameStateManager.Instance.CreditCount);
         GlobalGameStateManager.Instance.OnCreditsChange += UpdateCreditDisplay;
+        UpdateCreditsBasedOnState(GlobalGameStateManager.Instance.GlobalGameStateStatus);
+    }
+
+    private void UpdateCreditsBasedOnState(GlobalGameStateStatus newState)
+    {
+        print(newState);
+        creditsHolder.SetActive(newState == GlobalGameStateStatus.Preview || newState == GlobalGameStateStatus.GameOver);
     }
 
     void ConfigParameters(GameSettingParameters gameSettings, SystemSettingParameters systemSettingParameters)
