@@ -11,6 +11,9 @@ public class EffectsSystem : MonoBehaviour
     public delegate void ScrambleAmountChanged(int scrambleAmount);
     public ScrambleAmountChanged OnScrambleAmountChanged;
 
+    public delegate void MultiplayerScrambleTypeChanged(bool isSameResult);
+    public MultiplayerScrambleTypeChanged OnMultiplayerScrambleTypeChanged;
+
     public delegate void TickDurationChanged(float tickDuration);
     public TickDurationChanged OnTickDurationChanged;
 
@@ -48,6 +51,7 @@ public class EffectsSystem : MonoBehaviour
     private void InvokeCurrentParameters(GameSettingParameters gameSettings, SystemSettingParameters systemSettingParameters)
     {
         OnScrambleAmountChanged?.Invoke(gameSettings.amountControlsScrambled);
+        OnMultiplayerScrambleTypeChanged?.Invoke(gameSettings.isMultiplayerScrambleSame);
         OnTickDurationChanged?.Invoke(gameSettings.tickDuration);
         OnTicksUntilScrambleChanged?.Invoke(gameSettings.amountTickPerScramble);
         OnMoveOnInputChanged?.Invoke(gameSettings.doesMoveOnInput);

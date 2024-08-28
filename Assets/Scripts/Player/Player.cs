@@ -133,7 +133,7 @@ public class Player : Previewable
         }
     }
 
-    public List<PlayerAction> GetPossibleAction()
+    public List<PlayerAction> GetPossibleActions()
     { 
         return _possibleActions;
     }

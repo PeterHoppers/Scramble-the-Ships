@@ -15,6 +15,7 @@ public class ControlsManager : MonoBehaviour, IManager
     int _amountToScramble = 0;
     int _ticksPerScramble = 1;
     int _ticksSinceLastScramble = 0;
+    bool _playersSameShuffle = true;
 
     public void InitManager(GameManager manager)
     {
@@ -24,6 +25,7 @@ public class ControlsManager : MonoBehaviour, IManager
 
         _gameManager.EffectsSystem.OnScrambleAmountChanged += (int scrambleAmount) => _amountToScramble = scrambleAmount;
         _gameManager.EffectsSystem.OnTicksUntilScrambleChanged += (int tickAmount) => _ticksPerScramble = tickAmount;
+        _gameManager.EffectsSystem.OnMultiplayerScrambleTypeChanged += (bool isSame) => _playersSameShuffle = isSame;
     }  
 
     void CheckIfScramble(float tickTime)
@@ -43,8 +45,10 @@ public class ControlsManager : MonoBehaviour, IManager
 
         foreach (var player in _players)
         {
-            unshuffledActions.AddRange(player.GetPossibleAction());
+            unshuffledActions.AddRange(player.GetPossibleActions());
         }
+
+        var previousShuffle = new List<PlayerAction>();
 
         foreach (var player in _players) 
         {
@@ -60,7 +64,20 @@ public class ControlsManager : MonoBehaviour, IManager
             }
             else
             {
-                shuffledValues = ShuffleInputs(unshuffled, amountToScramble);
+                if (_playersSameShuffle && previousShuffle.Count != 0)
+                {
+                    shuffledValues = new List<PlayerAction>();
+                    for (int index = 0; index < previousShuffle.Count; index++)
+                    {
+                        var previousShuffledAction = previousShuffle[index];
+                        var actionWithSameInput = unshuffled.Find(x => x.inputValue == previousShuffledAction.inputValue);
+                        shuffledValues.Add(actionWithSameInput);
+                    }
+                }
+                else
+                {
+                    shuffledValues = ShuffleInputs(unshuffled, amountToScramble);
+                }
             }
 
             var unShuffledInputs = unshuffled.Select(x => x.inputValue).ToList();
@@ -72,6 +89,11 @@ public class ControlsManager : MonoBehaviour, IManager
             }
 
             player.SetScrambledActions(playerActions);
+
+            if (_playersSameShuffle)
+            {
+                previousShuffle = shuffledValues;
+            }
         }
     }
 

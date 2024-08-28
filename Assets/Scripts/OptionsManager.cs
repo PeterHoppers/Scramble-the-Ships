@@ -26,6 +26,7 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
 
     [Header("UI Components for Game")]
     public TMP_Dropdown amountScrambledDropdown;
+    public TMP_Dropdown multiplayerResultDropdown;
     public SliderReader tickDurationSlider;
     public Slider tickScrambleSlider;
     public TMP_Dropdown moveOnInputDropdown;
@@ -81,6 +82,12 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
         {
             var dropdownOptions = amountScrambledDropdown.options.Select(option => option.text).ToList();
             gameSettingParameters.amountControlsScrambled = int.Parse(dropdownOptions[newValue]);
+        });
+
+        multiplayerResultDropdown.value = BoolToDropdownIndex(gameSettingParameters.isMultiplayerScrambleSame);
+        multiplayerResultDropdown.onValueChanged.AddListener((int newSelection) =>
+        {
+            gameSettingParameters.isMultiplayerScrambleSame = DropdownValueToBool(newSelection);
         });
 
         tickDurationSlider.SetTextValue(gameSettingParameters.tickDuration);
@@ -219,6 +226,7 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
 public struct GameSettingParameters
 {
     public int amountControlsScrambled;
+    public bool isMultiplayerScrambleSame;
     public float tickDuration;
     public int amountTickPerScramble;
     public bool doesMoveOnInput;
