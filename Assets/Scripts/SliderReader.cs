@@ -44,11 +44,20 @@ public class SliderReader : MonoBehaviour
         return sliderDisplay.text;
     }
 
-    public void SetValueToRead(float baseValue)
-    { 
-        var convertedValue = baseValue /= stepFactor;
+    //can either directly set the slider value, or convert it throught the step factor before setting it
+    public void SetValueToRead(float baseValue, bool setSliderToBase = false)
+    {
+        var convertedValue = baseValue / stepFactor;
         SetText(convertedValue);
-        slider.value = baseValue;
+
+        if (setSliderToBase)
+        {
+            slider.value = baseValue;
+        }
+        else
+        {
+            slider.value = convertedValue;
+        }
     }
 
     public float GetSliderValue()

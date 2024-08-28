@@ -146,7 +146,7 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
             systemSettingParameters.isFreeplay = DropdownValueToBool(newSelection);
         });
 
-        creditsForPlaySlider.SetValueToRead(systemSettingParameters.coinsPerPlay);
+        creditsForPlaySlider.SetValueToRead(systemSettingParameters.coinsPerPlay, true);
         creditsForPlaySlider.OnSliderChange += (float baseValue, float convertedValue, string renderedText) =>
         {
             systemSettingParameters.coinsPerPlay = (int)baseValue;
