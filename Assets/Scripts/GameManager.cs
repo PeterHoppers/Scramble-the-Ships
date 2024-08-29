@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using AYellowpaper.SerializedCollections;
 using UnityEngine.SceneManagement;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -279,28 +280,28 @@ public class GameManager : MonoBehaviour
         GlobalGameStateManager.Instance.PlayCutscene();
     }
 
-    IEnumerator SetupNextScreen(int screensRemainingInLevel, float screenLoadDuration, bool playTransitionCutscene = true)
+    IEnumerator SetupNextScreen(int screensRemainingInLevel, float tickDuration, bool playTransitionCutscene = true)
     {
         OnScreenChange?.Invoke(screensRemainingInLevel);       
 
         if (playTransitionCutscene)
         {
-            ActivateCutscene(CutsceneType.ScreenTransition, screenLoadDuration);
-            yield return new WaitForSeconds(screenLoadDuration);
+            ActivateCutscene(CutsceneType.ScreenTransition, tickDuration);
+            yield return new WaitForSeconds(tickDuration);
         }
 
         _screenSystem.SetupNewScreen(_spawnSystem, _gridSystem, _effectsSystem, _dialogueSystem);
         _startingPlayerPositions = _screenSystem.GetStartingPlayerPositions(_playerCount);
         _ticksSinceScreenStart = 0;
-        yield return new WaitForSeconds(screenLoadDuration);
+        yield return new WaitForSeconds(tickDuration);
 
         //move ships on screen
         foreach (Player player in _players)
         {
-            MovePlayerOntoStartingTitle(player, screenLoadDuration);
+            MovePlayerOntoStartingTitle(player, tickDuration);
         }
 
-        yield return new WaitForSeconds(screenLoadDuration);
+        yield return new WaitForSeconds(tickDuration);
 
         UpdateGameState(GameState.Dialogue);
         if (_dialogueSystem.HasDialogue())
@@ -309,14 +310,20 @@ public class GameManager : MonoBehaviour
             _dialogueSystem.OnDialogueEnd += WaitUntilDialogueEnds;
             void WaitUntilDialogueEnds()
             {
-                ToggleIsPlaying(true);
                 _dialogueSystem.OnDialogueEnd -= WaitUntilDialogueEnds;
+                StartCoroutine(DelayUnpausing(_tickEndDuration * 2));
             }
         }
         else
         {
             ToggleIsPlaying(true);
         }
+    }
+
+    IEnumerator DelayUnpausing(float delayAmount)
+    { 
+        yield return new WaitForSeconds(delayAmount);
+        ToggleIsPlaying(true);
     }
 
     public void ToggleIsPlaying(bool isPlaying, GameState disabledState = GameState.Paused)
