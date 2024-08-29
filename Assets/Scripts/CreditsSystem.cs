@@ -83,6 +83,12 @@ public class CreditsSystem : MonoBehaviour
     public void RemoveCredits(int credits)
     {
         _coinsInserted = _coinsInserted - (credits * _coinsPerCredit);
+
+        if (_coinsInserted < 0) //can techically happen due to freeplay
+        {
+            _coinsInserted = 0;
+        }
+
         UpdateCoinAmount(_coinsInserted);
     }
 
