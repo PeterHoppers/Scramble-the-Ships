@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
 
     //Private Variables
     GameState _currentGameState = GameState.Waiting;
+    GameState _previousGameState = GameState.Waiting;
     Dictionary<Player, PreviewAction> _attemptedPlayerActions = new Dictionary<Player, PreviewAction>();
     List<PreviewAction> _previewActions = new List<PreviewAction>();
     private List<Player> _players = new List<Player>();
@@ -301,11 +302,11 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(screenLoadDuration);
 
+        UpdateGameState(GameState.Dialogue);
         if (_dialogueSystem.HasDialogue())
         {
             _dialogueSystem.StartDialogue();
             _dialogueSystem.OnDialogueEnd += WaitUntilDialogueEnds;
-            UpdateGameState(GameState.Dialogue);
             void WaitUntilDialogueEnds()
             {
                 ToggleIsPlaying(true);
@@ -333,11 +334,22 @@ public class GameManager : MonoBehaviour
     {
         if (_currentGameState == GameState.Paused)
         {
-            ToggleIsPlaying(true);
+            if (_previousGameState == GameState.Playing)
+            {
+                ToggleIsPlaying(true);
+            }
+            else
+            {
+                UpdateGameState(_previousGameState);
+            }
         }
         else if (_currentGameState == GameState.Playing)
         {
             ToggleIsPlaying(false);
+        }
+        else
+        {
+            UpdateGameState(GameState.Paused);
         }
     }
 
@@ -352,12 +364,19 @@ public class GameManager : MonoBehaviour
 
     void UpdateGameState(GameState gameState) 
     {
+        _previousGameState = _currentGameState;
         _currentGameState = gameState;
 
         switch (gameState) 
         {
             case GameState.Playing:
                 StartNextTick();
+                break;
+            case GameState.Dialogue:
+                _dialogueSystem.SetDialogueIsEnable(true);
+                break;
+            case GameState.Paused:
+                _dialogueSystem.SetDialogueIsEnable(false);
                 break;
             case GameState.Transition:
             case GameState.GameOver: //this might run into a race condition with on tick end

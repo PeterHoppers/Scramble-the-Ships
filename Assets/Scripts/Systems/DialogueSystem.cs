@@ -45,6 +45,8 @@ public class DialogueSystem : MonoBehaviour
         }
     }
 
+    bool _canInteractWithDialogue = true;
+
     void Awake()
     {
         CurrentLineShown = false;
@@ -60,6 +62,11 @@ public class DialogueSystem : MonoBehaviour
         var inputSystem = EventSystem.current.gameObject.GetComponent<InputSystemUIInputModule>();
         inputSystem.submit.action.performed += (InputAction.CallbackContext context) => 
         {
+            if (!_canInteractWithDialogue)
+            {
+                return;
+            }
+
             var fired = context.ReadValueAsButton();
 
             if (fired == true && context.performed && HasDialogue())
@@ -87,7 +94,7 @@ public class DialogueSystem : MonoBehaviour
     public bool HasDialogue()
     { 
         return (_currentDialogueNodes != null);
-    }
+    }   
 
     public void StartDialogue()
     {
@@ -95,6 +102,11 @@ public class DialogueSystem : MonoBehaviour
         dialogueHolder.SetActive(true);
         UpdateText(_currentIndex);
         OnDialogueStart?.Invoke();
+    }
+
+    public void SetDialogueIsEnable(bool isEnable)
+    { 
+        _canInteractWithDialogue = isEnable;
     }
 
     IEnumerator AutoAdvanceDialogue(float waitDuration)
