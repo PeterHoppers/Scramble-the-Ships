@@ -70,14 +70,14 @@ public class GameManager : MonoBehaviour
     public EnergySystem EnergySystem { get => _energySystem; }
 
     float _tickDuration = .5f;
-    float _tickEndDuration = .5f / 4;
+    float _tickEndDuration = .5f / 5;
     float TickDuration
     {
         get => _tickDuration;
         set
         {
             _tickDuration = value;
-            _tickEndDuration = value / 4;
+            _tickEndDuration = value / 5;
         }
     }
     bool _isMovementAtInput = false;

@@ -1169,7 +1169,7 @@ MonoBehaviour:
   gameSettingParameters:
     amountControlsScrambled: 3
     isMultiplayerScrambleSame: 1
-    tickDuration: 1
+    tickDuration: 1.2
     amountTickPerScramble: 1
     doesMoveOnInput: 1
     isShootingEnabled: 0
