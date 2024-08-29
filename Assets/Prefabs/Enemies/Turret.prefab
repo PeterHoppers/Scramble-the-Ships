@@ -52,11 +52,6 @@ MonoBehaviour:
   previewObject: {fileID: 0}
   travelDirection: {x: 0, y: 1}
   shipInfo: {fileID: 11400000, guid: 173d098172ff2fc4dbe9cd9879be9daf, type: 2}
-  tickThatLoops: 3
-  shipCommands:
-    _serializedList:
-    - Key: 0
-      Value: 4
 --- !u!114 &6090239053312004524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,7 +281,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b4560237e4046fc4cb5355c21a86d27e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9d04da7dc203b364bab535bec3432309, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

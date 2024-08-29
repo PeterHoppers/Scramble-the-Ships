@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: Player Ship
   m_EditorClassIdentifier: 
   bullet: {fileID: 1014171297647524943, guid: d176f98117a525146b6616b1e92f26b2, type: 3}
-  shipSprite: {fileID: 21300000, guid: ea1ebd5f8ee9874478f1be61a27cf9f0, type: 3}
-  cutsceneSprite: {fileID: 21300000, guid: 0a01533dec1595f4d8a7d8aba8f61d18, type: 3}
-  bulletSprite: {fileID: 21300000, guid: 64f577f9d3a5c194990f01397e4d1ca1, type: 3}
+  shipSprite: {fileID: 21300000, guid: 978ff303c4b9f1a4a8645cf2e9d19e35, type: 3}
+  cutsceneSprite: {fileID: 21300000, guid: c7a91f30a02fbbf4d826eb8ccf10b5ad, type: 3}
+  bulletSprite: {fileID: 21300000, guid: b5f3fd326e4cfc344b8f9db431dd8d4a, type: 3}
   inputsForSprites:
     _serializedList:
     - Key: 0
       Value: {fileID: 21300000, guid: c2195878f8845ec4a8a0a42e2fd49fc6, type: 3}
     - Key: 1
-      Value: {fileID: 21300000, guid: f2b8359f9aa81ea468e36125bfc35be2, type: 3}
+      Value: {fileID: 21300000, guid: 798a30413f7288b4eaebc21527493e32, type: 3}
     - Key: 2
       Value: {fileID: 21300000, guid: 43e1ffe941348764f824695736030895, type: 3}
     - Key: 3
