@@ -61,7 +61,7 @@ public class CreditsSystem : MonoBehaviour
         }
         else
         {
-            costMessage.text = $"{systemSettingParameters.creditDisplay} per Credit";
+            costMessage.text = $"{systemSettingParameters.creditDisplay} per Play";
             _coinsPerCredit = systemSettingParameters.coinsPerPlay;            
         }
     }

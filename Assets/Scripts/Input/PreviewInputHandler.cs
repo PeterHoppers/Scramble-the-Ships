@@ -1,15 +1,7 @@
-using AYellowpaper.SerializedCollections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.UI;
-using TMPro;
-using System;
 
 public class PreviewInputHandler : MonoBehaviour
 {
-    public TextMeshProUGUI previewMessage;
-
     private void Update()
     {
         if (GlobalGameStateManager.Instance.GlobalGameStateStatus != GlobalGameStateStatus.Preview)
