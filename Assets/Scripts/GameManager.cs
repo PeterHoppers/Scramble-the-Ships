@@ -222,7 +222,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        UpdateGameState(GameState.Cutscene);
+        ToggleIsPlaying(false, GameState.Cutscene);
         _cutsceneSystem.ActivateCutscene(type, cutsceneDuration);
     }
 
@@ -560,7 +560,8 @@ public class GameManager : MonoBehaviour
         var moveable = spawnedMovable.GetComponent<GridMovable>();
         moveable.SetupMoveable(this, _spawnSystem, previewTile);
         moveable.travelDirection = movingDirection;
-        
+        moveable.gameObject.SetActive(false);
+
         return moveable;
     }
 
@@ -651,10 +652,9 @@ public class GameManager : MonoBehaviour
                 continue;
             }
 
-            movingObject.TransitionToTile(preview.previewTile, tickEndDuration);
-
             if (preview.creatorOfPreview)
             {
+                movingObject.gameObject.SetActive(true);
                 preview.creatorOfPreview.CreatedNewPreviewable(movingObject);
 
                 if (preview.creatorOfPreview.TryGetComponent<Player>(out var player))
@@ -662,6 +662,9 @@ public class GameManager : MonoBehaviour
                     _energySystem.OnPlayerFired();
                 }
             }
+
+
+            movingObject.TransitionToTile(preview.previewTile, tickEndDuration);
         }
         
         OnTickEnd?.Invoke(_ticksSinceScreenStart);

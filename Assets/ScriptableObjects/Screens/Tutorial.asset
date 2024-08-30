@@ -32,6 +32,8 @@ MonoBehaviour:
     amount: 0
   - type: 10
     amount: 500
+  - type: 4
+    amount: 0
   overrideDefaultTransitionGrids: 0
   transitionGrids: []
   overrideDefaultStartingPositions: 0

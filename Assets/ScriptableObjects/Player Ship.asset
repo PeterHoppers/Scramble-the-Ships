@@ -15,7 +15,7 @@ MonoBehaviour:
   bullet: {fileID: 1014171297647524943, guid: d176f98117a525146b6616b1e92f26b2, type: 3}
   shipSprite: {fileID: 21300000, guid: 978ff303c4b9f1a4a8645cf2e9d19e35, type: 3}
   cutsceneSprite: {fileID: 21300000, guid: c7a91f30a02fbbf4d826eb8ccf10b5ad, type: 3}
-  bulletSprite: {fileID: 21300000, guid: b5f3fd326e4cfc344b8f9db431dd8d4a, type: 3}
+  bulletSprite: {fileID: 21300000, guid: 6ffb2e2117773074781e19bd9bc16704, type: 3}
   inputsForSprites:
     _serializedList:
     - Key: 0

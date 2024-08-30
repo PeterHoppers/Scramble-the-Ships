@@ -30,6 +30,8 @@ MonoBehaviour:
     amount: 3
   - type: 10
     amount: 100
+  - type: 4
+    amount: 0
   overrideDefaultTransitionGrids: 0
   transitionGrids: []
   overrideDefaultStartingPositions: 0
