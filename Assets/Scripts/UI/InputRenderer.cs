@@ -1,9 +1,14 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class InputRenderer : MonoBehaviour
 {
+    public Material glitchedMaterial;
     private RendererAdapter _renderer;
+    private Material _defaultMaterial;
+
+    private float glitchDuration = .25f;
     // Start is called before the first frame update
     void Awake()
     {
@@ -18,6 +23,8 @@ public class InputRenderer : MonoBehaviour
             _renderer = new SpriteRendererAdapter(GetComponent<SpriteRenderer>());
         else
             Debug.LogError("Input renderer fails to have a valid renderer on it.");
+
+        _defaultMaterial = _renderer.material;
     }
 
     public void SetSprite(Sprite sprite) 
@@ -27,17 +34,35 @@ public class InputRenderer : MonoBehaviour
             SetRenderer();
         }
 
-        _renderer.sprite = sprite;
+        if (sprite == _renderer.sprite)
+        {
+            return;
+        }
+
+        var previousSprite = _renderer.sprite;
+        if (gameObject.activeInHierarchy && previousSprite != null)
+        {
+            StartCoroutine(PerformGlitchEffect(glitchDuration, sprite));
+        }
+        else
+        { 
+            _renderer.sprite = sprite;
+        }
     }
 
     public void SelectInput()
     {
-        _renderer.color = Color.grey;
+        _renderer.color = Color.white;
     }
 
-    public void DeselectInput()
-    { 
-        _renderer.color = Color.white;
+    public void SetUnselectedInput()
+    {
+        // this method is here if we want to prefrom so sort of effect to those options not selected
+    }
+
+    public void ResetInput()
+    {
+        _renderer.color = new Color(.75f, .75f, .75f, 1f);
     }
 
     public void SetVisibility(bool isVisible)
@@ -47,6 +72,15 @@ public class InputRenderer : MonoBehaviour
             SetRenderer();
         }
 
-        _renderer.isEnable = isVisible;
+        _renderer.isEnable = isVisible;        
+    }
+
+    IEnumerator PerformGlitchEffect(float time, Sprite sprite)
+    {
+        _renderer.material = glitchedMaterial;
+        yield return new WaitForSeconds(time / 2);
+        _renderer.sprite = sprite;
+        yield return new WaitForSeconds(time / 2);
+        _renderer.material = _defaultMaterial;
     }
 }

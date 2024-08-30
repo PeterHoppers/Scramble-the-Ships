@@ -122,7 +122,7 @@ public class Player : Previewable
                 continue;
             }
 
-            inputValue.Value.SetVisibility(false);
+            inputValue.Value.SetUnselectedInput();
         }
 
         //looping backwards like this allows us to safely remove items from the list
@@ -178,12 +178,12 @@ public class Player : Previewable
     {
         foreach (var inputValue in inputValueDisplays)
         {
-            inputValue.Value.SetVisibility(true);
+            inputValue.Value.ResetInput();
         }
 
         if (_lastInput != null)
         {
-            inputValueDisplays[_lastInput.Value].DeselectInput();
+            inputValueDisplays[_lastInput.Value].ResetInput();
         }
 
         _lastInput = null;
@@ -285,7 +285,7 @@ public class Player : Previewable
 
         if (_lastInput != null)
         {
-            inputValueDisplays[_lastInput.Value].DeselectInput();
+            inputValueDisplays[_lastInput.Value].ResetInput();
         }
 
         _lastInput = pressedValue;
