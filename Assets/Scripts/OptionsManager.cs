@@ -44,6 +44,8 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
     [Header("UI Components for System")]
     public TMP_Dropdown modeTypeDropdown;
     public SliderReader creditsForPlaySlider;
+    public SliderReader musicVolumeSlider;
+    public SliderReader sfxVolumeSlider;
 
     public delegate void ParametersChanged(GameSettingParameters gameSettings, SystemSettingParameters systemSettingParameters);
     public ParametersChanged OnParametersChanged;
@@ -153,6 +155,18 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
             systemSettingParameters.creditDisplay = renderedText;
         };
 
+        musicVolumeSlider.SetValueToRead(systemSettingParameters.musicVolume, true);
+        musicVolumeSlider.OnSliderChange += (float baseValue, float _, string _) =>
+        {
+            systemSettingParameters.musicVolume = baseValue;
+        };
+
+        sfxVolumeSlider.SetValueToRead(systemSettingParameters.sfxVolume, true);
+        sfxVolumeSlider.OnSliderChange += (float baseValue, float _, string _) =>
+        {
+            systemSettingParameters.sfxVolume = baseValue;
+        };
+
         transform.GetChild(0).gameObject.SetActive(false);
     }
 
@@ -242,8 +256,10 @@ public struct GameSettingParameters
 [System.Serializable]
 public struct SystemSettingParameters
 {
+    public float sfxVolume;
+    public float musicVolume;
     public bool isFreeplay;
     public int coinsPerPlay;
     [HideInInspector]
-    public string creditDisplay;
+    public string creditDisplay; //we hide it since it is based upon coins per play, so we only expose the variable once. Plus, money conversion stuff
 }

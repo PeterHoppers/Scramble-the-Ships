@@ -38,7 +38,7 @@ public class SliderReader : MonoBehaviour
         }
         else
         {
-            sliderDisplay.text = $"{valueToPrint}";
+            sliderDisplay.text = $"{Math.Round(valueToPrint, 2)}";
         }
 
         return sliderDisplay.text;

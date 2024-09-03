@@ -11,6 +11,12 @@ public class SaveData
     public SaveData()
     {
         gameSettingParameters = new GameSettingParameters();
-        systemSettingParameters = new SystemSettingParameters();
+        systemSettingParameters = new SystemSettingParameters()
+        { 
+            musicVolume = 1,
+            sfxVolume = 1,
+            coinsPerPlay = 2,
+            isFreeplay = false
+        };
     }
 }
