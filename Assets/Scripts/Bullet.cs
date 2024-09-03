@@ -7,6 +7,16 @@ public class Bullet : GridMovable
 {
     public bool isFriendly = true;
     public ParticleSystem bulletExplosion;
+    public AudioClip spawnSound;
+
+    public override void OnPreviewableCreation()
+    {
+        base.OnPreviewableCreation();
+        var audioSource = GetComponent<AudioSource>();
+
+        audioSource.clip = spawnSound;
+        audioSource.Play();
+    }
 
     protected override void PerformInteraction(Collider2D collision)
     {

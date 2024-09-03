@@ -462,11 +462,9 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(_tickDuration * 2);
 
         OnScreenResetStart?.Invoke();
-        _effectsSystem.PerformEffect(EffectType.DigitalGlitchIntensity, .5f);
-        _effectsSystem.PerformEffect(EffectType.HorizontalShake, .125f);
-        _effectsSystem.PerformEffect(EffectType.ScanLineJitter, .25f);
+        _cutsceneSystem.PerformRewindEffect();
 
-        yield return new WaitForSeconds(_tickDuration / 2);
+        yield return new WaitForSeconds(_tickDuration);
 
         _playerFinishedWithScreen = 0;
         _ticksSinceScreenStart = 0;
@@ -654,7 +652,7 @@ public class GameManager : MonoBehaviour
 
             if (preview.creatorOfPreview)
             {
-                movingObject.gameObject.SetActive(true);
+                movingObject.OnPreviewableCreation();
                 preview.creatorOfPreview.CreatedNewPreviewable(movingObject);
 
                 if (preview.creatorOfPreview.TryGetComponent<Player>(out var player))
@@ -663,8 +661,8 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-
             movingObject.TransitionToTile(preview.previewTile, tickEndDuration);
+            movingObject.ResolvePreviewable();
         }
         
         OnTickEnd?.Invoke(_ticksSinceScreenStart);

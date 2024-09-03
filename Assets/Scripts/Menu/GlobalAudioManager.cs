@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class GlobalAudioManager : MonoBehaviour
 {
@@ -45,6 +47,7 @@ public class GlobalAudioManager : MonoBehaviour
     {
         OptionsManager.Instance.OnParametersChanged += UpdateMixerSettings;
         GlobalGameStateManager.Instance.OnStateChange += UpdateBackgroundMusic;
+
         UpdateMixerSettings(OptionsManager.Instance.gameSettingParameters, OptionsManager.Instance.systemSettingParameters);
         PlayMusic(mainMenuMusic);
     }
@@ -105,9 +108,10 @@ public class GlobalAudioManager : MonoBehaviour
 
     void SetMixerVolumeLevel(AudioMixer mixer, string variableName, float soundLevel)
     {
+        soundLevel = soundLevel / 100;
         if (soundLevel == 0)
         {
-            soundLevel = .0001f; //It’s important to set the min value to 0.001, otherwise dropping it all the way to zero breaks the calculation and puts the volume up again.
+            soundLevel = .001f; //It’s important to set the min value to 0.001, otherwise dropping it all the way to zero breaks the calculation and puts the volume up again.
         }
 
         mixer.SetFloat(variableName, Mathf.Log(soundLevel) * 20);

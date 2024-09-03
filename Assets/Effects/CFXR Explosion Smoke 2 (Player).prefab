@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -9119543439268967154, guid: e95db50273d4e5746b02ba9b960f0afd, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: b99dbb12be2d8f243b0eda9a603d7696, type: 3}
     - target: {fileID: 725748389856807714, guid: e95db50273d4e5746b02ba9b960f0afd, type: 3}
       propertyPath: m_Name
       value: CFXR Explosion Smoke 2 (Player)

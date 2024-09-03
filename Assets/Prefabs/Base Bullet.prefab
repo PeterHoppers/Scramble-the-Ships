@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Base Bullet
       objectReference: {fileID: 0}
+    - target: {fileID: 3884832493439792901, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4070071728427121044, guid: 325e66a33d45622429c2008f98d14266, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -20,6 +24,10 @@ PrefabInstance:
       propertyPath: isFriendly
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4358801067479974209, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+      propertyPath: spawnSound
+      value: 
+      objectReference: {fileID: 8300000, guid: f8c4a365aa50b3549950e23165daa844, type: 3}
     - target: {fileID: 4358801067479974209, guid: 325e66a33d45622429c2008f98d14266, type: 3}
       propertyPath: bulletExplosion
       value: 

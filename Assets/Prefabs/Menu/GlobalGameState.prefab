@@ -1192,8 +1192,8 @@ MonoBehaviour:
   energyPerShotSlider: {fileID: 7981610640601552802}
   energyPerDeathSlider: {fileID: 4034785618260087188}
   systemSettingParameters:
-    sfxVolume: 0
-    musicVolume: 0
+    sfxVolume: 100
+    musicVolume: 100
     isFreeplay: 1
     coinsPerPlay: 2
     creditDisplay: 
@@ -3358,7 +3358,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5603257185640462136, guid: 71a5c9005b3ef454595f615bd4dcb8fd, type: 3}
       propertyPath: stepFactor
-      value: 100
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5633417103227451045, guid: 71a5c9005b3ef454595f615bd4dcb8fd, type: 3}
       propertyPath: m_AnchorMax.y
@@ -3382,7 +3382,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5643519462588484025, guid: 71a5c9005b3ef454595f615bd4dcb8fd, type: 3}
       propertyPath: m_MaxValue
-      value: 1
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5643519462588484025, guid: 71a5c9005b3ef454595f615bd4dcb8fd, type: 3}
       propertyPath: m_MinValue
@@ -3390,7 +3390,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5643519462588484025, guid: 71a5c9005b3ef454595f615bd4dcb8fd, type: 3}
       propertyPath: m_WholeNumbers
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5730633141103920529, guid: 71a5c9005b3ef454595f615bd4dcb8fd, type: 3}
       propertyPath: m_AnchorMax.x
@@ -5916,7 +5916,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5603257185640462136, guid: 71a5c9005b3ef454595f615bd4dcb8fd, type: 3}
       propertyPath: stepFactor
-      value: 100
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5633417103227451045, guid: 71a5c9005b3ef454595f615bd4dcb8fd, type: 3}
       propertyPath: m_AnchorMax.y
@@ -5940,7 +5940,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5643519462588484025, guid: 71a5c9005b3ef454595f615bd4dcb8fd, type: 3}
       propertyPath: m_MaxValue
-      value: 1
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5643519462588484025, guid: 71a5c9005b3ef454595f615bd4dcb8fd, type: 3}
       propertyPath: m_MinValue
@@ -5948,7 +5948,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5643519462588484025, guid: 71a5c9005b3ef454595f615bd4dcb8fd, type: 3}
       propertyPath: m_WholeNumbers
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5730633141103920529, guid: 71a5c9005b3ef454595f615bd4dcb8fd, type: 3}
       propertyPath: m_AnchorMax.x

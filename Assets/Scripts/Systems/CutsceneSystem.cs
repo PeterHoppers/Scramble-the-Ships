@@ -6,7 +6,11 @@ public class CutsceneSystem : MonoBehaviour
 {
     [SerializeField]
     private Animator _fullscreenAnimator;
+    [SerializeField]
+    private AudioClip _rewindClip;
+
     GameManager _gameManager;
+    EffectsSystem _effectsSystem;
     private void Awake()
     {
         _gameManager = GetComponent<GameManager>();
@@ -14,6 +18,8 @@ public class CutsceneSystem : MonoBehaviour
         {
             StopAllCoroutines();
         };
+
+        _effectsSystem = _gameManager.EffectsSystem;
     }
 
     public void ActivateCutscene(CutsceneType type, float duration)
@@ -94,6 +100,15 @@ public class CutsceneSystem : MonoBehaviour
         _fullscreenAnimator.Play("pan");
         yield return new WaitForSeconds(cutsceneDuration);
         _fullscreenAnimator.Play("close");
+    }
+
+    public void PerformRewindEffect()
+    {
+        _effectsSystem.PerformEffect(EffectType.DigitalGlitchIntensity, .5f);
+        _effectsSystem.PerformEffect(EffectType.HorizontalShake, .125f);
+        _effectsSystem.PerformEffect(EffectType.ScanLineJitter, .25f);
+
+        GlobalAudioManager.Instance.PlayAudioSFX(_rewindClip);
     }
 }
 

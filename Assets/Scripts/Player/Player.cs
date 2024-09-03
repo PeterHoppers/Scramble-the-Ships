@@ -21,6 +21,7 @@ public class Player : Previewable
     Sprite _shipSprite;
     SpriteRenderer _shipRenderer;
     Collider2D _shipCollider;
+    AudioSource _shipAudio;
 
     public int PlayerId { get; private set; }
     private bool _allowingInput;
@@ -65,6 +66,7 @@ public class Player : Previewable
         _shipSprite = _shipInfo.shipSprite;
         _shipRenderer = GetComponentInChildren<SpriteRenderer>();
         _shipRenderer.sprite = _shipSprite;
+        _shipAudio = GetComponentInChildren<AudioSource>();
 
         ChangeShootingCondition(isShootingEnabled);
     }
@@ -433,5 +435,12 @@ public class Player : Previewable
         }
 
         base.PerformInteraction(collision);
+    }
+
+    public override void ResolvePreviewable()
+    {
+        _shipAudio.Stop();
+        _shipAudio.clip = _shipInfo.moveSFX;
+        _shipAudio.Play();
     }
 }

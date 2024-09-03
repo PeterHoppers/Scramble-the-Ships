@@ -66,7 +66,15 @@ public abstract class Previewable : GridObject
     }
 
     public virtual void CreatedNewPreviewable(Previewable createdPreviewabled)
-    { }    
+    { }
+
+    public virtual void OnPreviewableCreation()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public virtual void ResolvePreviewable()
+    { }
 
     public override void DestroyObject()
     {

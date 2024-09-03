@@ -18,4 +18,5 @@ public class ShipInfo : ScriptableObject
     [Header("Effects")]
     [SerializeField]
     public ParticleSystem deathVFX;
+    public AudioClip moveSFX;
 }

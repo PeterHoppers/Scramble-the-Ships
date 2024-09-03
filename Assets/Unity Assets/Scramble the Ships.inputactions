@@ -276,6 +276,17 @@
                 },
                 {
                     "name": "",
+                    "id": "f5d7c2b3-ec76-4920-aba2-85b64365dfc4",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "01abd142-b966-4c79-a3ae-a7ad66c9d3a6",
                     "path": "<Keyboard>/leftCtrl",
                     "interactions": "",
