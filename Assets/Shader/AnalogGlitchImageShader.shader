@@ -14,6 +14,8 @@ Shader "Hidden/AnalogGlitchImageShader"
     {
         // No culling or depth
         Cull Off ZWrite Off ZTest Always
+        Tags{ "Queue" = "Transparent" "RenderType" = "Transparent" }
+        Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
         {
