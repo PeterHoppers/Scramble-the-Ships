@@ -1228,6 +1228,8 @@ MonoBehaviour:
   globalAudioMixer: {fileID: 24100000, guid: 1f082431786cd514b9498e6ba2bff031, type: 2}
   sfxSource: {fileID: 3718499001177098573}
   musicSource: {fileID: 6577034010550022203}
+  mainMenuMusic: {fileID: 8300000, guid: cf50a51bcdcd14c42954aef9efe5e342, type: 3}
+  cutsceneMusic: {fileID: 8300000, guid: 81b9b52ccc716244c9c8b08c280b530e, type: 3}
 --- !u!82 &3718499001177098573
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1338,7 +1340,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

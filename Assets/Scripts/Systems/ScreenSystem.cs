@@ -28,6 +28,7 @@ public class ScreenSystem : MonoBehaviour
         _playerAmount = playerAmount;
         _levelScreens = level.GetLevelScreens(playerAmount);
         _screenAmount = _levelScreens.Length;
+        GlobalAudioManager.Instance.TransitionSongs(_level.levelSong);
     }
 
     public void TriggerStartingEffects(EffectsSystem effectsSystem)

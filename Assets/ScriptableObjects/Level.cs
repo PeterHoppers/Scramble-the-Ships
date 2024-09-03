@@ -13,6 +13,8 @@ public class Level : ScriptableObject
 
     public List<Effect> startingEffects;
 
+    public AudioClip levelSong;
+
     [Header("Level Defaults")]
     public bool overrideDefaultTransitionGrids = false;
     public List<GridCoordinate> transitionGrids = new List<GridCoordinate>();

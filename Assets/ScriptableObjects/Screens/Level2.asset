@@ -24,6 +24,7 @@ MonoBehaviour:
   startingEffects:
   - type: 4
     amount: 1
+  levelSong: {fileID: 8300000, guid: 4ab7dbb9d1b97324ba9275e7031713d5, type: 3}
   overrideDefaultTransitionGrids: 0
   transitionGrids: []
   overrideDefaultStartingPositions: 0
