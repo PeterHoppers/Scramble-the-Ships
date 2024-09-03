@@ -10,6 +10,8 @@ public class CreditsSystem : MonoBehaviour
     [Space]
     public TextMeshProUGUI costMessage;
     public TextMeshProUGUI creditMessage;
+    [Space]
+    public AudioClip creditAudioClip;
 
     public delegate void CoinsChange(int coinsInserted, int creditsEarned);
     public CoinsChange OnCoinsChange;
@@ -78,6 +80,7 @@ public class CreditsSystem : MonoBehaviour
     {
         _coinsInserted++;
         UpdateCoinAmount(_coinsInserted);
+        GlobalAudioManager.Instance.PlayAudioSFX(creditAudioClip);
     }
 
     public void RemoveCredits(int credits)
