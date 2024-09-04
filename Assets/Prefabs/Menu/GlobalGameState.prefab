@@ -1114,6 +1114,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 441b03407b426ff48b02378352246728, type: 2}
   - {fileID: 11400000, guid: 728a1716cff4b284b9ad127715156fc7, type: 2}
   - {fileID: 11400000, guid: aa418f0335562b942a3316ffdf744c38, type: 2}
+  isTwoPlayers: 0
   defaultLocationForTransitionGrids:
   - x:
       anchor: 1
@@ -1232,6 +1233,8 @@ MonoBehaviour:
   musicSource: {fileID: 6577034010550022203}
   mainMenuMusic: {fileID: 8300000, guid: cf50a51bcdcd14c42954aef9efe5e342, type: 3}
   cutsceneMusic: {fileID: 8300000, guid: 81b9b52ccc716244c9c8b08c280b530e, type: 3}
+  menuSFX: {fileID: 8300000, guid: 3cfb731cace75d04396c46d0d24588ed, type: 3}
+  clickSFX: {fileID: 8300000, guid: 0057592e535e89d4f80c2034d064789f, type: 3}
 --- !u!82 &3718499001177098573
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1664,30 +1667,34 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 5402611514327851615}
+    - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
       objectReference: {fileID: 5972785718864497331}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: OnPanelButtonClicked
       objectReference: {fileID: 0}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: TabbedPanelUI, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -4657,34 +4664,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 5402611514327851615}
+    - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
       objectReference: {fileID: 5972785718864497331}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: OnPanelButtonClicked
       objectReference: {fileID: 0}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: TabbedPanelUI, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_IntArgument
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -4968,34 +4979,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 5402611514327851615}
+    - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
       objectReference: {fileID: 5972785718864497331}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: OnPanelButtonClicked
       objectReference: {fileID: 0}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: TabbedPanelUI, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_IntArgument
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8500457674922945631, guid: 2574ee733f65d744c8083f01ecdac874, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []

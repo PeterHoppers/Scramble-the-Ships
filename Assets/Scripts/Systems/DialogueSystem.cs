@@ -129,6 +129,7 @@ public class DialogueSystem : MonoBehaviour
 
     void AdvanceDialogue()
     {
+        GlobalAudioManager.Instance.PlayClickSFX();
         StopAllCoroutines();
         CurrentLineShown = false;
         _currentIndex++;

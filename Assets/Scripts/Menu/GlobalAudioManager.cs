@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GlobalAudioManager : MonoBehaviour
 {
@@ -15,9 +17,14 @@ public class GlobalAudioManager : MonoBehaviour
     [Space]
     public AudioClip mainMenuMusic;
     public AudioClip cutsceneMusic;
+    [Space]
+    public AudioClip menuSFX;
+    public AudioClip clickSFX;
 
     private const string MUSIC_VOLUME = "MusicVolume";
     private const string SFX_VOLUME = "SFXVolume";
+
+    private GameObject _previousSelectedObject;
 
     private static GlobalAudioManager instance;
     public static GlobalAudioManager Instance
@@ -43,6 +50,16 @@ public class GlobalAudioManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += GetFirstSelectedObject;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= GetFirstSelectedObject;
+    }
+
     void Start()
     {
         OptionsManager.Instance.OnParametersChanged += UpdateMixerSettings;
@@ -50,6 +67,22 @@ public class GlobalAudioManager : MonoBehaviour
 
         UpdateMixerSettings(OptionsManager.Instance.gameSettingParameters, OptionsManager.Instance.systemSettingParameters);
         PlayMusic(mainMenuMusic);
+    }
+
+    void GetFirstSelectedObject(Scene _, LoadSceneMode mode)
+    {
+        _previousSelectedObject = EventSystem.current.firstSelectedGameObject;
+    }
+
+    private void Update()
+    {
+        var currentObject = EventSystem.current.currentSelectedGameObject;
+
+        if (currentObject != null && _previousSelectedObject != currentObject)
+        {
+            _previousSelectedObject = currentObject;
+            PlayAudioSFX(menuSFX);
+        }
     }
 
     void UpdateBackgroundMusic(GlobalGameStateStatus newState)
@@ -76,6 +109,11 @@ public class GlobalAudioManager : MonoBehaviour
         }
 
         StartCoroutine(TransitionBetweenTracks(clipToPlay, transitionDuration));
+    }
+
+    public void PlayClickSFX()
+    { 
+        PlayAudioSFX(clickSFX);
     }
 
     public void PlayAudioSFX(AudioClip clipToPlay)
