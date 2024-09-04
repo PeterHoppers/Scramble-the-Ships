@@ -176,6 +176,16 @@ public class Player : Previewable
         }
     }
 
+    public List<PlayerAction> GetScrambledActions()
+    {
+        if (scrambledActions == null)
+        {
+            return _possibleActions;
+        }
+
+        return scrambledActions.Values.ToList();
+    }
+
     public void ClearSelected()
     {
         foreach (var inputValue in inputValueDisplays)

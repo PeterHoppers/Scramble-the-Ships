@@ -11,6 +11,9 @@ public class EffectsSystem : MonoBehaviour
     public delegate void ScrambleAmountChanged(int scrambleAmount);
     public ScrambleAmountChanged OnScrambleAmountChanged;
 
+    public delegate void ScrambleTypeChanged(ScrambleType scrambleType);
+    public ScrambleTypeChanged OnScrambleTypeChanged;
+
     public delegate void MultiplayerScrambleTypeChanged(bool isSameResult);
     public MultiplayerScrambleTypeChanged OnMultiplayerScrambleTypeChanged;
 
@@ -51,6 +54,7 @@ public class EffectsSystem : MonoBehaviour
     private void InvokeCurrentParameters(GameSettingParameters gameSettings, SystemSettingParameters systemSettingParameters)
     {
         OnScrambleAmountChanged?.Invoke(gameSettings.amountControlsScrambled);
+        OnScrambleTypeChanged?.Invoke(gameSettings.scrambleType);
         OnMultiplayerScrambleTypeChanged?.Invoke(gameSettings.isMultiplayerScrambleSame);
         OnTickDurationChanged?.Invoke(gameSettings.tickDuration);
         OnTicksUntilScrambleChanged?.Invoke(gameSettings.amountTickPerScramble);
@@ -74,6 +78,9 @@ public class EffectsSystem : MonoBehaviour
         { 
             case EffectType.ScrambleAmount:
                 OnScrambleAmountChanged?.Invoke(Mathf.RoundToInt(effect.amount));
+                break;
+            case EffectType.ScrambleType:
+                OnScrambleTypeChanged?.Invoke((ScrambleType)Mathf.RoundToInt(effect.amount));
                 break;
             case EffectType.TickDuration:
                 OnTickDurationChanged?.Invoke(effect.amount); 
@@ -138,4 +145,5 @@ public enum EffectType
     HorizontalShake,
     ColorDrift,
     MaxEnergyChanged,
+    ScrambleType,
 }

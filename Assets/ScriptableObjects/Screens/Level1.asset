@@ -28,6 +28,8 @@ MonoBehaviour:
   startingEffects:
   - type: 0
     amount: 3
+  - type: 11
+    amount: 1
   - type: 10
     amount: 100
   - type: 4

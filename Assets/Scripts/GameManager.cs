@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
     int _ticksSinceScreenStart = 0;
     int _ticksSinceLevelStart = 0;
 
-    int _lastIndexForScrambling = 4;
+    ScrambleType _currentScrambleType;
 
     void Awake()
     {
@@ -103,21 +103,7 @@ public class GameManager : MonoBehaviour
 
         _effectsSystem.OnTickDurationChanged += (float newDuration) => TickDuration = newDuration;
         _effectsSystem.OnMoveOnInputChanged += (bool isMoveOnInput) => _isMovementAtInput = isMoveOnInput;
-        _effectsSystem.OnScrambleAmountChanged += (int scrambleAmount) =>
-        {
-            if (scrambleAmount == 5)
-            {
-                _lastIndexForScrambling = 5;
-            }
-            else if (scrambleAmount == 0)
-            {
-                _lastIndexForScrambling = 0;
-            }
-            else 
-            {
-                _lastIndexForScrambling = 4;
-            }
-        };
+        _effectsSystem.OnScrambleTypeChanged += (ScrambleType scrambleType) => _currentScrambleType = scrambleType;
     }
 
     IEnumerator Start()
@@ -501,11 +487,6 @@ public class GameManager : MonoBehaviour
         return _playerCount - _playerFinishedWithScreen;
     }
 
-    public int GetLastIndexOfScramble()
-    { 
-        return _lastIndexForScrambling;
-    }
-
     public void ClearPreviousPlayerAction(Player playerSent)
     {
         //change this so that we look at what the player sent, then delete said preview
@@ -614,7 +595,7 @@ public class GameManager : MonoBehaviour
     {
         _tickIsOccuring = false;
         var tickEndDuration = _tickEndDuration;
-        if (_lastIndexForScrambling == 0) //if we're not scrambled, speed up the animation between ticks because people know their next input will be
+        if (_currentScrambleType == ScrambleType.None) //if we're not scrambled, speed up the animation between ticks because people know their next input will be
         {
             tickEndDuration /= 1.5f;
         }

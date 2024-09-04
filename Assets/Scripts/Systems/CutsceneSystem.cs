@@ -33,6 +33,11 @@ public class CutsceneSystem : MonoBehaviour
                     { 
                         type = EffectType.ScrambleAmount,
                         amount = 3f
+                    },
+                    new()
+                    {
+                        type = EffectType.ScrambleType,
+                        amount = 1f
                     }
                 }));
                 break;
@@ -42,7 +47,12 @@ public class CutsceneSystem : MonoBehaviour
                     new()
                     {
                         type = EffectType.ScrambleAmount,
-                        amount = 5f
+                        amount = 4f
+                    },
+                    new()
+                    {
+                        type = EffectType.ScrambleType,
+                        amount = 2f
                     }
                 }));
                 break;
