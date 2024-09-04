@@ -11,12 +11,8 @@ public class ShipInfo : ScriptableObject
     public Bullet bullet;
     [Header("Sprites")]
     public Sprite shipSprite;
-    public Sprite cutsceneSprite;
     public Sprite bulletSprite;
-    [SerializedDictionary("Input", "Sprite to Represent")]
-    public SerializedDictionary<InputValue, Sprite> inputsForSprites;
     [Header("Effects")]
     [SerializeField]
     public ParticleSystem deathVFX;
-    public AudioClip moveSFX;
 }

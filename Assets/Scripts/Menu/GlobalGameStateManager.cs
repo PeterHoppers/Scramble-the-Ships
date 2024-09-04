@@ -14,6 +14,10 @@ public class GlobalGameStateManager : MonoBehaviour
     [SerializeField]
     private List<Level> _levels = new List<Level>();
 
+    [Header("Debugging")]
+    [SerializeField]
+    private bool isTwoPlayers;
+
     [Header("Default Locations")]
     public List<GridCoordinate> defaultLocationForTransitionGrids = new List<GridCoordinate>();
     public SerializedDictionary<int, List<GridCoordinate>> startingPlayerPositions;
@@ -54,6 +58,11 @@ public class GlobalGameStateManager : MonoBehaviour
 
         _creditsSystem = GetComponentInChildren<CreditsSystem>();
         _creditsSystem.OnCoinsChange += OnCoinsChange;
+
+        if (isTwoPlayers)
+        {
+            PlayerCount = 2;
+        }
     }
     public void PlayTutorial()
     {

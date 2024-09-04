@@ -9,13 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df69872ed23ca47408b79a87ee0fa191, type: 3}
-  m_Name: Player Ship
+  m_Script: {fileID: 11500000, guid: b038587a6f30cf147bb6228aeead8f9a, type: 3}
+  m_Name: Player 1 Ship
   m_EditorClassIdentifier: 
   bullet: {fileID: 1014171297647524943, guid: d176f98117a525146b6616b1e92f26b2, type: 3}
   shipSprite: {fileID: 21300000, guid: 978ff303c4b9f1a4a8645cf2e9d19e35, type: 3}
-  cutsceneSprite: {fileID: 21300000, guid: c7a91f30a02fbbf4d826eb8ccf10b5ad, type: 3}
   bulletSprite: {fileID: 21300000, guid: 6ffb2e2117773074781e19bd9bc16704, type: 3}
+  deathVFX: {fileID: 8011153890280474160, guid: 2e9a99bb253ca914583823885a70ba57, type: 3}
+  moveSFX: {fileID: 8300000, guid: 0057592e535e89d4f80c2034d064789f, type: 3}
+  scrambleSFX: {fileID: 8300000, guid: 67f81f0bf45340e4a91fc20ad4a82965, type: 3}
+  cutsceneSprite: {fileID: 21300000, guid: c7a91f30a02fbbf4d826eb8ccf10b5ad, type: 3}
   inputsForSprites:
     _serializedList:
     - Key: 0
@@ -28,5 +31,3 @@ MonoBehaviour:
       Value: {fileID: 21300000, guid: 9bc83efc054b7c04b82b7c9afc03e13c, type: 3}
     - Key: 4
       Value: {fileID: 21300000, guid: af355e51531ed2a409ac5e7673a27c99, type: 3}
-  deathVFX: {fileID: 8011153890280474160, guid: 2e9a99bb253ca914583823885a70ba57, type: 3}
-  moveSFX: {fileID: 8300000, guid: 0057592e535e89d4f80c2034d064789f, type: 3}

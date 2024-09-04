@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.U2D;
 using UnityEngine.UI;
 
 public class InputRenderer : MonoBehaviour
@@ -25,6 +26,16 @@ public class InputRenderer : MonoBehaviour
             Debug.LogError("Input renderer fails to have a valid renderer on it.");
 
         _defaultMaterial = _renderer.material;
+    }
+
+    public bool WillSpriteChange(Sprite newSprite)
+    {
+        if (_renderer == null || _renderer.sprite == null)
+        {
+            return false;
+        }
+
+        return (newSprite != _renderer.sprite);
     }
 
     public void SetSprite(Sprite sprite) 

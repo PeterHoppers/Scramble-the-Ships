@@ -51,17 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   previewObject: {fileID: 0}
   travelDirection: {x: 0, y: 1}
-  shipInfo: {fileID: 11400000, guid: 173d098172ff2fc4dbe9cd9879be9daf, type: 2}
-  shipCommands:
-    _serializedList:
-    - Key: 0
-      Value: 1
-    - Key: 2
-      Value: 3
-    - Key: 5
-      Value: 4
-    - Key: 8
-      Value: 0
+  shipInfo: {fileID: 11400000, guid: d7301dda3ef87344ea3fd5db95bd3787, type: 2}
 --- !u!114 &6090239053312004524
 MonoBehaviour:
   m_ObjectHideFlags: 0

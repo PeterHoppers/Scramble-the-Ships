@@ -15,7 +15,7 @@ public class Player : Previewable
     [SerializedDictionary]
     SerializedDictionary<InputValue, PlayerAction> scrambledActions = new SerializedDictionary<InputValue, PlayerAction>();
     
-    private ShipInfo _shipInfo;
+    private PlayerShipInfo _shipInfo;
     private ParticleSystem _deathVFX;
 
     Sprite _shipSprite;
@@ -45,7 +45,7 @@ public class Player : Previewable
         }        
     }
 
-    public void InitPlayer(GameManager manager, ShipInfo shipInfo, int id, bool isShootingEnabled)
+    public void InitPlayer(GameManager manager, PlayerShipInfo shipInfo, int id, bool isShootingEnabled)
     {      
         _manager = manager;
         _manager.OnTickStart += OnTickStart;
@@ -164,6 +164,7 @@ public class Player : Previewable
     {
         scrambledActions = playerActions;
         var playerActionKeys = playerActions.Keys;
+        var hasAnyActionsChanged = false;
 
         foreach (var item in playerActionKeys)
         {
@@ -171,8 +172,20 @@ public class Player : Previewable
 
             if (renderer != null) 
             {
-                renderer.SetSprite(playerActions[item].actionUI);
+                var newSprite = playerActions[item].actionUI;
+
+                if (!hasAnyActionsChanged)
+                {
+                    hasAnyActionsChanged = renderer.WillSpriteChange(newSprite);
+                }
+
+                renderer.SetSprite(newSprite);                
             }
+        }
+
+        if (hasAnyActionsChanged)
+        {
+            PlayShipSFX(_shipInfo.scrambleSFX);
         }
     }
 
@@ -449,8 +462,13 @@ public class Player : Previewable
 
     public override void ResolvePreviewable()
     {
+        PlayShipSFX(_shipInfo.moveSFX);
+    }
+
+    private void PlayShipSFX(AudioClip clipToPlay)
+    {
         _shipAudio.Stop();
-        _shipAudio.clip = _shipInfo.moveSFX;
+        _shipAudio.clip = clipToPlay;
         _shipAudio.Play();
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class CutsceneManager : MonoBehaviour
 {
-    public List<ShipInfo> shipInfos = new List<ShipInfo>();
+    public List<PlayerShipInfo> shipInfos = new List<PlayerShipInfo>();
     public List<Dialogue> dialogues = new List<Dialogue>();
 
     [SerializeField]
@@ -51,7 +51,7 @@ public class CutsceneManager : MonoBehaviour
         }
     }
 
-    void CreateCutsceneShip(ShipInfo shipInfo)
+    void CreateCutsceneShip(PlayerShipInfo shipInfo)
     { 
         var shipSprite = shipInfo.cutsceneSprite;
         var shipImage = Instantiate(shipBase, shipHolder.transform);

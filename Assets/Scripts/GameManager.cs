@@ -10,7 +10,7 @@ using System;
 public class GameManager : MonoBehaviour
 {
     public Player playerShip;
-    public List<ShipInfo> shipInfos = new List<ShipInfo>();
+    public List<PlayerShipInfo> shipInfos = new List<PlayerShipInfo>();
     public PreviewableBase previewableBase;
 
     //GameManager Events
