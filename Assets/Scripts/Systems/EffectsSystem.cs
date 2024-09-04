@@ -11,6 +11,9 @@ public class EffectsSystem : MonoBehaviour
     public delegate void ScrambleAmountChanged(int scrambleAmount);
     public ScrambleAmountChanged OnScrambleAmountChanged;
 
+    public delegate void ScrambleVarianceChanged(int scrambleVariance);
+    public ScrambleVarianceChanged OnScrambleVarianceChanged;
+
     public delegate void ScrambleTypeChanged(ScrambleType scrambleType);
     public ScrambleTypeChanged OnScrambleTypeChanged;
 
@@ -79,6 +82,9 @@ public class EffectsSystem : MonoBehaviour
             case EffectType.ScrambleAmount:
                 OnScrambleAmountChanged?.Invoke(Mathf.RoundToInt(effect.amount));
                 break;
+            case EffectType.ScrambleVarience:
+                OnScrambleVarianceChanged?.Invoke(Mathf.RoundToInt(effect.amount));
+                break;
             case EffectType.ScrambleType:
                 OnScrambleTypeChanged?.Invoke((ScrambleType)Mathf.RoundToInt(effect.amount));
                 break;
@@ -146,4 +152,5 @@ public enum EffectType
     ColorDrift,
     MaxEnergyChanged,
     ScrambleType,
+    ScrambleVarience
 }

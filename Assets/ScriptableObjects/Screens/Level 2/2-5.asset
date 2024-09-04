@@ -111,7 +111,9 @@ MonoBehaviour:
   useDifferentDialogueForBothPlayers: 0
   screenDialogue: {fileID: 0}
   twoPlayerDialogue: {fileID: 0}
-  effects: []
+  effects:
+  - type: 12
+    amount: 50
   enemySpawnInformation:
     _serializedList: []
   spawnsLoopAtTick: 0

@@ -25,9 +25,11 @@ MonoBehaviour:
   - type: 4
     amount: 1
   - type: 0
-    amount: 3
+    amount: 4
   - type: 11
     amount: 1
+  - type: 12
+    amount: 100
   levelSong: {fileID: 8300000, guid: 4ab7dbb9d1b97324ba9275e7031713d5, type: 3}
   overrideDefaultTransitionGrids: 0
   transitionGrids: []

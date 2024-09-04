@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
 
@@ -13,6 +11,7 @@ public class ControlsManager : MonoBehaviour, IManager
     private System.Random _random = new System.Random();
 
     int _amountToScramble = 0;
+    int _percentChanceNotDefaultScrambleAmount = 0;
     int _ticksPerScramble = 1;
     int _ticksSinceLastScramble = 0;
     bool _playersSameShuffle = true;
@@ -28,6 +27,7 @@ public class ControlsManager : MonoBehaviour, IManager
         _gameManager.EffectsSystem.OnScrambleTypeChanged += (ScrambleType newScrambleType) => _scrambleType = newScrambleType;
         _gameManager.EffectsSystem.OnTicksUntilScrambleChanged += (int tickAmount) => _ticksPerScramble = tickAmount;
         _gameManager.EffectsSystem.OnMultiplayerScrambleTypeChanged += (bool isSame) => _playersSameShuffle = isSame;
+        _gameManager.EffectsSystem.OnScrambleVarianceChanged += (int scrambleVarience) => _percentChanceNotDefaultScrambleAmount = scrambleVarience;
     }  
 
     void CheckIfScramble(float tickTime)
@@ -56,31 +56,40 @@ public class ControlsManager : MonoBehaviour, IManager
         {
             //TODO: Allow different players to get other player's actions
             var unshuffled = unshuffledActions.Where(x => x.playerActionPerformedOn == player).ToList();
-            var amountToScramble = GetLastIndexForScrambleType(_scrambleType);
+            var lastIndexForScrambling = GetLastIndexForScrambleType(_scrambleType);
+            var amountToScrambleWithVarience = AdjustScrambleAmountForVarience(_amountToScramble, _percentChanceNotDefaultScrambleAmount);
 
             List<PlayerAction> shuffledValues;
+            var currentControlsForPlayer = player.GetScrambledActions();
 
-            if (amountToScramble == 0)
+            if (_playersSameShuffle && previousShuffle.Count != 0)
             {
-                shuffledValues = unshuffled;
+                shuffledValues = new List<PlayerAction>();
+                for (int index = 0; index < previousShuffle.Count; index++)
+                {
+                    var previousShuffledAction = previousShuffle[index];
+                    var actionWithSameInput = unshuffled.Find(x => x.inputValue == previousShuffledAction.inputValue);
+                    shuffledValues.Add(actionWithSameInput);
+                }
             }
             else
             {
-                if (_playersSameShuffle && previousShuffle.Count != 0)
+                if (lastIndexForScrambling == 0 || amountToScrambleWithVarience == 0)
                 {
-                    shuffledValues = new List<PlayerAction>();
-                    for (int index = 0; index < previousShuffle.Count; index++)
+                    if (_scrambleType == ScrambleType.None || currentControlsForPlayer.Count == 0)
                     {
-                        var previousShuffledAction = previousShuffle[index];
-                        var actionWithSameInput = unshuffled.Find(x => x.inputValue == previousShuffledAction.inputValue);
-                        shuffledValues.Add(actionWithSameInput);
+                        shuffledValues = unshuffled;
+                    }
+                    else
+                    {
+                        shuffledValues = currentControlsForPlayer;
                     }
                 }
                 else
                 {
-                    shuffledValues = ShuffleInputs(unshuffled, player.GetScrambledActions(), _amountToScramble, amountToScramble);
+                    shuffledValues = ShuffleInputs(unshuffled, currentControlsForPlayer, amountToScrambleWithVarience, lastIndexForScrambling);
                 }
-            }
+            }            
 
             var unShuffledInputs = unshuffled.Select(x => x.inputValue).ToList();
 
@@ -116,7 +125,13 @@ public class ControlsManager : MonoBehaviour, IManager
             {
                 valuesToShuffle = lastShuffledValues;
             }
-        }       
+        }
+
+        //you can't scramble less than 2 options
+        if (amountOfOptionsToScramble < 2)
+        {
+            amountOfOptionsToScramble = 2;
+        }
 
         //make a list of random numbers that we can pull from 
         var listNumbers = new List<int>();
@@ -174,6 +189,19 @@ public class ControlsManager : MonoBehaviour, IManager
             case ScrambleType.All: 
                 return 5;
         }
+    }
+
+    private int AdjustScrambleAmountForVarience(int defaultScrambleAmount, int percentageToChange)
+    {
+        int randomPercentage = _random.Next(0, 100);
+
+        if (randomPercentage >= percentageToChange)
+        { 
+            return defaultScrambleAmount;
+        }
+
+        int randomScrambleAmount = _random.Next(0, defaultScrambleAmount);
+        return randomScrambleAmount;        
     }
 }
 

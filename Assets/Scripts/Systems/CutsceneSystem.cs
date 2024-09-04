@@ -28,21 +28,6 @@ public class CutsceneSystem : MonoBehaviour
         { 
             case CutsceneType.Tutorial:
                 StartCoroutine(HackingCutscene(duration, new List<Effect>
-                { 
-                    new()
-                    { 
-                        type = EffectType.ScrambleAmount,
-                        amount = 3f
-                    },
-                    new()
-                    {
-                        type = EffectType.ScrambleType,
-                        amount = 1f
-                    }
-                }));
-                break;
-            case CutsceneType.ShootingHacking:
-                StartCoroutine(HackingCutscene(duration, new List<Effect>
                 {
                     new()
                     {
@@ -52,7 +37,32 @@ public class CutsceneSystem : MonoBehaviour
                     new()
                     {
                         type = EffectType.ScrambleType,
+                        amount = 1f
+                    },
+                    new()
+                    {
+                        type = EffectType.ScrambleVarience,
+                        amount = 0f
+                    }
+                }));
+                break;
+            case CutsceneType.ShootingHacking:
+                StartCoroutine(HackingCutscene(duration, new List<Effect>
+                {
+                    new()
+                    {
+                        type = EffectType.ScrambleAmount,
+                        amount = 5f
+                    },
+                    new()
+                    {
+                        type = EffectType.ScrambleType,
                         amount = 2f
+                    },
+                    new()
+                    {
+                        type = EffectType.ScrambleVarience,
+                        amount = 0f
                     }
                 }));
                 break;

@@ -27,13 +27,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f0b4c55d7b116674388d7da27016b87b, type: 2}
   startingEffects:
   - type: 0
-    amount: 3
+    amount: 4
   - type: 11
     amount: 1
   - type: 10
     amount: 100
   - type: 4
     amount: 0
+  - type: 12
+    amount: 50
   levelSong: {fileID: 8300000, guid: fed7accaf6c6a1544a1c1fd3d8c8389e, type: 3}
   overrideDefaultTransitionGrids: 0
   transitionGrids: []
