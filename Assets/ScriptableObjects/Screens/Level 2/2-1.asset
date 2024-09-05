@@ -13,38 +13,10 @@ MonoBehaviour:
   m_Name: 2-1
   m_EditorClassIdentifier: 
   startingItems:
-  - gridObject: {fileID: 610308519021217872, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
-    facingDirection: 0
-    spawnCoordinates:
-      x:
-        anchor: 1
-        offset: 0
-      y:
-        anchor: 1
-        offset: 0
-    spawnCommand: 0
-  - gridObject: {fileID: 610308519021217872, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
-    facingDirection: 0
-    spawnCoordinates:
-      x:
-        anchor: 1
-        offset: 3
-      y:
-        anchor: 1
-        offset: 0
-    spawnCommand: 0
-  - gridObject: {fileID: 610308519021217872, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
-    facingDirection: 0
-    spawnCoordinates:
-      x:
-        anchor: 1
-        offset: -3
-      y:
-        anchor: 1
-        offset: 0
-    spawnCommand: 0
-  - gridObject: {fileID: 610308519021217872, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
-    facingDirection: 2
+  - spawnInfo:
+      objectToSpawn: 0
+      direction: 0
+      groupingSize: 20
     spawnCoordinates:
       x:
         anchor: 0
@@ -52,17 +24,6 @@ MonoBehaviour:
       y:
         anchor: 1
         offset: 0
-    spawnCommand: 0
-  - gridObject: {fileID: 610308519021217872, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
-    facingDirection: 3
-    spawnCoordinates:
-      x:
-        anchor: 2
-        offset: 0
-      y:
-        anchor: 1
-        offset: 0
-    spawnCommand: 0
   overrideDefaultTransitionGrids: 0
   transitionGrids: []
   overrideDefaultStartingPositions: 0

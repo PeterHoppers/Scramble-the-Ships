@@ -23,6 +23,11 @@ public class GridSystem : MonoBehaviour
         return TryGetTileByCoordinates(grid.x, grid.y, out tile);
     }
 
+    public bool TryGetTileByCoordinates(Vector2 coordinate, out Tile tile)
+    {
+        return TryGetTileByCoordinates(coordinate.x, coordinate.y, out tile);
+    }
+
     bool TryGetTileByCoordinates(Coordinate x, Coordinate y, out Tile tile)
     {
         int xIndex = x.GetIndexFromMax(GetMaxWidthIndex());
@@ -54,12 +59,12 @@ public class GridSystem : MonoBehaviour
         return _tiles[x][y];
     }
 
-    public int GetMaxHeightIndex()
+    int GetMaxHeightIndex()
     { 
         return gridHeight - _titleSpawnDepth;
     }
 
-    public int GetMaxWidthIndex() 
+    int GetMaxWidthIndex() 
     { 
         return gridWidth - _titleSpawnDepth;
     }

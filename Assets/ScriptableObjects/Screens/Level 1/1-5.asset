@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: 1-5
   m_EditorClassIdentifier: 
   startingItems:
-  - gridObject: {fileID: 4968857197367180557, guid: 5353b18247066644385330a06f51dc04, type: 3}
-    facingDirection: 0
+  - spawnInfo:
+      objectToSpawn: 0
+      direction: 0
+      groupingSize: 1
     spawnCoordinates:
       x:
         anchor: 2
@@ -22,9 +24,10 @@ MonoBehaviour:
       y:
         anchor: 1
         offset: 0
-    spawnCommand: 0
-  - gridObject: {fileID: 4968857197367180557, guid: 5353b18247066644385330a06f51dc04, type: 3}
-    facingDirection: 0
+  - spawnInfo:
+      objectToSpawn: 0
+      direction: 0
+      groupingSize: 1
     spawnCoordinates:
       x:
         anchor: 0
@@ -32,9 +35,10 @@ MonoBehaviour:
       y:
         anchor: 1
         offset: 0
-    spawnCommand: 0
-  - gridObject: {fileID: 610308519021217872, guid: 238cb50f8f67a2648b791e50f8f78358, type: 3}
-    facingDirection: 0
+  - spawnInfo:
+      objectToSpawn: 0
+      direction: 0
+      groupingSize: 3
     spawnCoordinates:
       x:
         anchor: 1
@@ -42,7 +46,6 @@ MonoBehaviour:
       y:
         anchor: 1
         offset: 0
-    spawnCommand: 0
   overrideDefaultTransitionGrids: 0
   transitionGrids:
   - x:
@@ -74,34 +77,11 @@ MonoBehaviour:
     _serializedList:
     - Key: 4
       Value:
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 1
-        otherCoordinate:
-          anchor: 1
-          offset: -2
-        spawnCommand: 1
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 1
-        otherCoordinate:
-          anchor: 1
-          offset: -1
-        spawnCommand: 1
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 1
+      - spawnInfo:
+          objectToSpawn: 3
+          direction: 1
+          groupingSize: 5
         otherCoordinate:
           anchor: 1
           offset: 0
-        spawnCommand: 1
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 1
-        otherCoordinate:
-          anchor: 1
-          offset: 1
-        spawnCommand: 1
-      - enemyObject: {fileID: 1580684353057989382, guid: 631aff1596f5c464e8956667d6263f11, type: 3}
-        spawnDirection: 1
-        otherCoordinate:
-          anchor: 1
-          offset: 2
-        spawnCommand: 1
   spawnsLoopAtTick: 0

@@ -14,9 +14,8 @@ public class SpawnSystem : MonoBehaviour
     Dictionary<int, List<SpawnInfo>> _queuedSpawns = new Dictionary<int, List<SpawnInfo>>();
     List<GameObject> _spawnList = new List<GameObject>();
 
-    [Header("Commands")]
-    [SerializedDictionary("Command Id", "Command SO")]
-    public SerializedDictionary<SpawnCommand, GridObjectCommands> commandBank = new SerializedDictionary<SpawnCommand, GridObjectCommands>();
+    [SerializedDictionary("Spawn Object", "Corresponding Object & Commands")]
+    public SerializedDictionary<SpawnObject, SpawnData> spawnBank = new SerializedDictionary<SpawnObject, SpawnData>();
 
     GameManager _gameManager;
 
@@ -44,55 +43,37 @@ public class SpawnSystem : MonoBehaviour
         if (spawns != null)
         {
             foreach (var spawn in spawns)
-            {
-                if (spawn.spawnType == SpawnType.Preview)
-                {
-                    var previewable = spawn.objectToSpawn.GetComponent<Previewable>();
-                    var previewAction = _gameManager.CreatePreviewOfPreviewableAtTile(previewable, spawn.tileToSpawnAt, 1, false);
-                    _gameManager.AddPreviewAction(previewAction);
-                }
-                else if (spawn.spawnType == SpawnType.Player)
-                {
-                    var playerToSpawn = spawn.objectToSpawn.GetComponent<Player>();
-                    playerToSpawn.OnSpawn();
-                    _gameManager.MovePlayerOnScreenToTile(playerToSpawn, spawn.tileToSpawnAt, 1.5f); //tick duration                    
-                }
-                else
-                {
-                    var spawnedObject = SpawnObjectOffLevel(spawn.objectToSpawn, spawn.tileToSpawnAt, spawn.spawnRotation);
-
-                    if (spawnedObject.TryGetComponent<GridMovable>(out var damageable))
-                    {
-                        damageable.SetupMoveable(_gameManager, this, spawn.tileToSpawnAt);
-
-                        if (damageable.TryGetComponent<EnemyShip>(out var enemyShip))
-                        {
-                            SetCommandsForSpawnCommand(enemyShip, spawn.spawnCommand);
-                        }
-                    }
-                }
+            {                
+                var spawnedObject = CreateSpawnObject(spawn.objectToSpawn.gameObject, spawn.tileToSpawnAt, spawn.spawnRotation, true);
+                ConfigureSpawnedObject(spawnedObject, spawn.tileToSpawnAt, spawn.spawnCommand);
             }
         }
     }
 
-    public GameObject SpawnObjectAtTile(GameObject spawnObject, Tile spawnTile, Quaternion spawnRotation)
+    public GameObject CreateSpawnObject(GameObject spawnObject, Tile spawnTile, Quaternion spawnRotation, bool isOffscreen = false)
     {
-        var spawnedObject = Instantiate(spawnObject, transform);
-        spawnedObject.transform.localPosition = spawnTile.GetTilePosition();
-        spawnedObject.transform.rotation = spawnRotation;
+        var spawnedObject = Instantiate(spawnObject, Vector2.zero, spawnRotation, transform);
+        var tilePosition = spawnTile.GetTilePosition();
+        spawnedObject.transform.localPosition = (isOffscreen) ? GetOffscreenPosition(spawnedObject.transform.up, tilePosition, true) : tilePosition;
         _spawnList.Add(spawnedObject);
         return spawnedObject;
     }
 
-    public GameObject SpawnObjectOffLevel(GameObject spawnObject, Tile spawnTile, Quaternion spawnRotation)
+    public void ConfigureSpawnedObject(GameObject spawnedObject, Tile spawnTile, GridObjectCommands spawnCommand)
     {
-        var spawnedObject = Instantiate(spawnObject, Vector2.zero, spawnRotation, transform);
-        var offscreenPosition = GetOffscreenPosition(spawnedObject.transform.up, spawnTile.GetTilePosition(), true);
-        spawnedObject.transform.localPosition = offscreenPosition;
-        _spawnList.Add(spawnedObject);
+        if (spawnedObject.TryGetComponent<GridMovable>(out var damageable))
+        {
+            damageable.SetupMoveable(_gameManager, this, spawnTile);
 
-        //the issue is that spawnedObject.transform.up handles which direction they should be spawning from
-        return spawnedObject;
+            if (damageable.TryGetComponent<EnemyShip>(out var enemyShip))
+            {
+                SetCommandsForSpawnCommand(enemyShip, spawnCommand);
+            }
+        }
+        else
+        {
+            spawnedObject.GetComponent<GridObject>().SetupObject(_gameManager, this, spawnTile);
+        }
     }
 
     public void MovePreviewableOffScreenToPosition(Previewable preview, Vector3 direction, Vector2 currentPosition, float duration, bool isArriving = false)
@@ -132,15 +113,19 @@ public class SpawnSystem : MonoBehaviour
         }
     }
 
-    public void SetCommandsForSpawnCommand(EnemyShip enemy, SpawnCommand command)
+    public SpawnData GetDataFromSpawnObject(ObjectSpawnInfo spawnInfo)
+    { 
+        return spawnBank[spawnInfo.objectToSpawn];
+    }
+
+    public void SetCommandsForSpawnCommand(EnemyShip enemy, GridObjectCommands command)
     {
-        if (command == SpawnCommand.None) 
+        if (command == null) 
         { 
             return; 
         }
 
-        var commands = commandBank[command];
-        enemy.SetCommands(commands.commands, commands.commandsLoopAtTick);
+        enemy.SetCommands(command.commands, command.commandsLoopAtTick);
     }
 
     Vector2 GetSpawnCoordinates(GridSystem gridSystem, SpawnDirections spawnDirection, Coordinate coordinate)
@@ -157,12 +142,12 @@ public class SpawnSystem : MonoBehaviour
                 return new Vector2(coordinate.GetIndexFromMax(maxCoordinates.x), maxCoordinates.y);
             case SpawnDirections.Bottom:
                 return new Vector2(coordinate.GetIndexFromMax(maxCoordinates.x), 0);
-            default:
+            default:                
                 return Vector2.zero;
         }
     }
 
-    public Quaternion GetRotationFromSpawnDirection(SpawnDirections spawnDirection)
+    Quaternion GetRotationFromSpawnDirection(SpawnDirections spawnDirection)
     {
         Quaternion rotation = Quaternion.identity;
         switch (spawnDirection)
@@ -186,49 +171,39 @@ public class SpawnSystem : MonoBehaviour
 
     public void QueueEnemyToSpawn(GridSystem gridSystem, EnemySpawn enemySpawn, int spawnTick)
     {
-        if (spawnTick == 0)
+        if (spawnTick <= 1)
         {
-            Debug.LogWarning("Enemies can only be previewed at tick end, meaning that ships can't be spawn on the 0th tick. Consider either moving them to the first tick.");
-            spawnTick = 1;
+            Debug.LogWarning("Enemies can only be previewed at tick end, meaning that ships can't be spawn on the 1st tick. Consider either moving them to the second tick.");
+            spawnTick = 2;
         }
 
-        var spawnCoordiantes = GetSpawnCoordinates(gridSystem, enemySpawn.spawnDirection, enemySpawn.otherCoordinate);
-        var isSpawnable = gridSystem.TryGetTileByCoordinates((int)spawnCoordiantes.x, (int)spawnCoordiantes.y, out var spawnPosition);
-        var spawnRotation = GetRotationFromSpawnDirection(enemySpawn.spawnDirection);
+        var baseEnemyInfo = enemySpawn.spawnInfo;
+        var enemyData = GetDataFromSpawnObject(baseEnemyInfo);
 
-        var enemySpawnInfo = new SpawnInfo()
+        var numberToSpawn = baseEnemyInfo.groupingSize;
+        if (numberToSpawn == 0)
         {
-            objectToSpawn = enemySpawn.enemyObject,
-            tileToSpawnAt = spawnPosition,
-            spawnRotation = spawnRotation,
-            spawnType = SpawnType.Enemy,
-            spawnCommand = enemySpawn.spawnCommand,
-        };
+            numberToSpawn = 1;
+        }
 
-        AddSpawnInfoAtTick(enemySpawnInfo, spawnTick);
-    }
-
-    public void QueuePlayerToSpawn(Player player, Tile playerSpawnTile, int spawnTick)
-    {
-        var playerSpawnPreview = new SpawnInfo()
+        for (var index = 0; index < numberToSpawn; index++)
         {
-            objectToSpawn = player.gameObject,
-            tileToSpawnAt = playerSpawnTile,
-            spawnRotation = player.transform.rotation,
-            spawnType = SpawnType.Preview
-        };
+            var offsetCoordinates = enemySpawn.otherCoordinate.GetCoordinateFromOffset(index);
+            var spawnCoordiantes = GetSpawnCoordinates(gridSystem, baseEnemyInfo.direction, offsetCoordinates);
+            if (gridSystem.TryGetTileByCoordinates(spawnCoordiantes, out var spawnPosition))
+            {
+                var spawnRotation = GetRotationFromSpawnDirection(baseEnemyInfo.direction);
+                var enemySpawnInfo = new SpawnInfo()
+                {
+                    objectToSpawn = enemyData.objectToSpawn,
+                    tileToSpawnAt = spawnPosition,
+                    spawnRotation = spawnRotation,
+                    spawnCommand = enemyData.command,
+                };
 
-        var playerSpawn = new SpawnInfo()
-        {
-            objectToSpawn = player.gameObject,
-            tileToSpawnAt = playerSpawnTile,
-            spawnRotation = player.transform.rotation,
-            spawnType = SpawnType.Player
-        };
-
-        int spawnTickPreview = spawnTick - 1;
-        AddSpawnInfoAtTick(playerSpawnPreview, spawnTickPreview);
-        AddSpawnInfoAtTick(playerSpawn, spawnTick);
+                AddSpawnInfoAtTick(enemySpawnInfo, spawnTick - 1); //-1 so that the preview is the tick before and them spawning is at that tick
+            }
+        }        
     }
 
     public void ResetSpawns()
@@ -275,21 +250,20 @@ public class SpawnSystem : MonoBehaviour
         }
     }
 }
-public struct SpawnInfo
+
+[System.Serializable]
+public struct SpawnData
 {
-    public GameObject objectToSpawn;
-    public Tile tileToSpawnAt;
-    public Quaternion spawnRotation;
-    public SpawnType spawnType;
-    public SpawnCommand spawnCommand;
+    public GridObject objectToSpawn;
+    public GridObjectCommands command;
 }
 
-public enum SpawnType
-{ 
-    Default,
-    Enemy,
-    Player,
-    Preview
+public struct SpawnInfo
+{
+    public GridObject objectToSpawn;
+    public Tile tileToSpawnAt;
+    public Quaternion spawnRotation;
+    public GridObjectCommands spawnCommand;
 }
 
 public enum SpawnCommand
@@ -299,4 +273,23 @@ public enum SpawnCommand
     BasicMovement,
     LoopShoot,
     SlowLoopShoot
+}
+
+public enum SpawnObject
+{
+    Meteor,
+    Turret,
+    MovingShip,
+    ShootingShip,
+    Boss,
+    BossLaser
+}
+
+[System.Serializable]
+public enum SpawnDirections
+{
+    Top,
+    Bottom,
+    Left,
+    Right
 }

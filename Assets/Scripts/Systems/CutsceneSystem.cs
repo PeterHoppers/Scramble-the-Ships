@@ -11,6 +11,7 @@ public class CutsceneSystem : MonoBehaviour
 
     GameManager _gameManager;
     EffectsSystem _effectsSystem;
+    ScrambleType _scrambleType = ScrambleType.None;
     private void Awake()
     {
         _gameManager = GetComponent<GameManager>();
@@ -20,14 +21,28 @@ public class CutsceneSystem : MonoBehaviour
         };
 
         _effectsSystem = _gameManager.EffectsSystem;
+        _effectsSystem.OnScrambleTypeChanged = (ScrambleType newType) => _scrambleType = newType;
     }
 
     public void ActivateCutscene(CutsceneType type, float duration)
     { 
         switch(type) 
         { 
-            case CutsceneType.Tutorial:
-                StartCoroutine(HackingCutscene(duration, new List<Effect>
+            case CutsceneType.Hacking:
+                StartCoroutine(HackingCutscene(duration, GetEffectsByScrambleType(_scrambleType)));
+                break;            
+            case CutsceneType.ScreenTransition:
+                StartCoroutine(ScreenTransitionCutscene(duration));
+                break;
+        }
+    }
+
+    List<Effect> GetEffectsByScrambleType(ScrambleType type)
+    { 
+        switch (type) 
+        { 
+            case ScrambleType.None:
+                return new List<Effect>
                 {
                     new()
                     {
@@ -44,10 +59,9 @@ public class CutsceneSystem : MonoBehaviour
                         type = EffectType.ScrambleVarience,
                         amount = 0f
                     }
-                }));
-                break;
-            case CutsceneType.ShootingHacking:
-                StartCoroutine(HackingCutscene(duration, new List<Effect>
+                };
+            case ScrambleType.Movement:
+                return new List<Effect>
                 {
                     new()
                     {
@@ -64,11 +78,9 @@ public class CutsceneSystem : MonoBehaviour
                         type = EffectType.ScrambleVarience,
                         amount = 0f
                     }
-                }));
-                break;
-            case CutsceneType.ScreenTransition:
-                StartCoroutine(ScreenTransitionCutscene(duration));
-                break;
+                };
+            default:
+                return new List<Effect>();
         }
     }
 
@@ -133,8 +145,7 @@ public class CutsceneSystem : MonoBehaviour
 }
 
 public enum CutsceneType
-{ 
-    Tutorial,
-    ScreenTransition,
-    ShootingHacking
+{
+    Hacking,
+    ScreenTransition    
 }

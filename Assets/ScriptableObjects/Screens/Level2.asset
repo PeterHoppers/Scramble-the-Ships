@@ -29,7 +29,7 @@ MonoBehaviour:
   - type: 11
     amount: 1
   - type: 12
-    amount: 100
+    amount: 80
   levelSong: {fileID: 8300000, guid: 4ab7dbb9d1b97324ba9275e7031713d5, type: 3}
   overrideDefaultTransitionGrids: 0
   transitionGrids: []

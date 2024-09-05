@@ -514,7 +514,7 @@ public class GameManager : MonoBehaviour
 
     public PreviewAction CreatePreviewOfPreviewableAtTile(Previewable previewableObject, Tile previewTile, int duration = 0, bool isMoving = true)
     {
-        var preview = _spawnSystem.SpawnObjectAtTile(previewableBase.gameObject, previewTile, previewableObject.transform.rotation);
+        var preview = _spawnSystem.CreateSpawnObject(previewableBase.gameObject, previewTile, previewableObject.transform.rotation);
         preview.name = $"Preview of {previewableObject}";
         preview.transform.localScale = previewableObject.GetPreviewScale();
         var previewImage = previewableObject.GetPreviewSprite();
@@ -535,7 +535,7 @@ public class GameManager : MonoBehaviour
 
     public GridMovable CreateMovableAtTile(GridMovable movableToBeCreated, Previewable previewableCreatingMovable, Tile previewTile, Vector2 movingDirection)
     {
-        var spawnedMovable = _spawnSystem.SpawnObjectAtTile(movableToBeCreated.gameObject, previewableCreatingMovable.CurrentTile, previewableCreatingMovable.transform.rotation);
+        var spawnedMovable = _spawnSystem.CreateSpawnObject(movableToBeCreated.gameObject, previewableCreatingMovable.CurrentTile, previewableCreatingMovable.transform.rotation);
         var moveable = spawnedMovable.GetComponent<GridMovable>();
         moveable.SetupMoveable(this, _spawnSystem, previewTile);
         moveable.travelDirection = movingDirection;
@@ -697,7 +697,7 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        _gridSystem.TryGetTileByCoordinates(targetCoordinates.x, targetCoordinates.y, out var tile);
+        _gridSystem.TryGetTileByCoordinates(targetCoordinates, out var tile);
 
         return tile;
     }

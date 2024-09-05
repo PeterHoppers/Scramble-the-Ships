@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: T-2
   m_EditorClassIdentifier: 
   startingItems:
-  - gridObject: {fileID: 7509605564329555489, guid: 96a8fb82fe2a705438af526bb65f60bf, type: 3}
-    facingDirection: 3
+  - spawnInfo:
+      objectToSpawn: 1
+      direction: 2
+      groupingSize: 0
     spawnCoordinates:
       x:
         anchor: 2
@@ -22,9 +24,10 @@ MonoBehaviour:
       y:
         anchor: 1
         offset: -3
-    spawnCommand: 3
-  - gridObject: {fileID: 7509605564329555489, guid: 96a8fb82fe2a705438af526bb65f60bf, type: 3}
-    facingDirection: 2
+  - spawnInfo:
+      objectToSpawn: 1
+      direction: 3
+      groupingSize: 0
     spawnCoordinates:
       x:
         anchor: 0
@@ -32,9 +35,10 @@ MonoBehaviour:
       y:
         anchor: 1
         offset: 1
-    spawnCommand: 3
-  - gridObject: {fileID: 7509605564329555489, guid: 96a8fb82fe2a705438af526bb65f60bf, type: 3}
-    facingDirection: 3
+  - spawnInfo:
+      objectToSpawn: 1
+      direction: 2
+      groupingSize: 0
     spawnCoordinates:
       x:
         anchor: 2
@@ -42,7 +46,6 @@ MonoBehaviour:
       y:
         anchor: 1
         offset: 5
-    spawnCommand: 3
   overrideDefaultTransitionGrids: 0
   transitionGrids:
   - x:

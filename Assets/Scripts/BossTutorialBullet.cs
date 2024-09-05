@@ -8,7 +8,6 @@ public class BossTutorialBullet : GridMovable
 {
     public InputValue inputValue;
     public float cutsceneDuration = 2f;
-    public CutsceneType triggeredCutscene = CutsceneType.Tutorial;
 
     private void Awake()
     {
@@ -30,6 +29,6 @@ public class BossTutorialBullet : GridMovable
             return;
         }
 
-        _manager.ActivateCutscene(triggeredCutscene, cutsceneDuration);
+        _manager.ActivateCutscene(CutsceneType.Hacking, cutsceneDuration);
     }
 }

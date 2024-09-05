@@ -4,7 +4,6 @@ using UnityEngine;
 using AYellowpaper;
 using AYellowpaper.SerializedCollections;
 using System;
-using UnityEngine.Device;
 
 public class ScreenSystem : MonoBehaviour
 {
@@ -89,31 +88,41 @@ public class ScreenSystem : MonoBehaviour
     {
         foreach (var spawn in screenStarters)
         {
-            if (spawn.gridObject == null)
+            var baseSpawnInfo = spawn.spawnInfo;
+            var spawnData = spawnSystem.GetDataFromSpawnObject(baseSpawnInfo);
+            var rotation = GetRotationFromFacingDirection(baseSpawnInfo.direction);
+
+            var numberToSpawn = baseSpawnInfo.groupingSize;
+            if (numberToSpawn == 0)
             {
-                Debug.LogError("There is a null object trying to be spawned.");
-                continue;
+                numberToSpawn = 1;
             }
 
-            if (gridSystem.TryGetTileByCoordinates(spawn.spawnCoordinates, out var spawnPosition))
-            {
-                var rotation = spawnSystem.GetRotationFromSpawnDirection(spawn.facingDirection);
-                var spawnedObject = spawnSystem.SpawnObjectAtTile(spawn.gridObject.gameObject, spawnPosition, rotation);
+            //use the direction and coordinates to figure out how to make a "line" of this object
+            //direction will determine if is horizontal or veritcal, i.e. moving along X or Y
+            //that coordinate will then determine which direction it is at, either counting up, down, or every other
 
-                if (spawnedObject.TryGetComponent<GridMovable>(out var movable))
-                {
-                    movable.SetupMoveable(_gameManager, spawnSystem, spawnPosition);
-
-                    if (movable.TryGetComponent<EnemyShip>(out var enemyShip))
-                    {
-                        spawnSystem.SetCommandsForSpawnCommand(enemyShip, spawn.spawnCommand);
-                    }
-                }
-                else
-                {
-                    spawnedObject.GetComponent<GridObject>().SetupObject(_gameManager, spawnSystem, spawnPosition);
-                }
+            //TODO: handle this differently, perhaps have a bool somewhere that indicates that this type is multiple spaces or not
+            var doesGoAcrossMultipleSpaces = baseSpawnInfo.objectToSpawn == SpawnObject.BossLaser;
+            var isHorizontal = IsDirectionHorizontal(baseSpawnInfo.direction);
+            if (doesGoAcrossMultipleSpaces)
+            { 
+                isHorizontal = !isHorizontal;
             }
+            var targetCoordiante = (isHorizontal) ? spawn.spawnCoordinates.x : spawn.spawnCoordinates.y;
+
+            for (var index = 0; index < numberToSpawn; index++) 
+            {
+                var offsetCoordinate = targetCoordiante.GetCoordinateFromOffset(index);
+                var xCoordinate = (isHorizontal) ? offsetCoordinate : spawn.spawnCoordinates.x;
+                var yCoordinate = (!isHorizontal) ? offsetCoordinate : spawn.spawnCoordinates.y;
+
+                if (gridSystem.TryGetTileByCoordinates(new GridCoordinate(xCoordinate, yCoordinate), out var spawnTile) && spawnTile.IsVisible)
+                {
+                    var spawnedObject = spawnSystem.CreateSpawnObject(spawnData.objectToSpawn.gameObject, spawnTile, rotation);
+                    spawnSystem.ConfigureSpawnedObject(spawnedObject, spawnTile, spawnData.command);
+                }
+            }            
         }
     }
 
@@ -137,7 +146,7 @@ public class ScreenSystem : MonoBehaviour
         {
             if (gridSystem.TryGetTileByCoordinates(transition, out var spawnPosition))
             {
-                var spawnedObject = spawnSystem.SpawnObjectAtTile(baseTrigger.gameObject, spawnPosition, baseTrigger.transform.rotation);
+                var spawnedObject = spawnSystem.CreateSpawnObject(baseTrigger.gameObject, spawnPosition, baseTrigger.transform.rotation);
                 spawnedObject.GetComponent<GridObject>().SetupObject(_gameManager, spawnSystem, spawnPosition);
                 var screenTrigger = spawnedObject.GetComponent<ScreenChangeTrigger>();
                 screenTriggers.Add(screenTrigger);
@@ -145,5 +154,34 @@ public class ScreenSystem : MonoBehaviour
         }
 
         return screenTriggers;
+    }
+
+    //A Flipped version of GetRoationFromSpawn direction, due to just wanting to rotate the object to match that direction
+    Quaternion GetRotationFromFacingDirection(SpawnDirections spawnDirection)
+    {
+        Quaternion rotation = Quaternion.identity;
+        switch (spawnDirection)
+        {
+            case SpawnDirections.Top:
+                rotation.eulerAngles = new Vector3(0, 0, 0);
+                break;
+            case SpawnDirections.Left:
+                rotation.eulerAngles = new Vector3(0, 0, 90);
+                break;
+            case SpawnDirections.Right:
+                rotation.eulerAngles = new Vector3(0, 0, 270);
+                break;
+            case SpawnDirections.Bottom:
+            default:
+                rotation.eulerAngles = new Vector3(0, 0, 180);
+                break;
+        }
+
+        return rotation;
+    }
+
+    bool IsDirectionHorizontal(SpawnDirections spawnDirection)
+    {
+        return (spawnDirection == SpawnDirections.Top || spawnDirection == SpawnDirections.Bottom);
     }
 }

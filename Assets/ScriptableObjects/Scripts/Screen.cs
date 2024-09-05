@@ -32,8 +32,23 @@ public class Screen : ScriptableObject
 [System.Serializable]
 public struct ScreenSpawns
 {
-    public GridObject gridObject;
-    public SpawnDirections facingDirection;
+    public ObjectSpawnInfo spawnInfo;
     public GridCoordinate spawnCoordinates;
-    public SpawnCommand spawnCommand;
+}
+
+[System.Serializable]
+public struct EnemySpawn
+{
+    public ObjectSpawnInfo spawnInfo;
+    [Tooltip("The remaining coordinate, depending on the spawn direction, i.e top/bottom: x coordinate vs left/right: y coordinate")]
+    public Coordinate otherCoordinate;
+}
+
+[System.Serializable]
+public struct ObjectSpawnInfo
+{
+    public SpawnObject objectToSpawn;
+    public SpawnDirections direction;
+    [Range(1, 20)]
+    public int groupingSize;
 }

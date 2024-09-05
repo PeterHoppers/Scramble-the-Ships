@@ -10,62 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53eb3f1cbb508f54abbcf1790983544d, type: 3}
-  m_Name: 2-4
+  m_Name: DummyScreen
   m_EditorClassIdentifier: 
   startingItems:
   - spawnInfo:
-      objectToSpawn: 5
+      objectToSpawn: 0
       direction: 1
-      groupingSize: 4
+      groupingSize: 20
     spawnCoordinates:
       x:
-        anchor: 1
-        offset: 0
-      y:
-        anchor: 1
-        offset: 1
-  - spawnInfo:
-      objectToSpawn: 4
-      direction: 0
-      groupingSize: 0
-    spawnCoordinates:
-      x:
-        anchor: 1
-        offset: 0
-      y:
         anchor: 2
-        offset: 2
+        offset: 0
+      y:
+        anchor: 1
+        offset: 0
   overrideDefaultTransitionGrids: 0
-  transitionGrids:
-  - x:
-      anchor: 1
-      offset: 0
-    y:
-      anchor: 2
-      offset: 0
-  - x:
-      anchor: 1
-      offset: -1
-    y:
-      anchor: 2
-      offset: 0
-  - x:
-      anchor: 1
-      offset: 1
-    y:
-      anchor: 2
-      offset: 0
+  transitionGrids: []
   overrideDefaultStartingPositions: 0
   startingPlayerPositions:
     _serializedList: []
   useDifferentDialogueForBothPlayers: 0
   screenDialogue: {fileID: 0}
   twoPlayerDialogue: {fileID: 0}
-  effects:
-  - type: 6
-    amount: 0.05
-  - type: 7
-    amount: 0.005
+  effects: []
   enemySpawnInformation:
     _serializedList: []
   spawnsLoopAtTick: 0
