@@ -6222,6 +6222,14 @@ PrefabInstance:
       propertyPath: isTwoPlayers
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6824546314571791643, guid: 23998af3c46b757499df508b643cf3ed, type: 3}
+      propertyPath: _levels.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 728a1716cff4b284b9ad127715156fc7, type: 2}
+    - target: {fileID: 6824546314571791643, guid: 23998af3c46b757499df508b643cf3ed, type: 3}
+      propertyPath: _levels.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 441b03407b426ff48b02378352246728, type: 2}
     - target: {fileID: 6856579681233464659, guid: 23998af3c46b757499df508b643cf3ed, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -6830,6 +6838,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fullscreenAnimator: {fileID: 75354761}
   _rewindClip: {fileID: 8300000, guid: 611c52e6415facf4b817c5380efca467, type: 3}
+  _blastOffClip: {fileID: 8300000, guid: cfc824ab208433e448ed6d33b59b7d9d, type: 3}
 --- !u!114 &2124894467
 MonoBehaviour:
   m_ObjectHideFlags: 0
