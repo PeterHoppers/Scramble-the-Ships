@@ -17,9 +17,9 @@ public class Level : ScriptableObject
 
     [Header("Level Defaults")]
     public bool overrideDefaultTransitionGrids = false;
-    public List<GridCoordinate> transitionGrids = new List<GridCoordinate>();
+    public PlayerTransitionInfo transitionGrids;
     public bool overrideDefaultStartingPositions = false;
-    public SerializedDictionary<int, List<GridCoordinate>> startingPlayerPositions;
+    public SerializedDictionary<PlayerAmount, PlayerTransitionInfo> startingPlayerPositions;
 
     public Screen[] GetLevelScreens(int playerAmount)
     { 
@@ -30,29 +30,34 @@ public class Level : ScriptableObject
     {
         if (screen.overrideDefaultStartingPositions)
         {
-            return screen.startingPlayerPositions[playerAmount];
+            return GetStartingPositionsFromDictionary(screen.startingPlayerPositions, playerAmount);
         }
 
         if (overrideDefaultStartingPositions)
         {
-            return startingPlayerPositions[playerAmount];
+            return GetStartingPositionsFromDictionary(startingPlayerPositions, playerAmount);
         }  
 
-        return GlobalGameStateManager.Instance.startingPlayerPositions[playerAmount];
+        return GetStartingPositionsFromDictionary(GlobalGameStateManager.Instance.startingPlayerPositions, playerAmount);
+    }
+
+    List<GridCoordinate> GetStartingPositionsFromDictionary(SerializedDictionary<PlayerAmount, PlayerTransitionInfo> playerTransitionInfos, int playerAmount)
+    { 
+        return playerTransitionInfos[(PlayerAmount)playerAmount].positions;
     }
 
     public List<GridCoordinate> GetTransitionGridPositions(Screen screen)
     {
         if (screen.overrideDefaultTransitionGrids)
         {
-            return screen.transitionGrids;
+            return screen.transitionGrids.positions;
         }
 
         if (overrideDefaultTransitionGrids)
         {
-            return transitionGrids;
+            return transitionGrids.positions;
         }
 
-        return GlobalGameStateManager.Instance.defaultLocationForTransitionGrids;
+        return GlobalGameStateManager.Instance.defaultLocationForTransitionGrids.positions;
     }
 }

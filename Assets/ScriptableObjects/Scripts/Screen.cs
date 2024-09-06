@@ -8,9 +8,9 @@ public class Screen : ScriptableObject
 {
     public List<ScreenSpawns> startingItems = new List<ScreenSpawns>();
     public bool overrideDefaultTransitionGrids = false;
-    public List<GridCoordinate> transitionGrids = new List<GridCoordinate>();
+    public PlayerTransitionInfo transitionGrids;
     public bool overrideDefaultStartingPositions = false;
-    public SerializedDictionary<int, List<GridCoordinate>> startingPlayerPositions;
+    public SerializedDictionary<PlayerAmount, PlayerTransitionInfo> startingPlayerPositions;
 
     [Header("Action Items")]
     public bool useDifferentDialogueForBothPlayers = false;

@@ -1857,6 +1857,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1308066075c527b4bb474b11e5de6035, type: 2}
   dialogues:
   - {fileID: 11400000, guid: 8d59c6c889cc0244dba0e65fe2a3eef8, type: 2}
+  - {fileID: 11400000, guid: 8b99d5ae3d3524c488c9536476384b67, type: 2}
   - {fileID: 11400000, guid: 0898ef404c0e9e448a675499e1c53825, type: 2}
   - {fileID: 11400000, guid: ed63c7b867bb7d349ba6e1d453c00e21, type: 2}
   _dialogueDelay: 2

@@ -1,0 +1,164 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53eb3f1cbb508f54abbcf1790983544d, type: 3}
+  m_Name: 3-2
+  m_EditorClassIdentifier: 
+  startingItems:
+  - spawnInfo:
+      objectToSpawn: 0
+      direction: 0
+      groupingSize: 3
+    spawnCoordinates:
+      x:
+        anchor: 0
+        offset: 0
+      y:
+        anchor: 2
+        offset: 1
+  - spawnInfo:
+      objectToSpawn: 0
+      direction: 0
+      groupingSize: 3
+    spawnCoordinates:
+      x:
+        anchor: 2
+        offset: 0
+      y:
+        anchor: 2
+        offset: 1
+  - spawnInfo:
+      objectToSpawn: 0
+      direction: 0
+      groupingSize: 3
+    spawnCoordinates:
+      x:
+        anchor: 2
+        offset: 0
+      y:
+        anchor: 2
+        offset: 5
+  - spawnInfo:
+      objectToSpawn: 0
+      direction: 0
+      groupingSize: 3
+    spawnCoordinates:
+      x:
+        anchor: 0
+        offset: 0
+      y:
+        anchor: 2
+        offset: 5
+  - spawnInfo:
+      objectToSpawn: 0
+      direction: 0
+      groupingSize: 3
+    spawnCoordinates:
+      x:
+        anchor: 0
+        offset: 0
+      y:
+        anchor: 2
+        offset: 9
+  - spawnInfo:
+      objectToSpawn: 0
+      direction: 0
+      groupingSize: 3
+    spawnCoordinates:
+      x:
+        anchor: 2
+        offset: 0
+      y:
+        anchor: 2
+        offset: 9
+  - spawnInfo:
+      objectToSpawn: 0
+      direction: 3
+      groupingSize: 2
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: -2
+      y:
+        anchor: 0
+        offset: 0
+  - spawnInfo:
+      objectToSpawn: 0
+      direction: 2
+      groupingSize: 2
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: 2
+      y:
+        anchor: 0
+        offset: 0
+  overrideDefaultTransitionGrids: 1
+  transitionGrids:
+    direction: 0
+    positions:
+    - x:
+        anchor: 0
+        offset: 0
+      y:
+        anchor: 2
+        offset: 3
+    - x:
+        anchor: 2
+        offset: 0
+      y:
+        anchor: 2
+        offset: 3
+  overrideDefaultStartingPositions: 1
+  startingPlayerPositions:
+    _serializedList:
+    - Key: 1
+      Value:
+        direction: 1
+        positions:
+        - x:
+            anchor: 2
+            offset: 1
+          y:
+            anchor: 0
+            offset: 1
+    - Key: 2
+      Value:
+        direction: 1
+        positions:
+        - x:
+            anchor: 0
+            offset: 1
+          y:
+            anchor: 0
+            offset: 1
+        - x:
+            anchor: 2
+            offset: 1
+          y:
+            anchor: 0
+            offset: 1
+  useDifferentDialogueForBothPlayers: 0
+  screenDialogue: {fileID: 0}
+  twoPlayerDialogue: {fileID: 0}
+  effects: []
+  enemySpawnInformation:
+    _serializedList:
+    - Key: 2
+      Value:
+      - spawnInfo:
+          objectToSpawn: 3
+          direction: 0
+          groupingSize: 5
+        otherCoordinate:
+          anchor: 1
+          offset: 0
+  spawnsLoopAtTick: 12

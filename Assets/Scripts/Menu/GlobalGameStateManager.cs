@@ -19,8 +19,8 @@ public class GlobalGameStateManager : MonoBehaviour
     private bool isTwoPlayers;
 
     [Header("Default Locations")]
-    public List<GridCoordinate> defaultLocationForTransitionGrids = new List<GridCoordinate>();
-    public SerializedDictionary<int, List<GridCoordinate>> startingPlayerPositions;
+    public PlayerTransitionInfo defaultLocationForTransitionGrids;
+    public SerializedDictionary<PlayerAmount, PlayerTransitionInfo> startingPlayerPositions;
 
     const int TUTORIAL_INDEX = 0;
     int _activeLevelIndex = TUTORIAL_INDEX;
@@ -175,4 +175,17 @@ public enum GlobalGameStateStatus
     Cutscene,
     Game,
     GameOver
+}
+
+[System.Serializable]
+public struct PlayerTransitionInfo
+{
+    public SpawnDirections direction;
+    public List<GridCoordinate> positions;
+}
+
+public enum PlayerAmount
+{ 
+    OnePlayer = 1,
+    TwoPlayer = 2,
 }

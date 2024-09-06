@@ -211,7 +211,8 @@ public enum InputValue
     Backward = 1,
     Port = 2,
     Starboard = 3,
-    Fire = 4
+    Fire = 4,
+    None = 5
 }
 
 [System.Serializable]

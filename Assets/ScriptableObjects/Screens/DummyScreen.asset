@@ -14,18 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingItems:
   - spawnInfo:
-      objectToSpawn: 0
-      direction: 1
-      groupingSize: 20
+      objectToSpawn: 6
+      direction: 0
+      groupingSize: 1
     spawnCoordinates:
       x:
-        anchor: 2
+        anchor: 1
         offset: 0
       y:
         anchor: 1
         offset: 0
   overrideDefaultTransitionGrids: 0
-  transitionGrids: []
+  transitionGrids:
+    direction: 0
+    positions: []
   overrideDefaultStartingPositions: 0
   startingPlayerPositions:
     _serializedList: []

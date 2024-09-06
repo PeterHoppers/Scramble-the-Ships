@@ -10,6 +10,7 @@ public class EnergySystem : MonoBehaviour
 
     public int energyRegainedOnScreenEnd;
     public int minEnergyOnScreenStart;
+    public int energyRegainedOnPickup;
 
     int _energyPerMove;
     int _energyPerFire;
@@ -46,13 +47,14 @@ public class EnergySystem : MonoBehaviour
         _gameManager.OnScreenResetStart += OnScreenResetStart;
         _gameManager.OnScreenResetEnd += OnScreenResetEnd;
         _gameManager.EffectsSystem.OnMaxEnergyChanged += OnMaxEnergyPerPersonChanged;
+        _gameManager.OnPlayerPickup += OnPlayerPickup;
 
         if (OptionsManager.Instance != null) 
         {
             OptionsManager.Instance.OnParametersChanged += OnParametersChanged;
             OnParametersChanged(OptionsManager.Instance.gameSettingParameters, OptionsManager.Instance.systemSettingParameters);
         }        
-    }
+    }    
 
     private void OnParametersChanged(GameSettingParameters gameSettings, SystemSettingParameters _)
     {
@@ -114,6 +116,14 @@ public class EnergySystem : MonoBehaviour
     {
         CurrentEnergy -= GetEnergyLossWhenDied();
         _energyAtScreenStart = CurrentEnergy;
+    }
+
+    private void OnPlayerPickup(Player _, PickupType pickupType)
+    {
+        if (pickupType == PickupType.Energy)
+        {
+            CurrentEnergy += energyRegainedOnPickup * _playerCount;
+        }
     }
 
     public int OnPlayerFired()

@@ -282,7 +282,8 @@ public enum SpawnObject
     MovingShip,
     ShootingShip,
     Boss,
-    BossLaser
+    BossLaser,
+    EnergyPickup,
 }
 
 [System.Serializable]

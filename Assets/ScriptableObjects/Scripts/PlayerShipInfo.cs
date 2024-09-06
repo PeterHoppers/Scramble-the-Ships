@@ -8,6 +8,7 @@ public class PlayerShipInfo : ShipInfo
 {
     public AudioClip moveSFX;
     public AudioClip scrambleSFX;
+    public AudioClip exitSFX;
 
     [Header("Additional Sprites")]
     public Sprite cutsceneSprite;

@@ -8,8 +8,6 @@ public class CutsceneSystem : MonoBehaviour
     private Animator _fullscreenAnimator;
     [SerializeField]
     private AudioClip _rewindClip;
-    [SerializeField]
-    private AudioClip _blastOffClip;
 
     GameManager _gameManager;
     EffectsSystem _effectsSystem;
@@ -132,7 +130,6 @@ public class CutsceneSystem : MonoBehaviour
     {
         _fullscreenAnimator.SetFloat("animSpeed", cutsceneDuration); //since our animations are set to being 1.0s, this will change our animation to be whatever the tick duration is
         _fullscreenAnimator.Play("pan");
-        GlobalAudioManager.Instance.PlayAudioSFX(_blastOffClip);
         yield return new WaitForSeconds(cutsceneDuration);
         _fullscreenAnimator.Play("close");
     }

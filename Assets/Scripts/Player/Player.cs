@@ -55,6 +55,10 @@ public class Player : Previewable
         _shipInfo = shipInfo;
         foreach (InputValue inputValue in Enum.GetValues(typeof(InputValue)))
         {
+            if (inputValue == InputValue.None)
+            {
+                continue;
+            }
             AddPossibleInput(inputValue);
         }
 
@@ -389,6 +393,16 @@ public class Player : Previewable
             SetInputStatus(true);
             _manager.OnTickStart -= ShowVisiblity;
         }
+    }
+
+    public void OnMoveOnScreen()
+    { 
+        
+    }
+
+    public void OnMoveOffScreen()
+    {
+        PlayShipSFX(_shipInfo.exitSFX);
     }
 
     void SetShipVisiblity(bool isVisible)

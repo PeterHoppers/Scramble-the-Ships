@@ -50,6 +50,9 @@ public class GameManager : MonoBehaviour
     public delegate void PlayerConditionEnd(Player player, Condition condition);
     public PlayerConditionEnd OnPlayerConditionEnd;
 
+    public delegate void PlayerPickupStart(Player player, PickupType pickupType);
+    public PlayerPickupStart OnPlayerPickup;
+
     //Private Variables
     GameState _currentGameState = GameState.Waiting;
     GameState _previousGameState = GameState.Waiting;
@@ -179,10 +182,11 @@ public class GameManager : MonoBehaviour
         _spawnSystem.MovePreviewableOffScreenToPosition(preview, preview.transform.up, tile.GetTilePosition(), duration);
     }
 
-    public void MovePlayerOnScreenToTile(Player player, Tile tile, float duration)
+    void MovePlayerOnScreenToTile(Player player, Tile tile, float duration)
     {
         _spawnSystem.MovePreviewableOffScreenToPosition(player, player.transform.up, tile.GetTilePosition(), 0, true);
         player.TransitionToTile(tile, duration);
+        player.OnMoveOnScreen();
     }
 
     void MovePlayerOntoStartingTitle(Player player, float duration)
@@ -199,6 +203,11 @@ public class GameManager : MonoBehaviour
     public void PlayerLostCondition(Player player, Condition condition)
     {
         OnPlayerConditionEnd?.Invoke(player, condition);
+    }
+
+    public void PlayerPickup(Player player, PickupType pickupType)
+    { 
+        OnPlayerPickup?.Invoke(player, pickupType);
     }
 
     public void ActivateCutscene(CutsceneType type, float cutsceneDuration)
@@ -222,6 +231,7 @@ public class GameManager : MonoBehaviour
         //move player off screen
         var currentPos = player.CurrentTile.GetTilePosition();
         _spawnSystem.MovePreviewableOffScreenToPosition(player, player.transform.up, currentPos, TickDuration);
+        player.OnMoveOffScreen();
 
         _playerFinishedWithScreen++;
 
