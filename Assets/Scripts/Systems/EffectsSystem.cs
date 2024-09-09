@@ -85,8 +85,9 @@ public class EffectsSystem : MonoBehaviour
             case EffectType.ScrambleVarience:
                 OnScrambleVarianceChanged?.Invoke(Mathf.RoundToInt(effect.amount));
                 break;
-            case EffectType.ScrambleType:
-                OnScrambleTypeChanged?.Invoke((ScrambleType)Mathf.RoundToInt(effect.amount));
+            case EffectType.ScrambleType:                
+                var scrambleType = (ScrambleType)Mathf.RoundToInt(effect.amount);
+                OnScrambleTypeChanged?.Invoke(scrambleType);
                 break;
             case EffectType.TickDuration:
                 OnTickDurationChanged?.Invoke(effect.amount); 

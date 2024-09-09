@@ -21,7 +21,7 @@ public class CutsceneSystem : MonoBehaviour
         };
 
         _effectsSystem = _gameManager.EffectsSystem;
-        _effectsSystem.OnScrambleTypeChanged = (ScrambleType newType) => _scrambleType = newType;
+        _effectsSystem.OnScrambleTypeChanged += (ScrambleType newType) => _scrambleType = newType;
     }
 
     public void ActivateCutscene(CutsceneType type, float duration)

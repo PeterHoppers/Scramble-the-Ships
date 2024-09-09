@@ -20,7 +20,7 @@ public class ControlsManager : MonoBehaviour, IManager
     public void InitManager(GameManager manager)
     {
         _gameManager = manager;
-        _gameManager.OnTickStart += CheckIfScramble;
+        _gameManager.OnTickEnd += CheckIfScramble;
         _gameManager.OnPlayerJoinedGame += OnPlayerJoined;
 
         _gameManager.EffectsSystem.OnScrambleAmountChanged += (int scrambleAmount) => _amountToScramble = scrambleAmount;
@@ -30,7 +30,7 @@ public class ControlsManager : MonoBehaviour, IManager
         _gameManager.EffectsSystem.OnScrambleVarianceChanged += (int scrambleVarience) => _percentChanceNotDefaultScrambleAmount = scrambleVarience;
     }  
 
-    void CheckIfScramble(float tickTime)
+    void CheckIfScramble(int _)
     {
         _ticksSinceLastScramble++;
 
@@ -175,6 +175,7 @@ public class ControlsManager : MonoBehaviour, IManager
     private void OnPlayerJoined(Player player)
     {
         _players = _gameManager.GetAllPlayers();
+        UpdateShuffledValues();
     }
 
     private int GetLastIndexForScrambleType(ScrambleType type)

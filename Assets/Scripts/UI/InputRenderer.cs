@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.U2D;
 using UnityEngine.UI;
 
 public class InputRenderer : MonoBehaviour
@@ -9,7 +8,7 @@ public class InputRenderer : MonoBehaviour
     private RendererAdapter _renderer;
     private Material _defaultMaterial;
 
-    private float glitchDuration = .25f;
+    private float _glitchDuration = .25f;
     // Start is called before the first frame update
     void Awake()
     {
@@ -53,7 +52,7 @@ public class InputRenderer : MonoBehaviour
         var previousSprite = _renderer.sprite;
         if (gameObject.activeInHierarchy && previousSprite != null)
         {
-            StartCoroutine(PerformGlitchEffect(glitchDuration, sprite));
+            StartCoroutine(PerformGlitchEffect(_glitchDuration, sprite));
         }
         else
         { 
