@@ -80,7 +80,7 @@ public class ControlsManager : MonoBehaviour, IManager
             {
                 if (lastIndexForScrambling == 0 || amountToScrambleWithVarience == 0 || currentControlsForPlayer.Count == 0)
                 {
-                    if (_scrambleType == ScrambleType.None || currentControlsForPlayer.Count == 0)
+                    if (_scrambleType == ScrambleType.None || currentControlsForPlayer.Count == 0 || currentControlsForPlayer.Count != unshuffled.Count)
                     {
                         shuffledValues = unshuffled;
                     }
