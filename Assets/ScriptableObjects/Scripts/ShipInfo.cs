@@ -9,6 +9,7 @@ public class ShipInfo : ScriptableObject
     [Header("Related Objects")]
     [SerializeField]
     public Bullet bullet;
+    public Color baseColor;
     [Header("Sprites")]
     public Sprite shipSprite;
     public Sprite bulletSprite;

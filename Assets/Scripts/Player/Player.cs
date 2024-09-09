@@ -329,10 +329,12 @@ public class Player : Previewable
             if (playerAction.inputValue == InputValue.Fire)
             { 
                 var firingDirection = ConvertInputValueToDirection(playerAction.inputValue);
-                var bullet = _manager.CreateMovableAtTile(playerActedUpon._shipInfo.bullet, playerActedUpon, targetTile, firingDirection);
-                bullet.GetComponent<Bullet>().spawnSound = _shipInfo.fireSFX;
-                bullet.GetComponentInChildren<SpriteRenderer>().sprite = _shipInfo.bulletSprite;
-                newPreview = _manager.CreatePreviewOfPreviewableAtTile(bullet, targetTile);
+                var bulletGridMoveable = _manager.CreateMovableAtTile(playerActedUpon._shipInfo.bullet, playerActedUpon, targetTile, firingDirection);
+                var bullet = bulletGridMoveable.GetComponent<Bullet>();
+                bullet.spawnSound = _shipInfo.fireSFX;
+                bullet.PreviewColor = _shipInfo.baseColor;
+                bulletGridMoveable.GetComponentInChildren<SpriteRenderer>().sprite = _shipInfo.bulletSprite;
+                newPreview = _manager.CreatePreviewOfPreviewableAtTile(bulletGridMoveable, targetTile);
                 newPreview.creatorOfPreview = this;
             }
             else
@@ -441,6 +443,11 @@ public class Player : Previewable
     public override Sprite GetPreviewSprite()
     {
         return _shipSprite;
+    }
+
+    public override Color GetPreviewOutline()
+    {
+        return _shipInfo.baseColor;
     }
 
     public Sprite GetBulletSprite()

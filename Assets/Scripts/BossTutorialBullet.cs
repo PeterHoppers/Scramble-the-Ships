@@ -31,4 +31,9 @@ public class BossTutorialBullet : GridMovable
 
         _manager.ActivateCutscene(CutsceneType.Hacking, cutsceneDuration);
     }
+
+    public override Color GetPreviewColor()
+    {
+        return new Color(.5f, .5f, .5f, .25f);
+    }
 }

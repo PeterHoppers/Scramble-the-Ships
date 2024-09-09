@@ -9,6 +9,8 @@ public class Bullet : GridMovable
     public ParticleSystem bulletExplosion;
     public AudioClip spawnSound;
 
+    public Color PreviewColor { private get; set; }
+
     public override void OnPreviewableCreation()
     {
         base.OnPreviewableCreation();
@@ -53,5 +55,15 @@ public class Bullet : GridMovable
             }
             _manager.HandleGridObjectCollision(this, collidedPreviewable);
         }
+    }
+
+    public override Color GetPreviewOutline()
+    {
+        if (PreviewColor != Color.clear)
+        {
+            return PreviewColor;
+        }
+
+        return base.GetPreviewOutline();
     }
 }

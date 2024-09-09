@@ -531,6 +531,7 @@ public class GameManager : MonoBehaviour
         var renderer = preview.GetComponent<SpriteRenderer>();
         renderer.sprite = previewImage;
         renderer.color = previewableObject.GetPreviewColor();
+        preview.GetComponent<PreviewableBase>().SetPreviewOutlineColor(previewableObject.GetPreviewOutline(), previewImage);
         previewableObject.previewObject = preview;
 
         return new PreviewAction()
