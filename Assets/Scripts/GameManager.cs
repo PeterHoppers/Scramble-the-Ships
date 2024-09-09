@@ -461,20 +461,19 @@ public class GameManager : MonoBehaviour
         _cutsceneSystem.PerformRewindEffect();
 
         yield return new WaitForSeconds(_tickDuration);
+        _effectsSystem.PerformEffect(EffectType.DigitalGlitchIntensity, 0);
+        _effectsSystem.PerformEffect(EffectType.ScanLineJitter, 0);
+        _effectsSystem.PerformEffect(EffectType.HorizontalShake, 0);
 
         _playerFinishedWithScreen = 0;
         _ticksSinceScreenStart = 0;
-        _screenSystem.ResetScreenGridObjects(_spawnSystem, _gridSystem);
+        _screenSystem.ConfigureCurrentScreen(_spawnSystem, _gridSystem, _effectsSystem);
 
         foreach (Player player in _players)
         {
             player.OnSpawn();
             MovePlayerOntoStartingTitle(player, _tickDuration);
-        }       
-        
-        _effectsSystem.PerformEffect(EffectType.DigitalGlitchIntensity, 0);
-        _effectsSystem.PerformEffect(EffectType.ScanLineJitter, 0);
-        _effectsSystem.PerformEffect(EffectType.HorizontalShake, 0);
+        }
         yield return new WaitForSeconds(_tickDuration);
 
         OnScreenResetEnd?.Invoke();

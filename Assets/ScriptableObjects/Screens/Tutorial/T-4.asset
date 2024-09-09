@@ -59,24 +59,8 @@ MonoBehaviour:
         offset: 2
   overrideDefaultTransitionGrids: 0
   transitionGrids:
-  - x:
-      anchor: 1
-      offset: 0
-    y:
-      anchor: 2
-      offset: 0
-  - x:
-      anchor: 1
-      offset: -1
-    y:
-      anchor: 2
-      offset: 0
-  - x:
-      anchor: 1
-      offset: 1
-    y:
-      anchor: 2
-      offset: 0
+    direction: 0
+    positions: []
   overrideDefaultStartingPositions: 0
   startingPlayerPositions:
     _serializedList: []
@@ -88,6 +72,8 @@ MonoBehaviour:
     amount: 0.05
   - type: 7
     amount: 0.005
+  - type: 11
+    amount: 0
   enemySpawnInformation:
     _serializedList: []
   spawnsLoopAtTick: 0

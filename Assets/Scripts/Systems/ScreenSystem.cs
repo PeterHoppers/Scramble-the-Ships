@@ -56,10 +56,18 @@ public class ScreenSystem : MonoBehaviour
     public void SetupNewScreen(SpawnSystem spawnSystem, GridSystem gridSystem, EffectsSystem effectsSystem, DialogueSystem dialogueSystem)
     {
         _currentScreen = _levelScreens[_screensLoaded];
-
-        var screenTransitions = _level.GetTransitionGridPositions(_currentScreen);
         spawnSystem.LoopTick = _currentScreen.spawnsLoopAtTick;
 
+        ConfigureCurrentScreen(spawnSystem, gridSystem, effectsSystem);
+
+        dialogueSystem.SetDialogue(_currentScreen.GetDialogue(_playerAmount));
+        
+        _screensLoaded++;
+    }
+
+    public void ConfigureCurrentScreen(SpawnSystem spawnSystem, GridSystem gridSystem, EffectsSystem effectsSystem)
+    {
+        var screenTransitions = _level.GetTransitionGridPositions(_currentScreen); 
         spawnSystem.ResetSpawns();
         SetScreenStarters(spawnSystem, gridSystem, _currentScreen.startingItems);
         SetQueuedEnemies(spawnSystem, gridSystem, _currentScreen.enemySpawnInformation);
@@ -69,19 +77,6 @@ public class ScreenSystem : MonoBehaviour
         {
             effectsSystem.PerformEffect(effect);
         }
-
-        dialogueSystem.SetDialogue(_currentScreen.GetDialogue(_playerAmount));
-        
-        _screensLoaded++;
-    }
-
-    public void ResetScreenGridObjects(SpawnSystem spawnSystem, GridSystem gridSystem)
-    {
-        var screenTransitions = _level.GetTransitionGridPositions(_currentScreen); 
-        spawnSystem.ResetSpawns();
-        SetScreenStarters(spawnSystem, gridSystem, _currentScreen.startingItems);
-        SetQueuedEnemies(spawnSystem, gridSystem, _currentScreen.enemySpawnInformation);
-        SetScreenTransitions(spawnSystem, gridSystem, screenTrigger, screenTransitions);
     }
 
     void SetScreenStarters(SpawnSystem spawnSystem, GridSystem gridSystem, List<ScreenSpawns> screenStarters)
