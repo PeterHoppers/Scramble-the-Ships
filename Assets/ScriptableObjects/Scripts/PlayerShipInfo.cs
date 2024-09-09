@@ -7,6 +7,7 @@ using UnityEngine;
 public class PlayerShipInfo : ShipInfo
 {
     public AudioClip moveSFX;
+    public AudioClip fireSFX;
     public AudioClip scrambleSFX;
     public AudioClip exitSFX;
 

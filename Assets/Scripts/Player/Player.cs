@@ -330,6 +330,7 @@ public class Player : Previewable
             { 
                 var firingDirection = ConvertInputValueToDirection(playerAction.inputValue);
                 var bullet = _manager.CreateMovableAtTile(playerActedUpon._shipInfo.bullet, playerActedUpon, targetTile, firingDirection);
+                bullet.GetComponent<Bullet>().spawnSound = _shipInfo.fireSFX;
                 bullet.GetComponentInChildren<SpriteRenderer>().sprite = _shipInfo.bulletSprite;
                 newPreview = _manager.CreatePreviewOfPreviewableAtTile(bullet, targetTile);
                 newPreview.creatorOfPreview = this;
