@@ -1183,7 +1183,7 @@ MonoBehaviour:
     scrambleType: 1
     isMultiplayerScrambleSame: 1
     tickDuration: 1.2
-    amountTickPerScramble: 1
+    tickEndDuration: 0.25
     doesMoveOnInput: 1
     isShootingEnabled: 0
     maxEnergy: 100
@@ -1194,7 +1194,7 @@ MonoBehaviour:
   scrambledTypeDropdown: {fileID: 3664192934898732703}
   multiplayerResultDropdown: {fileID: 3664192934898732703}
   tickDurationSlider: {fileID: 6007155911750723988}
-  tickScrambleSlider: {fileID: 1847850295099279978}
+  tickEndDurationSlider: {fileID: 1889235547078554859}
   moveOnInputDropdown: {fileID: 2791053417506734142}
   shootingEnabledDropdown: {fileID: 6712013074024764632}
   maxEnergySlider: {fileID: 6762296181937121250}
@@ -4136,6 +4136,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2719252939979712809, guid: 711a638ceb3e3444a8634c9e302a80df, type: 3}
+      propertyPath: m_text
+      value: Tick End Duration
+      objectReference: {fileID: 0}
+    - target: {fileID: 2719252939979712809, guid: 711a638ceb3e3444a8634c9e302a80df, type: 3}
+      propertyPath: m_fontSize
+      value: 24
+      objectReference: {fileID: 0}
     - target: {fileID: 2814962385724274780, guid: 711a638ceb3e3444a8634c9e302a80df, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4348,6 +4356,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6473552913662021492, guid: 711a638ceb3e3444a8634c9e302a80df, type: 3}
+      propertyPath: stepFactor
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 6501370098186407657, guid: 711a638ceb3e3444a8634c9e302a80df, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4363,6 +4375,10 @@ PrefabInstance:
     - target: {fileID: 6501370098186407657, guid: 711a638ceb3e3444a8634c9e302a80df, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504787371208421877, guid: 711a638ceb3e3444a8634c9e302a80df, type: 3}
+      propertyPath: m_MaxValue
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6508107342177512343, guid: 711a638ceb3e3444a8634c9e302a80df, type: 3}
       propertyPath: m_AnchorMax.y
@@ -4403,6 +4419,10 @@ PrefabInstance:
     - target: {fileID: 7323995780036770920, guid: 711a638ceb3e3444a8634c9e302a80df, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7657829082788557438, guid: 711a638ceb3e3444a8634c9e302a80df, type: 3}
+      propertyPath: m_Name
+      value: Ticks End Slider
       objectReference: {fileID: 0}
     - target: {fileID: 7706453038440668992, guid: 711a638ceb3e3444a8634c9e302a80df, type: 3}
       propertyPath: m_AnchorMax.y
@@ -4508,15 +4528,15 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5789889084480988772, guid: 711a638ceb3e3444a8634c9e302a80df, type: 3}
   m_PrefabInstance: {fileID: 4891269474045229983}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1847850295099279978 stripped
+--- !u!114 &1889235547078554859 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6504787371208421877, guid: 711a638ceb3e3444a8634c9e302a80df, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6473552913662021492, guid: 711a638ceb3e3444a8634c9e302a80df, type: 3}
   m_PrefabInstance: {fileID: 4891269474045229983}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e47da84ebc1af240b174a1b8c77c082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2791053417506734142 stripped

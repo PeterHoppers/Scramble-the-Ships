@@ -23,8 +23,8 @@ public class EffectsSystem : MonoBehaviour
     public delegate void TickDurationChanged(float tickDuration);
     public TickDurationChanged OnTickDurationChanged;
 
-    public delegate void TicksUntilScrambleChanged(int tickAmount);
-    public TicksUntilScrambleChanged OnTicksUntilScrambleChanged;
+    public delegate void TickEndDurationChanged(float tickEndDuration);
+    public TickEndDurationChanged OnTickEndDurationChanged;
 
     public delegate void MoveOnInputChanged(bool isMoveOnInput);
     public MoveOnInputChanged OnMoveOnInputChanged;
@@ -60,7 +60,7 @@ public class EffectsSystem : MonoBehaviour
         OnScrambleTypeChanged?.Invoke(gameSettings.scrambleType);
         OnMultiplayerScrambleTypeChanged?.Invoke(gameSettings.isMultiplayerScrambleSame);
         OnTickDurationChanged?.Invoke(gameSettings.tickDuration);
-        OnTicksUntilScrambleChanged?.Invoke(gameSettings.amountTickPerScramble);
+        OnTickEndDurationChanged?.Invoke(gameSettings.tickEndDuration);
         OnMoveOnInputChanged?.Invoke(gameSettings.doesMoveOnInput);
         OnShootingChanged?.Invoke(gameSettings.isShootingEnabled);
         OnMaxEnergyChanged?.Invoke(gameSettings.maxEnergy);
@@ -92,8 +92,8 @@ public class EffectsSystem : MonoBehaviour
             case EffectType.TickDuration:
                 OnTickDurationChanged?.Invoke(effect.amount); 
                 break;
-            case EffectType.TicksUntilScramble:
-                OnTicksUntilScrambleChanged?.Invoke(Mathf.RoundToInt(effect.amount));
+            case EffectType.TickEndDuration:
+                OnTickEndDurationChanged?.Invoke(Mathf.RoundToInt(effect.amount));
                 break;
             case EffectType.MoveOnInputChanged:
                 OnMoveOnInputChanged?.Invoke(Convert.ToBoolean(effect.amount));
@@ -143,7 +143,7 @@ public enum EffectType
 { 
     ScrambleAmount,
     TickDuration,
-    TicksUntilScramble,
+    TickEndDuration,
     MoveOnInputChanged,
     ShootingChanged,
     DigitalGlitchIntensity,

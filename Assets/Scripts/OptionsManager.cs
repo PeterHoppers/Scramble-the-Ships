@@ -31,7 +31,7 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
     public TMP_Dropdown scrambledTypeDropdown;
     public TMP_Dropdown multiplayerResultDropdown;
     public SliderReader tickDurationSlider;
-    public Slider tickScrambleSlider;
+    public SliderReader tickEndDurationSlider;
     public TMP_Dropdown moveOnInputDropdown;
     public TMP_Dropdown shootingEnabledDropdown;
     public SliderReader maxEnergySlider;
@@ -109,16 +109,16 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
             gameSettingParameters.tickDuration = convertedValue;
         };
 
+        tickEndDurationSlider.SetValueToRead(gameSettingParameters.tickEndDuration);
+        tickEndDurationSlider.OnSliderChange += (float baseValue, float convertedValue, string _) =>
+        {
+            gameSettingParameters.tickEndDuration = convertedValue;
+        };
+
         moveOnInputDropdown.value = BoolToDropdownIndex(gameSettingParameters.doesMoveOnInput);
         moveOnInputDropdown.onValueChanged.AddListener((int newSelection) =>
         {
             gameSettingParameters.doesMoveOnInput = DropdownValueToBool(newSelection);
-        });
-
-        tickScrambleSlider.value = gameSettingParameters.amountTickPerScramble;
-        tickScrambleSlider.onValueChanged.AddListener((float newValue) =>
-        {
-            gameSettingParameters.amountTickPerScramble = (int)newValue;
         });
 
         shootingEnabledDropdown.value = BoolToDropdownIndex(gameSettingParameters.isShootingEnabled);
@@ -262,7 +262,7 @@ public struct GameSettingParameters
     public ScrambleType scrambleType;
     public bool isMultiplayerScrambleSame;
     public float tickDuration;
-    public int amountTickPerScramble;
+    public float tickEndDuration;
     public bool doesMoveOnInput;
     public bool isShootingEnabled;
     public int maxEnergy;

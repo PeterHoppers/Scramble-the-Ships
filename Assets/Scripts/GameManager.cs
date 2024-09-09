@@ -81,7 +81,6 @@ public class GameManager : MonoBehaviour
         set
         {
             _tickDuration = value;
-            _tickEndDuration = value / 5;
         }
     }
     bool _isMovementAtInput = false;
@@ -105,6 +104,7 @@ public class GameManager : MonoBehaviour
         _energySystem = GetComponent<EnergySystem>();
 
         _effectsSystem.OnTickDurationChanged += (float newDuration) => TickDuration = newDuration;
+        _effectsSystem.OnTickEndDurationChanged += (float newEndDuration) => _tickEndDuration = newEndDuration;
         _effectsSystem.OnMoveOnInputChanged += (bool isMoveOnInput) => _isMovementAtInput = isMoveOnInput;
         _effectsSystem.OnScrambleTypeChanged += (ScrambleType scrambleType) => _currentScrambleType = scrambleType;
     }

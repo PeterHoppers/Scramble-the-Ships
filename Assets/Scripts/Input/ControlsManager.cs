@@ -12,33 +12,24 @@ public class ControlsManager : MonoBehaviour, IManager
 
     int _amountToScramble = 0;
     int _percentChanceNotDefaultScrambleAmount = 0;
-    int _ticksPerScramble = 1;
-    int _ticksSinceLastScramble = 0;
     bool _playersSameShuffle = true;
     ScrambleType _scrambleType;
 
     public void InitManager(GameManager manager)
     {
         _gameManager = manager;
-        _gameManager.OnTickEnd += CheckIfScramble;
+        _gameManager.OnTickEnd += OnTickEnd;
         _gameManager.OnPlayerJoinedGame += OnPlayerJoined;
 
         _gameManager.EffectsSystem.OnScrambleAmountChanged += (int scrambleAmount) => _amountToScramble = scrambleAmount;
         _gameManager.EffectsSystem.OnScrambleTypeChanged += (ScrambleType newScrambleType) => _scrambleType = newScrambleType;
-        _gameManager.EffectsSystem.OnTicksUntilScrambleChanged += (int tickAmount) => _ticksPerScramble = tickAmount;
         _gameManager.EffectsSystem.OnMultiplayerScrambleTypeChanged += (bool isSame) => _playersSameShuffle = isSame;
         _gameManager.EffectsSystem.OnScrambleVarianceChanged += (int scrambleVarience) => _percentChanceNotDefaultScrambleAmount = scrambleVarience;
     }  
 
-    void CheckIfScramble(int _)
+    void OnTickEnd(int _)
     {
-        _ticksSinceLastScramble++;
-
-        if (_ticksSinceLastScramble >= _ticksPerScramble)
-        {
-            _ticksSinceLastScramble = 0;
-            UpdateShuffledValues();
-        }
+        UpdateShuffledValues();
     }
 
     void UpdateShuffledValues()
