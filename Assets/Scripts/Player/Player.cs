@@ -459,6 +459,11 @@ public class Player : Previewable
         return null;
     }
 
+    public bool HasActiveInput()
+    { 
+        return _lastInput != null;
+    }
+
     public void AddInputRenderer(InputValue value, InputRenderer renderer)
     {
         inputValueDisplays.Add(value, renderer);

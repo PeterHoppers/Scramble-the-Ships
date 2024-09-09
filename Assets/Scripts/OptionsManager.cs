@@ -28,7 +28,7 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
 
     [Header("UI Components for Game")]
     public TMP_Dropdown amountScrambledDropdown;
-    public TMP_Dropdown scrambledTypeDropdown;
+    public TMP_Dropdown noInputScrambleDropdown;
     public TMP_Dropdown multiplayerResultDropdown;
     public SliderReader tickDurationSlider;
     public SliderReader tickEndDurationSlider;
@@ -89,12 +89,10 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
             gameSettingParameters.amountControlsScrambled = int.Parse(dropdownOptions[newValue]);
         });
 
-        var dropdownTypeOptions = scrambledTypeDropdown.options.Select(option => option.text).ToList();
-        scrambledTypeDropdown.value = dropdownTypeOptions.IndexOf(gameSettingParameters.scrambleType.ToString());
-        scrambledTypeDropdown.onValueChanged.AddListener((int newValue) =>
+        noInputScrambleDropdown.value = BoolToDropdownIndex(gameSettingParameters.doesScrambleOnNoInput);
+        noInputScrambleDropdown.onValueChanged.AddListener((int newSelection) =>
         {
-            var dropdownOptions = scrambledTypeDropdown.options.Select(option => option.text).ToList();
-            gameSettingParameters.scrambleType = (ScrambleType) Enum.Parse(typeof(ScrambleType), dropdownOptions[newValue]);
+            gameSettingParameters.doesScrambleOnNoInput = DropdownValueToBool(newSelection);
         });
 
         multiplayerResultDropdown.value = BoolToDropdownIndex(gameSettingParameters.isMultiplayerScrambleSame);
@@ -261,6 +259,7 @@ public struct GameSettingParameters
     public int amountControlsScrambled;
     public ScrambleType scrambleType;
     public bool isMultiplayerScrambleSame;
+    public bool doesScrambleOnNoInput;
     public float tickDuration;
     public float tickEndDuration;
     public bool doesMoveOnInput;

@@ -1182,6 +1182,7 @@ MonoBehaviour:
     amountControlsScrambled: 3
     scrambleType: 1
     isMultiplayerScrambleSame: 1
+    doesScrambleOnNoInput: 0
     tickDuration: 1.2
     tickEndDuration: 0.25
     doesMoveOnInput: 1
@@ -1191,8 +1192,8 @@ MonoBehaviour:
     energyPerShot: 5
     energyPerDeath: 15
   amountScrambledDropdown: {fileID: 8532600925012978276}
-  scrambledTypeDropdown: {fileID: 3664192934898732703}
-  multiplayerResultDropdown: {fileID: 3664192934898732703}
+  noInputScrambleDropdown: {fileID: 3664192934898732703}
+  multiplayerResultDropdown: {fileID: 3975776046903755724}
   tickDurationSlider: {fileID: 6007155911750723988}
   tickEndDurationSlider: {fileID: 1889235547078554859}
   moveOnInputDropdown: {fileID: 2791053417506734142}
@@ -1740,7 +1741,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3417859482988072599, guid: 5bd1806bc216a524da0f8f250066c285, type: 3}
       propertyPath: m_text
-      value: Scramble Type
+      value: No Input Scramble
       objectReference: {fileID: 0}
     - target: {fileID: 3417859482988072599, guid: 5bd1806bc216a524da0f8f250066c285, type: 3}
       propertyPath: m_fontSize
@@ -5625,11 +5626,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2795473731893495207, guid: d22e1c36b018ce94289d98b91200a81c, type: 3}
       propertyPath: m_Name
-      value: Scramble Type
+      value: No Scramble
       objectReference: {fileID: 0}
     - target: {fileID: 3252384816480203809, guid: d22e1c36b018ce94289d98b91200a81c, type: 3}
       propertyPath: m_text
-      value: None
+      value: No Scramble
       objectReference: {fileID: 0}
     - target: {fileID: 3252384816480203809, guid: d22e1c36b018ce94289d98b91200a81c, type: 3}
       propertyPath: m_fontSize
@@ -5637,15 +5638,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7575474774657032621, guid: d22e1c36b018ce94289d98b91200a81c, type: 3}
       propertyPath: m_Options.m_Options.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7575474774657032621, guid: d22e1c36b018ce94289d98b91200a81c, type: 3}
       propertyPath: m_Options.m_Options.Array.data[0].m_Text
-      value: None
+      value: No Scramble
       objectReference: {fileID: 0}
     - target: {fileID: 7575474774657032621, guid: d22e1c36b018ce94289d98b91200a81c, type: 3}
       propertyPath: m_Options.m_Options.Array.data[1].m_Text
-      value: Movement
+      value: Default Scramble
       objectReference: {fileID: 0}
     - target: {fileID: 7575474774657032621, guid: d22e1c36b018ce94289d98b91200a81c, type: 3}
       propertyPath: m_Options.m_Options.Array.data[2].m_Text
@@ -5905,6 +5906,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d22e1c36b018ce94289d98b91200a81c, type: 3}
+--- !u!114 &3975776046903755724 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7575474774657032621, guid: d22e1c36b018ce94289d98b91200a81c, type: 3}
+  m_PrefabInstance: {fileID: 6777272488690311777}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &4022369758274241541 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7629069800330503780, guid: d22e1c36b018ce94289d98b91200a81c, type: 3}

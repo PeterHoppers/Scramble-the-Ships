@@ -13,6 +13,7 @@ public class ControlsManager : MonoBehaviour, IManager
     int _amountToScramble = 0;
     int _percentChanceNotDefaultScrambleAmount = 0;
     bool _playersSameShuffle = true;
+    bool _doesScrambleOnNoInput = false;
     ScrambleType _scrambleType;
 
     public void InitManager(GameManager manager)
@@ -25,6 +26,8 @@ public class ControlsManager : MonoBehaviour, IManager
         _gameManager.EffectsSystem.OnScrambleTypeChanged += (ScrambleType newScrambleType) => _scrambleType = newScrambleType;
         _gameManager.EffectsSystem.OnMultiplayerScrambleTypeChanged += (bool isSame) => _playersSameShuffle = isSame;
         _gameManager.EffectsSystem.OnScrambleVarianceChanged += (int scrambleVarience) => _percentChanceNotDefaultScrambleAmount = scrambleVarience;
+
+        OptionsManager.Instance.OnParametersChanged += (GameSettingParameters gameSettings, SystemSettingParameters _) => _doesScrambleOnNoInput = gameSettings.doesScrambleOnNoInput;
     }  
 
     void OnTickEnd(int _)
@@ -35,20 +38,30 @@ public class ControlsManager : MonoBehaviour, IManager
     void UpdateShuffledValues()
     {
         var unshuffledActions = new List<PlayerAction>();
+        var hasPlayerInputted = true;
 
         foreach (var player in _players)
         {
             unshuffledActions.AddRange(player.GetPossibleActions());
+            if (hasPlayerInputted)
+            { 
+                hasPlayerInputted = player.HasActiveInput();
+            }
         }
 
         var previousShuffle = new List<PlayerAction>();
+        var lastIndexForScrambling = GetLastIndexForScrambleType(_scrambleType);
+        var amountToScrambleWithVarience = AdjustScrambleAmountForVarience(_amountToScramble, _percentChanceNotDefaultScrambleAmount);
+
+        if (!hasPlayerInputted && !_doesScrambleOnNoInput)
+        {
+            amountToScrambleWithVarience = 0;
+        }
 
         foreach (var player in _players) 
         {
             //TODO: Allow different players to get other player's actions
             var unshuffled = unshuffledActions.Where(x => x.playerActionPerformedOn == player).ToList();
-            var lastIndexForScrambling = GetLastIndexForScrambleType(_scrambleType);
-            var amountToScrambleWithVarience = AdjustScrambleAmountForVarience(_amountToScramble, _percentChanceNotDefaultScrambleAmount);
 
             List<PlayerAction> shuffledValues;
             var currentControlsForPlayer = player.GetScrambledActions();
@@ -192,7 +205,9 @@ public class ControlsManager : MonoBehaviour, IManager
             return defaultScrambleAmount;
         }
 
-        int randomScrambleAmount = _random.Next(0, defaultScrambleAmount);
+        int minScramble = (_doesScrambleOnNoInput) ? 0 : 1;
+
+        int randomScrambleAmount = _random.Next(minScramble, defaultScrambleAmount);
         return randomScrambleAmount;        
     }
 }
