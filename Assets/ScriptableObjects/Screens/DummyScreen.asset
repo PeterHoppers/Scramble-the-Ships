@@ -36,5 +36,14 @@ MonoBehaviour:
   twoPlayerDialogue: {fileID: 0}
   effects: []
   enemySpawnInformation:
-    _serializedList: []
+    _serializedList:
+    - Key: 3
+      Value:
+      - spawnInfo:
+          objectToSpawn: 2
+          direction: 0
+          groupingSize: 6
+        otherCoordinate:
+          anchor: 1
+          offset: 0
   spawnsLoopAtTick: 0

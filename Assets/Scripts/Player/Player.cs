@@ -128,7 +128,10 @@ public class Player : Previewable
                 continue;
             }
 
-            inputValue.Value.SetUnselectedInput();
+            if (!HasActiveInput())
+            {
+                inputValue.Value.SetNoInputSelectedEffect();
+            }
         }
 
         //looping backwards like this allows us to safely remove items from the list
@@ -208,11 +211,6 @@ public class Player : Previewable
         foreach (var inputValue in inputValueDisplays)
         {
             inputValue.Value.ResetInput();
-        }
-
-        if (_lastInput != null)
-        {
-            inputValueDisplays[_lastInput.Value].ResetInput();
         }
 
         _lastInput = null;

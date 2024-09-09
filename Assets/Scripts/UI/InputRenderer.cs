@@ -65,9 +65,9 @@ public class InputRenderer : MonoBehaviour
         _renderer.color = Color.white;
     }
 
-    public void SetUnselectedInput()
+    public void SetNoInputSelectedEffect()
     {
-        // this method is here if we want to prefrom so sort of effect to those options not selected
+        _renderer.color = new Color(.4f, .4f, .4f, 1f);
     }
 
     public void ResetInput()
