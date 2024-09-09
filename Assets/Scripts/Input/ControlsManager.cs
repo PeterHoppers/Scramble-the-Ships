@@ -78,7 +78,7 @@ public class ControlsManager : MonoBehaviour, IManager
             }
             else
             {
-                if (lastIndexForScrambling == 0 || amountToScrambleWithVarience == 0)
+                if (lastIndexForScrambling == 0 || amountToScrambleWithVarience == 0 || currentControlsForPlayer.Count == 0)
                 {
                     if (_scrambleType == ScrambleType.None || currentControlsForPlayer.Count == 0)
                     {
