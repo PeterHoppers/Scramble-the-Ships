@@ -23,7 +23,7 @@ MonoBehaviour:
         offset: 0
       y:
         anchor: 1
-        offset: 1
+        offset: 0
   - spawnInfo:
       objectToSpawn: 0
       direction: 0
@@ -34,27 +34,11 @@ MonoBehaviour:
         offset: 0
       y:
         anchor: 1
-        offset: 1
+        offset: 0
   overrideDefaultTransitionGrids: 0
   transitionGrids:
-  - x:
-      anchor: 1
-      offset: 0
-    y:
-      anchor: 2
-      offset: 0
-  - x:
-      anchor: 1
-      offset: -1
-    y:
-      anchor: 2
-      offset: 0
-  - x:
-      anchor: 1
-      offset: 1
-    y:
-      anchor: 2
-      offset: 0
+    direction: 0
+    positions: []
   overrideDefaultStartingPositions: 0
   startingPlayerPositions:
     _serializedList: []
