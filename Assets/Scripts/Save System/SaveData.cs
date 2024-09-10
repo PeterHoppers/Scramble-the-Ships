@@ -7,6 +7,7 @@ public class SaveData
 {
     public GameSettingParameters gameSettingParameters;
     public SystemSettingParameters systemSettingParameters;
+    public List<ScoreInfo> scores;
 
     public SaveData()
     {
@@ -18,5 +19,6 @@ public class SaveData
             coinsPerPlay = 2,
             isFreeplay = false
         };
+        scores = new ScoreSystem().GenerateDefaultScores();
     }
 }

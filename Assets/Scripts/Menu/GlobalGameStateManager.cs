@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using AYellowpaper.SerializedCollections;
+using System.Linq;
 
-public class GlobalGameStateManager : MonoBehaviour
+public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
 {
     public static GlobalGameStateManager Instance { get; private set; }
     public int PlayerCount { get; set; }
@@ -12,6 +13,12 @@ public class GlobalGameStateManager : MonoBehaviour
     public int CutsceneID { get; set; }
 
     public int CurrentScore { get; set; }
+
+    List<ScoreInfo> _scoreInfos;
+    public List<ScoreInfo> ScoreInfos 
+    {
+        get { return _scoreInfos;}
+    }
 
     [SerializeField]
     private List<Level> _levels = new List<Level>();
@@ -124,10 +131,12 @@ public class GlobalGameStateManager : MonoBehaviour
     {
         _activeLevelIndex = 0;
         CutsceneID = 0;
-        CurrentScore = 0; //TODO: Save the score somewhere before deleting it
+        AddScore(CurrentScore);
+        CurrentScore = 0;
         GlobalGameStateStatus = GlobalGameStateStatus.Preview;
         _levelSceneSystem.LoadPreviewScene();
     }
+
 
     public Level GetLevelInfo()
     {
@@ -168,6 +177,40 @@ public class GlobalGameStateManager : MonoBehaviour
     public void ClearCredits()
     {
         _creditsSystem.ClearCoins();
+    }
+
+    public void ClearScores()
+    { 
+        _scoreInfos = new ScoreSystem().GenerateDefaultScores();
+    }
+
+    public void LoadData(SaveData data)
+    {
+        _scoreInfos = data.scores;
+    }
+
+    public void SaveData(SaveData data)
+    {
+        data.scores = _scoreInfos;
+    }
+
+    private void AddScore(int score)
+    {
+        var validScores = _scoreInfos.Where(x => x.playerCount == PlayerCount).OrderByDescending(x => x.scoreAmount).ToList();
+        if (!validScores.Any(x => x.scoreAmount < score))
+        {
+            return;
+        }
+
+        var scoreToDrop = validScores.Last();
+        _scoreInfos.Remove(scoreToDrop);
+
+        _scoreInfos.Add(new ScoreInfo()
+        {
+            scoreAmount = score,
+            playerCount = PlayerCount,
+            displayName = "AAA" //TODO: Add custom naming
+        });
     }
 }
 
