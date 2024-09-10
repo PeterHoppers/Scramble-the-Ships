@@ -72,7 +72,17 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
         {
             PlayerCount = 2;
         }
+        else
+        {
+            PlayerCount = 1;
+        }
     }
+
+    void Start()
+    {
+        GlobalGameStateStatus = GlobalGameStateStatus.Preview;
+    }
+
     public void PlayTutorial()
     {
         SetLevel(TUTORIAL_INDEX);
@@ -131,12 +141,19 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
     {
         _activeLevelIndex = 0;
         CutsceneID = 0;
-        AddScore(CurrentScore);
-        CurrentScore = 0;
-        GlobalGameStateStatus = GlobalGameStateStatus.Preview;
+
+        if (HasHighScore(CurrentScore))
+        {
+            GlobalGameStateStatus = GlobalGameStateStatus.NameInput;
+        }
+        else
+        {
+            CurrentScore = 0;
+            GlobalGameStateStatus = GlobalGameStateStatus.Preview;
+        }
+        
         _levelSceneSystem.LoadPreviewScene();
     }
-
 
     public Level GetLevelInfo()
     {
@@ -182,6 +199,7 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
     public void ClearScores()
     { 
         _scoreInfos = new ScoreSystem().GenerateDefaultScores();
+        _levelSceneSystem.ReloadCurrentScene();
     }
 
     public void LoadData(SaveData data)
@@ -194,14 +212,17 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
         data.scores = _scoreInfos;
     }
 
-    private void AddScore(int score)
+    public void SubmitNameForScore(List<string> submittedName)
+    { 
+        var formattedName = new ScoreSystem().FormatMultipleNames(submittedName);
+        AddScore(CurrentScore, formattedName);
+        CurrentScore = 0;
+        GlobalGameStateStatus = GlobalGameStateStatus.Preview;
+    }
+
+    private void AddScore(int score, string name)
     {
         var validScores = _scoreInfos.Where(x => x.playerCount == PlayerCount).OrderByDescending(x => x.scoreAmount).ToList();
-        if (!validScores.Any(x => x.scoreAmount < score))
-        {
-            return;
-        }
-
         var scoreToDrop = validScores.Last();
         _scoreInfos.Remove(scoreToDrop);
 
@@ -209,8 +230,14 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
         {
             scoreAmount = score,
             playerCount = PlayerCount,
-            displayName = "AAA" //TODO: Add custom naming
+            displayName = name
         });
+    }
+
+    private bool HasHighScore(int score)
+    {
+        var validScores = _scoreInfos.Where(x => x.playerCount == PlayerCount).ToList();
+        return validScores.Any(x => x.scoreAmount < score);
     }
 }
 
@@ -220,7 +247,8 @@ public enum GlobalGameStateStatus
     LevelSelect,
     Cutscene,
     Game,
-    GameOver
+    GameOver,
+    NameInput
 }
 
 [System.Serializable]

@@ -11,7 +11,6 @@ public class PregameUIManager : MonoBehaviour
     private void OnEnable()
     {
         GlobalGameStateManager.Instance.OnStateChange += OnStateChange;
-        OnStateChange(GlobalGameStateStatus.Preview);
     }
 
     private void OnDisable()
