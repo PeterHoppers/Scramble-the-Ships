@@ -70,6 +70,12 @@ public class EnergySystem : MonoBehaviour
         UpdateMaxEnergy(_maxEnergyPerPlayer, playerCount);
     }
 
+    public void RefillEnergy()
+    {
+        CurrentEnergy = _maxEnergy;
+        _energyAtScreenStart = _maxEnergy;
+    }
+
     void OnMaxEnergyPerPersonChanged(int newMaxEnergyPerPerson)
     {
         UpdateMaxEnergy(newMaxEnergyPerPerson, _playerCount);

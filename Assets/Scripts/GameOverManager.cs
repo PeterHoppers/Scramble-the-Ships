@@ -20,7 +20,7 @@ public class GameOverManager : MonoBehaviour, IManager
 
         retryButton.onClick.AddListener(() =>
         {
-            _gameManager.RestartLevel();
+            _gameManager.ContinuePerformed();
         });
     }
 

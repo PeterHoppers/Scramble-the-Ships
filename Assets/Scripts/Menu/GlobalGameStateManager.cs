@@ -11,6 +11,8 @@ public class GlobalGameStateManager : MonoBehaviour
 
     public int CutsceneID { get; set; }
 
+    public int CurrentScore { get; set; }
+
     [SerializeField]
     private List<Level> _levels = new List<Level>();
 
@@ -122,6 +124,7 @@ public class GlobalGameStateManager : MonoBehaviour
     {
         _activeLevelIndex = 0;
         CutsceneID = 0;
+        CurrentScore = 0; //TODO: Save the score somewhere before deleting it
         GlobalGameStateStatus = GlobalGameStateStatus.Preview;
         _levelSceneSystem.LoadPreviewScene();
     }

@@ -40,17 +40,17 @@ public class UIManager : MonoBehaviour, IManager
         winScreenUI.gameObject.SetActive(false);        
     }
 
-    void OnLevelEnd(int energyLeft, float tickDelay)
+    void OnLevelEnd(int energyLeft, int continuesUsed)
     {
         gameUIHolder.SetActive(false);
-        StartCoroutine(RevealLevelEndText(energyLeft, tickDelay));
+        StartCoroutine(RevealLevelEndText(energyLeft, continuesUsed));
     }
 
-    IEnumerator RevealLevelEndText(int energyLeft, float tickDelay) 
+    IEnumerator RevealLevelEndText(int energyLeft, int continuesUsed) 
     {
-        yield return new WaitForSeconds(tickDelay);
+        yield return new WaitForSeconds(.25f); //we could pass the tick length in here, but that might be overkill
         winScreenUI.gameObject.SetActive(true);
-        winScreenUI.SetLevelScore(energyLeft, tickDelay);
+        winScreenUI.SetLevelScore(energyLeft, continuesUsed);
     }
 
     void OnScreenChange(int screensRemaining)

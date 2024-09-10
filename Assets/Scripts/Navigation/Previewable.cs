@@ -20,7 +20,7 @@ public abstract class Previewable : GridObject
 
     public virtual Vector2 GetPreviewScale()
     { 
-        return transform.localScale;
+        return transform.localScale * .95f; //slightly smaller so that the original completely covers up the preview
     }
 
     public virtual Color GetPreviewColor()

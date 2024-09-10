@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     public delegate void LevelStart(int levelId);
     public LevelStart OnLevelStart;
 
-    public delegate void LevelEnd(int energyLeft, float tickDuration);
+    public delegate void LevelEnd(int energyLeft, int continuesUsed);
     public LevelEnd OnLevelEnd;
 
     public delegate void TickStart(float timeToTickEnd);
@@ -86,10 +86,11 @@ public class GameManager : MonoBehaviour
     bool _isMovementAtInput = false;
 
     float _tickElapsed = 0f;
-    int _playerFinishedWithScreen;
+    int _playerFinishedWithScreen = 0;
     bool _tickIsOccuring = false;
     int _ticksSinceScreenStart = 0;
     int _ticksSinceLevelStart = 0;
+    int _continuesUsed = 0;
 
     ScrambleType _currentScrambleType;
 
@@ -260,7 +261,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                OnLevelEnd?.Invoke(_energySystem.CurrentEnergy, TickDuration);
+                OnLevelEnd?.Invoke(_energySystem.CurrentEnergy, _continuesUsed);
                 UpdateGameState(GameState.Win);
             }            
         }
@@ -356,12 +357,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void RestartLevel()
+    public void ContinuePerformed()
     {
         if (_currentGameState == GameState.Win || _currentGameState == GameState.GameOver)
         {
+            StopAllCoroutines();
             GlobalGameStateManager.Instance.ConsumeCredits(_playerCount);
-            GlobalGameStateManager.Instance.RestartGameScene();
+            GlobalGameStateManager.Instance.GlobalGameStateStatus = GlobalGameStateStatus.Game;
+            _energySystem.RefillEnergy();
+            _continuesUsed++;
+            StartCoroutine(ResetScreen(true));
         }
     }
 
@@ -432,7 +437,7 @@ public class GameManager : MonoBehaviour
 
             if (_energySystem.CanPlayerDieAndGameContinue())
             {
-                StartCoroutine(ResetScreen());
+                StartCoroutine(ResetScreen(false));
             }
             else
             {
@@ -450,12 +455,15 @@ public class GameManager : MonoBehaviour
         StartCoroutine(ResetGame(TickDuration * 10)); //TODO: have the ability to put in more quaters to delay this
     }
 
-    IEnumerator ResetScreen()
+    IEnumerator ResetScreen(bool isOnContinue)
     {
         ToggleIsPlaying(false, GameState.Transition);
         ClearAllPreviews();
 
-        yield return new WaitForSeconds(_tickDuration * 2);
+        if (!isOnContinue)
+        {
+            yield return new WaitForSeconds(_tickDuration * 2);
+        }
 
         OnScreenResetStart?.Invoke();
         _cutsceneSystem.PerformRewindEffect();
@@ -476,7 +484,11 @@ public class GameManager : MonoBehaviour
         }
         yield return new WaitForSeconds(_tickDuration);
 
-        OnScreenResetEnd?.Invoke();
+        if (!isOnContinue)
+        {
+            OnScreenResetEnd?.Invoke();
+        }
+
         ToggleIsPlaying(true);
     }
 
