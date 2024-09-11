@@ -482,13 +482,13 @@ public class GameManager : MonoBehaviour
             player.OnSpawn();
             MovePlayerOntoStartingTitle(player, _tickDuration);
         }
-        yield return new WaitForSeconds(_tickDuration);
 
         if (!isOnContinue)
         {
             OnScreenResetEnd?.Invoke();
         }
 
+        yield return new WaitForSeconds(_tickDuration);
         ToggleIsPlaying(true);
     }
 

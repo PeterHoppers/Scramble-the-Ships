@@ -8,11 +8,11 @@ using UnityEngine.EventSystems;
 public class UIManager : MonoBehaviour, IManager
 {
     public TickDurationUI tickDurationUI;
+    public EnergyUI energyUI;
     public PlayerStatusUI[] playerStatusUIs;
     public GameStateDisplay gameStateDisplay;
     public WinScreenUI winScreenUI;
     public GameObject gameUIHolder;
-    public TextMeshProUGUI energyAmountDisplay;
     public TextMeshProUGUI screenRemainingDisplay;
     public LivesUI livesUI;
 
@@ -86,9 +86,9 @@ public class UIManager : MonoBehaviour, IManager
         playerStatus.LostCondition(condition);
     }
 
-    void OnEnergyChange(int currentEnergy)
+    void OnEnergyChange(int currentEnergy, int maxEnergy)
     {
-        energyAmountDisplay.text = currentEnergy.ToString();
+        energyUI.SetEnergy(currentEnergy, maxEnergy);
     }
 
     // Update is called once per frame

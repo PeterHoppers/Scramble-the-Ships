@@ -76,6 +76,8 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
         {
             PlayerCount = 1;
         }
+
+        UnityEngine.Screen.SetResolution(1920, 1080, true);
     }
 
     void Start()

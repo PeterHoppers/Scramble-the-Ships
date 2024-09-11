@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EnergySystem : MonoBehaviour
 {
-    public delegate void EnergyChange(int currentEnergy);
+    public delegate void EnergyChange(int currentEnergy, int maxEnergy);
     public EnergyChange OnEnergyChange;
 
     public int energyRegainedOnScreenEnd;
@@ -35,7 +35,7 @@ public class EnergySystem : MonoBehaviour
             }
 
             _currentEnergy = value;
-            OnEnergyChange?.Invoke(value);        
+            OnEnergyChange?.Invoke(value, _maxEnergy);        
         }
     }
 
