@@ -47,14 +47,25 @@ public class EnergySystem : MonoBehaviour
         _gameManager.OnScreenResetStart += OnScreenResetStart;
         _gameManager.OnScreenResetEnd += OnScreenResetEnd;
         _gameManager.EffectsSystem.OnMaxEnergyChanged += OnMaxEnergyPerPersonChanged;
-        _gameManager.OnPlayerPickup += OnPlayerPickup;
+        _gameManager.OnPlayerPickup += OnPlayerPickup;              
+    }
 
-        if (OptionsManager.Instance != null) 
+    private void OnEnable()
+    {
+        if (OptionsManager.Instance != null)
         {
             OptionsManager.Instance.OnParametersChanged += OnParametersChanged;
             OnParametersChanged(OptionsManager.Instance.gameSettingParameters, OptionsManager.Instance.systemSettingParameters);
-        }        
-    }    
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (OptionsManager.Instance != null)
+        {
+            OptionsManager.Instance.OnParametersChanged -= OnParametersChanged;
+        }
+    }
 
     private void OnParametersChanged(GameSettingParameters gameSettings, SystemSettingParameters _)
     {
@@ -95,7 +106,7 @@ public class EnergySystem : MonoBehaviour
         CurrentEnergy -= _energyPerMove * _gameManager.GetPlayersRemaining();
     }
 
-    private void OnScreenChange(int screensRemaining)
+    private void OnScreenChange(int _, int max_)
     {
         var energyToHave = CurrentEnergy + (energyRegainedOnScreenEnd * _playerCount);
         

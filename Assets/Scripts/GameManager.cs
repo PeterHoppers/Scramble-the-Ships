@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     public delegate void TickEnd(int nextTickNumber);
     public TickEnd OnTickEnd;
 
-    public delegate void ScreenChange(int screensRemaining);
+    public delegate void ScreenChange(int nextScreenIndex, int maxScreens);
     public ScreenChange OnScreenChange;
 
     public delegate void ScreenResetStart();
@@ -140,7 +140,7 @@ public class GameManager : MonoBehaviour
 
         _energySystem.SetEnergy(_playerCount);
         _screenSystem.TriggerStartingEffects(_effectsSystem);
-        StartCoroutine(SetupNextScreen(_screenSystem.GetScreensRemaining(), TickDuration, false));
+        StartCoroutine(SetupNextScreen(TickDuration, false));
         UpdateGameState(GameState.Transition);
     }
 
@@ -250,36 +250,23 @@ public class GameManager : MonoBehaviour
         }        
     }
 
-    void EndScreen(float endingDuation)
+    void EndScreen(float endingDuration)
     {
-        int screensRemainingInLevel = _screenSystem.GetScreensRemaining();
+        int screensRemainingInLevel = _screenSystem.ScreenAmount - _screenSystem.ScreensLoaded;
         if (screensRemainingInLevel <= 0)
         {
-            if (GlobalGameStateManager.Instance.IsActiveLevelTutorial())
-            {
-                StartCoroutine(PlayFirstCutscene(endingDuation));
-            }
-            else
-            {
-                OnLevelEnd?.Invoke(_energySystem.CurrentEnergy, _continuesUsed);
-                UpdateGameState(GameState.Win);
-            }            
+            UpdateGameState(GameState.Win);
+            OnLevelEnd?.Invoke(_energySystem.CurrentEnergy, _continuesUsed);                                
         }
         else
         {
-            StartCoroutine(SetupNextScreen(screensRemainingInLevel, TickDuration));
+            StartCoroutine(SetupNextScreen(endingDuration));
         }
     }
 
-    IEnumerator PlayFirstCutscene(float waitDuration)
+    IEnumerator SetupNextScreen(float tickDuration, bool playTransitionCutscene = true)
     {
-        yield return new WaitForSeconds(waitDuration);
-        GlobalGameStateManager.Instance.PlayCutscene();
-    }
-
-    IEnumerator SetupNextScreen(int screensRemainingInLevel, float tickDuration, bool playTransitionCutscene = true)
-    {
-        OnScreenChange?.Invoke(screensRemainingInLevel);       
+        OnScreenChange?.Invoke(_screenSystem.ScreensLoaded, _screenSystem.ScreenAmount);       
 
         if (playTransitionCutscene)
         {

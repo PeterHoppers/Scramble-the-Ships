@@ -13,8 +13,8 @@ public class ScreenSystem : MonoBehaviour
     GameManager _gameManager;
     Screen _currentScreen;
     int _playerAmount = 0;
-    int _screenAmount = 0;
-    int _screensLoaded = 0;
+    public int ScreenAmount { get; private set; }
+    public int ScreensLoaded { get; private set; }
 
     private void Awake()
     {       
@@ -26,7 +26,7 @@ public class ScreenSystem : MonoBehaviour
         _level = level;
         _playerAmount = playerAmount;
         _levelScreens = level.GetLevelScreens(playerAmount);
-        _screenAmount = _levelScreens.Length;
+        ScreenAmount = _levelScreens.Length;
         GlobalAudioManager.Instance.TransitionSongs(_level.levelSong);
     }
 
@@ -37,12 +37,6 @@ public class ScreenSystem : MonoBehaviour
             effectsSystem.PerformEffect(effect);
         }
     }
-
-    public int GetScreensRemaining()
-    {
-        return _screenAmount - _screensLoaded;
-    }
-
     public List<GridCoordinate> GetStartingPlayerPositions(int playerAmount)
     {
         if (_currentScreen == null)
@@ -55,14 +49,14 @@ public class ScreenSystem : MonoBehaviour
 
     public void SetupNewScreen(SpawnSystem spawnSystem, GridSystem gridSystem, EffectsSystem effectsSystem, DialogueSystem dialogueSystem)
     {
-        _currentScreen = _levelScreens[_screensLoaded];
+        _currentScreen = _levelScreens[ScreensLoaded];
         spawnSystem.LoopTick = _currentScreen.spawnsLoopAtTick;
 
         ConfigureCurrentScreen(spawnSystem, gridSystem, effectsSystem);
 
         dialogueSystem.SetDialogue(_currentScreen.GetDialogue(_playerAmount));
         
-        _screensLoaded++;
+        ScreensLoaded++;
     }
 
     public void ConfigureCurrentScreen(SpawnSystem spawnSystem, GridSystem gridSystem, EffectsSystem effectsSystem)

@@ -9,16 +9,13 @@ public class UIManager : MonoBehaviour, IManager
 {
     public TickDurationUI tickDurationUI;
     public EnergyUI energyUI;
+    public LevelProgressUI levelProgressUI;
     public PlayerStatusUI[] playerStatusUIs;
     public GameStateDisplay gameStateDisplay;
     public WinScreenUI winScreenUI;
     public GameObject gameUIHolder;
-    public TextMeshProUGUI screenRemainingDisplay;
-    public LivesUI livesUI;
 
-    [Header("Images")]
-    public List<Sprite> spritesForLives;
-
+    private float _revealEndScreenUIDelay = .5f;
     GameManager _gameManager;
 
     public void InitManager(GameManager manager)
@@ -42,20 +39,40 @@ public class UIManager : MonoBehaviour, IManager
 
     void OnLevelEnd(int energyLeft, int continuesUsed)
     {
+        if (_gameManager != null)
+        {
+            _gameManager.EnergySystem.OnEnergyChange -= OnEnergyChange;
+        }
+
         gameUIHolder.SetActive(false);
-        StartCoroutine(RevealLevelEndText(energyLeft, continuesUsed));
+
+        if (GlobalGameStateManager.Instance.IsActiveLevelTutorial())
+        {
+            StartCoroutine(PlayFirstCutscene(_revealEndScreenUIDelay));
+        }
+        else
+        {
+            StartCoroutine(RevealLevelEndText(energyLeft, continuesUsed, _revealEndScreenUIDelay));
+        }        
     }
 
-    IEnumerator RevealLevelEndText(int energyLeft, int continuesUsed) 
+    IEnumerator PlayFirstCutscene(float waitDuration)
     {
-        yield return new WaitForSeconds(.25f); //we could pass the tick length in here, but that might be overkill
+        yield return new WaitForSeconds(waitDuration);
+        GlobalGameStateManager.Instance.PlayCutscene();
+    }
+
+    IEnumerator RevealLevelEndText(int energyLeft, int continuesUsed, float waitDuration) 
+    {
+        yield return new WaitForSeconds(waitDuration);
         winScreenUI.gameObject.SetActive(true);
         winScreenUI.SetLevelScore(energyLeft, continuesUsed);
     }
 
-    void OnScreenChange(int screensRemaining)
+    void OnScreenChange(int screenLoaded, int totalScreens)
     {
-        screenRemainingDisplay.text = screensRemaining.ToString();
+        levelProgressUI.SetupScreenUI(totalScreens);
+        levelProgressUI.ScreensRemaining = screenLoaded;
     }
 
     void OnTickStart(float duration)
