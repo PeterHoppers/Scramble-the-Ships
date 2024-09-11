@@ -16,7 +16,7 @@ MonoBehaviour:
   - spawnInfo:
       objectToSpawn: 0
       direction: 2
-      groupingSize: 10
+      groupingSize: 11
     spawnCoordinates:
       x:
         anchor: 0
@@ -27,7 +27,7 @@ MonoBehaviour:
   - spawnInfo:
       objectToSpawn: 0
       direction: 3
-      groupingSize: 10
+      groupingSize: 11
     spawnCoordinates:
       x:
         anchor: 2
@@ -37,28 +37,6 @@ MonoBehaviour:
         offset: 0
   - spawnInfo:
       objectToSpawn: 0
-      direction: 0
-      groupingSize: 2
-    spawnCoordinates:
-      x:
-        anchor: 2
-        offset: 0
-      y:
-        anchor: 2
-        offset: 0
-  - spawnInfo:
-      objectToSpawn: 0
-      direction: 0
-      groupingSize: 2
-    spawnCoordinates:
-      x:
-        anchor: 0
-        offset: 0
-      y:
-        anchor: 2
-        offset: 0
-  - spawnInfo:
-      objectToSpawn: 0
       direction: 1
       groupingSize: 2
     spawnCoordinates:
@@ -67,7 +45,7 @@ MonoBehaviour:
         offset: 0
       y:
         anchor: 2
-        offset: 4
+        offset: 3
   - spawnInfo:
       objectToSpawn: 0
       direction: 1
@@ -78,7 +56,7 @@ MonoBehaviour:
         offset: 0
       y:
         anchor: 2
-        offset: 4
+        offset: 3
   - spawnInfo:
       objectToSpawn: 6
       direction: 0
@@ -89,7 +67,7 @@ MonoBehaviour:
         offset: 0
       y:
         anchor: 2
-        offset: 2
+        offset: 1
   overrideDefaultTransitionGrids: 1
   transitionGrids:
     direction: 0
@@ -111,7 +89,7 @@ MonoBehaviour:
         offset: 0
       y:
         anchor: 2
-        offset: 3
+        offset: 0
   overrideDefaultStartingPositions: 0
   startingPlayerPositions:
     _serializedList: []
@@ -178,4 +156,4 @@ MonoBehaviour:
         otherCoordinate:
           anchor: 1
           offset: 2
-  spawnsLoopAtTick: 11
+  spawnsLoopAtTick: 12

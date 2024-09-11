@@ -58,7 +58,9 @@ MonoBehaviour:
         anchor: 1
         offset: -2
   overrideDefaultTransitionGrids: 0
-  transitionGrids: []
+  transitionGrids:
+    direction: 0
+    positions: []
   overrideDefaultStartingPositions: 0
   startingPlayerPositions:
     _serializedList: []
@@ -77,4 +79,4 @@ MonoBehaviour:
         otherCoordinate:
           anchor: 1
           offset: 0
-  spawnsLoopAtTick: 13
+  spawnsLoopAtTick: 12

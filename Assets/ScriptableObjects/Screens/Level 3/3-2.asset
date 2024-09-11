@@ -157,8 +157,24 @@ MonoBehaviour:
       - spawnInfo:
           objectToSpawn: 3
           direction: 0
-          groupingSize: 5
+          groupingSize: 3
         otherCoordinate:
           anchor: 1
           offset: 0
+    - Key: 3
+      Value:
+      - spawnInfo:
+          objectToSpawn: 3
+          direction: 0
+          groupingSize: 1
+        otherCoordinate:
+          anchor: 1
+          offset: -2
+      - spawnInfo:
+          objectToSpawn: 3
+          direction: 0
+          groupingSize: 1
+        otherCoordinate:
+          anchor: 1
+          offset: 2
   spawnsLoopAtTick: 12
