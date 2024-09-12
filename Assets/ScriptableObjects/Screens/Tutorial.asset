@@ -38,7 +38,9 @@ MonoBehaviour:
     amount: 0
   levelSong: {fileID: 8300000, guid: fed7accaf6c6a1544a1c1fd3d8c8389e, type: 3}
   overrideDefaultTransitionGrids: 0
-  transitionGrids: []
+  transitionGrids:
+    direction: 0
+    positions: []
   overrideDefaultStartingPositions: 0
   startingPlayerPositions:
     _serializedList: []

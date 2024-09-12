@@ -116,10 +116,16 @@ public class GlobalAudioManager : MonoBehaviour
         PlayAudioSFX(clickSFX);
     }
 
-    public void PlayAudioSFX(AudioClip clipToPlay)
+    public void PlayAudioSFX(AudioClip clipToPlay, bool isLoop = false)
     {
         sfxSource.clip = clipToPlay;
+        sfxSource.loop = isLoop;
         sfxSource.Play();
+    }
+
+    public void StopAudioSFX()
+    { 
+        sfxSource?.Stop();
     }
 
     void PlayMusic(AudioClip clipToPlay)

@@ -8,6 +8,8 @@ public class CutsceneSystem : MonoBehaviour
     private Animator _fullscreenAnimator;
     [SerializeField]
     private AudioClip _rewindClip;
+    [SerializeField]
+    private AudioClip _hackedClip;
 
     GameManager _gameManager;
     EffectsSystem _effectsSystem;
@@ -90,6 +92,7 @@ public class CutsceneSystem : MonoBehaviour
         var bigBaddy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Previewable>();
         _gameManager.MovePreviewableOffScreenToTile(bigBaddy, bigBaddy.CurrentTile, cutsceneDuration / 2);
 
+        GlobalAudioManager.Instance.PlayAudioSFX(_hackedClip, true);
         effects.PerformEffect(EffectType.DigitalGlitchIntensity, .8f);
         effects.PerformEffect(EffectType.ScanLineJitter, .2f);
         effects.PerformEffect(EffectType.VerticalJump, .05f);
@@ -115,6 +118,7 @@ public class CutsceneSystem : MonoBehaviour
 
         yield return new WaitForSeconds(cutsceneDuration / 2);
 
+        GlobalAudioManager.Instance.StopAudioSFX();
         effects.ClearCameraEffects();
         effects.PerformEffect(EffectType.ScanLineJitter, .05f);
 

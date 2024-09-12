@@ -8127,6 +8127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fullscreenAnimator: {fileID: 75354761}
   _rewindClip: {fileID: 8300000, guid: 611c52e6415facf4b817c5380efca467, type: 3}
+  _hackedClip: {fileID: 8300000, guid: 43dc4edbf6f4be84c85065c241bdbd71, type: 3}
 --- !u!114 &2124894467
 MonoBehaviour:
   m_ObjectHideFlags: 0
