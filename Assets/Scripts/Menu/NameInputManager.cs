@@ -10,6 +10,7 @@ public class NameInputManager : MonoBehaviour
     [Header("Character Related Inputs")]
     public NameCharacterInput characterInputPrefab;
     public Button submitNameButton;
+    public CountdownUI countdownUI;
 
     [Space]
     public TextMeshProUGUI nameDisplay;
@@ -58,6 +59,7 @@ public class NameInputManager : MonoBehaviour
             charInput.SetupCharacterInput(this, charater);
         }
 
+        countdownUI.StartCountdown(() => OnSubmitName());
         ResetInputter();
     }
 
@@ -73,11 +75,16 @@ public class NameInputManager : MonoBehaviour
             return;
         }
 
-        NameInputted = _nameInputted.Substring(0, _nameInputted.Length - 1);
+        NameInputted = _nameInputted[..^1];
     }
 
     public void OnSubmitName()
     {
+        if (_nameInputted == "")
+        {
+            _nameInputted = "AAA";
+        }
+
         _submittedNames.Add(_nameInputted);
 
         if (_submittedNames.Count >= _playerCount)
@@ -93,6 +100,7 @@ public class NameInputManager : MonoBehaviour
     void ResetInputter()
     {
         NameInputted = "";
+        countdownUI.ResetCountdown();
         EventSystem.current.SetSelectedGameObject(charactersHolder.GetComponentInChildren<Button>().gameObject);
     }
 }

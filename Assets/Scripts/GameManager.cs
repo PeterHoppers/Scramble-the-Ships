@@ -436,6 +436,11 @@ public class GameManager : MonoBehaviour
 
     void OnGameOver()
     {
+        if (_currentGameState != GameState.Playing)
+        {
+            return;
+        }
+
         ClearAllPreviews();
         _energySystem.CurrentEnergy = 0;
         UpdateGameState(GameState.GameOver);
