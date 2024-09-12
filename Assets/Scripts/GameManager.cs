@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public Player playerShip;
     public List<PlayerShipInfo> shipInfos = new List<PlayerShipInfo>();
     public PreviewableBase previewableBase;
+    public DialogueSystem dialogueSystem;
 
     //GameManager Events
     public delegate void LevelStart(int levelId);
@@ -65,7 +66,6 @@ public class GameManager : MonoBehaviour
 
     GridSystem _gridSystem;
     SpawnSystem _spawnSystem;
-    DialogueSystem _dialogueSystem;
     CutsceneSystem _cutsceneSystem;
     ScreenSystem _screenSystem;
     EnergySystem _energySystem;
@@ -98,7 +98,6 @@ public class GameManager : MonoBehaviour
     {
         _gridSystem = GetComponent<GridSystem>();
         _spawnSystem = GetComponent<SpawnSystem>();
-        _dialogueSystem = GetComponent<DialogueSystem>();
         _cutsceneSystem = GetComponent<CutsceneSystem>();
         _effectsSystem = GetComponent<EffectsSystem>();
         _screenSystem = GetComponent<ScreenSystem>();
@@ -275,7 +274,7 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(tickDuration);
         }
 
-        _screenSystem.SetupNewScreen(_spawnSystem, _gridSystem, _effectsSystem, _dialogueSystem);
+        _screenSystem.SetupNewScreen(_spawnSystem, _gridSystem, _effectsSystem, dialogueSystem);
         _startingPlayerPositions = _screenSystem.GetStartingPlayerPositions(_playerCount);
         _ticksSinceScreenStart = 0;
         yield return new WaitForSeconds(tickDuration);
@@ -289,13 +288,13 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(tickDuration);
 
         UpdateGameState(GameState.Dialogue);
-        if (_dialogueSystem.HasDialogue())
+        if (dialogueSystem.HasDialogue())
         {
-            _dialogueSystem.StartDialogue();
-            _dialogueSystem.OnDialogueEnd += WaitUntilDialogueEnds;
+            dialogueSystem.StartDialogue();
+            dialogueSystem.OnDialogueEnd += WaitUntilDialogueEnds;
             void WaitUntilDialogueEnds()
             {
-                _dialogueSystem.OnDialogueEnd -= WaitUntilDialogueEnds;
+                dialogueSystem.OnDialogueEnd -= WaitUntilDialogueEnds;
                 StartCoroutine(DelayUnpausing(_tickEndDuration * 2));
             }
         }
@@ -369,10 +368,10 @@ public class GameManager : MonoBehaviour
                 StartNextTick();
                 break;
             case GameState.Dialogue:
-                _dialogueSystem.SetDialogueIsEnable(true);
+                dialogueSystem.SetDialogueIsEnable(true);
                 break;
             case GameState.Paused:
-                _dialogueSystem.SetDialogueIsEnable(false);
+                dialogueSystem.SetDialogueIsEnable(false);
                 break;
             case GameState.Transition:
             case GameState.GameOver: //this might run into a race condition with on tick end

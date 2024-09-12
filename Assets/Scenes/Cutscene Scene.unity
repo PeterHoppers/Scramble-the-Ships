@@ -1835,11 +1835,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f4a2db2f1fe1894db72a864f263c5f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startDelay: 0.5
+  endDelay: 0.75
   dialogueSpeed: 0.015
   autoTextAdvanceInSeconds: 10
   dialogueHolder: {fileID: 1477694253}
   continuePrompt: {fileID: 1477694252}
   dialogueTypewriter: {fileID: 496640774}
+  _openSFX: {fileID: 0}
+  _closeSFX: {fileID: 0}
 --- !u!114 &1303825055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1860,9 +1864,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8b99d5ae3d3524c488c9536476384b67, type: 2}
   - {fileID: 11400000, guid: 0898ef404c0e9e448a675499e1c53825, type: 2}
   - {fileID: 11400000, guid: ed63c7b867bb7d349ba6e1d453c00e21, type: 2}
-  _dialogueDelay: 2
   shipHolder: {fileID: 29882608}
   shipBase: {fileID: 114738620554226329, guid: d8ad17f790c94434fa8a53fcf50ee920, type: 3}
+  _dialogueDelay: 2
+  _dialogueSystem: {fileID: 1477694254}
 --- !u!1001 &1477694250
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1955,6 +1960,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8233044703987307354, guid: 3ab1a90dc8d2ba04ea4a33c77deb62ad, type: 3}
   m_PrefabInstance: {fileID: 1477694250}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1477694254 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1780806773104852749, guid: 3ab1a90dc8d2ba04ea4a33c77deb62ad, type: 3}
+  m_PrefabInstance: {fileID: 1477694250}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1477694253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f4a2db2f1fe1894db72a864f263c5f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1849983508
 GameObject:
   m_ObjectHideFlags: 0

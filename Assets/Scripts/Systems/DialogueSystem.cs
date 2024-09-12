@@ -8,6 +8,8 @@ using UnityEngine.InputSystem;
 
 public class DialogueSystem : MonoBehaviour
 {
+    public float startDelay = .5f;
+    public float endDelay = .75f;
     [Range(0, .1f)]
     public float dialogueSpeed;
     [Range(0, 15)]
@@ -18,6 +20,12 @@ public class DialogueSystem : MonoBehaviour
     private GameObject continuePrompt;
     [SerializeField]
     private TypewriterByCharacter dialogueTypewriter;
+
+    [Header("Audio Clips")]
+    [SerializeField]
+    private AudioClip _openSFX;
+    [SerializeField]
+    private AudioClip _closeSFX;
 
     public delegate void DialogueStart();
     public DialogueStart OnDialogueStart;
@@ -31,6 +39,8 @@ public class DialogueSystem : MonoBehaviour
     public delegate void DialogueEnd();
     public DialogueEnd OnDialogueEnd;
 
+    Animator _dialogueBoxAnimator;
+    AudioSource _dialogueAudioSource;
     List<DialogueNode> _currentDialogueNodes = null;
     int _currentIndex = 0;
 
@@ -49,6 +59,8 @@ public class DialogueSystem : MonoBehaviour
 
     void Awake()
     {
+        _dialogueBoxAnimator = GetComponent<Animator>();
+        _dialogueAudioSource = GetComponent<AudioSource>();
         CurrentLineShown = false;
         dialogueTypewriter.onTextShowed.AddListener(() => 
         {
@@ -98,8 +110,17 @@ public class DialogueSystem : MonoBehaviour
 
     public void StartDialogue()
     {
+        dialogueTypewriter.ShowText("");
         _currentIndex = 0;
         dialogueHolder.SetActive(true);
+        PlaySFX(_openSFX);
+
+        StartCoroutine(OpenDialogue());
+    }
+
+    IEnumerator OpenDialogue()
+    {
+        yield return new WaitForSeconds(startDelay);
         UpdateText(_currentIndex);
         OnDialogueStart?.Invoke();
     }
@@ -153,9 +174,23 @@ public class DialogueSystem : MonoBehaviour
     void EndDialogue()
     {
         dialogueTypewriter.ShowText("");
-        dialogueHolder.SetActive(false);
+        CurrentLineShown = false;
+        StartCoroutine(CloseDialogue());    
+    }
+
+    IEnumerator CloseDialogue()
+    {
+        PlaySFX(_closeSFX);
+        _dialogueBoxAnimator.Play("dialogueExit");
+        yield return new WaitForSeconds(endDelay);
         OnDialogueEnd?.Invoke();
         _currentDialogueNodes = null;
-        CurrentLineShown = false;
+        dialogueHolder.SetActive(false);
+    }
+
+    void PlaySFX(AudioClip audioClip)
+    {
+        _dialogueAudioSource.clip = audioClip;
+        _dialogueAudioSource.Play();
     }
 }

@@ -9,13 +9,13 @@ public class CutsceneManager : MonoBehaviour
     public List<Dialogue> dialogues = new List<Dialogue>();
 
     [SerializeField]
-    private float _dialogueDelay;
-
-    [SerializeField]
     private GameObject shipHolder;
-
     [SerializeField]
     private GameObject shipBase;
+
+    [SerializeField]
+    private float _dialogueDelay;
+    [SerializeField]
     private DialogueSystem _dialogueSystem;
 
     private void Awake()
@@ -32,7 +32,6 @@ public class CutsceneManager : MonoBehaviour
     // Start is called before the first frame update
     IEnumerator Start()
     {
-        _dialogueSystem = GetComponent<DialogueSystem>();
         yield return new WaitForSeconds(_dialogueDelay);
         var dialogueId = GlobalGameStateManager.Instance.CutsceneID;
         var dialogue = dialogues[dialogueId];
