@@ -117,6 +117,7 @@ public class GameManager : MonoBehaviour
             managerObjects.InitManager(this);
         }
 
+        UpdateGameState(GameState.Waiting);
         yield return new WaitForSeconds(.125f); //TODO: Fix race condition
         OptionsManager.Instance.AfterInitManager();
 
@@ -439,7 +440,6 @@ public class GameManager : MonoBehaviour
         _energySystem.CurrentEnergy = 0;
         UpdateGameState(GameState.GameOver);
         GlobalGameStateManager.Instance.GlobalGameStateStatus = GlobalGameStateStatus.GameOver;
-        StartCoroutine(ResetGame(TickDuration * 10)); //TODO: have the ability to put in more quaters to delay this
     }
 
     IEnumerator ResetScreen(bool isOnContinue)
@@ -477,12 +477,6 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(_tickDuration);
         ToggleIsPlaying(true);
-    }
-
-    IEnumerator ResetGame(float delayUntilReset)
-    { 
-        yield return new WaitForSeconds(delayUntilReset);
-        GlobalGameStateManager.Instance.ResetGame();
     }
 
     public List<Player> GetAllPlayers()

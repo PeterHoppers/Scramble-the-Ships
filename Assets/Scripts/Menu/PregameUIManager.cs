@@ -18,6 +18,11 @@ public class PregameUIManager : MonoBehaviour
         GlobalGameStateManager.Instance.OnStateChange -= OnStateChange;
     }
 
+    private void Awake()
+    {
+        OnStateChange(GlobalGameStateManager.Instance.GlobalGameStateStatus);
+    }
+
     void OnStateChange(GlobalGameStateStatus newStatus)
     {
         foreach (var ui in UIs)

@@ -7,13 +7,14 @@ using UnityEngine.EventSystems;
 
 public class UIManager : MonoBehaviour, IManager
 {
+    public GameObject gameUIHolder;
     public TickDurationUI tickDurationUI;
     public EnergyUI energyUI;
     public LevelProgressUI levelProgressUI;
     public PlayerStatusUI[] playerStatusUIs;
-    public GameStateDisplay gameStateDisplay;
+    public GameOverUI gameOverUI;
     public WinScreenUI winScreenUI;
-    public GameObject gameUIHolder;
+    public GameObject loadingUI;
 
     private float _revealEndScreenUIDelay = .5f;
     GameManager _gameManager;
@@ -34,7 +35,9 @@ public class UIManager : MonoBehaviour, IManager
 
     void Awake()
     {
-        winScreenUI.gameObject.SetActive(false);        
+        winScreenUI.gameObject.SetActive(false);
+        gameOverUI.gameObject.SetActive(false);
+        loadingUI.SetActive(true);
     }
 
     void OnLevelEnd(int energyLeft, int continuesUsed)
@@ -82,7 +85,15 @@ public class UIManager : MonoBehaviour, IManager
 
     void OnGameStateChanged(GameState newState)
     {
-        gameStateDisplay.UpdateStateDisplay(newState);
+        var isGameOver = (newState == GameState.GameOver);
+        gameOverUI.SetGameOverState(isGameOver);
+
+        foreach (var ui in playerStatusUIs)
+        { 
+            ui.gameObject.SetActive(!isGameOver);
+        }
+
+        loadingUI.SetActive((newState == GameState.Waiting));
     }
 
     void OnPlayerJoined(Player player)

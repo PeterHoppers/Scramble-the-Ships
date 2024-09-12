@@ -5,24 +5,11 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class GameOverManager : MonoBehaviour, IManager
+public class GameOverUI : MonoBehaviour
 {
     public GameObject gameOverHolder;
+    public CountdownUI countdownUI;
     public Button retryButton;
-
-    GameManager _gameManager;
-
-    public void InitManager(GameManager manager)
-    {
-        _gameManager = manager;
-        _gameManager.OnGameStateChanged += CheckIfGameOver;
-        gameOverHolder.SetActive(false);
-
-        retryButton.onClick.AddListener(() =>
-        {
-            _gameManager.ContinuePerformed();
-        });
-    }
 
     void OnEnable()
     {
@@ -34,15 +21,16 @@ public class GameOverManager : MonoBehaviour, IManager
         GlobalGameStateManager.Instance.OnCreditsChange -= CheckIfCanContinue;
     }
 
-    private void CheckIfGameOver(GameState newState)
+    public void SetGameOverState(bool isGameOver)
     {
-        if (newState != GameState.GameOver) 
-        {
-            return;
-        }
+        gameObject.SetActive(isGameOver);
+        gameOverHolder.SetActive(isGameOver);
 
-        gameOverHolder.SetActive(true);
-        CheckIfCanContinue(GlobalGameStateManager.Instance.CreditCount);
+        if (isGameOver)
+        {
+            countdownUI.StartCountdown(() => { GlobalGameStateManager.Instance.ResetGame(); });
+            CheckIfCanContinue(GlobalGameStateManager.Instance.CreditCount);
+        }
     }
 
     private void CheckIfCanContinue(int creditAmount)
@@ -59,10 +47,11 @@ public class GameOverManager : MonoBehaviour, IManager
 
     private void SetPlayAgainState(bool isEnable)
     {
-        retryButton.interactable = isEnable;
+        retryButton.gameObject.SetActive(isEnable);
 
         if (isEnable)
         {
+            countdownUI.ResetCountdown();
             EventSystem.current.SetSelectedGameObject(retryButton.gameObject);
         }
     }

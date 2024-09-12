@@ -30,10 +30,16 @@ public class EnergyUI : MonoBehaviour
     {
         _energyFrontBar.fillAmount = 1f;
         _energyBackBar.fillAmount = 1f;
+        gameObject.SetActive(false);
     }
 
     public void SetEnergy(int currentEnergy, int maxEnergy)
-    { 
+    {
+        if (_pastEnergy == 0)
+        { 
+            gameObject.SetActive(true);
+        }
+
         _pastEnergy = _currentEnergy;
         _currentEnergy = currentEnergy;
         float currentPercentageRemaining = _currentEnergy / (float)maxEnergy;

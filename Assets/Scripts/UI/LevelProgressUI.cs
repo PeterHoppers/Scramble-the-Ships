@@ -32,6 +32,11 @@ public class LevelProgressUI : MonoBehaviour
 
     private List<Image> _screenImages = new List<Image>();
 
+    private void Awake()
+    {
+        gameObject.SetActive(false);
+    }
+
     public void SetupScreenUI(int maxScreens)
     {
         if (_maxScreens == maxScreens)
@@ -39,6 +44,7 @@ public class LevelProgressUI : MonoBehaviour
             return;
         }
 
+        gameObject.SetActive(true);
         _maxScreens = maxScreens;
 
         for (int index  = 0; index < _maxScreens; index++) 
