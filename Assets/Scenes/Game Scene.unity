@@ -1880,7 +1880,7 @@ MonoBehaviour:
   continuesUsedText: {fileID: 1511561263}
   continuesScoreText: {fileID: 757471571}
   totalScoreText: {fileID: 70470806}
-  _victoryJingle: {fileID: 0}
+  _victoryJingle: {fileID: 8300000, guid: 8cf3ab0875813314e89f0d8f50842f63, type: 3}
   _secondsUntilAutoContinue: 10
 --- !u!114 &324801065
 MonoBehaviour:
@@ -6428,6 +6428,7 @@ MonoBehaviour:
   gameOverHolder: {fileID: 688330953}
   countdownUI: {fileID: 1812126632}
   retryButton: {fileID: 1222495934}
+  gameOverJingle: {fileID: 8300000, guid: d93a8d4b44c901344a646464da783682, type: 3}
 --- !u!1 &1963192915
 GameObject:
   m_ObjectHideFlags: 0
@@ -8127,10 +8128,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1963192919}
     m_Modifications:
-    - target: {fileID: 734342514805466029, guid: 3ab1a90dc8d2ba04ea4a33c77deb62ad, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 55d3e7bfd668ed1428b8e3bb8c08248e, type: 2}
     - target: {fileID: 7859877865452092850, guid: 3ab1a90dc8d2ba04ea4a33c77deb62ad, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

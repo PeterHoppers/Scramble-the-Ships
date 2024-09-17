@@ -27,6 +27,16 @@ public class ScreenSystem : MonoBehaviour
         _playerAmount = playerAmount;
         _levelScreens = level.GetLevelScreens(playerAmount);
         ScreenAmount = _levelScreens.Length;
+        PlayLevelSong();
+    }
+
+    public void PlayLevelSong()
+    {
+        if (_level == null)
+        {
+            return;
+        }
+
         GlobalAudioManager.Instance.TransitionSongs(_level.levelSong);
     }
 

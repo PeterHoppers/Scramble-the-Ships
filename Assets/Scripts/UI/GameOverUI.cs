@@ -10,6 +10,8 @@ public class GameOverUI : MonoBehaviour
     public GameObject gameOverHolder;
     public CountdownUI countdownUI;
     public Button retryButton;
+    [Space]
+    public AudioClip gameOverJingle;
 
     void OnEnable()
     {
@@ -28,6 +30,7 @@ public class GameOverUI : MonoBehaviour
 
         if (isGameOver)
         {
+            GlobalAudioManager.Instance.TransitionSongs(gameOverJingle);
             countdownUI.StartCountdown(() => { GlobalGameStateManager.Instance.ResetGame(); });
             CheckIfCanContinue(GlobalGameStateManager.Instance.CreditCount);
         }

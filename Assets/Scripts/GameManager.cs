@@ -455,6 +455,10 @@ public class GameManager : MonoBehaviour
         {
             yield return new WaitForSeconds(_tickDuration * 2);
         }
+        else
+        {
+            _screenSystem.PlayLevelSong();
+        }
 
         OnScreenResetStart?.Invoke();
         _cutsceneSystem.PerformRewindEffect();

@@ -27,6 +27,11 @@ public class WinScreenUI : MonoBehaviour
     public TextMeshProUGUI continuesScoreText;
     public TextMeshProUGUI totalScoreText;
 
+    [Space]
+    [SerializeField]
+    private AudioClip _victoryJingle;
+
+    [Space]
     [SerializeField]
     private int _secondsUntilAutoContinue;
     private int _currentScore;
@@ -55,6 +60,7 @@ public class WinScreenUI : MonoBehaviour
         var advanceButton = gameObject.GetComponentInChildren<Button>();
         EventSystem.current.SetSelectedGameObject(advanceButton.gameObject);
 
+        GlobalAudioManager.Instance.TransitionSongs(_victoryJingle, .05f);
         StartCoroutine(AutoAdvanceLevel(_secondsUntilAutoContinue));
     }
 
