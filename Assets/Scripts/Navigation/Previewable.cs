@@ -45,6 +45,32 @@ public abstract class Previewable : GridObject
         CurrentTile = tileDestination;
     }
 
+    public virtual void UpdateRotationToPreview(float duration)
+    {
+        if (previewObject == null)
+        {
+            return;
+        }
+
+        var newRotation = previewObject.transform.rotation;
+        if (newRotation == transform.rotation) 
+        {
+            return;
+        }
+
+        TransitionToRotation(newRotation, duration);
+    }
+
+    protected virtual void TransitionToRotation(Quaternion newRotation, float duration)
+    {
+        if (_transitioner == null)
+        {
+            _transitioner = GetComponent<TransformTransition>();
+        }
+
+        _transitioner.RotateTo(newRotation, duration);
+    }
+
     public virtual void TransitionToPosition(Vector2 targetPosition, float duration)
     {
         if (_transitioner == null)
@@ -113,6 +139,20 @@ public abstract class Previewable : GridObject
                 return (Vector2)transform.right;
             default:
                 return Vector2.zero;
+        }
+    }
+
+    protected Quaternion ConvertInputValueToRotation(InputValue input)
+    { 
+        var currentRotation = transform.rotation;
+        switch (input) 
+        {
+            case InputValue.Clockwise:
+                return currentRotation *= Quaternion.Euler(0, 0, -90f);
+            case InputValue.Counterclockwise:
+                return currentRotation *= Quaternion.Euler(0, 0, 90f);
+            default:
+                return currentRotation;
         }
     }
 }

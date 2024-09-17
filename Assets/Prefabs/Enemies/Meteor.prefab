@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4968857197367180557}
   - component: {fileID: 1392424010226996427}
   - component: {fileID: 6495330082171840289}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Meteor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,7 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4585690953295777244}
   - component: {fileID: 4070071728427121044}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bullet Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}

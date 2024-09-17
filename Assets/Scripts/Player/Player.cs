@@ -53,12 +53,8 @@ public class Player : Previewable
         _manager.EffectsSystem.OnShootingChanged += OnShootingChanged;
 
         _shipInfo = shipInfo;
-        foreach (InputValue inputValue in Enum.GetValues(typeof(InputValue)))
+        foreach (InputValue inputValue in inputValueDisplays.Keys)
         {
-            if (inputValue == InputValue.None)
-            {
-                continue;
-            }
             AddPossibleInput(inputValue);
         }
 
@@ -72,6 +68,7 @@ public class Player : Previewable
         _shipRenderer.sprite = _shipSprite;
         _shipAudio = GetComponentInChildren<AudioSource>();
 
+        AddPossibleInput(InputValue.Fire);
         ChangeShootingCondition(isShootingEnabled);
     }
 
@@ -328,12 +325,7 @@ public class Player : Previewable
 
             if (playerAction.inputValue == InputValue.Fire)
             { 
-                var firingDirection = ConvertInputValueToDirection(playerAction.inputValue);
-                var bulletGridMoveable = _manager.CreateMovableAtTile(playerActedUpon._shipInfo.bullet, playerActedUpon, targetTile, firingDirection);
-                var bullet = bulletGridMoveable.GetComponent<Bullet>();
-                bullet.spawnSound = _shipInfo.fireSFX;
-                bullet.PreviewColor = _shipInfo.baseColor;
-                bulletGridMoveable.GetComponentInChildren<SpriteRenderer>().sprite = _shipInfo.bulletSprite;
+                var bulletGridMoveable = CreateBullet(playerActedUpon, targetTile);
                 newPreview = _manager.CreatePreviewOfPreviewableAtTile(bulletGridMoveable, targetTile);
                 newPreview.creatorOfPreview = this;
             }
@@ -344,6 +336,17 @@ public class Player : Previewable
 
             _manager.AddPlayerPreviewAction(this, newPreview);
         }
+    }
+
+    GridMovable CreateBullet(Player firingPlayer, Tile spawnTile)
+    {
+        var bulletGridMoveable = _manager.CreateMovableAtTile(firingPlayer._shipInfo.bullet, firingPlayer, spawnTile);
+        var bullet = bulletGridMoveable.GetComponent<Bullet>();
+        bullet.spawnSound = _shipInfo.fireSFX;
+        bullet.PreviewColor = _shipInfo.baseColor;
+        bulletGridMoveable.GetComponentInChildren<SpriteRenderer>().sprite = _shipInfo.bulletSprite;
+
+        return bulletGridMoveable;
     }
 
     public bool OnHit()

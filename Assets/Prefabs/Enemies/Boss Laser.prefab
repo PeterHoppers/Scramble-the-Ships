@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boss Laser
       objectReference: {fileID: 0}
+    - target: {fileID: 5421974539620002677, guid: c6637a20210e93244a7a33441c56caac, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6ce7b2906179d044fa392dac226c04ed, type: 2}
     - target: {fileID: 5805042547421835825, guid: c6637a20210e93244a7a33441c56caac, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -95,6 +99,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previewObject: {fileID: 0}
-  travelDirection: {x: 0, y: 0}
+  movingInput: 5
   inputValue: 0
   cutsceneDuration: 2

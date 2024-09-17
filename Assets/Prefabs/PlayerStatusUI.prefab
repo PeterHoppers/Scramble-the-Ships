@@ -1086,7 +1086,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d29023073d2a4e94d9cfe537ea799f09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  glitchedMaterial: {fileID: 2100000, guid: 8f67e5a08e0a4b7498ef3a6de18c90c9, type: 2}
+  glitchedMaterial: {fileID: 2100000, guid: f8c0630d1b2f4c241b94ec38e36e4cd6, type: 2}
 --- !u!114 &2854307204714010375
 MonoBehaviour:
   m_ObjectHideFlags: 0

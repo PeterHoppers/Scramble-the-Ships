@@ -12,14 +12,7 @@ public class BossTutorialBullet : GridMovable
     private void Awake()
     {
         _foreignCollisionStatus = ForeignCollisionStatus.Undestroyable;
-    }
-
-    protected override void CreateNextPreview(float timeToTickEnd)
-    {
-        var newDirection = ConvertInputValueToDirection(inputValue);
-        travelDirection = newDirection;
-
-        base.CreateNextPreview(timeToTickEnd);
+        movingInput = inputValue;
     }
 
     protected override void PerformInteraction(Collider2D collision)

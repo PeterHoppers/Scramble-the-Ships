@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GridMovable : Previewable
 {
     [HideInInspector]
-    public Vector2 travelDirection = Vector2.zero;
+    public InputValue movingInput = InputValue.None;
 
     public virtual void SetupMoveable(GameManager manager, SpawnSystem spawnSystem, Tile startingTile)
     {
@@ -22,12 +23,14 @@ public class GridMovable : Previewable
 
     protected virtual void CreateNextPreview(float timeToTickEnd)
     {
-        if (travelDirection == Vector2.zero) 
+        if (movingInput == InputValue.None) 
         {
             return;
         }
 
-        var previewTile = _manager.AddPreviewAtPosition(this, CurrentTile, travelDirection);
+        var direction = ConvertInputValueToDirection(movingInput);
+        var rotation = ConvertInputValueToRotation(movingInput);
+        var previewTile = _manager.AddPreviewAtPosition(this, CurrentTile, direction, rotation);
 
         if (!previewTile.IsVisible)
         {
@@ -55,7 +58,8 @@ public class GridMovable : Previewable
     private IEnumerator GoOffScreen(float duration)
     {
         var currentPosition = GetCurrentPosition();
-        var targetPosition = _spawnSystem.GetOffscreenPosition(travelDirection, currentPosition, false);
+        var vectorDirection = ConvertInputValueToDirection(movingInput);
+        var targetPosition = _spawnSystem.GetOffscreenPosition(vectorDirection, currentPosition, false);
         TransitionToPosition(targetPosition, duration);
         yield return new WaitForSeconds(duration);
         _spawnSystem.DespawnObject(this);

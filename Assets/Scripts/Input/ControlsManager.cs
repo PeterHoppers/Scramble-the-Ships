@@ -228,7 +228,9 @@ public enum InputValue
     Port = 2,
     Starboard = 3,
     Fire = 4,
-    None = 5
+    Clockwise = 6,
+    Counterclockwise = 7,
+    None = 5,
 }
 
 [System.Serializable]

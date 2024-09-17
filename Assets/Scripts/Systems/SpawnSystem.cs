@@ -277,13 +277,14 @@ public enum SpawnCommand
 
 public enum SpawnObject
 {
-    Meteor,
-    Turret,
-    MovingShip,
-    ShootingShip,
-    Boss,
-    BossLaser,
-    EnergyPickup,
+    Meteor = 0,
+    Turret = 1,
+    RotatingTurret = 7,
+    MovingShip = 2,
+    ShootingShip = 3,
+    Boss = 4,
+    BossLaser = 5,
+    EnergyPickup = 6,
 }
 
 [System.Serializable]

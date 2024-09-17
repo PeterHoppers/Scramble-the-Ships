@@ -522,9 +522,14 @@ public class GameManager : MonoBehaviour
         return GetTileFromInput(targetPlayer, playerInputValue.inputValue);
     }
 
-    public PreviewAction CreatePreviewOfPreviewableAtTile(Previewable previewableObject, Tile previewTile, int duration = 0, bool isMoving = true)
+    public PreviewAction CreatePreviewOfPreviewableAtTile(Previewable previewableObject, Tile previewTile, Quaternion? newRotation = null, bool isMoving = true, int duration = 0)
     {
-        var preview = _spawnSystem.CreateSpawnObject(previewableBase.gameObject, previewTile, previewableObject.transform.rotation);
+        if (newRotation == null)
+        {
+            newRotation = previewableObject.transform.rotation;
+        }
+
+        var preview = _spawnSystem.CreateSpawnObject(previewableBase.gameObject, previewTile, newRotation.Value);
         preview.name = $"Preview of {previewableObject}";
         preview.transform.localScale = previewableObject.GetPreviewScale();
         var previewImage = previewableObject.GetPreviewSprite();
@@ -544,18 +549,18 @@ public class GameManager : MonoBehaviour
         };    
     }
 
-    public GridMovable CreateMovableAtTile(GridMovable movableToBeCreated, Previewable previewableCreatingMovable, Tile previewTile, Vector2 movingDirection)
+    public GridMovable CreateMovableAtTile(GridMovable movableToBeCreated, Previewable previewableCreatingMovable, Tile previewTile, InputValue movingInput = InputValue.Forward)
     {
         var spawnedMovable = _spawnSystem.CreateSpawnObject(movableToBeCreated.gameObject, previewableCreatingMovable.CurrentTile, previewableCreatingMovable.transform.rotation);
         var moveable = spawnedMovable.GetComponent<GridMovable>();
         moveable.SetupMoveable(this, _spawnSystem, previewTile);
-        moveable.travelDirection = movingDirection;
+        moveable.movingInput = movingInput;
         moveable.gameObject.SetActive(false);
 
         return moveable;
     }
 
-    public Tile AddPreviewAtPosition(Previewable previewObject, Tile currentTile, Vector2 previewDirection)
+    public Tile AddPreviewAtPosition(Previewable previewObject, Tile currentTile, Vector2 previewDirection, Quaternion newRotation)
     {
         var possibleGridCoordinates = previewDirection + currentTile.GetTileCoordinates();
         var isPossibleTileSpace = _gridSystem.TryGetTileByCoordinates(possibleGridCoordinates.x, possibleGridCoordinates.y, out Tile tile);
@@ -566,7 +571,7 @@ public class GameManager : MonoBehaviour
             return null;           
         }
 
-        newPreview = CreatePreviewOfPreviewableAtTile(previewObject, tile);
+        newPreview = CreatePreviewOfPreviewableAtTile(previewObject, tile, newRotation);
 
         _previewActions.Add(newPreview);
         return tile;
@@ -654,6 +659,7 @@ public class GameManager : MonoBehaviour
             }
 
             movingObject.TransitionToTile(preview.previewTile, tickEndDuration);
+            movingObject.UpdateRotationToPreview(tickEndDuration);
             movingObject.ResolvePreviewable();
         }
         
