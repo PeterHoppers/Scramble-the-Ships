@@ -43,7 +43,7 @@ public class NameInputManager : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(submitNameButton.gameObject);
             }
 
-            submitNameButton.enabled = (_nameInputted.Length != 0);
+            submitNameButton.interactable = (_nameInputted.Length != 0);
             OnNameInputChange?.Invoke(_nameInputted, isMaxCharacters);
         }
     }

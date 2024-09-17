@@ -26,7 +26,7 @@ public class NameCharacterInput : MonoBehaviour
 
         manager.OnNameInputChange += (string _, bool isMaxLength) => 
         { 
-            _charcterSelect.enabled = !isMaxLength;
+            _charcterSelect.interactable = !isMaxLength;
         };
     }
 }

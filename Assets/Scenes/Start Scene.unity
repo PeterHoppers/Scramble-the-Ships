@@ -952,7 +952,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6858383591059643376, guid: 8f4ea01b641338147a5bd6e30929bcc6, type: 3}
       propertyPath: _countdownDurationInSeconds
-      value: 30
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 7831939096945213941, guid: 8f4ea01b641338147a5bd6e30929bcc6, type: 3}
       propertyPath: m_Name
