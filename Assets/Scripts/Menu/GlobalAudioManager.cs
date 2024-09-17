@@ -118,9 +118,7 @@ public class GlobalAudioManager : MonoBehaviour
 
     public void PlayAudioSFX(AudioClip clipToPlay, bool isLoop = false)
     {
-        sfxSource.clip = clipToPlay;
-        sfxSource.loop = isLoop;
-        sfxSource.Play();
+        PlayClip(sfxSource, clipToPlay, isLoop);
     }
 
     public void StopAudioSFX()
@@ -128,10 +126,16 @@ public class GlobalAudioManager : MonoBehaviour
         sfxSource?.Stop();
     }
 
-    void PlayMusic(AudioClip clipToPlay)
+    public void PlayMusic(AudioClip clipToPlay, bool isLoop = true)
     {
-        musicSource.clip = clipToPlay;
-        musicSource.Play();
+        PlayClip(musicSource, clipToPlay, isLoop);
+    }
+
+    void PlayClip(AudioSource source, AudioClip clip, bool isLoop)
+    {
+        source.clip = clip;
+        source.loop = isLoop;
+        source.Play();
     }
 
     IEnumerator TransitionBetweenTracks(AudioClip clipToPlay, float duration)

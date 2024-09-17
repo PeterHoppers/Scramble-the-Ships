@@ -11,6 +11,7 @@ public class CountdownUI : MonoBehaviour
     private float _countdownDurationInSeconds;
 
     private TextMeshProUGUI _countdownDisplay;
+    private AudioSource _countdownAudioSource;
     private Image _countdownImage;
     private float _secondsRemaining;
     private Action _actionToPerfrom;
@@ -19,6 +20,7 @@ public class CountdownUI : MonoBehaviour
     {
         _countdownDisplay = GetComponentInChildren<TextMeshProUGUI>();
         _countdownImage = GetComponentInChildren<Image>();
+        _countdownAudioSource = GetComponent<AudioSource>();
     }
 
     public void StartCountdown(Action finishCountdownAction)
@@ -40,19 +42,19 @@ public class CountdownUI : MonoBehaviour
         yield return new WaitForSeconds(1f);
         _secondsRemaining--;
 
-        if (_secondsRemaining > 0)
+        if (_secondsRemaining >= 0)
         {
             StartCoroutine(PerformCountdown());
         }
         else
         {
-            UpdateVisuals();
             _actionToPerfrom?.Invoke();
         }
     }
 
     void UpdateVisuals()
     {
+        _countdownAudioSource.Play();
         _countdownDisplay.text = _secondsRemaining.ToString();
         var countdownPercent = _secondsRemaining / _countdownDurationInSeconds;
         _countdownImage.fillAmount = countdownPercent;

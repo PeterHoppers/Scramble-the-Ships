@@ -30,7 +30,7 @@ public class GameOverUI : MonoBehaviour
 
         if (isGameOver)
         {
-            GlobalAudioManager.Instance.TransitionSongs(gameOverJingle);
+            GlobalAudioManager.Instance.PlayMusic(gameOverJingle, false);
             countdownUI.StartCountdown(() => { GlobalGameStateManager.Instance.ResetGame(); });
             CheckIfCanContinue(GlobalGameStateManager.Instance.CreditCount);
         }
