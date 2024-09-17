@@ -1880,6 +1880,7 @@ MonoBehaviour:
   continuesUsedText: {fileID: 1511561263}
   continuesScoreText: {fileID: 757471571}
   totalScoreText: {fileID: 70470806}
+  _victoryJingle: {fileID: 0}
   _secondsUntilAutoContinue: 10
 --- !u!114 &324801065
 MonoBehaviour:

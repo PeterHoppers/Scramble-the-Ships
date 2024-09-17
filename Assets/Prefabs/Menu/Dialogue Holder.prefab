@@ -242,9 +242,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startDelay: 0.35
+  endDelay: 0.75
   dialogueSpeed: 0.015
   autoTextAdvanceInSeconds: 10
-  dialogueHolder: {fileID: 8233044703987307354}
+  dialogueHolder: {fileID: 806329404422153133}
   continuePrompt: {fileID: 8012861882316826526}
   dialogueTypewriter: {fileID: 8367928423929504919}
   _openSFX: {fileID: 8300000, guid: 582935a377ead7d4e9fc6d8eb0043e6e, type: 3}

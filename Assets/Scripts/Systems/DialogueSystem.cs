@@ -113,6 +113,7 @@ public class DialogueSystem : MonoBehaviour
         dialogueTypewriter.ShowText("");
         _currentIndex = 0;
         dialogueHolder.SetActive(true);
+        _dialogueBoxAnimator.Play("dialogueEnter");
         PlaySFX(_openSFX);
 
         StartCoroutine(OpenDialogue());
