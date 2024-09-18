@@ -51,11 +51,6 @@ public abstract class GridObject : MonoBehaviour, ILaserEntered
 
     public virtual void DestroyObject()
     {
-        if (_foreignCollisionStatus == ForeignCollisionStatus.Undestroyable)
-        {
-            return;
-        }
-
         if (_deathSFX)
         {
             var deathEffect = Instantiate(_deathSFX, transform.parent);
@@ -74,6 +69,11 @@ public abstract class GridObject : MonoBehaviour, ILaserEntered
     public virtual bool IsIgnoredByBullets()
     {
         return (_foreignCollisionStatus == ForeignCollisionStatus.None);
+    }
+
+    public virtual bool CannotBeDestoryed()
+    {
+        return (_foreignCollisionStatus == ForeignCollisionStatus.Undestroyable);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

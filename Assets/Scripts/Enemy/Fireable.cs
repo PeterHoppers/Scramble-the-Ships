@@ -38,7 +38,14 @@ public class Fireable : GridMovable
             //we only do this here because we presume that the player and enemies have their own death effect to play
             if (bulletExplosion)
             {
-                collidedPreviewable.SetDeathSFX(bulletExplosion);
+                if (collidedPreviewable.CannotBeDestoryed())
+                {
+                    SetDeathSFX(bulletExplosion);
+                }
+                else
+                {
+                    collidedPreviewable.SetDeathSFX(bulletExplosion);
+                }
             }
 
             _manager.HandleGridObjectCollision(this, collidedPreviewable);

@@ -399,7 +399,10 @@ public class GameManager : MonoBehaviour
 
     public void HandleGridObjectCollision(GridObject attacking, GridObject hit) //Should this be here in this state? Feels like something the grid object itself should be in charge of
     {
-        attacking.DestroyObject();
+        if (!attacking.CannotBeDestoryed())
+        {
+            attacking.DestroyObject();
+        }
 
         if (hit.TryGetComponent<Player>(out var player))
         {
@@ -407,7 +410,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            if (hit.CanBeShot())
+            if (hit.CanBeShot() && !hit.CannotBeDestoryed())
             {
                 hit.DestroyObject();
             }
