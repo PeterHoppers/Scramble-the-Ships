@@ -22,6 +22,8 @@ public abstract class GridObject : MonoBehaviour, ILaserEntered
     protected GameManager _manager;
     protected SpawnSystem _spawnSystem;
     protected ForeignCollisionStatus _foreignCollisionStatus = ForeignCollisionStatus.Default;
+    [SerializeField]
+    protected ParticleSystem _deathSFX;
 
     public virtual void SetupObject(GameManager manager, SpawnSystem system, Tile startingTile)
     {
@@ -42,8 +44,25 @@ public abstract class GridObject : MonoBehaviour, ILaserEntered
         transform.localPosition = CurrentTile.GetTilePosition();
     }
 
+    public virtual void SetDeathSFX(ParticleSystem particleSystem)
+    {
+        _deathSFX = particleSystem;
+    }
+
     public virtual void DestroyObject()
-    { 
+    {
+        if (_foreignCollisionStatus == ForeignCollisionStatus.Undestroyable)
+        {
+            return;
+        }
+
+        if (_deathSFX)
+        {
+            var deathEffect = Instantiate(_deathSFX, transform.parent);
+            deathEffect.transform.position = new Vector3(transform.position.x, transform.position.y, 5); //TODO: Fix hard-coding, but this gets it rendering above the other objects
+            deathEffect.Play();
+        }
+
         _spawnSystem.DespawnObject(this);
     }
 
@@ -72,12 +91,17 @@ public abstract class GridObject : MonoBehaviour, ILaserEntered
 
     }
 
-    public virtual void OnLaserEntered(LaserBase laserBase, List<RaycastHit2D> hits)
+    public void OnLaserEntered(LaserBase laserBase, List<RaycastHit2D> hits)
     {
-        if (laserBase.transform.parent.TryGetComponent<GridObject>(out var gridObject))
+        var laserAdapter = laserBase.gameObject.transform.root.GetComponentInChildren<LaserAdapter>();
+
+        if (laserAdapter == null) 
         {
-            gridObject.PerformInteraction(this);
+            print("Laser collided, but found nothing");
+            return;
         }
+
+        laserAdapter.OnLaserHit(laserBase.GetComponent<Laser>(), this);
     }
 }
 

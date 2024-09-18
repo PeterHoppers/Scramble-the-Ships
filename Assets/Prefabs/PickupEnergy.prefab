@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1392424010226996427}
   - component: {fileID: 6495330082171840289}
   - component: {fileID: 4615446596132542967}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PickupEnergy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa3bdb0c82963ca4995cd1ef4b3bf5be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _deathSFX: {fileID: 0}
   pickupType: 0
   aquiredSFX: {fileID: 8300000, guid: a400a09a58a348d4c9d7d1c281baa912, type: 3}
 --- !u!1 &2392140671410248873
@@ -133,7 +134,7 @@ GameObject:
   - component: {fileID: 5506631751499180055}
   - component: {fileID: 7529527422279373649}
   - component: {fileID: 3754202200826475462}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -233,7 +234,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4585690953295777244}
   - component: {fileID: 4070071728427121044}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -319,7 +320,7 @@ GameObject:
   - component: {fileID: 2349387936464910967}
   - component: {fileID: 5252420381051155440}
   - component: {fileID: 8855145973546288881}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

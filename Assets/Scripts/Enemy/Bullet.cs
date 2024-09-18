@@ -4,9 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : Fireable
-{
-    public bool isFriendly = true;
-    public ParticleSystem bulletExplosion;
+{   
     public AudioClip spawnSound;
 
     public Color PreviewColor { private get; set; }
@@ -18,38 +16,6 @@ public class Bullet : Fireable
 
         audioSource.clip = spawnSound;
         audioSource.Play();
-    }
-
-    protected override void PerformInteraction(GridObject collidedPreviewable)
-    {
-        if (collidedPreviewable.IsIgnoredByBullets())
-        {
-            return;
-        }
-
-        if (collidedPreviewable.CompareTag("Player"))
-        {
-            if (!isFriendly)
-            {
-                _manager.HandleGridObjectCollision(this, collidedPreviewable);
-            }
-        }
-        else if (collidedPreviewable.CompareTag("Enemy")) //right now, these are the same, but unsure if that'll be true in the future
-        {
-            if (isFriendly)
-            {
-                _manager.HandleGridObjectCollision(this, collidedPreviewable);
-            }
-        }
-        else
-        {
-            //we only do this here because we presume that the player and enemies have their own death effect to play
-            if (bulletExplosion)
-            {
-                SetDeathSFX(bulletExplosion);
-            }
-            _manager.HandleGridObjectCollision(this, collidedPreviewable);
-        }
     }
 
     public override Color GetPreviewOutline()

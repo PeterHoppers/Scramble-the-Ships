@@ -1,6 +1,7 @@
 using LaserSystem2D;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class LaserAdapter : Fireable
@@ -11,6 +12,27 @@ public class LaserAdapter : Fireable
     private Laser _firingLaser;
     [SerializeField]
     private Laser _previewLaser;
+
+    private void Awake()
+    {
+        _foreignCollisionStatus = ForeignCollisionStatus.Undestroyable;
+    }
+
+    private void OnDisable()
+    {
+        _manager.OnTickEnd -= HidePreviewAfterTick;
+    }
+
+    public override void SetupMoveable(GameManager manager, SpawnSystem spawnSystem, Tile startingTile)
+    {
+        base.SetupMoveable(manager, spawnSystem, startingTile);
+        manager.OnTickEnd += HidePreviewAfterTick;
+    }
+
+    void HidePreviewAfterTick(int _)
+    {
+        _previewLaser.gameObject.SetActive(false);
+    }
 
     public override void OnOwnerInputChange(GridMovable owner, GameManager gameManager, InputValue previewInput)
     {
@@ -35,20 +57,28 @@ public class LaserAdapter : Fireable
         }
     }
 
+    protected override void CreateNextPreview(float timeToTickEnd)
+    {
+        base.CreateNextPreview(timeToTickEnd);
+        _previewLaser.gameObject.SetActive(true);
+    }
+
     void SetActiveState(bool isActive)
     {
         _previewLaser.gameObject.SetActive(isActive);
-        _manager.OnTickStart += DisableFiringLaser;
-        void DisableFiringLaser(float _)
+        _manager.OnTickStart += ToggleFiringLaser;
+        void ToggleFiringLaser(float _)
         {
-            _manager.OnTickStart -= DisableFiringLaser;
-            _firingLaser.gameObject.SetActive(isActive);
+            _manager.OnTickStart -= ToggleFiringLaser;
+            if (isActive)
+            {
+                _firingLaser.Enable();
+            }
+            else
+            {
+                _firingLaser.Disable();
+            }
         }
-    }
-
-    private void OnDestroy()
-    {
-        
     }
 
     protected new Quaternion ConvertInputValueToRotation(InputValue input)
@@ -63,5 +93,20 @@ public class LaserAdapter : Fireable
             default:
                 return currentRotation *= Quaternion.Euler(0, 0, 180f);
         }
+    }
+
+    public void OnLaserHit(Laser attackingLaser, GridObject hitObject)
+    {
+        if (attackingLaser != _firingLaser)
+        {
+            return;
+        }
+
+        if (attackingLaser.transform.IsChildOf(hitObject.transform))
+        {
+            return;
+        }
+
+        base.PerformInteraction(hitObject);
     }
 }

@@ -19,7 +19,9 @@ MonoBehaviour:
     - Key: 1
       Value: 4
     - Key: 2
-      Value: 7
-    - Key: 4
       Value: 6
-  commandsLoopAtTick: 5
+    - Key: 5
+      Value: 7
+    - Key: 10
+      Value: 5
+  commandsLoopAtTick: 0

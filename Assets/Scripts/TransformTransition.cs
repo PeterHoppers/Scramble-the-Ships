@@ -54,12 +54,12 @@ public class TransformTransition : MonoBehaviour
         }
     }
 
-    public void RotateTo(Quaternion targetRotation, float duration)
+    public void RotateTo(Quaternion targetRotation, float duration, bool isLocal = false)
     {
-        StartCoroutine(AnimateRotation(transform.rotation, targetRotation, duration));
+        StartCoroutine(AnimateRotation(transform.rotation, targetRotation, duration, isLocal));
     }
 
-    IEnumerator AnimateRotation(Quaternion origin, Quaternion target, float duration)
+    IEnumerator AnimateRotation(Quaternion origin, Quaternion target, float duration, bool isLocal = false)
     {
         float journey = 0f;
         while (journey <= duration)
@@ -67,7 +67,14 @@ public class TransformTransition : MonoBehaviour
             journey += Time.deltaTime;
             float curvePercent = GetCurvePercent(journey, duration, rotationCurve);
 
-            transform.rotation = Quaternion.SlerpUnclamped(origin, target, curvePercent);
+            if (isLocal)
+            {
+                transform.localRotation = Quaternion.SlerpUnclamped(origin, target, curvePercent);
+            }
+            else
+            {
+                transform.rotation = Quaternion.SlerpUnclamped(origin, target, curvePercent);
+            }
 
             yield return null;
         }

@@ -44,6 +44,7 @@ public class EnemyShip : GridMovable
                     {
                         var fireableGO = _spawnSystem.CreateToggableFirable(shipInfo.fireable, this);
                         _currentFirable = fireableGO.GetComponent<Fireable>();
+                        _currentFirable.isFriendly = false;
                     }
                 }
             }

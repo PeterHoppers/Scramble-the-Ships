@@ -6,7 +6,6 @@ using UnityEngine;
 public abstract class Previewable : GridObject
 {    
     TransformTransition _transitioner;
-    ParticleSystem _deathSFX;
 
     [HideInInspector]
     public GameObject previewObject;
@@ -91,11 +90,6 @@ public abstract class Previewable : GridObject
         base.SetPosition(directTile);
     }
 
-    public virtual void SetDeathSFX(ParticleSystem particleSystem)
-    {
-        _deathSFX = particleSystem;
-    }
-
     public virtual void CreatedNewPreviewable(Previewable createdPreviewabled)
     { }
 
@@ -112,14 +106,7 @@ public abstract class Previewable : GridObject
         if (previewObject != null) 
         { 
             Destroy(previewObject);
-        }
-
-        if (_deathSFX)
-        {
-            var deathEffect = Instantiate(_deathSFX, transform.parent);
-            deathEffect.transform.position = new Vector3(transform.position.x, transform.position.y, 5); //TODO: Fix hard-coding, but this gets it rendering above the other objects
-            deathEffect.Play();
-        }
+        }        
 
         base.DestroyObject();
     }
