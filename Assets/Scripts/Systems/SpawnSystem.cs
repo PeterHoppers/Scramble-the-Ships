@@ -50,6 +50,15 @@ public class SpawnSystem : MonoBehaviour
         }
     }
 
+    public GameObject CreateToggableFirable(Fireable fireable, GridObject owner)
+    { 
+        var fireableGO = Instantiate(fireable.gameObject, owner.transform);
+        var fireableRef = fireableGO.GetComponent<Fireable>();
+        fireableRef.SetupMoveable(_gameManager, this, owner.CurrentTile);
+        _spawnList.Add(fireableGO);
+        return fireableGO;
+    }
+
     public GameObject CreateSpawnObject(GameObject spawnObject, Tile spawnTile, Quaternion spawnRotation, bool isOffscreen = false)
     {
         var spawnedObject = Instantiate(spawnObject, Vector2.zero, spawnRotation, transform);

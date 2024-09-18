@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : GridMovable
+public class Bullet : Fireable
 {
     public bool isFriendly = true;
     public ParticleSystem bulletExplosion;
@@ -20,26 +20,21 @@ public class Bullet : GridMovable
         audioSource.Play();
     }
 
-    protected override void PerformInteraction(Collider2D collision)
+    protected override void PerformInteraction(GridObject collidedPreviewable)
     {
-        if (!collision.TryGetComponent<GridObject>(out var collidedPreviewable))
-        {
-            return;
-        }
-
         if (collidedPreviewable.IsIgnoredByBullets())
         {
             return;
         }
 
-        if (collision.CompareTag("Player"))
+        if (collidedPreviewable.CompareTag("Player"))
         {
             if (!isFriendly)
             {
                 _manager.HandleGridObjectCollision(this, collidedPreviewable);
             }
         }
-        else if (collision.CompareTag("Enemy")) //right now, these are the same, but unsure if that'll be true in the future
+        else if (collidedPreviewable.CompareTag("Enemy")) //right now, these are the same, but unsure if that'll be true in the future
         {
             if (isFriendly)
             {

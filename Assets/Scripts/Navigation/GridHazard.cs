@@ -5,14 +5,9 @@ using UnityEngine;
 
 public class GridHazard : GridObject
 {
-    protected override void PerformInteraction(Collider2D collision)
+    protected override void PerformInteraction(GridObject collidedPreviewable)
     {
-        if (!collision.TryGetComponent<GridObject>(out var collidedPreviewable))
-        {
-            return;
-        }
-
-        if (collision.CompareTag("Player"))
+        if (collidedPreviewable.CompareTag("Player"))
         {
             _manager.HandleGridObjectCollision(this, collidedPreviewable);
         }        

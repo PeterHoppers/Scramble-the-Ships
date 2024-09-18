@@ -8,7 +8,7 @@ public class ShipInfo : ScriptableObject
 {
     [Header("Related Objects")]
     [SerializeField]
-    public Bullet bullet;
+    public Fireable fireable;
     public Color baseColor;
     [Header("Sprites")]
     public Sprite shipSprite;

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3754784372112042224}
   - component: {fileID: 5892892714796851705}
   - component: {fileID: 7907043050944218356}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Down
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 6090239053312004524}
   - component: {fileID: 6561228611709008483}
   - component: {fileID: 7523410957880652234}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -448,7 +448,7 @@ GameObject:
   - component: {fileID: 628426596388609455}
   - component: {fileID: 7542608516187678157}
   - component: {fileID: 1247267858957673250}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -546,7 +546,7 @@ GameObject:
   - component: {fileID: 424388601463028259}
   - component: {fileID: 2180997749824413374}
   - component: {fileID: 4554812188316897304}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Up
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -644,7 +644,7 @@ GameObject:
   - component: {fileID: 2013667491077187520}
   - component: {fileID: 1903801631095842690}
   - component: {fileID: 5854999263901012539}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Main Ship
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -823,7 +823,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 75213825934562838}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Direction UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -860,7 +860,7 @@ GameObject:
   - component: {fileID: 1309449630725240149}
   - component: {fileID: 2100979865569068030}
   - component: {fileID: 805343917840480206}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}

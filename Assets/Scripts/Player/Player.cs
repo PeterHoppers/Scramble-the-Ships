@@ -324,10 +324,17 @@ public class Player : Previewable
             Player playerActedUpon = playerAction.playerActionPerformedOn;
 
             if (playerAction.inputValue == InputValue.Fire)
-            { 
-                var bulletGridMoveable = CreateBullet(playerActedUpon, targetTile);
-                newPreview = _manager.CreatePreviewOfPreviewableAtTile(bulletGridMoveable, targetTile);
-                newPreview.creatorOfPreview = this;
+            {
+                if (playerActedUpon._shipInfo.fireable.TryGetComponent<Bullet>(out var bullet))
+                {
+                    var bulletGridMoveable = CreateBullet(playerActedUpon, targetTile);
+                    newPreview = _manager.CreatePreviewOfPreviewableAtTile(bulletGridMoveable, targetTile);
+                    newPreview.creatorOfPreview = this;
+                }
+                else
+                {
+                    newPreview = new PreviewAction();
+                }
             }
             else
             {
@@ -340,7 +347,7 @@ public class Player : Previewable
 
     GridMovable CreateBullet(Player firingPlayer, Tile spawnTile)
     {
-        var bulletGridMoveable = _manager.CreateMovableAtTile(firingPlayer._shipInfo.bullet, firingPlayer, spawnTile);
+        var bulletGridMoveable = _manager.CreateMovableAtTile(firingPlayer._shipInfo.fireable, firingPlayer, spawnTile);
         var bullet = bulletGridMoveable.GetComponent<Bullet>();
         bullet.spawnSound = _shipInfo.fireSFX;
         bullet.PreviewColor = _shipInfo.baseColor;
@@ -478,14 +485,14 @@ public class Player : Previewable
         inputValueDisplays.Add(value, renderer);
     }
 
-    protected override void PerformInteraction(Collider2D collision)
+    protected override void PerformInteraction(GridObject collidedGridObject)
     {
-        if (collision.TryGetComponent<Player>(out var player))
+        if (collidedGridObject.TryGetComponent<Player>(out var player))
         {
             _manager.HandlePlayerCollision(this, player);
         }
 
-        base.PerformInteraction(collision);
+        base.PerformInteraction(collidedGridObject);
     }
 
     public override void ResolvePreviewable()

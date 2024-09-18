@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using LaserSystem2D;
 
-public abstract class GridObject : MonoBehaviour
+public abstract class GridObject : MonoBehaviour, ILaserEntered
 {    
     private Tile _currentTile;
     public Tile CurrentTile 
@@ -58,12 +59,25 @@ public abstract class GridObject : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        PerformInteraction(collision);
+        if (!collision.TryGetComponent<GridObject>(out var collidedGridObject))
+        {
+            return;
+        }
+
+        PerformInteraction(collidedGridObject);
     }
 
-    protected virtual void PerformInteraction(Collider2D collision)
+    protected virtual void PerformInteraction(GridObject collidedGridObject)
     {
 
+    }
+
+    public virtual void OnLaserEntered(LaserBase laserBase, List<RaycastHit2D> hits)
+    {
+        if (laserBase.transform.parent.TryGetComponent<GridObject>(out var gridObject))
+        {
+            gridObject.PerformInteraction(this);
+        }
     }
 }
 

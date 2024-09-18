@@ -7,11 +7,11 @@ public class GridPickup : GridObject
     public PickupType pickupType;
     public AudioClip aquiredSFX;
 
-    protected override void PerformInteraction(Collider2D collision)
+    protected override void PerformInteraction(GridObject collidedGridObject)
     {
-        base.PerformInteraction(collision);
+        base.PerformInteraction(collidedGridObject);
 
-        if (!collision.TryGetComponent<Player>(out var playerCollided))
+        if (!collidedGridObject.TryGetComponent<Player>(out var playerCollided))
         {
             return;
         }
