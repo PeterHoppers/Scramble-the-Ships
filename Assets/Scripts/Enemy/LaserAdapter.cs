@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class LaserAdapter : Fireable
 {
-    [SerializeField]
-    private GameObject _laserHolder;
+    private AudioSource _laserAudioSource;
+    [Space]
     [SerializeField]
     private Laser _firingLaser;
     [SerializeField]
@@ -18,6 +18,7 @@ public class LaserAdapter : Fireable
     private void Awake()
     {
         _foreignCollisionStatus = ForeignCollisionStatus.Undestroyable;
+        _laserAudioSource = GetComponent<AudioSource>();
     }
 
     public override void SetupMoveable(GameManager manager, SpawnSystem spawnSystem, Tile startingTile)
@@ -84,6 +85,7 @@ public class LaserAdapter : Fireable
     {
         _manager.OnTickStart -= EnableLasers;
         _firingLaser.Enable();
+        _laserAudioSource.Play();
     }
 
     void DisableLasers(int _)
