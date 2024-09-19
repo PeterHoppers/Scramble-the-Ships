@@ -4,6 +4,7 @@ using UnityEngine;
 using AYellowpaper;
 using AYellowpaper.SerializedCollections;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class TabbedPanelUI : MonoBehaviour
 {
@@ -12,6 +13,16 @@ public class TabbedPanelUI : MonoBehaviour
     private void Start()
     {
         OnPanelButtonClicked(0);
+    }
+
+    private void OnEnable()
+    {
+        var firstButton = GetComponentInChildren<Button>();
+        if (firstButton != null && firstButton.gameObject.activeInHierarchy) 
+        {
+            OnPanelButtonClicked(0);
+            EventSystem.current.SetSelectedGameObject(firstButton.gameObject);
+        }
     }
 
     public void OnPanelButtonClicked(int panelId)

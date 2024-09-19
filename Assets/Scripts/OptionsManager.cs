@@ -51,6 +51,7 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
     public delegate void ParametersChanged(GameSettingParameters gameSettings, SystemSettingParameters systemSettingParameters);
     public ParametersChanged OnParametersChanged;
 
+    TabbedPanelUI _panelUI;
     GameManager _gameManager;
 
     public void InitManager(GameManager manager)
@@ -72,6 +73,7 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        _panelUI = optionsCanvas.GetComponentInChildren<TabbedPanelUI>();
     }
 
     void Start()
@@ -200,7 +202,6 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
         if (toggledActiveState)
         {
             Time.timeScale = 0;
-            EventSystem.current.SetSelectedGameObject(amountScrambledDropdown.gameObject);
         }
         else
         {
