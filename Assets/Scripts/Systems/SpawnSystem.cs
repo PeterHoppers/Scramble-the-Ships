@@ -287,6 +287,7 @@ public enum SpawnCommand
 public enum SpawnObject
 {
     Meteor = 0,
+    IndestructibleRock = 9,
     Turret = 1,
     LaserTurret = 8,
     RotatingTurret = 7,

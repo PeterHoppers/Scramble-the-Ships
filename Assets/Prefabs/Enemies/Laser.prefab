@@ -439,6 +439,10 @@ PrefabInstance:
       value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 1914681070961610764, guid: 154f3597a0c59fb4c99d9247f1040458, type: 3}
+      propertyPath: _data._viewData._hitEffectPrefab
+      value: 
+      objectReference: {fileID: 4910468986950020555, guid: c08ef7d92e9df8f4ab8618333bcf6af3, type: 3}
+    - target: {fileID: 1914681070961610764, guid: 154f3597a0c59fb4c99d9247f1040458, type: 3}
       propertyPath: _data._collisionData._mask.m_Bits
       value: 64
       objectReference: {fileID: 0}

@@ -20,11 +20,6 @@ public class LaserAdapter : Fireable
         _foreignCollisionStatus = ForeignCollisionStatus.Undestroyable;
     }
 
-    private void OnDisable()
-    {
-        _manager.OnTickEnd -= HidePreviewAfterTick;
-    }
-
     public override void SetupMoveable(GameManager manager, SpawnSystem spawnSystem, Tile startingTile)
     {
         base.SetupMoveable(manager, spawnSystem, startingTile);
@@ -72,19 +67,36 @@ public class LaserAdapter : Fireable
     {
         _isActiveLaser = isActive;
         _previewLaser.gameObject.SetActive(isActive);
-        _manager.OnTickEnd += ToggleFiringLaser;
-        void ToggleFiringLaser(int _)
+
+        if (isActive)
         {
-            _manager.OnTickEnd -= ToggleFiringLaser;
-            if (isActive)
-            {
-                _firingLaser.Enable();
-            }
-            else
-            {
-                _firingLaser.Disable();
-            }
+            _manager.OnTickStart += EnableLasers;
+            
         }
+        else
+        {
+            _manager.OnTickEnd += DisableLasers;            
+        }
+        
+    }
+
+    void EnableLasers(float _)
+    {
+        _manager.OnTickStart -= EnableLasers;
+        _firingLaser.Enable();
+    }
+
+    void DisableLasers(int _)
+    {
+        _manager.OnTickEnd -= DisableLasers;
+        _firingLaser.Disable();
+    }
+
+    private void OnDisable()
+    {
+        _manager.OnTickEnd -= HidePreviewAfterTick;
+        _manager.OnTickStart -= EnableLasers;
+        _manager.OnTickEnd -= DisableLasers;
     }
 
     protected new Quaternion ConvertInputValueToRotation(InputValue input)

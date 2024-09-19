@@ -1115,6 +1115,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 728a1716cff4b284b9ad127715156fc7, type: 2}
   - {fileID: 11400000, guid: d6499b2d32df4374ea4661c93cb9b7a8, type: 2}
   - {fileID: 11400000, guid: aa418f0335562b942a3316ffdf744c38, type: 2}
+  - {fileID: 11400000, guid: bdf06b2fabff1954aa022059ac90fc19, type: 2}
   isTwoPlayers: 0
   defaultLocationForTransitionGrids:
     direction: 0
@@ -1240,7 +1241,7 @@ MonoBehaviour:
   sfxSource: {fileID: 3718499001177098573}
   musicSource: {fileID: 6577034010550022203}
   mainMenuMusic: {fileID: 8300000, guid: cf50a51bcdcd14c42954aef9efe5e342, type: 3}
-  cutsceneMusic: {fileID: 8300000, guid: 81b9b52ccc716244c9c8b08c280b530e, type: 3}
+  cutsceneMusic: {fileID: 8300000, guid: fadaeb0e06821ec4095ff1b33bbc5e5d, type: 3}
   menuSFX: {fileID: 8300000, guid: 3cfb731cace75d04396c46d0d24588ed, type: 3}
   clickSFX: {fileID: 8300000, guid: 0057592e535e89d4f80c2034d064789f, type: 3}
 --- !u!82 &3718499001177098573
