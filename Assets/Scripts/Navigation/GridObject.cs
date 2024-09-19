@@ -22,7 +22,6 @@ public abstract class GridObject : MonoBehaviour, ILaserEntered
     protected GameManager _manager;
     protected SpawnSystem _spawnSystem;
     protected ForeignCollisionStatus _foreignCollisionStatus = ForeignCollisionStatus.Default;
-    [SerializeField]
     protected ParticleSystem _deathSFX;
 
     public virtual void SetupObject(GameManager manager, SpawnSystem system, Tile startingTile)
@@ -93,7 +92,7 @@ public abstract class GridObject : MonoBehaviour, ILaserEntered
 
     public void OnLaserEntered(LaserBase laserBase, List<RaycastHit2D> hits)
     {
-        var laserAdapter = laserBase.gameObject.transform.root.GetComponentInChildren<LaserAdapter>();
+        var laserAdapter = laserBase.gameObject.transform.parent.parent.GetComponentInChildren<LaserAdapter>(); //Eww, find a better way to assoicate a laser to a laser adapter
 
         if (laserAdapter == null) 
         {

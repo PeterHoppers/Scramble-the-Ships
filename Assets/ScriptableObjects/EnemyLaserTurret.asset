@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df69872ed23ca47408b79a87ee0fa191, type: 3}
-  m_Name: EnemyLaserShip
+  m_Name: EnemyLaserTurret
   m_EditorClassIdentifier: 
   fireable: {fileID: -9168727962612195409, guid: 8ce4b21b8477f3d44bac6782cea6ce44, type: 3}
   baseColor: {r: 0, g: 0, b: 0, a: 0}
-  shipSprite: {fileID: 21300000, guid: 8eaac9babd3d66f4dbc5ecf5fb4d87a0, type: 3}
+  shipSprite: {fileID: 21300000, guid: f0af911170d5e76418df7cce587dee87, type: 3}
   bulletSprite: {fileID: 21300000, guid: 211bc55e0fa189544b53690a80afdc90, type: 3}
   deathVFX: {fileID: 725748389856807712, guid: e95db50273d4e5746b02ba9b960f0afd, type: 3}

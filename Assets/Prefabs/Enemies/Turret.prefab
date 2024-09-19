@@ -50,8 +50,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previewObject: {fileID: 0}
-  travelDirection: {x: 0, y: 1}
-  shipInfo: {fileID: 11400000, guid: d7301dda3ef87344ea3fd5db95bd3787, type: 2}
+  movingInput: 5
+  shipInfo: {fileID: 11400000, guid: cf74d3a5e0a5b164183ab7ea084bd346, type: 2}
 --- !u!114 &6090239053312004524
 MonoBehaviour:
   m_ObjectHideFlags: 0

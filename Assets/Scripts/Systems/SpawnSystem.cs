@@ -288,6 +288,7 @@ public enum SpawnObject
 {
     Meteor = 0,
     Turret = 1,
+    LaserTurret = 8,
     RotatingTurret = 7,
     MovingShip = 2,
     ShootingShip = 3,

@@ -13,6 +13,8 @@ public class LaserAdapter : Fireable
     [SerializeField]
     private Laser _previewLaser;
 
+    private bool _isActiveLaser = false;
+
     private void Awake()
     {
         _foreignCollisionStatus = ForeignCollisionStatus.Undestroyable;
@@ -60,16 +62,20 @@ public class LaserAdapter : Fireable
     protected override void CreateNextPreview(float timeToTickEnd)
     {
         base.CreateNextPreview(timeToTickEnd);
-        _previewLaser.gameObject.SetActive(true);
+        if (_isActiveLaser)
+        {
+            _previewLaser.gameObject.SetActive(true);
+        }
     }
 
     void SetActiveState(bool isActive)
     {
+        _isActiveLaser = isActive;
         _previewLaser.gameObject.SetActive(isActive);
-        _manager.OnTickStart += ToggleFiringLaser;
-        void ToggleFiringLaser(float _)
+        _manager.OnTickEnd += ToggleFiringLaser;
+        void ToggleFiringLaser(int _)
         {
-            _manager.OnTickStart -= ToggleFiringLaser;
+            _manager.OnTickEnd -= ToggleFiringLaser;
             if (isActive)
             {
                 _firingLaser.Enable();
@@ -97,7 +103,7 @@ public class LaserAdapter : Fireable
 
     public void OnLaserHit(Laser attackingLaser, GridObject hitObject)
     {
-        if (attackingLaser != _firingLaser)
+        if (attackingLaser.Id == _previewLaser.Id)
         {
             return;
         }

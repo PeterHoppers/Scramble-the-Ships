@@ -131,7 +131,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6297633ba9b21d346a488160fc18ca0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _deathSFX: {fileID: 0}
   previewObject: {fileID: 0}
   movingInput: 5
   isFriendly: 1
@@ -165,7 +164,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7372355921352353798, guid: c6637a20210e93244a7a33441c56caac, type: 3}
       propertyPath: _data._raycastData._mask.m_Bits
-      value: 448
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7372355921352353798, guid: c6637a20210e93244a7a33441c56caac, type: 3}
       propertyPath: _data._viewData._hitEffectPrefab
@@ -173,7 +172,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7372355921352353798, guid: c6637a20210e93244a7a33441c56caac, type: 3}
       propertyPath: _data._collisionData._mask.m_Bits
-      value: 448
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7372355921352353798, guid: c6637a20210e93244a7a33441c56caac, type: 3}
       propertyPath: _data._raycastData._shootingSpeed
@@ -298,7 +297,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7910747077131624722, guid: c6637a20210e93244a7a33441c56caac, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 7910747077131624722, guid: c6637a20210e93244a7a33441c56caac, type: 3}
       propertyPath: m_LocalPosition.z

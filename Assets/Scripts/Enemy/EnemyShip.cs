@@ -15,6 +15,13 @@ public class EnemyShip : GridMovable
 
     private Fireable _currentFirable;
 
+    private void Awake()
+    {
+        var shipSprite = shipInfo.shipSprite;
+        var shipRenderer = GetComponentInChildren<SpriteRenderer>();
+        shipRenderer.sprite = shipSprite;
+    }
+
     public void SetCommands(SerializedDictionary<int, InputValue> commands, int commandsLoopAtTick)
     {
         _shipCommands = commands;
@@ -36,7 +43,6 @@ public class EnemyShip : GridMovable
                     var newPreview = _manager.CreatePreviewOfPreviewableAtTile(moveable, shootingTile);
                     newPreview.creatorOfPreview = this;
                     _manager.AddPreviewAction(newPreview);
-                    movingInput = InputValue.None;
                 }
                 else
                 {
@@ -47,6 +53,8 @@ public class EnemyShip : GridMovable
                         _currentFirable.isFriendly = false;
                     }
                 }
+
+                movingInput = InputValue.None;                
             }
             else
             {
