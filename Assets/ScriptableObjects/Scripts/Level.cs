@@ -14,6 +14,7 @@ public class Level : ScriptableObject
     public List<Effect> startingEffects;
 
     public AudioClip levelSong;
+    public Sprite levelBackground;
 
     [Header("Level Defaults")]
     public bool overrideDefaultTransitionGrids = false;

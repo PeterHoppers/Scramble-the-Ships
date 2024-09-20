@@ -28,6 +28,27 @@ public class ScreenSystem : MonoBehaviour
         _levelScreens = level.GetLevelScreens(playerAmount);
         ScreenAmount = _levelScreens.Length;
         PlayLevelSong();
+        UpdateLevelBackground();
+    }
+
+    void UpdateLevelBackground()
+    {
+        if (_level == null)
+        {
+            return;
+        }
+
+        if (_level.levelBackground == null)
+        {
+            return;
+        }
+
+        var panningBackground = Camera.main.GetComponent<PanningBackground>();
+
+        if (panningBackground != null) 
+        {
+            panningBackground.UpdateBackgroundImage(_level.levelBackground);
+        }
     }
 
     public void PlayLevelSong()

@@ -31,6 +31,7 @@ MonoBehaviour:
   - type: 12
     amount: 80
   levelSong: {fileID: 8300000, guid: fed7accaf6c6a1544a1c1fd3d8c8389e, type: 3}
+  levelBackground: {fileID: 21300000, guid: 9105dd255c9872f489a8bcaafd6a8f04, type: 3}
   overrideDefaultTransitionGrids: 0
   transitionGrids:
     direction: 0

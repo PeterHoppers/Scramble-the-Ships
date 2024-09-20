@@ -9,6 +9,7 @@ public class LevelEditor : Editor
 
     SerializedProperty startingEffects;
     SerializedProperty levelSong;
+    SerializedProperty backgroundImage;
 
     void OnEnable()
     {
@@ -18,6 +19,7 @@ public class LevelEditor : Editor
         areLevelsSameToggle = serializedObject.FindProperty("useOnePlayerForBoth");
         startingEffects = serializedObject.FindProperty("startingEffects");
         levelSong = serializedObject.FindProperty("levelSong");
+        backgroundImage = serializedObject.FindProperty("levelBackground");
     }
 
     // Update is called once per frame
@@ -38,6 +40,7 @@ public class LevelEditor : Editor
         EditorGUILayout.Space();
         EditorGUILayout.PropertyField(startingEffects);
         EditorGUILayout.PropertyField(levelSong);
+        EditorGUILayout.PropertyField(backgroundImage);
 
         // Apply changes to the serializedProperty - always do this in the end of OnInspectorGUI.
         serializedObject.ApplyModifiedProperties();

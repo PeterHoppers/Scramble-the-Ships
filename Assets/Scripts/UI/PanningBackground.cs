@@ -68,4 +68,15 @@ public class PanningBackground : MonoBehaviour
         var yOffset = stationPosition.y + (_backgroundSectionHeight * -panningDirection.y);
         moving.transform.localPosition = new Vector3(stationPosition.x, yOffset, stationPosition.z);
     }
+
+    public void UpdateBackgroundImage(Sprite sprite)
+    {
+        if (_topRenderer == null || _bottomRenderer == null) 
+        {
+            return;
+        }
+
+        _topRenderer.sprite = sprite;
+        _bottomRenderer.sprite = sprite;
+    }
 }
