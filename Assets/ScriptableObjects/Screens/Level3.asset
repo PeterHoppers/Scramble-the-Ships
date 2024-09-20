@@ -14,24 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useOnePlayerForBoth: 1
   onePlayerLevelScreens:
-  - {fileID: 11400000, guid: 2caad1ea8815a0c41899794bd610af6c, type: 2}
-  - {fileID: 11400000, guid: e213ed48f3ce51549b6c7ff5df83889b, type: 2}
-  - {fileID: 11400000, guid: a19beb1c1a69bb5479c5d9ea9dd75f35, type: 2}
-  - {fileID: 11400000, guid: 215ca32ffb6b64a4c8a9e2aacb629cfd, type: 2}
-  - {fileID: 11400000, guid: 719b5eb52abdc614a9616fe12101d54c, type: 2}
-  - {fileID: 11400000, guid: c9749591900b0cd449a8045ef2158243, type: 2}
+  - {fileID: 11400000, guid: 266103a7550dd8b44b02505f8c027de7, type: 2}
+  - {fileID: 11400000, guid: f22d92276758a57479dc359b11bbccf4, type: 2}
+  - {fileID: 11400000, guid: d8737a5631f012444badab1f43cec125, type: 2}
+  - {fileID: 11400000, guid: 38235691008956447a60184fe522f64a, type: 2}
+  - {fileID: 11400000, guid: 2f2b3f9833ffd094f84133543db1c06b, type: 2}
+  - {fileID: 11400000, guid: 2576f78066da254419d7e0da2ea1d443, type: 2}
   twoPlayerLevelScreens: []
   startingEffects:
   - type: 4
-    amount: 0
+    amount: 1
   - type: 0
     amount: 4
   - type: 11
     amount: 1
   - type: 12
-    amount: 40
-  levelSong: {fileID: 8300000, guid: 4ab7dbb9d1b97324ba9275e7031713d5, type: 3}
-  levelBackground: {fileID: 21300000, guid: e891cae75828d234a92d1f49747ccc39, type: 3}
+    amount: 80
+  levelSong: {fileID: 8300000, guid: fed7accaf6c6a1544a1c1fd3d8c8389e, type: 3}
+  levelBackground: {fileID: 21300000, guid: 4defb6801511e1845909e44e800ec8d3, type: 3}
   overrideDefaultTransitionGrids: 0
   transitionGrids:
     direction: 0

@@ -13,11 +13,9 @@ MonoBehaviour:
   m_Name: PriorLevel2
   m_EditorClassIdentifier: 
   dialogueNodes:
-  - textToDisplay: We bring some good news, pilot! We have successfully been able
-      to isolate the alien virus enough to bring your firing systems back online.
-  - textToDisplay: "It\u2019s important to note that spawning a missile does take
-      a considerable amount of energy to do. While normally your ship would be equipped
-      to constantly blast at the aliens, the lowered max energy of your ship makes
-      that more difficult."
-  - textToDisplay: "We hope you don\u2019t have to use them too often as you travel
-      through this next sector."
+  - textToDisplay: "We\u2019re getting data back from your systems about the upcoming
+      sector, and the chosen spots to arrive and safely depart each screen is becoming
+      abnormal."
+  - textToDisplay: "We are unsure if that\u2019s due to your systems being hacked,
+      or if it's due to anomalies found within the sector itself. Nonetheless, be
+      prepared for a less linear route through it."
