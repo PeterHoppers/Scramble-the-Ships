@@ -221,6 +221,17 @@ public class SpawnSystem : MonoBehaviour
         _loopTickOffset = 0;
     }
 
+    //only use if there's something that gets created outside the normal system
+    public void AddObject(GameObject newSpawn)
+    {
+        if (_spawnList.Contains(newSpawn))
+        {
+            return;
+        }
+
+        _spawnList.Add(newSpawn);
+    }
+
     public void ClearObjects()
     {
         foreach (var item in _spawnList)

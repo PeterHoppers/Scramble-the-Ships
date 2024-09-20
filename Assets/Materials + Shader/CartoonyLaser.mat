@@ -54,7 +54,7 @@ Material:
     - _LineSize: 0.109
     - _MiddleEdgeSharpness: 0.3
     - _MiddleFeather: 0.2
-    - _NoiseIntensity: 1
+    - _NoiseIntensity: 0.5
     - _OutlineEdgeSharpness: 0.1
     - _OutlineFeather: 0.25
     - _OutlineSize: 0.376

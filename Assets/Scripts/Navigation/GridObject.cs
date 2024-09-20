@@ -24,6 +24,8 @@ public abstract class GridObject : MonoBehaviour, ILaserEntered
     protected ForeignCollisionStatus _foreignCollisionStatus = ForeignCollisionStatus.Default;
     protected ParticleSystem _deathSFX;
 
+    private const int Z_ABOVE_RENDER_VALUE = 5;  //TODO: Fix hard-coding, but this gets it rendering above the other objects
+
     public virtual void SetupObject(GameManager manager, SpawnSystem system, Tile startingTile)
     {
         _manager = manager;
@@ -53,8 +55,12 @@ public abstract class GridObject : MonoBehaviour, ILaserEntered
         if (_deathSFX)
         {
             var deathEffect = Instantiate(_deathSFX, transform.parent);
-            deathEffect.transform.position = new Vector3(transform.position.x, transform.position.y, 5); //TODO: Fix hard-coding, but this gets it rendering above the other objects
-            deathEffect.Play();
+            deathEffect.transform.position = new Vector3(transform.position.x, transform.position.y, Z_ABOVE_RENDER_VALUE);
+
+            if (!deathEffect.TryGetComponent<VFXPausing>(out var vfxPause))
+            {
+                deathEffect.Play();
+            }
         }
 
         _spawnSystem.DespawnObject(this);

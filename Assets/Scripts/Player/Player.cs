@@ -393,7 +393,6 @@ public class Player : Previewable
     public void OnSpawn()
     {
         _isInactive = false;
-        AddCondition<Respawn>(Respawn.RespawnDuration);
         _manager.OnTickStart += ShowVisiblity;
         SetInputStatus(false);
         SetShipVisiblity(true);
