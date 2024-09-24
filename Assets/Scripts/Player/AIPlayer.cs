@@ -15,9 +15,9 @@ public class AIPlayer : Player
 
     private InputValue _currentInputValue = InputValue.None;
 
-    public override void InitPlayer(GameManager manager, PlayerShipInfo shipInfo, int id, bool isShootingEnabled)
+    public override void InitPlayer(GameManager manager, PlayerShipInfo shipInfo, int id)
     {
-        base.InitPlayer(manager, shipInfo, id, isShootingEnabled);
+        base.InitPlayer(manager, shipInfo, id);
         manager.OnTickStart += CreateNextPreview;
         manager.OnScreenChange += GetCommandsForScreen;
     }

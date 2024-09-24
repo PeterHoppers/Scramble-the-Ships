@@ -33,7 +33,6 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
     public SliderReader tickDurationSlider;
     public SliderReader tickEndDurationSlider;
     public TMP_Dropdown moveOnInputDropdown;
-    public TMP_Dropdown shootingEnabledDropdown;
     public SliderReader maxEnergySlider;
     public Slider energyPerMoveSlider;
     public Slider energyPerShotSlider;
@@ -119,12 +118,6 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
         moveOnInputDropdown.onValueChanged.AddListener((int newSelection) =>
         {
             gameSettingParameters.doesMoveOnInput = DropdownValueToBool(newSelection);
-        });
-
-        shootingEnabledDropdown.value = BoolToDropdownIndex(gameSettingParameters.isShootingEnabled);
-        shootingEnabledDropdown.onValueChanged.AddListener((int newSelection) =>
-        {
-            gameSettingParameters.isShootingEnabled = DropdownValueToBool(newSelection);
         });
 
         maxEnergySlider.SetValueToRead(gameSettingParameters.maxEnergy);
@@ -264,7 +257,6 @@ public struct GameSettingParameters
     public float tickDuration;
     public float tickEndDuration;
     public bool doesMoveOnInput;
-    public bool isShootingEnabled;
     public int maxEnergy;
     public int energyPerMove;
     public int energyPerShot;

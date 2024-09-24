@@ -62,7 +62,6 @@ public class EffectsSystem : MonoBehaviour
         OnTickDurationChanged?.Invoke(gameSettings.tickDuration);
         OnTickEndDurationChanged?.Invoke(gameSettings.tickEndDuration);
         OnMoveOnInputChanged?.Invoke(gameSettings.doesMoveOnInput);
-        OnShootingChanged?.Invoke(gameSettings.isShootingEnabled);
         OnMaxEnergyChanged?.Invoke(gameSettings.maxEnergy);
     }
 

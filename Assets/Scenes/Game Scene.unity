@@ -7490,7 +7490,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6824546314571791643, guid: 23998af3c46b757499df508b643cf3ed, type: 3}
       propertyPath: _isPreviewGame
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6856579681233464659, guid: 23998af3c46b757499df508b643cf3ed, type: 3}
       propertyPath: m_AnchorMax.y

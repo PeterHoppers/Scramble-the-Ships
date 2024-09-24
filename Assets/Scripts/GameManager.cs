@@ -161,8 +161,7 @@ public class GameManager : MonoBehaviour
         var newPlayer = playerObject.GetComponent<Player>();
 
         int playerId = _players.Count;
-        bool isShootingEnabled = OptionsManager.Instance.gameSettingParameters.isShootingEnabled;
-        newPlayer.InitPlayer(this, shipInfos[playerId], playerId, isShootingEnabled);
+        newPlayer.InitPlayer(this, shipInfos[playerId], playerId);
         newPlayer.transform.SetParent(transform);
 
         _players.Add(newPlayer);

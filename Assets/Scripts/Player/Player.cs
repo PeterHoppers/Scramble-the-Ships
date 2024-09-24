@@ -45,7 +45,7 @@ public class Player : Previewable
         }        
     }
 
-    public virtual void InitPlayer(GameManager manager, PlayerShipInfo shipInfo, int id, bool isShootingEnabled)
+    public virtual void InitPlayer(GameManager manager, PlayerShipInfo shipInfo, int id)
     {      
         _manager = manager;
         _manager.OnTickStart += OnTickStart;
@@ -67,35 +67,28 @@ public class Player : Previewable
         _shipRenderer = GetComponentInChildren<SpriteRenderer>();
         _shipRenderer.sprite = _shipSprite;
         _shipAudio = GetComponentInChildren<AudioSource>();
-
-        if (isShootingEnabled)
-        {
-            AddPossibleInput(InputValue.Fire);
-        }
-
-        ChangeShootingCondition(isShootingEnabled);
     }
 
     private void OnShootingChanged(bool isAdded)
     {
-        ChangeShootingCondition(isAdded);
-    }
-
-    private void ChangeShootingCondition(bool isShootingEnabled)
-    {
-        bool wasShootingDisabled = _playerConditions.Any(x => x.GetType() == typeof(ShootingDisable));
-
-        if (wasShootingDisabled)
+        if (isAdded)
         {
-            if (isShootingEnabled)
+            bool wasShootingDisabled = _playerConditions.Any(x => x.GetType() == typeof(ShootingDisable));
+            if (wasShootingDisabled)
             {
                 var condition = _playerConditions.First(x => x.GetType() == typeof(ShootingDisable));
-                condition.RemoveCondition(); //kind of going through the backdoor here. The condition should normally end itself, not some UI
-                RemoveCondition(condition);
+                if (condition != null)
+                {
+                    condition.RemoveCondition();//kind of going through the backdoor here. The condition should normally end itself, not some UI
+                    RemoveCondition(condition);
+                }
             }
+            else
+            {
+                AddPossibleInput(InputValue.Fire);
+            }            
         }
-
-        if (!isShootingEnabled)
+        else
         {
             AddCondition<ShootingDisable>(int.MaxValue);
         }

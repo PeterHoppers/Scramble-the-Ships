@@ -21,6 +21,7 @@ public class ControlsManager : MonoBehaviour, IManager
         _gameManager = manager;
         _gameManager.OnTickEnd += OnTickEnd;
         _gameManager.OnPlayerJoinedGame += OnPlayerJoined;
+        _gameManager.OnScreenChange += OnScreenChange;
 
         _gameManager.EffectsSystem.OnScrambleAmountChanged += (int scrambleAmount) => _amountToScramble = scrambleAmount;
         _gameManager.EffectsSystem.OnMultiplayerScrambleTypeChanged += (bool isSame) => _playersSameShuffle = isSame;
@@ -40,6 +41,11 @@ public class ControlsManager : MonoBehaviour, IManager
     }  
 
     void OnTickEnd(int _)
+    {
+        UpdateShuffledValues();
+    }
+
+    private void OnScreenChange(int current_, int max_)
     {
         UpdateShuffledValues();
     }
@@ -187,8 +193,7 @@ public class ControlsManager : MonoBehaviour, IManager
 
     private void OnPlayerJoined(Player player)
     {
-        _players = _gameManager.GetAllPlayers();
-        UpdateShuffledValues();
+        _players = _gameManager.GetAllPlayers();        
     }
 
     private int GetLastIndexForScrambleType(ScrambleType type)

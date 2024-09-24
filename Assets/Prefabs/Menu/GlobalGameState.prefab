@@ -1208,6 +1208,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bdf06b2fabff1954aa022059ac90fc19, type: 2}
   _isTwoPlayers: 0
   _isAI: 0
+  _isPreviewGame: 0
   defaultLocationForTransitionGrids:
     direction: 0
     positions:
@@ -1278,7 +1279,6 @@ MonoBehaviour:
     tickDuration: 1.2
     tickEndDuration: 0.25
     doesMoveOnInput: 1
-    isShootingEnabled: 0
     maxEnergy: 100
     energyPerMove: 1
     energyPerShot: 5
@@ -1289,7 +1289,6 @@ MonoBehaviour:
   tickDurationSlider: {fileID: 6007155911750723988}
   tickEndDurationSlider: {fileID: 1889235547078554859}
   moveOnInputDropdown: {fileID: 2791053417506734142}
-  shootingEnabledDropdown: {fileID: 6712013074024764632}
   maxEnergySlider: {fileID: 6762296181937121250}
   energyPerMoveSlider: {fileID: 4451520084110643971}
   energyPerShotSlider: {fileID: 7981610640601552802}
@@ -4751,7 +4750,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7577713429412319029, guid: 711a638ceb3e3444a8634c9e302a80df, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 2212196693068058840, guid: 711a638ceb3e3444a8634c9e302a80df, type: 3}
       insertIndex: 1
@@ -4797,17 +4797,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e47da84ebc1af240b174a1b8c77c082, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6712013074024764632 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2217068439584599879, guid: 711a638ceb3e3444a8634c9e302a80df, type: 3}
-  m_PrefabInstance: {fileID: 4891269474045229983}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &6724448738534812487 stripped
