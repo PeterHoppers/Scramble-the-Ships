@@ -14,35 +14,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingItems:
   - spawnInfo:
-      objectToSpawn: 6
+      objectToSpawn: 0
       direction: 0
-      groupingSize: 1
+      groupingSize: 3
     spawnCoordinates:
       x:
         anchor: 1
         offset: 0
       y:
         anchor: 1
-        offset: 2
+        offset: 3
   - spawnInfo:
       objectToSpawn: 0
       direction: 0
-      groupingSize: 11
+      groupingSize: 3
     spawnCoordinates:
       x:
         anchor: 1
         offset: 0
       y:
         anchor: 1
-        offset: 4
+        offset: -3
   - spawnInfo:
       objectToSpawn: 0
-      direction: 2
-      groupingSize: 1
+      direction: 0
+      groupingSize: 3
     spawnCoordinates:
       x:
+        anchor: 0
+        offset: 1
+      y:
         anchor: 1
         offset: 0
+  - spawnInfo:
+      objectToSpawn: 0
+      direction: 0
+      groupingSize: 3
+    spawnCoordinates:
+      x:
+        anchor: 2
+        offset: 1
       y:
         anchor: 1
         offset: 0
@@ -59,5 +70,21 @@ MonoBehaviour:
   effects: []
   playerAICommands: {fileID: 11400000, guid: ba0e9c549812a1846b5eb9299a368e45, type: 2}
   enemySpawnInformation:
-    _serializedList: []
-  spawnsLoopAtTick: 0
+    _serializedList:
+    - Key: 2
+      Value:
+      - spawnInfo:
+          objectToSpawn: 2
+          direction: 3
+          groupingSize: 1
+        otherCoordinate:
+          anchor: 1
+          offset: 1
+      - spawnInfo:
+          objectToSpawn: 2
+          direction: 2
+          groupingSize: 1
+        otherCoordinate:
+          anchor: 1
+          offset: -1
+  spawnsLoopAtTick: 15

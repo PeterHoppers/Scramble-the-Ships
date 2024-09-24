@@ -90,8 +90,7 @@ MonoBehaviour:
       Value: {fileID: 1598679307709481886}
     - Key: 3
       Value: {fileID: 886542653393639282}
-  _commands: {fileID: 11400000, guid: ba0e9c549812a1846b5eb9299a368e45, type: 2}
-  _inputDelay: 0.25
+  _inputDelay: 0.55
 --- !u!114 &886542653393639282 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1247267858957673250, guid: eddc66d2a7d2a3c4ea805ef786e6f4dc, type: 3}

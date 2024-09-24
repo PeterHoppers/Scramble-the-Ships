@@ -14,50 +14,125 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingItems:
   - spawnInfo:
-      objectToSpawn: 6
-      direction: 0
-      groupingSize: 1
-    spawnCoordinates:
-      x:
-        anchor: 1
-        offset: 0
-      y:
-        anchor: 1
-        offset: 2
-  - spawnInfo:
       objectToSpawn: 0
-      direction: 0
+      direction: 2
       groupingSize: 11
     spawnCoordinates:
       x:
-        anchor: 1
-        offset: 0
+        anchor: 0
+        offset: 1
       y:
-        anchor: 1
-        offset: 4
+        anchor: 0
+        offset: 0
   - spawnInfo:
       objectToSpawn: 0
-      direction: 2
-      groupingSize: 1
+      direction: 3
+      groupingSize: 18
     spawnCoordinates:
       x:
-        anchor: 1
+        anchor: 2
+        offset: 1
+      y:
+        anchor: 0
+        offset: 0
+  - spawnInfo:
+      objectToSpawn: 0
+      direction: 1
+      groupingSize: 2
+    spawnCoordinates:
+      x:
+        anchor: 0
         offset: 0
       y:
-        anchor: 1
-        offset: 0
-  overrideDefaultTransitionGrids: 0
+        anchor: 2
+        offset: 3
+  overrideDefaultTransitionGrids: 1
   transitionGrids:
     direction: 0
-    positions: []
+    positions:
+    - x:
+        anchor: 0
+        offset: 0
+      y:
+        anchor: 2
+        offset: 0
+    - x:
+        anchor: 0
+        offset: 0
+      y:
+        anchor: 2
+        offset: 1
+    - x:
+        anchor: 0
+        offset: 0
+      y:
+        anchor: 2
+        offset: 2
   overrideDefaultStartingPositions: 0
   startingPlayerPositions:
     _serializedList: []
   useDifferentDialogueForBothPlayers: 0
-  screenDialogue: {fileID: 0}
+  screenDialogue: {fileID: 11400000, guid: a3ec7992b4f01d141b1d878d132aad81, type: 2}
   twoPlayerDialogue: {fileID: 0}
   effects: []
-  playerAICommands: {fileID: 11400000, guid: ba0e9c549812a1846b5eb9299a368e45, type: 2}
+  playerAICommands: {fileID: 11400000, guid: 1e694340b8855e040a64179cd8d7269c, type: 2}
   enemySpawnInformation:
-    _serializedList: []
-  spawnsLoopAtTick: 0
+    _serializedList:
+    - Key: 2
+      Value:
+      - spawnInfo:
+          objectToSpawn: 3
+          direction: 0
+          groupingSize: 1
+        otherCoordinate:
+          anchor: 1
+          offset: 0
+    - Key: 3
+      Value:
+      - spawnInfo:
+          objectToSpawn: 3
+          direction: 0
+          groupingSize: 1
+        otherCoordinate:
+          anchor: 1
+          offset: -3
+      - spawnInfo:
+          objectToSpawn: 3
+          direction: 0
+          groupingSize: 1
+        otherCoordinate:
+          anchor: 1
+          offset: 3
+    - Key: 4
+      Value:
+      - spawnInfo:
+          objectToSpawn: 3
+          direction: 0
+          groupingSize: 1
+        otherCoordinate:
+          anchor: 1
+          offset: -1
+      - spawnInfo:
+          objectToSpawn: 3
+          direction: 0
+          groupingSize: 1
+        otherCoordinate:
+          anchor: 1
+          offset: 1
+    - Key: 6
+      Value:
+      - spawnInfo:
+          objectToSpawn: 3
+          direction: 0
+          groupingSize: 1
+        otherCoordinate:
+          anchor: 1
+          offset: -2
+      - spawnInfo:
+          objectToSpawn: 3
+          direction: 0
+          groupingSize: 1
+        otherCoordinate:
+          anchor: 1
+          offset: 2
+  spawnsLoopAtTick: 12
