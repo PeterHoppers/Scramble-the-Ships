@@ -1751,7 +1751,7 @@ MonoBehaviour:
   - {fileID: 1991116951}
   - {fileID: 565684071}
   - {fileID: 1791757988}
-  _displayDuration: 2
+  _displayDuration: 10
 --- !u!1001 &1658331585
 PrefabInstance:
   m_ObjectHideFlags: 0

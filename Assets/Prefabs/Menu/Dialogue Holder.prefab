@@ -245,6 +245,7 @@ MonoBehaviour:
   endDelay: 0.75
   dialogueSpeed: 0.015
   autoTextAdvanceInSeconds: 10
+  aiAutoTextAdvanceInSeconds: 5
   dialogueHolder: {fileID: 806329404422153133}
   continuePrompt: {fileID: 8012861882316826526}
   dialogueTypewriter: {fileID: 8367928423929504919}

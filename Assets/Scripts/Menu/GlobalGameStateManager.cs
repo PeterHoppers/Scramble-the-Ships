@@ -38,6 +38,8 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
     private bool _isTwoPlayers;
     [SerializeField]
     private bool _isAI;
+    [SerializeField]
+    private bool _isPreviewGame;
 
     [Header("Default Locations")]
     public PlayerTransitionInfo defaultLocationForTransitionGrids;
@@ -88,9 +90,18 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
             PlayerCount = 1;
         }
 
-        if (_isAI)
+        if (_isAI || _isPreviewGame)
         { 
             IsAIPlaying = true;
+        }
+
+        if (_isPreviewGame)
+        {
+            CurrentLevel = _previewLevel;
+        }
+        else
+        {
+            CurrentLevel = _levels[0];
         }
 
         UnityEngine.Screen.SetResolution(1920, 1080, true);
@@ -98,7 +109,14 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
 
     void Start()
     {
-        GlobalGameStateStatus = GlobalGameStateStatus.Preview;
+        if (_levelSceneSystem.IsPreviewScene() || _isPreviewGame)
+        {
+            GlobalGameStateStatus = GlobalGameStateStatus.Preview;
+        }
+        else
+        { 
+            GlobalGameStateStatus = GlobalGameStateStatus.Game;
+        }
     }
 
     public void PlayPreviewLevel()

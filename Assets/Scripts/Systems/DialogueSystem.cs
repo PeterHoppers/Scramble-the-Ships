@@ -14,6 +14,8 @@ public class DialogueSystem : MonoBehaviour
     public float dialogueSpeed;
     [Range(0, 15)]
     public float autoTextAdvanceInSeconds;
+    [Range(0, 15)]
+    public float aiAutoTextAdvanceInSeconds;
     [SerializeField]
     private GameObject dialogueHolder;
     [SerializeField] 
@@ -51,7 +53,10 @@ public class DialogueSystem : MonoBehaviour
         set
         {
             _currentLineShown = value;
-            continuePrompt.SetActive(value);
+            if (!GlobalGameStateManager.Instance.IsAIPlaying)
+            {
+                continuePrompt.SetActive(value);
+            }
         }
     }
 
@@ -62,12 +67,14 @@ public class DialogueSystem : MonoBehaviour
         _dialogueBoxAnimator = GetComponent<Animator>();
         _dialogueAudioSource = GetComponent<AudioSource>();
         CurrentLineShown = false;
+        continuePrompt.SetActive(false);
         dialogueTypewriter.onTextShowed.AddListener(() => 
         {
             CurrentLineShown = true;
             if (autoTextAdvanceInSeconds > 0)
             {
-                StartCoroutine(AutoAdvanceDialogue(autoTextAdvanceInSeconds));
+                var advanceTime = GlobalGameStateManager.Instance.IsAIPlaying ? aiAutoTextAdvanceInSeconds : autoTextAdvanceInSeconds;
+                StartCoroutine(AutoAdvanceDialogue(advanceTime));
             }
         });
 

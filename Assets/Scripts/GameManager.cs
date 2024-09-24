@@ -293,12 +293,19 @@ public class GameManager : MonoBehaviour
         if (dialogueSystem.HasDialogue())
         {
             dialogueSystem.StartDialogue();
-            dialogueSystem.OnDialogueEnd += WaitUntilDialogueEnds;
-            void WaitUntilDialogueEnds()
+            if (GlobalGameStateManager.Instance.IsAIPlaying)
             {
-                dialogueSystem.OnDialogueEnd -= WaitUntilDialogueEnds;
-                StartCoroutine(DelayUnpausing(_tickEndDuration * 2));
+                ToggleIsPlaying(true);
             }
+            else
+            {
+                dialogueSystem.OnDialogueEnd += WaitUntilDialogueEnds;
+                void WaitUntilDialogueEnds()
+                {
+                    dialogueSystem.OnDialogueEnd -= WaitUntilDialogueEnds;
+                    StartCoroutine(DelayUnpausing(_tickEndDuration * 2));
+                }
+            }            
         }
         else
         {

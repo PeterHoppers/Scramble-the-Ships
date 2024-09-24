@@ -68,7 +68,11 @@ public class Player : Previewable
         _shipRenderer.sprite = _shipSprite;
         _shipAudio = GetComponentInChildren<AudioSource>();
 
-        AddPossibleInput(InputValue.Fire);
+        if (isShootingEnabled)
+        {
+            AddPossibleInput(InputValue.Fire);
+        }
+
         ChangeShootingCondition(isShootingEnabled);
     }
 
