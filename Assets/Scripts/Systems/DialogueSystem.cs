@@ -45,6 +45,7 @@ public class DialogueSystem : MonoBehaviour
     AudioSource _dialogueAudioSource;
     List<DialogueNode> _currentDialogueNodes = null;
     int _currentIndex = 0;
+    InputSystemUIInputModule _inputSystem;
 
     bool _currentLineShown;
     bool CurrentLineShown
@@ -78,26 +79,28 @@ public class DialogueSystem : MonoBehaviour
             }
         });
 
-        var inputSystem = EventSystem.current.gameObject.GetComponent<InputSystemUIInputModule>();
-        inputSystem.submit.action.performed += (InputAction.CallbackContext context) => 
-        {
-            if (!_canInteractWithDialogue)
-            {
-                return;
-            }
-
-            var fired = context.ReadValueAsButton();
-
-            if (fired == true && context.performed && HasDialogue())
-            {
-                AdvanceDialoguePressed();
-            }
-        };
+        _inputSystem = EventSystem.current.gameObject.GetComponent<InputSystemUIInputModule>();
+        _inputSystem.submit.action.performed += OnSubmit;
 
         dialogueTypewriter.waitForNormalChars = dialogueSpeed;
         dialogueTypewriter.waitMiddle = dialogueSpeed * 10;
         dialogueTypewriter.waitLong = dialogueSpeed * 20;
         dialogueHolder.SetActive(false);
+    }
+
+    void OnSubmit(InputAction.CallbackContext context)
+    {
+        if (!_canInteractWithDialogue)
+        {
+            return;
+        }
+
+        var fired = context.ReadValueAsButton();
+
+        if (fired == true && context.performed && HasDialogue())
+        {
+            AdvanceDialoguePressed();
+        }
     }
 
     public void SetDialogue(Dialogue dialogue)
@@ -200,5 +203,11 @@ public class DialogueSystem : MonoBehaviour
     {
         _dialogueAudioSource.clip = audioClip;
         _dialogueAudioSource.Play();
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+        _inputSystem.submit.action.performed -= OnSubmit;
     }
 }
