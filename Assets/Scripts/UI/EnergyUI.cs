@@ -83,4 +83,9 @@ public class EnergyUI : MonoBehaviour
         float percent = Mathf.Clamp01(journey / duration);
         return curve.Evaluate(percent);
     }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
 }

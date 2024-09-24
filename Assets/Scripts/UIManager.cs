@@ -40,6 +40,14 @@ public class UIManager : MonoBehaviour, IManager
         loadingUI.SetActive(true);
     }
 
+    void OnDisable()
+    {
+        if (_gameManager != null)
+        {
+            _gameManager.EnergySystem.OnEnergyChange -= OnEnergyChange;
+        }
+    }
+
     void OnLevelEnd(int energyLeft, int continuesUsed)
     {
         if (_gameManager != null)
@@ -49,9 +57,9 @@ public class UIManager : MonoBehaviour, IManager
 
         gameUIHolder.SetActive(false);
 
-        if (GlobalGameStateManager.Instance.IsActiveLevelTutorial())
+        if (GlobalGameStateManager.Instance.ShouldSkipLevelEndPrompt())
         {
-            StartCoroutine(PlayFirstCutscene(_revealEndScreenUIDelay));
+            StartCoroutine(PlayCutscene(_revealEndScreenUIDelay));
         }
         else
         {
@@ -59,7 +67,7 @@ public class UIManager : MonoBehaviour, IManager
         }        
     }
 
-    IEnumerator PlayFirstCutscene(float waitDuration)
+    IEnumerator PlayCutscene(float waitDuration)
     {
         yield return new WaitForSeconds(waitDuration);
         GlobalGameStateManager.Instance.PlayCutscene();

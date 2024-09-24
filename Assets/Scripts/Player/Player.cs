@@ -13,7 +13,7 @@ public class Player : Previewable
     public SerializedDictionary<InputValue, InputRenderer> inputValueDisplays;
 
     [SerializedDictionary]
-    SerializedDictionary<InputValue, PlayerAction> scrambledActions = new SerializedDictionary<InputValue, PlayerAction>();
+    protected SerializedDictionary<InputValue, PlayerAction> scrambledActions = new SerializedDictionary<InputValue, PlayerAction>();
     
     private PlayerShipInfo _shipInfo;
     private ParticleSystem _deathVFX;
@@ -45,7 +45,7 @@ public class Player : Previewable
         }        
     }
 
-    public void InitPlayer(GameManager manager, PlayerShipInfo shipInfo, int id, bool isShootingEnabled)
+    public virtual void InitPlayer(GameManager manager, PlayerShipInfo shipInfo, int id, bool isShootingEnabled)
     {      
         _manager = manager;
         _manager.OnTickStart += OnTickStart;
@@ -97,7 +97,7 @@ public class Player : Previewable
         }
     }
 
-    private void OnTickStart(float _)
+    protected virtual void OnTickStart(float _)
     {
         if (_isInactive)
         {
@@ -108,7 +108,7 @@ public class Player : Previewable
         ClearSelected();
     }
 
-    private void OnTickEnd(int _)
+    protected virtual void OnTickEnd(int nextTickNumber)
     {
         if (_isInactive) 
         {
@@ -300,7 +300,7 @@ public class Player : Previewable
     }
 
     //Takes the input pressed and the action that press triggered
-    public void SendInput(InputValue pressedValue, PlayerAction playerAction)
+    protected void SendInput(InputValue pressedValue, PlayerAction playerAction)
     {
         if (_lastInput == pressedValue)
         {

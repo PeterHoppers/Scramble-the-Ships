@@ -10,6 +10,8 @@ using System;
 public class GameManager : MonoBehaviour
 {
     public Player playerShip;
+    public AIPlayer playerAIShip;
+    [Space]
     public List<PlayerShipInfo> shipInfos = new List<PlayerShipInfo>();
     public PreviewableBase previewableBase;
     public DialogueSystem dialogueSystem;
@@ -120,8 +122,9 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(.125f); //TODO: Fix race condition
         OptionsManager.Instance.AfterInitManager();
 
-        _currentLevel = GlobalGameStateManager.Instance.GetLevelInfo();
+        _currentLevel = GlobalGameStateManager.Instance.CurrentLevel;
         _playerCount = GlobalGameStateManager.Instance.PlayerCount;
+        var _isAI = GlobalGameStateManager.Instance.IsAIPlaying;
 
         if (_playerCount == 0)
         {
@@ -131,11 +134,11 @@ public class GameManager : MonoBehaviour
         _screenSystem.SetScreens(_currentLevel, _playerCount);
         _startingPlayerPositions = _screenSystem.GetStartingPlayerPositions(_playerCount);
 
-        CreatePlayerShip();
+        CreatePlayerShip(_isAI);
 
         if (_playerCount == 2)
         {
-            CreatePlayerShip();
+            CreatePlayerShip(_isAI);
         }
 
         _energySystem.SetEnergy(_playerCount);
@@ -152,9 +155,9 @@ public class GameManager : MonoBehaviour
         return new List<IManager>(dataPersistenceObjects);
     }
 
-    private void CreatePlayerShip()
+    private void CreatePlayerShip(bool isAI)
     {
-        var playerObject = Instantiate(playerShip);
+        var playerObject = (isAI) ? Instantiate(playerAIShip) : Instantiate(playerShip);
         var newPlayer = playerObject.GetComponent<Player>();
 
         int playerId = _players.Count;
@@ -266,8 +269,6 @@ public class GameManager : MonoBehaviour
 
     IEnumerator SetupNextScreen(float tickDuration, bool playTransitionCutscene = true)
     {
-        OnScreenChange?.Invoke(_screenSystem.ScreensLoaded, _screenSystem.ScreenAmount);       
-
         if (playTransitionCutscene)
         {
             ActivateCutscene(CutsceneType.ScreenTransition, tickDuration);
@@ -277,6 +278,7 @@ public class GameManager : MonoBehaviour
         _screenSystem.SetupNewScreen(_spawnSystem, _gridSystem, _effectsSystem, dialogueSystem);
         _startingPlayerPositions = _screenSystem.GetStartingPlayerPositions(_playerCount);
         _ticksSinceScreenStart = 0;
+        OnScreenChange?.Invoke(_screenSystem.ScreensLoaded, _screenSystem.ScreenAmount);
         yield return new WaitForSeconds(tickDuration);
 
         //move ships on screen

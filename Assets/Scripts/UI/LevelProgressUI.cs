@@ -54,8 +54,9 @@ public class LevelProgressUI : MonoBehaviour
         }
     }
 
-    void SetColorOfScreenImages(int screenIndex)
-    { 
+    void SetColorOfScreenImages(int screenCount)
+    {
+        int screenIndex = screenCount - 1; //1th to 0th
         for (int index = 0; index < _screenImages.Count; index++) 
         { 
             var targetImage = _screenImages[index];

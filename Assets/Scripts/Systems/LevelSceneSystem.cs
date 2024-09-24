@@ -14,6 +14,12 @@ public class LevelSceneSystem : MonoBehaviour
         SceneManager.LoadScene(PREVIEW_SCENE_INDEX);
     }
 
+    public bool IsPreviewScene()
+    { 
+        var sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        return (sceneIndex == PREVIEW_SCENE_INDEX);
+    }
+
     public void LoadGameScene()
     { 
         SceneManager.LoadScene(GAME_SCENE_INDEX);

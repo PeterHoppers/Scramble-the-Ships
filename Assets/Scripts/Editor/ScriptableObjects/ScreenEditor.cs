@@ -13,6 +13,7 @@ public class ScreenEditor : Editor
     SerializedProperty screenDialogue;
     SerializedProperty twoPlayerDialogue;
     SerializedProperty effects;
+    SerializedProperty playerAICommands;
 
     SerializedProperty enemySpawnInformation;
     SerializedProperty spawnsLoopAtTick;
@@ -30,6 +31,7 @@ public class ScreenEditor : Editor
         screenDialogue = serializedObject.FindProperty("screenDialogue");
         twoPlayerDialogue = serializedObject.FindProperty("twoPlayerDialogue");
         effects = serializedObject.FindProperty("effects");
+        playerAICommands = serializedObject.FindProperty("playerAICommands");
 
         enemySpawnInformation = serializedObject.FindProperty("enemySpawnInformation");
         spawnsLoopAtTick = serializedObject.FindProperty("spawnsLoopAtTick");
@@ -48,6 +50,7 @@ public class ScreenEditor : Editor
         EditorGUILayout.PropertyField(enemySpawnInformation);
         EditorGUILayout.PropertyField(spawnsLoopAtTick);
         EditorGUILayout.PropertyField(screenDialogue);
+        EditorGUILayout.PropertyField(playerAICommands);
 
         EditorGUILayout.Space();
 

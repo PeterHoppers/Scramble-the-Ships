@@ -28,12 +28,14 @@ public class PreviewUIManager : MonoBehaviour
         _displayIndex++;
 
         if (_displayIndex >= _previewUIs.Count)
-        { 
-            _displayIndex = 0;
+        {
+            GlobalGameStateManager.Instance.PlayPreviewLevel();
         }
-
-        DisplayUI();
-        StartCoroutine(IterateThroughDisplays());
+        else
+        {
+            DisplayUI();
+            StartCoroutine(IterateThroughDisplays());
+        }       
     }
 
     void DisplayUI()

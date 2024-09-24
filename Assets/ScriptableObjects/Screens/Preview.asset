@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6e1ca9cdebeea74e97319e82b7ad330, type: 3}
-  m_Name: Dummy
+  m_Name: Preview
   m_EditorClassIdentifier: 
   useOnePlayerForBoth: 1
   onePlayerLevelScreens:
-  - {fileID: 11400000, guid: 2d38b9a6c36c3ca47bebb902761b7bb3, type: 2}
+  - {fileID: 11400000, guid: 9f59f9c804b43ff4e89019577b010896, type: 2}
+  - {fileID: 11400000, guid: e98ea306101742440ac5fd0cd206da7a, type: 2}
   twoPlayerLevelScreens:
   - {fileID: 11400000, guid: f22d92276758a57479dc359b11bbccf4, type: 2}
   startingEffects: []

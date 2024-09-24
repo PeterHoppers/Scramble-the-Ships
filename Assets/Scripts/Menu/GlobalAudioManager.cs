@@ -102,6 +102,11 @@ public class GlobalAudioManager : MonoBehaviour
 
     public void TransitionSongs(AudioClip clipToPlay, float transitionDuration = .25f)
     {
+        if (clipToPlay == null || clipToPlay == musicSource.clip) 
+        {
+            return;
+        }
+
         if (musicSource.clip == null)
         {
             PlayMusic(clipToPlay); 

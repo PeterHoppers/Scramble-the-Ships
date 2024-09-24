@@ -46,8 +46,9 @@ public class EnergySystem : MonoBehaviour
         _gameManager.OnScreenChange += OnScreenChange;
         _gameManager.OnScreenResetStart += OnScreenResetStart;
         _gameManager.OnScreenResetEnd += OnScreenResetEnd;
+        _gameManager.OnPlayerPickup += OnPlayerPickup;
+
         _gameManager.EffectsSystem.OnMaxEnergyChanged += OnMaxEnergyPerPersonChanged;
-        _gameManager.OnPlayerPickup += OnPlayerPickup;              
     }
 
     private void OnEnable()
@@ -64,6 +65,11 @@ public class EnergySystem : MonoBehaviour
         if (OptionsManager.Instance != null)
         {
             OptionsManager.Instance.OnParametersChanged -= OnParametersChanged;
+        }
+
+        if (_gameManager != null) 
+        {
+            _gameManager.EffectsSystem.OnMaxEnergyChanged -= OnMaxEnergyPerPersonChanged;
         }
     }
 

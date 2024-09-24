@@ -14,6 +14,10 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
 
     public int CurrentScore { get; set; }
 
+    public Level CurrentLevel { get; set; }
+
+    public bool IsAIPlaying { get; set; }
+
     List<ScoreInfo> _scoreInfos;
     public List<ScoreInfo> ScoreInfos 
     {
@@ -21,18 +25,25 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
     }
 
     [SerializeField]
+    private Level _previewLevel;
+
+    [SerializeField]   
+    private Level _tutorialLevel;
+
+    [SerializeField]
     private List<Level> _levels = new List<Level>();
 
     [Header("Debugging")]
     [SerializeField]
-    private bool isTwoPlayers;
+    private bool _isTwoPlayers;
+    [SerializeField]
+    private bool _isAI;
 
     [Header("Default Locations")]
     public PlayerTransitionInfo defaultLocationForTransitionGrids;
     public SerializedDictionary<PlayerAmount, PlayerTransitionInfo> startingPlayerPositions;
 
-    const int TUTORIAL_INDEX = 0;
-    int _activeLevelIndex = TUTORIAL_INDEX;
+    int _activeLevelIndex = 0;
     LevelSceneSystem _levelSceneSystem;
     CreditsSystem _creditsSystem;
 
@@ -68,13 +79,18 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
         _creditsSystem = GetComponentInChildren<CreditsSystem>();
         _creditsSystem.OnCoinsChange += OnCoinsChange;
 
-        if (isTwoPlayers)
+        if (_isTwoPlayers)
         {
             PlayerCount = 2;
         }
         else
         {
             PlayerCount = 1;
+        }
+
+        if (_isAI)
+        { 
+            IsAIPlaying = true;
         }
 
         UnityEngine.Screen.SetResolution(1920, 1080, true);
@@ -85,25 +101,46 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
         GlobalGameStateStatus = GlobalGameStateStatus.Preview;
     }
 
+    public void PlayPreviewLevel()
+    {
+        CurrentLevel = _previewLevel;
+        IsAIPlaying = true;
+        _levelSceneSystem.LoadGameScene();
+    }
+
     public void PlayTutorial()
     {
-        SetLevel(TUTORIAL_INDEX);
+        IsAIPlaying = false;
+        SetLevel(_tutorialLevel);
     }
 
     public void SkipTutorial()
     {
-        PlayCutscene();
+        IsAIPlaying = false;
+        SetLevel(0);
     }
 
-    public void SetLevel(int level)
+    public void SetLevel(int levelIndex)
     {
-        _activeLevelIndex = level;
+        _activeLevelIndex = levelIndex;
+        SetLevel(_levels[levelIndex]);
+    }
+
+    public void SetLevel(Level level)
+    {
+        CurrentLevel = level;
         GlobalGameStateStatus = GlobalGameStateStatus.Game;
         _levelSceneSystem.LoadGameScene();
     }
 
     public void PlayCutscene()
     {
+        if (CurrentLevel == _previewLevel)
+        {
+            ResetGame();
+            return;
+        }
+        
         GlobalGameStateStatus = GlobalGameStateStatus.Cutscene;
         _levelSceneSystem.LoadCutsceneScene();
     }
@@ -157,15 +194,9 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
         _levelSceneSystem.LoadPreviewScene();
     }
 
-    public Level GetLevelInfo()
+    public bool ShouldSkipLevelEndPrompt()
     {
-        GlobalGameStateStatus = GlobalGameStateStatus.Game;
-        return _levels[_activeLevelIndex];
-    }
-
-    public bool IsActiveLevelTutorial()
-    {
-        return (_activeLevelIndex == TUTORIAL_INDEX);
+        return (CurrentLevel == _tutorialLevel || CurrentLevel == _previewLevel);
     }
 
     private void OnCoinsChange(int coinsInserted, int creditsEarned)
@@ -185,7 +216,12 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
     public void SetPlayerCount(int playerAmount)
     {
         PlayerCount = playerAmount;
-        ConsumeCredits(playerAmount);        
+        ConsumeCredits(playerAmount);
+
+        if (!_levelSceneSystem.IsPreviewScene())
+        {
+            ResetGame();
+        }
     }
 
     public void ConsumeCredits(int creditAmount)

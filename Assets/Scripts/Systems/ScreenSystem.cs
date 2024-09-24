@@ -31,6 +31,11 @@ public class ScreenSystem : MonoBehaviour
         UpdateLevelBackground();
     }
 
+    public Screen GetCurrentScreen()
+    { 
+        return _currentScreen;
+    }
+
     void UpdateLevelBackground()
     {
         if (_level == null)

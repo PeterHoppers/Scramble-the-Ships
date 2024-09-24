@@ -17,6 +17,7 @@ public class Screen : ScriptableObject
     public Dialogue screenDialogue;
     public Dialogue twoPlayerDialogue;
     public List<Effect> effects;
+    public GridObjectCommands playerAICommands;
 
     [SerializedDictionary("Tick #", "Enemy Spawn Info")]
     public SerializedDictionary<int, EnemySpawn[]> enemySpawnInformation = new SerializedDictionary<int, EnemySpawn[]>();
