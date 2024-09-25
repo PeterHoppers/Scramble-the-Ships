@@ -88,10 +88,10 @@ public class GameManager : MonoBehaviour
     bool _isMovementAtInput = false;
 
     float _tickElapsed = 0f;
+    float _lastTickEndedAt = 0f;
     int _playerFinishedWithScreen = 0;
     bool _tickIsOccuring = false;
-    int _ticksSinceScreenStart = 0;
-    int _ticksSinceLevelStart = 0;
+    int _ticksSinceScreenStart = 0;    
     int _continuesUsed = 0;
 
     ScrambleType _currentScrambleType;
@@ -673,7 +673,8 @@ public class GameManager : MonoBehaviour
             movingObject.UpdateRotationToPreview(tickEndDuration);
             movingObject.ResolvePreviewable();
         }
-        
+
+        _lastTickEndedAt = GetCurrentTime();
         OnTickEnd?.Invoke(_ticksSinceScreenStart);
     }
 
@@ -683,7 +684,6 @@ public class GameManager : MonoBehaviour
         OnTickStart?.Invoke(TickDuration);
         _tickIsOccuring = true;
         _ticksSinceScreenStart++;
-        _ticksSinceLevelStart++;
         _tickElapsed = 0;
     }
 
@@ -743,6 +743,19 @@ public class GameManager : MonoBehaviour
             timeRemaining = 0;
         }
         return timeRemaining;
+    }
+
+    public float GetMsUntilNextTick()
+    {
+        var currentTime = GetCurrentTime();
+        var timeSinceTickEnded = currentTime - _lastTickEndedAt;
+        var timeUntilNextTick = _tickEndDuration - timeSinceTickEnded;
+        return timeUntilNextTick;
+    }
+
+    float GetCurrentTime()
+    { 
+        return Time.timeSinceLevelLoad;
     }
 }
 

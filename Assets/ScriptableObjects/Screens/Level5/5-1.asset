@@ -10,34 +10,56 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53eb3f1cbb508f54abbcf1790983544d, type: 3}
-  m_Name: DummyScreen
+  m_Name: 5-1
   m_EditorClassIdentifier: 
   startingItems:
   - spawnInfo:
-      objectToSpawn: 10
-      direction: 0
-      groupingSize: 1
+      objectToSpawn: 9
+      direction: 3
+      groupingSize: 15
     spawnCoordinates:
       x:
         anchor: 1
+        offset: 4
+      y:
+        anchor: 0
         offset: 0
+  - spawnInfo:
+      objectToSpawn: 0
+      direction: 2
+      groupingSize: 8
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: -4
+      y:
+        anchor: 0
+        offset: 0
+  - spawnInfo:
+      objectToSpawn: 8
+      direction: 3
+      groupingSize: 3
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: -4
       y:
         anchor: 1
         offset: 2
   - spawnInfo:
       objectToSpawn: 0
-      direction: 0
-      groupingSize: 11
+      direction: 2
+      groupingSize: 4
     spawnCoordinates:
       x:
         anchor: 1
-        offset: 0
+        offset: -4
       y:
-        anchor: 1
-        offset: 4
+        anchor: 2
+        offset: 0
   - spawnInfo:
       objectToSpawn: 10
-      direction: 2
+      direction: 0
       groupingSize: 1
     spawnCoordinates:
       x:
@@ -45,7 +67,18 @@ MonoBehaviour:
         offset: 0
       y:
         anchor: 1
-        offset: -2
+        offset: -1
+  - spawnInfo:
+      objectToSpawn: 10
+      direction: 0
+      groupingSize: 1
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: 0
+      y:
+        anchor: 2
+        offset: 2
   overrideDefaultTransitionGrids: 0
   transitionGrids:
     direction: 0
@@ -57,7 +90,7 @@ MonoBehaviour:
   screenDialogue: {fileID: 0}
   twoPlayerDialogue: {fileID: 0}
   effects: []
-  playerAICommands: {fileID: 11400000, guid: ba0e9c549812a1846b5eb9299a368e45, type: 2}
+  playerAICommands: {fileID: 0}
   enemySpawnInformation:
     _serializedList: []
   spawnsLoopAtTick: 0

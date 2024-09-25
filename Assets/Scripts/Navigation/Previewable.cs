@@ -44,6 +44,24 @@ public abstract class Previewable : GridObject
         CurrentTile = tileDestination;
     }
 
+    public IEnumerator WarpToTile(Tile tileDestination, float duration)
+    {
+        var startingScale = transform.localScale;
+        var shrinkScale = new Vector2(.25f, .25f);
+
+        if (previewObject != null)
+        { 
+            previewObject.transform.localPosition = tileDestination.GetTilePosition();
+        }
+
+        var pieceDuration = duration / 3;
+        _transitioner.ScaleTo(shrinkScale, pieceDuration);
+        yield return new WaitForSeconds(pieceDuration);
+        SetPosition(tileDestination);
+        yield return new WaitForSeconds(pieceDuration);
+        _transitioner.ScaleTo(startingScale, pieceDuration);
+    }
+
     public virtual void UpdateRotationToPreview(float duration)
     {
         if (previewObject == null)

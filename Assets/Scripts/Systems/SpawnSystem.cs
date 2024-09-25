@@ -307,6 +307,7 @@ public enum SpawnObject
     Boss = 4,
     BossLaser = 5,
     EnergyPickup = 6,
+    Wormhole = 10,
 }
 
 [System.Serializable]
