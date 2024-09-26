@@ -47,18 +47,18 @@ public class Level : ScriptableObject
         return playerTransitionInfos[(PlayerAmount)playerAmount].positions;
     }
 
-    public List<GridCoordinate> GetTransitionGridPositions(Screen screen)
+    public PlayerTransitionInfo GetTransitionGridInfo(Screen screen)
     {
         if (screen.overrideDefaultTransitionGrids)
         {
-            return screen.transitionGrids.positions;
+            return screen.transitionGrids;
         }
 
         if (overrideDefaultTransitionGrids)
         {
-            return transitionGrids.positions;
+            return transitionGrids;
         }
 
-        return GlobalGameStateManager.Instance.defaultLocationForTransitionGrids.positions;
+        return GlobalGameStateManager.Instance.defaultLocationForTransitionGrids;
     }
 }

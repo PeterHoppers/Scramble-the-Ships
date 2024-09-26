@@ -54,14 +54,20 @@ public class TransformTransition : MonoBehaviour
         }
     }
 
-    public void RotateTo(Quaternion targetRotation, float duration, bool isLocal = false)
+    public void RotateTo(Quaternion targetRotation, float duration, Transform transformToRotate = null, bool isLocal = false)
     {
-        StartCoroutine(AnimateRotation(transform.rotation, targetRotation, duration, isLocal));
+        if (transformToRotate == null)
+        {
+            transformToRotate = transform;
+        }
+
+        StartCoroutine(AnimateRotation(transformToRotate, targetRotation, duration, isLocal));
     }
 
-    IEnumerator AnimateRotation(Quaternion origin, Quaternion target, float duration, bool isLocal = false)
+    IEnumerator AnimateRotation(Transform rotatingTransform, Quaternion target, float duration, bool isLocal)
     {
         float journey = 0f;
+        Quaternion origin = rotatingTransform.rotation;
         while (journey <= duration)
         {
             journey += Time.deltaTime;
@@ -69,11 +75,11 @@ public class TransformTransition : MonoBehaviour
 
             if (isLocal)
             {
-                transform.localRotation = Quaternion.SlerpUnclamped(origin, target, curvePercent);
+                rotatingTransform.localRotation = Quaternion.SlerpUnclamped(origin, target, curvePercent);
             }
             else
             {
-                transform.rotation = Quaternion.SlerpUnclamped(origin, target, curvePercent);
+                rotatingTransform.rotation = Quaternion.SlerpUnclamped(origin, target, curvePercent);
             }
 
             yield return null;

@@ -18,8 +18,8 @@ MonoBehaviour:
   twoPlayerLevelScreens:
   - {fileID: 11400000, guid: f22d92276758a57479dc359b11bbccf4, type: 2}
   startingEffects:
-  - type: 4
-    amount: 1
+  - type: 11
+    amount: 3
   levelSong: {fileID: 0}
   levelBackground: {fileID: 0}
   overrideDefaultTransitionGrids: 0

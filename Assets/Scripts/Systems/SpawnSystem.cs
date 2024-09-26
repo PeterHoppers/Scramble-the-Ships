@@ -156,7 +156,30 @@ public class SpawnSystem : MonoBehaviour
         }
     }
 
-    Quaternion GetRotationFromSpawnDirection(SpawnDirections spawnDirection)
+    public Quaternion GetRotationForLeaving(SpawnDirections spawnDirection)
+    {
+        Quaternion rotation = Quaternion.identity;
+        switch (spawnDirection)
+        {
+            case SpawnDirections.Bottom:
+                rotation.eulerAngles = new Vector3(0, 0, 180);
+                break;
+            case SpawnDirections.Right:
+                rotation.eulerAngles = new Vector3(0, 0, 270);
+                break;
+            case SpawnDirections.Left:
+                rotation.eulerAngles = new Vector3(0, 0, 90);
+                break;
+            case SpawnDirections.Top:
+            default: //Bottom would be no rotation
+                break;
+        }
+
+        return rotation;
+    }
+
+
+    protected Quaternion GetRotationFromSpawnDirection(SpawnDirections spawnDirection)
     {
         Quaternion rotation = Quaternion.identity;
         switch (spawnDirection)

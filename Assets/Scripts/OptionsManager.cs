@@ -242,9 +242,10 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
 [System.Serializable]
 public enum ScrambleType
 { 
-    None,
-    Movement,
-    All
+    None = 0,
+    Movement = 1,
+    All = 2,
+    Rotation = 3,
 }
 
 [System.Serializable]

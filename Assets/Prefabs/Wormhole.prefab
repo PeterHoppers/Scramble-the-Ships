@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6495330082171840289}
   - component: {fileID: 8248304002972894391}
   - component: {fileID: -1403614989219981856}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Wormhole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -218,7 +218,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4585690953295777244}
   - component: {fileID: 4070071728427121044}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -302,7 +302,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5274072831036863153}
   - component: {fileID: 8400888744640933559}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Image (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

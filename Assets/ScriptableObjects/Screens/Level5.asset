@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useOnePlayerForBoth: 1
   onePlayerLevelScreens:
+  - {fileID: 11400000, guid: ed309949a8512574bbeeebf5b393d179, type: 2}
+  - {fileID: 11400000, guid: 4e5f4a04d3d7fe74aae13ebc3585057d, type: 2}
   - {fileID: 11400000, guid: 28c6a0aad219cc04694de5d32fa64007, type: 2}
   - {fileID: 11400000, guid: b06043227bfb64d45bc575d859345ef4, type: 2}
   twoPlayerLevelScreens: []

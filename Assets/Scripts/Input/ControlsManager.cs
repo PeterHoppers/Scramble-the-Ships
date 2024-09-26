@@ -21,6 +21,7 @@ public class ControlsManager : MonoBehaviour, IManager
         _gameManager = manager;
         _gameManager.OnTickEnd += OnTickEnd;
         _gameManager.OnPlayerJoinedGame += OnPlayerJoined;
+        _gameManager.OnPlayerConditionStart += OnPlayerConditionStart;
 
         _gameManager.EffectsSystem.OnScrambleAmountChanged += (int scrambleAmount) => _amountToScramble = scrambleAmount;
         _gameManager.EffectsSystem.OnMultiplayerScrambleTypeChanged += (bool isSame) => _playersSameShuffle = isSame;
@@ -40,6 +41,11 @@ public class ControlsManager : MonoBehaviour, IManager
     }  
 
     void OnTickEnd(int _)
+    {
+        UpdateShuffledValues();
+    }
+
+    void OnPlayerConditionStart(Player player, Condition condition)
     {
         UpdateShuffledValues();
     }
@@ -205,7 +211,8 @@ public class ControlsManager : MonoBehaviour, IManager
                 return 0;
             case ScrambleType.Movement: 
                 return 4;
-            case ScrambleType.All: 
+            case ScrambleType.All:
+            case ScrambleType.Rotation:
                 return 5;
         }
     }
@@ -232,9 +239,9 @@ public enum InputValue
     Backward = 1,
     Port = 2,
     Starboard = 3,
-    Fire = 4,
     Clockwise = 6,
     Counterclockwise = 7,
+    Fire = 4,
     None = 5,
 }
 

@@ -97,7 +97,7 @@ public class ScreenSystem : MonoBehaviour
 
     public void ConfigureCurrentScreen(SpawnSystem spawnSystem, GridSystem gridSystem, EffectsSystem effectsSystem)
     {
-        var screenTransitions = _level.GetTransitionGridPositions(_currentScreen); 
+        var screenTransitions = _level.GetTransitionGridInfo(_currentScreen); 
         spawnSystem.ResetSpawns();
         SetScreenStarters(spawnSystem, gridSystem, _currentScreen.startingItems);
         SetQueuedEnemies(spawnSystem, gridSystem, _currentScreen.enemySpawnInformation);
@@ -164,9 +164,10 @@ public class ScreenSystem : MonoBehaviour
         }
     }
 
-    List<ScreenChangeTrigger> SetScreenTransitions(SpawnSystem spawnSystem, GridSystem gridSystem, ScreenChangeTrigger baseTrigger, List<GridCoordinate> transitionGrids)
+    List<ScreenChangeTrigger> SetScreenTransitions(SpawnSystem spawnSystem, GridSystem gridSystem, ScreenChangeTrigger baseTrigger, PlayerTransitionInfo transitionInfo)
     {
         var screenTriggers = new List<ScreenChangeTrigger>();
+        var transitionGrids = transitionInfo.positions;
         foreach (var transition in transitionGrids)
         {
             if (gridSystem.TryGetTileByCoordinates(transition, out var spawnPosition))
@@ -174,6 +175,7 @@ public class ScreenSystem : MonoBehaviour
                 var spawnedObject = spawnSystem.CreateSpawnObject(baseTrigger.gameObject, spawnPosition, baseTrigger.transform.rotation);
                 spawnedObject.GetComponent<GridObject>().SetupObject(_gameManager, spawnSystem, spawnPosition);
                 var screenTrigger = spawnedObject.GetComponent<ScreenChangeTrigger>();
+                screenTrigger.SetScreenTransitionDirection(transitionInfo.direction);
                 screenTriggers.Add(screenTrigger);
             }
         }

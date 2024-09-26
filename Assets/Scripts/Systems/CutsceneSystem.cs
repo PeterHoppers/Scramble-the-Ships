@@ -81,6 +81,25 @@ public class CutsceneSystem : MonoBehaviour
                         amount = 0f
                     }
                 };
+            case ScrambleType.All:
+                return new List<Effect>
+                {
+                    new()
+                    {
+                        type = EffectType.ScrambleAmount,
+                        amount = 4f
+                    },
+                    new()
+                    {
+                        type = EffectType.ScrambleType,
+                        amount = 3f
+                    },
+                    new()
+                    {
+                        type = EffectType.ScrambleVarience,
+                        amount = 0f
+                    }
+                };
             default:
                 return new List<Effect>();
         }
@@ -101,7 +120,7 @@ public class CutsceneSystem : MonoBehaviour
         
         yield return new WaitForSeconds(cutsceneDuration);
         
-        var lasers = FindObjectsOfType<BossTutorialBullet>();
+        var lasers = FindObjectsOfType<HackingLaser>();
         foreach (var item in lasers)
         {
             item.DestroyObject();        

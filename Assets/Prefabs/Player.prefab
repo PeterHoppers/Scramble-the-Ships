@@ -281,6 +281,10 @@ MonoBehaviour:
       Value: {fileID: 805343917840480206}
     - Key: 3
       Value: {fileID: 1247267858957673250}
+    - Key: 7
+      Value: {fileID: 805343917840480206}
+    - Key: 6
+      Value: {fileID: 1247267858957673250}
 --- !u!114 &6090239053312004524
 MonoBehaviour:
   m_ObjectHideFlags: 0

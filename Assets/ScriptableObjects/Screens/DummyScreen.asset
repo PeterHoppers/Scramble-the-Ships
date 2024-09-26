@@ -25,9 +25,9 @@ MonoBehaviour:
         anchor: 1
         offset: 2
   - spawnInfo:
-      objectToSpawn: 0
+      objectToSpawn: 8
       direction: 0
-      groupingSize: 11
+      groupingSize: 1
     spawnCoordinates:
       x:
         anchor: 1
@@ -46,10 +46,16 @@ MonoBehaviour:
       y:
         anchor: 1
         offset: -2
-  overrideDefaultTransitionGrids: 0
+  overrideDefaultTransitionGrids: 1
   transitionGrids:
-    direction: 0
-    positions: []
+    direction: 3
+    positions:
+    - x:
+        anchor: 1
+        offset: -1
+      y:
+        anchor: 0
+        offset: 0
   overrideDefaultStartingPositions: 0
   startingPlayerPositions:
     _serializedList: []

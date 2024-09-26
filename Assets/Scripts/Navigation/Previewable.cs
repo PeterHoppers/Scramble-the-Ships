@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(TransformTransition))]
 public abstract class Previewable : GridObject
 {    
-    TransformTransition _transitioner;
+    protected TransformTransition _transitioner;
 
     [HideInInspector]
     public GameObject previewObject;
@@ -70,7 +70,7 @@ public abstract class Previewable : GridObject
         }
 
         var newRotation = previewObject.transform.rotation;
-        if (newRotation == transform.rotation) 
+        if (newRotation == GetTransfromAsReference().rotation) 
         {
             return;
         }
@@ -78,7 +78,7 @@ public abstract class Previewable : GridObject
         TransitionToRotation(newRotation, duration);
     }
 
-    protected virtual void TransitionToRotation(Quaternion newRotation, float duration)
+    public virtual void TransitionToRotation(Quaternion newRotation, float duration)
     {
         if (_transitioner == null)
         {
@@ -129,19 +129,25 @@ public abstract class Previewable : GridObject
         base.DestroyObject();
     }
 
+    public virtual Transform GetTransfromAsReference()
+    {
+        return transform;
+    }
+
     protected Vector2 ConvertInputValueToDirection(InputValue input)
     {
+        var transformToRef = GetTransfromAsReference();
         switch (input)
         {
             case InputValue.Forward:
             case InputValue.Fire:
-                return (Vector2)transform.up;
+                return (Vector2)transformToRef.up;
             case InputValue.Backward:
-                return (Vector2)transform.up * -1;
+                return (Vector2)transformToRef.up * -1;
             case InputValue.Port:
-                return (Vector2)transform.right * -1;
+                return (Vector2)transformToRef.right * -1;
             case InputValue.Starboard:
-                return (Vector2)transform.right;
+                return (Vector2)transformToRef.right;
             default:
                 return Vector2.zero;
         }
@@ -149,7 +155,7 @@ public abstract class Previewable : GridObject
 
     protected Quaternion ConvertInputValueToRotation(InputValue input)
     { 
-        var currentRotation = transform.rotation;
+        var currentRotation = GetTransfromAsReference().rotation;
         switch (input) 
         {
             case InputValue.Clockwise:

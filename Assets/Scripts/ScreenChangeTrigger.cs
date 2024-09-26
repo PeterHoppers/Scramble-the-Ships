@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class ScreenChangeTrigger : GridObject
 {
+    private SpawnDirections _screenDirection = SpawnDirections.Top;
     private void Awake()
     {
         _foreignCollisionStatus = ForeignCollisionStatus.None;    
+    }
+
+    public void SetScreenTransitionDirection(SpawnDirections direction)
+    {
+        _screenDirection = direction;
     }
 
     protected override void PerformInteraction(GridObject collidedGridObject)
@@ -16,6 +22,6 @@ public class ScreenChangeTrigger : GridObject
             return;
         }
 
-        _manager.ScreenChangeTriggered(playerCollided);
+        _manager.ScreenChangeTriggered(playerCollided, _screenDirection);
     }
 }

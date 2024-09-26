@@ -2,10 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using AYellowpaper.SerializedCollections;
-using UnityEngine.SceneManagement;
-using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -182,12 +178,12 @@ public class GameManager : MonoBehaviour
 
     public void MovePreviewableOffScreenToTile(Previewable preview, Tile tile, float duration)
     {
-        _spawnSystem.MovePreviewableOffScreenToPosition(preview, preview.transform.up, tile.GetTilePosition(), duration);
+        _spawnSystem.MovePreviewableOffScreenToPosition(preview, preview.GetTransfromAsReference().up, tile.GetTilePosition(), duration);
     }
 
     void MovePlayerOnScreenToTile(Player player, Tile tile, float duration)
     {
-        _spawnSystem.MovePreviewableOffScreenToPosition(player, player.transform.up, tile.GetTilePosition(), 0, true);
+        _spawnSystem.MovePreviewableOffScreenToPosition(player, player.GetTransfromAsReference().up, tile.GetTilePosition(), 0, true);
         player.TransitionToTile(tile, duration);
         player.OnMoveOnScreen();
     }
@@ -228,12 +224,27 @@ public class GameManager : MonoBehaviour
     /// Screen Change Trigger occurs when a player hits the screen change trigger
     /// </summary>
     /// <param name="player"></param>
-    public void ScreenChangeTriggered(Player player)
+    public void ScreenChangeTriggered(Player player, SpawnDirections transitionDirection)
+    {       
+       StartCoroutine(OnScreenChangeTriggered(player, transitionDirection));
+    }
+
+    IEnumerator OnScreenChangeTriggered(Player player, SpawnDirections transitionDirection)
     {
-        //disable the player who touched it and move them offscreen
-        //move player off screen
+        var directionQuaterion = _spawnSystem.GetRotationForLeaving(transitionDirection);
+        if (player.GetTransfromAsReference().rotation.eulerAngles != directionQuaterion.eulerAngles)
+        {
+            player.TransitionToRotation(directionQuaterion, _tickEndDuration);
+            yield return new WaitForSeconds(_tickEndDuration);
+        }
+
+        MovePlayerOffScreen(player);
+    }
+
+    void MovePlayerOffScreen(Player player)
+    {
         var currentPos = player.CurrentTile.GetTilePosition();
-        _spawnSystem.MovePreviewableOffScreenToPosition(player, player.transform.up, currentPos, TickDuration);
+        _spawnSystem.MovePreviewableOffScreenToPosition(player, player.GetTransfromAsReference().up, currentPos, TickDuration);
         player.OnMoveOffScreen();
 
         _playerFinishedWithScreen++;
@@ -249,7 +260,7 @@ public class GameManager : MonoBehaviour
         {
             player.SetInputStatus(false);
             player.SetActiveStatus(false);
-        }        
+        }
     }
 
     void EndScreen(float endingDuration)
@@ -706,20 +717,21 @@ public class GameManager : MonoBehaviour
     public Tile GetTileFromInput(Previewable inputSource, InputValue input)
     {
         var targetCoordinates = inputSource.GetGridCoordinates();
+        var targetTransform = inputSource.GetTransfromAsReference();
         switch (input)
         {
             case InputValue.Forward:
             case InputValue.Fire:
-                targetCoordinates += (Vector2)inputSource.transform.up;
+                targetCoordinates += (Vector2)targetTransform.up;
                 break;
             case InputValue.Backward:
-                targetCoordinates += (Vector2)inputSource.transform.up * -1;
+                targetCoordinates += (Vector2)targetTransform.up * -1;
                 break;
             case InputValue.Port:
-                targetCoordinates += (Vector2)inputSource.transform.right * -1;
+                targetCoordinates += (Vector2)targetTransform.right * -1;
                 break;
             case InputValue.Starboard:
-                targetCoordinates += (Vector2)inputSource.transform.right;
+                targetCoordinates += (Vector2)targetTransform.right;
                 break;
             default:
                 break;

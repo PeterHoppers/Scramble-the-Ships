@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class BossTutorialBullet : GridMovable
+public class HackingLaser : GridMovable
 {
     public InputValue inputValue;
     public float cutsceneDuration = 2f;

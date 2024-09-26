@@ -42,6 +42,7 @@ public class Player : Previewable
         if (_manager != null)
         {
             _manager.EffectsSystem.OnShootingChanged -= OnShootingChanged;
+            _manager.EffectsSystem.OnScrambleTypeChanged -= OnScrambledTypeChanged;
         }        
     }
 
@@ -51,10 +52,16 @@ public class Player : Previewable
         _manager.OnTickStart += OnTickStart;
         _manager.OnTickEnd += OnTickEnd;
         _manager.EffectsSystem.OnShootingChanged += OnShootingChanged;
+        _manager.EffectsSystem.OnScrambleTypeChanged += OnScrambledTypeChanged;
 
         _shipInfo = shipInfo;
         foreach (InputValue inputValue in inputValueDisplays.Keys)
         {
+            if (inputValue == InputValue.Clockwise || inputValue == InputValue.Counterclockwise)
+            {
+                continue;
+            }
+
             AddPossibleInput(inputValue);
         }
 
@@ -69,19 +76,30 @@ public class Player : Previewable
         _shipAudio = GetComponentInChildren<AudioSource>();
     }
 
+    private void OnScrambledTypeChanged(ScrambleType scrambleType)
+    {
+        if (scrambleType == ScrambleType.Rotation)
+        {
+            AddCondition<RotatingCondition>(int.MaxValue);
+        }
+        else
+        {
+            if (FindCondition<RotatingCondition>(out var condition))
+            {
+                condition.RemoveCondition();//kind of going through the backdoor here. The condition should normally end itself, not some UI
+                RemoveCondition(condition);
+            }
+        }
+    }
+
     private void OnShootingChanged(bool isAdded)
     {
         if (isAdded)
         {
-            bool wasShootingDisabled = _playerConditions.Any(x => x.GetType() == typeof(ShootingDisable));
-            if (wasShootingDisabled)
+            if (FindCondition<ShootingDisable>(out var condition))
             {
-                var condition = _playerConditions.First(x => x.GetType() == typeof(ShootingDisable));
-                if (condition != null)
-                {
-                    condition.RemoveCondition();//kind of going through the backdoor here. The condition should normally end itself, not some UI
-                    RemoveCondition(condition);
-                }
+                condition.RemoveCondition();//kind of going through the backdoor here. The condition should normally end itself, not some UI
+                RemoveCondition(condition);
             }
             else
             {
@@ -254,13 +272,29 @@ public class Player : Previewable
     {
         if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
         {
+            var isRotating = FindCondition<RotatingCondition>(out var _);
             if (direction.x > 0)
             {
-                return InputValue.Starboard;
+                if (isRotating)
+                {
+                    return InputValue.Clockwise;
+                }
+                else
+                {
+                    return InputValue.Starboard;
+                }                
             }
             else
             {
-                return InputValue.Port;
+
+                if (isRotating)
+                {
+                    return InputValue.Counterclockwise;
+                }
+                else
+                {
+                    return InputValue.Port;
+                }
             }
         }
         else
@@ -335,7 +369,9 @@ public class Player : Previewable
             }
             else
             {
-                newPreview = _manager.CreatePreviewOfPreviewableAtTile(playerActedUpon, targetTile);
+                var inputValue = playerAction.inputValue;
+                var rotation = ConvertInputValueToRotation(inputValue);
+                newPreview = _manager.CreatePreviewOfPreviewableAtTile(playerActedUpon, targetTile, rotation);
             }
 
             _manager.AddPlayerPreviewAction(this, newPreview);
@@ -345,6 +381,7 @@ public class Player : Previewable
     GridMovable CreateBullet(Player firingPlayer, Tile spawnTile)
     {
         var bulletGridMoveable = _manager.CreateMovableAtTile(firingPlayer._shipInfo.fireable, firingPlayer, spawnTile);
+        bulletGridMoveable.gameObject.transform.localRotation = GetTransfromAsReference().localRotation;
         var bullet = bulletGridMoveable.GetComponent<Bullet>();
         bullet.spawnSound = _shipInfo.fireSFX;
         bullet.PreviewColor = _shipInfo.baseColor;
@@ -439,6 +476,21 @@ public class Player : Previewable
         _manager.PlayerGainedCondition(this, newCondition);
     }
 
+    public bool FindCondition<T>(out Condition condition) where T : Condition
+    {
+        bool hasCondition = _playerConditions.Any(x => x.GetType() == typeof(T));
+        if (hasCondition)
+        {
+            condition = _playerConditions.First(x => x.GetType() == typeof(T));
+        }
+        else
+        {
+            condition = null;
+        }
+
+        return hasCondition;
+    }
+
     public void RemoveCondition(Condition condition)
     { 
         _playerConditions.Remove(condition);
@@ -489,6 +541,17 @@ public class Player : Previewable
         }
 
         base.PerformInteraction(collidedGridObject);
+    }
+
+    public override Transform GetTransfromAsReference()
+    {
+       return _shipRenderer.transform;
+    }
+
+    //rotate the ship image itself, rather than the whole ship. Rotating the whole ship messes with the UI
+    public override void TransitionToRotation(Quaternion newRotation, float duration)
+    {
+        _transitioner.RotateTo(newRotation, duration, GetTransfromAsReference());
     }
 
     public override void ResolvePreviewable()
