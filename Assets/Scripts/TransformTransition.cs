@@ -60,6 +60,10 @@ public class TransformTransition : MonoBehaviour
         {
             transformToRotate = transform;
         }
+        if (duration == 0)
+        {
+            transformToRotate.rotation = targetRotation;
+        }
 
         StartCoroutine(AnimateRotation(transformToRotate, targetRotation, duration, isLocal));
     }

@@ -181,7 +181,7 @@ public class GameManager : MonoBehaviour
     {
         var startingDirection = _screenSystem.GetStartingPlayerRotation(_playerCount);
         var startingRotation = _spawnSystem.GetRotationForSpawnDirections(startingDirection, false);
-        player.TransitionToRotation(startingRotation, .05f);
+        player.TransitionToRotation(startingRotation, .0f);
     }
 
     public void MovePreviewableOffScreenToTile(Previewable preview, Tile tile, float duration)
