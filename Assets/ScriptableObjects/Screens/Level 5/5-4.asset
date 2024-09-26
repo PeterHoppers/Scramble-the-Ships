@@ -92,7 +92,7 @@ MonoBehaviour:
         offset: 3
   overrideDefaultTransitionGrids: 1
   transitionGrids:
-    direction: 0
+    direction: 2
     positions:
     - x:
         anchor: 0

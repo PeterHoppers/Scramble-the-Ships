@@ -75,12 +75,22 @@ public class ScreenSystem : MonoBehaviour
     }
     public List<GridCoordinate> GetStartingPlayerPositions(int playerAmount)
     {
+        return GetStartingPlayerInfo(playerAmount).positions;
+    }
+
+    public SpawnDirections GetStartingPlayerRotation(int playerAmount)
+    {
+        return GetStartingPlayerInfo(playerAmount).direction;
+    }
+
+    PlayerTransitionInfo GetStartingPlayerInfo(int playerAmount)
+    {
         if (_currentScreen == null)
         {
             _currentScreen = _levelScreens[0];
         }
 
-        return _level.GetStartingPlayerPositions(playerAmount, _currentScreen);
+        return _level.GetStartingPlayerInfo(playerAmount, _currentScreen);
     }
 
     public void SetupNewScreen(SpawnSystem spawnSystem, GridSystem gridSystem, EffectsSystem effectsSystem, DialogueSystem dialogueSystem)

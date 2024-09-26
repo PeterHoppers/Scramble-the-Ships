@@ -551,6 +551,11 @@ public class Player : Previewable
     //rotate the ship image itself, rather than the whole ship. Rotating the whole ship messes with the UI
     public override void TransitionToRotation(Quaternion newRotation, float duration)
     {
+        if (_transitioner == null)
+        {
+            _transitioner = GetComponent<TransformTransition>();
+        }
+
         _transitioner.RotateTo(newRotation, duration, GetTransfromAsReference());
     }
 

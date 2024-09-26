@@ -34,3 +34,7 @@ MonoBehaviour:
       Value: {fileID: 21300000, guid: f700a706d1383a54eaca32141ea1207e, type: 3}
     - Key: 4
       Value: {fileID: 21300000, guid: 2fdee66a1215a3f40808b6fa33bced55, type: 3}
+    - Key: 6
+      Value: {fileID: 21300000, guid: e3be40ea8a57c04489885671e7479e89, type: 3}
+    - Key: 7
+      Value: {fileID: 21300000, guid: 3e147672f236fed48a484689ffe6ff15, type: 3}

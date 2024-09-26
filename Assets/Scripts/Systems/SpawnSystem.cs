@@ -156,7 +156,19 @@ public class SpawnSystem : MonoBehaviour
         }
     }
 
-    public Quaternion GetRotationForLeaving(SpawnDirections spawnDirection)
+    public Quaternion GetRotationForSpawnDirections(SpawnDirections spawnDirections, bool isLeaving)
+    {
+        if (isLeaving)
+        {
+            return GetRotationForLeaving(spawnDirections);
+        }
+        else
+        {
+            return GetRotationForSpawning(spawnDirections);
+        }
+    }
+
+    protected Quaternion GetRotationForLeaving(SpawnDirections spawnDirection)
     {
         Quaternion rotation = Quaternion.identity;
         switch (spawnDirection)
@@ -179,7 +191,7 @@ public class SpawnSystem : MonoBehaviour
     }
 
 
-    protected Quaternion GetRotationFromSpawnDirection(SpawnDirections spawnDirection)
+    protected Quaternion GetRotationForSpawning(SpawnDirections spawnDirection)
     {
         Quaternion rotation = Quaternion.identity;
         switch (spawnDirection)
@@ -224,7 +236,7 @@ public class SpawnSystem : MonoBehaviour
             var spawnCoordiantes = GetSpawnCoordinates(gridSystem, baseEnemyInfo.direction, offsetCoordinates);
             if (gridSystem.TryGetTileByCoordinates(spawnCoordiantes, out var spawnPosition))
             {
-                var spawnRotation = GetRotationFromSpawnDirection(baseEnemyInfo.direction);
+                var spawnRotation = GetRotationForSpawning(baseEnemyInfo.direction);
                 var enemySpawnInfo = new SpawnInfo()
                 {
                     objectToSpawn = enemyData.objectToSpawn,

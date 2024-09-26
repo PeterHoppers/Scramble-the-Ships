@@ -160,9 +160,10 @@ public class GameManager : MonoBehaviour
         newPlayer.InitPlayer(this, shipInfos[playerId], playerId);
         newPlayer.transform.SetParent(transform);
 
-        _players.Add(newPlayer);
+        _players.Add(newPlayer);       
 
         var startingTile = GetStartingTileForPlayer(playerId);
+        UpdatePlayerStartRotation(newPlayer);
         MovePreviewableOffScreenToTile(playerObject, startingTile, 0);
         newPlayer.OnSpawn();
         OnPlayerJoinedGame?.Invoke(newPlayer);
@@ -176,8 +177,15 @@ public class GameManager : MonoBehaviour
         return startingTile;
     }
 
-    public void MovePreviewableOffScreenToTile(Previewable preview, Tile tile, float duration)
+    void UpdatePlayerStartRotation(Player player)
     {
+        var startingDirection = _screenSystem.GetStartingPlayerRotation(_playerCount);
+        var startingRotation = _spawnSystem.GetRotationForSpawnDirections(startingDirection, false);
+        player.TransitionToRotation(startingRotation, .05f);
+    }
+
+    public void MovePreviewableOffScreenToTile(Previewable preview, Tile tile, float duration)
+    {        
         _spawnSystem.MovePreviewableOffScreenToPosition(preview, preview.GetTransfromAsReference().up, tile.GetTilePosition(), duration);
     }
 
@@ -190,6 +198,7 @@ public class GameManager : MonoBehaviour
 
     void MovePlayerOntoStartingTitle(Player player, float duration)
     {
+        UpdatePlayerStartRotation(player);
         var startingTile = GetStartingTileForPlayer(player.PlayerId);
         MovePlayerOnScreenToTile(player, startingTile, duration);
     }
@@ -231,7 +240,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator OnScreenChangeTriggered(Player player, SpawnDirections transitionDirection)
     {
-        var directionQuaterion = _spawnSystem.GetRotationForLeaving(transitionDirection);
+        var directionQuaterion = _spawnSystem.GetRotationForSpawnDirections(transitionDirection, true);
         if (player.GetTransfromAsReference().rotation.eulerAngles != directionQuaterion.eulerAngles)
         {
             player.TransitionToRotation(directionQuaterion, _tickEndDuration);

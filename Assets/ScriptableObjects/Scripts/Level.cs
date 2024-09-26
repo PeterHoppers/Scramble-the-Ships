@@ -27,7 +27,7 @@ public class Level : ScriptableObject
         return (playerAmount == 1 || useOnePlayerForBoth) ? onePlayerLevelScreens : twoPlayerLevelScreens;
     }
 
-    public List<GridCoordinate> GetStartingPlayerPositions(int playerAmount, Screen screen) 
+    public PlayerTransitionInfo GetStartingPlayerInfo(int playerAmount, Screen screen) 
     {
         if (screen.overrideDefaultStartingPositions)
         {
@@ -42,9 +42,9 @@ public class Level : ScriptableObject
         return GetStartingPositionsFromDictionary(GlobalGameStateManager.Instance.startingPlayerPositions, playerAmount);
     }
 
-    List<GridCoordinate> GetStartingPositionsFromDictionary(SerializedDictionary<PlayerAmount, PlayerTransitionInfo> playerTransitionInfos, int playerAmount)
+    PlayerTransitionInfo GetStartingPositionsFromDictionary(SerializedDictionary<PlayerAmount, PlayerTransitionInfo> playerTransitionInfos, int playerAmount)
     { 
-        return playerTransitionInfos[(PlayerAmount)playerAmount].positions;
+        return playerTransitionInfos[(PlayerAmount)playerAmount];
     }
 
     public PlayerTransitionInfo GetTransitionGridInfo(Screen screen)
