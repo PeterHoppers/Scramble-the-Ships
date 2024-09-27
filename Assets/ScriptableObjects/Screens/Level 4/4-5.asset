@@ -233,6 +233,17 @@ MonoBehaviour:
       y:
         anchor: 1
         offset: -1
+  - spawnInfo:
+      objectToSpawn: 9
+      direction: 3
+      groupingSize: 1
+    spawnCoordinates:
+      x:
+        anchor: 0
+        offset: 1
+      y:
+        anchor: 1
+        offset: 0
   overrideDefaultTransitionGrids: 1
   transitionGrids:
     direction: 0
@@ -256,6 +267,8 @@ MonoBehaviour:
   screenDialogue: {fileID: 0}
   twoPlayerDialogue: {fileID: 0}
   effects: []
+  playerAICommands: {fileID: 0}
+  screenMusicTransition: {fileID: 0}
   enemySpawnInformation:
     _serializedList: []
   spawnsLoopAtTick: 0

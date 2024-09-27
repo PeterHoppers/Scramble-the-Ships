@@ -34,7 +34,7 @@ MonoBehaviour:
         offset: 3
       y:
         anchor: 2
-        offset: 0
+        offset: 2
   - spawnInfo:
       objectToSpawn: 1
       direction: 2
@@ -112,6 +112,8 @@ MonoBehaviour:
   screenDialogue: {fileID: 0}
   twoPlayerDialogue: {fileID: 0}
   effects: []
+  playerAICommands: {fileID: 0}
+  screenMusicTransition: {fileID: 0}
   enemySpawnInformation:
     _serializedList: []
   spawnsLoopAtTick: 0

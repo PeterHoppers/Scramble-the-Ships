@@ -9,17 +9,21 @@ public class LevelSelectDebugger : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.F1))
         {
-            PlayLevel(1);
+            PlayLevel(0);
         }
         else if (Input.GetKeyUp(KeyCode.F2))
         {
-            PlayLevel(2);
+            PlayLevel(1);
         }
         else if (Input.GetKeyUp(KeyCode.F3))
         {
-            PlayLevel(3);
+            PlayLevel(2);
         }
         else if (Input.GetKeyUp(KeyCode.F4))
+        {
+            PlayLevel(3);
+        }
+        else if (Input.GetKeyUp(KeyCode.F5))
         {
             PlayLevel(4);
         }

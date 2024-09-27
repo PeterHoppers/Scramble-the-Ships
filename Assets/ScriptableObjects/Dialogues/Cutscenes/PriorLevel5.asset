@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9caf14b9ac11b424f8e1216a9c685b09, type: 3}
-  m_Name: PriorLevel4
+  m_Name: PriorLevel5
   m_EditorClassIdentifier: 
   dialogueNodes:
   - textSpeaker: 0
-    textToDisplay: "Readings for this upcoming sector reveal that the alien defenses
-      are formidable. They have reused some of their laser technology to destroy
-      anything it interacts with.\r"
+    textToDisplay: "The further your ship travels through space, the more bizarre
+      results we\u2019re seeing through our scans. It looks like there are spatial
+      tunnels that can warp you between two different points in space."
   - textSpeaker: 0
-    textToDisplay: "Since your ship\u2019s hull and missiles are already vulnerable
-      to their other lasers, we presume colliding with these lasers will go badly."
+    textToDisplay: And they look stable enough to be interacted with safely. Hopefully
+      it is another element that you can use to your advantage.
