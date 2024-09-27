@@ -129,22 +129,22 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
     public void PlayTutorial()
     {
         IsAIPlaying = false;
-        SetLevel(_tutorialLevel);
+        LoadLevel(_tutorialLevel);
     }
 
     public void SkipTutorial()
     {
         IsAIPlaying = false;
-        SetLevel(0);
+        LoadLevel(0);
     }
 
-    public void SetLevel(int levelIndex)
+    public void LoadLevel(int levelIndex)
     {
         _activeLevelIndex = levelIndex;
-        SetLevel(_levels[levelIndex]);
+        LoadLevel(_levels[levelIndex]);
     }
 
-    public void SetLevel(Level level)
+    public void LoadLevel(Level level)
     {
         CurrentLevel = level;
         GlobalGameStateStatus = GlobalGameStateStatus.Game;
@@ -172,16 +172,14 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
     public void NextLevel()
     {
         _activeLevelIndex++;
-        _levelSceneSystem.ReloadCurrentScene();
+        StartNextCutscene();
     }
 
     public void AdvanceFromCutsceneToGame()
     {
-        _activeLevelIndex++;
-
         if (_activeLevelIndex < _levels.Count)
         {
-            SetLevel(_activeLevelIndex);
+            LoadLevel(_activeLevelIndex);
         }
         else
         { 

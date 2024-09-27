@@ -1280,7 +1280,7 @@ MonoBehaviour:
     tickDuration: 1.2
     tickEndDuration: 0.25
     doesMoveOnInput: 1
-    maxEnergy: 100
+    maxEnergy: 110
     energyPerMove: 1
     energyPerShot: 5
     energyPerDeath: 15

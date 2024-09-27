@@ -18,6 +18,7 @@ public class Screen : ScriptableObject
     public Dialogue twoPlayerDialogue;
     public List<Effect> effects;
     public GridObjectCommands playerAICommands;
+    public AudioClip screenMusicTransition;
 
     [SerializedDictionary("Tick #", "Enemy Spawn Info")]
     public SerializedDictionary<int, EnemySpawn[]> enemySpawnInformation = new SerializedDictionary<int, EnemySpawn[]>();

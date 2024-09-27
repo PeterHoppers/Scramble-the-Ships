@@ -14,6 +14,7 @@ public class ScreenEditor : Editor
     SerializedProperty twoPlayerDialogue;
     SerializedProperty effects;
     SerializedProperty playerAICommands;
+    SerializedProperty screenMusicTransition;
 
     SerializedProperty enemySpawnInformation;
     SerializedProperty spawnsLoopAtTick;
@@ -32,6 +33,7 @@ public class ScreenEditor : Editor
         twoPlayerDialogue = serializedObject.FindProperty("twoPlayerDialogue");
         effects = serializedObject.FindProperty("effects");
         playerAICommands = serializedObject.FindProperty("playerAICommands");
+        screenMusicTransition = serializedObject.FindProperty("screenMusicTransition");
 
         enemySpawnInformation = serializedObject.FindProperty("enemySpawnInformation");
         spawnsLoopAtTick = serializedObject.FindProperty("spawnsLoopAtTick");
@@ -51,6 +53,7 @@ public class ScreenEditor : Editor
         EditorGUILayout.PropertyField(spawnsLoopAtTick);
         EditorGUILayout.PropertyField(screenDialogue);
         EditorGUILayout.PropertyField(playerAICommands);
+        EditorGUILayout.PropertyField(screenMusicTransition);
 
         EditorGUILayout.Space();
 

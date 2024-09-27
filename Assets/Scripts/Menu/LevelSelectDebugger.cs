@@ -27,6 +27,6 @@ public class LevelSelectDebugger : MonoBehaviour
 
     void PlayLevel(int levelId)
     { 
-        GlobalGameStateManager.Instance.SetLevel(levelId);
+        GlobalGameStateManager.Instance.LoadLevel(levelId);
     }
 }

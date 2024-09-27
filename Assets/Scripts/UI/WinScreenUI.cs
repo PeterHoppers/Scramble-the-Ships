@@ -73,6 +73,6 @@ public class WinScreenUI : MonoBehaviour
     public void MoveOntoNextLevel()
     {
         GlobalGameStateManager.Instance.CurrentScore = _currentScore;
-        GlobalGameStateManager.Instance.StartNextCutscene();
+        GlobalGameStateManager.Instance.NextLevel();
     }
 }

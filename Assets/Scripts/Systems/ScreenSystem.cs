@@ -97,6 +97,7 @@ public class ScreenSystem : MonoBehaviour
     {
         _currentScreen = _levelScreens[ScreensLoaded];
         spawnSystem.LoopTick = _currentScreen.spawnsLoopAtTick;
+        GlobalAudioManager.Instance.TransitionSongs(_currentScreen.screenMusicTransition);
 
         ConfigureCurrentScreen(spawnSystem, gridSystem, effectsSystem);
 
