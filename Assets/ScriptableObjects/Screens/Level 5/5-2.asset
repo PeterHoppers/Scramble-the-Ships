@@ -222,7 +222,7 @@ MonoBehaviour:
     _serializedList:
     - Key: 1
       Value:
-        direction: 0
+        direction: 1
         positions:
         - x:
             anchor: 0
@@ -232,7 +232,7 @@ MonoBehaviour:
             offset: 1
     - Key: 2
       Value:
-        direction: 0
+        direction: 1
         positions:
         - x:
             anchor: 0

@@ -161,7 +161,7 @@ MonoBehaviour:
     _serializedList:
     - Key: 1
       Value:
-        direction: 0
+        direction: 1
         positions:
         - x:
             anchor: 2
@@ -171,7 +171,7 @@ MonoBehaviour:
             offset: 1
     - Key: 2
       Value:
-        direction: 0
+        direction: 1
         positions:
         - x:
             anchor: 2
@@ -189,6 +189,7 @@ MonoBehaviour:
   screenDialogue: {fileID: 11400000, guid: 9c5dea49e4fe63340bc6e650ec876178, type: 2}
   twoPlayerDialogue: {fileID: 0}
   effects: []
+  playerAICommands: {fileID: 0}
   enemySpawnInformation:
     _serializedList:
     - Key: 1

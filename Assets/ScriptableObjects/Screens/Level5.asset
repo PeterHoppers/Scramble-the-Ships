@@ -25,11 +25,11 @@ MonoBehaviour:
   - type: 4
     amount: 1
   - type: 11
-    amount: 3
+    amount: 2
   - type: 0
     amount: 5
-  levelSong: {fileID: 0}
-  levelBackground: {fileID: 0}
+  levelSong: {fileID: 8300000, guid: 356ba3926ea55694e9332c97771a042e, type: 3}
+  levelBackground: {fileID: 21300000, guid: 985675f1712f6e94e945a38f4d5a475a, type: 3}
   overrideDefaultTransitionGrids: 0
   transitionGrids:
     direction: 0
