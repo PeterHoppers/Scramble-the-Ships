@@ -21,6 +21,8 @@ MonoBehaviour:
   startingEffects:
   - type: 4
     amount: 0
+  - type: 10
+    amount: 100
   levelSong: {fileID: 0}
   levelBackground: {fileID: 0}
   overrideDefaultTransitionGrids: 0

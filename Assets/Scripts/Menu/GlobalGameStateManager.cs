@@ -290,6 +290,11 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
 
     private bool HasHighScore(int score)
     {
+        if (_scoreInfos == null)
+        {
+            return false;
+        }
+
         var validScores = _scoreInfos.Where(x => x.playerCount == PlayerCount).ToList();
         return validScores.Any(x => x.scoreAmount < score);
     }
