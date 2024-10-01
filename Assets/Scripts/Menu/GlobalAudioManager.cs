@@ -140,13 +140,6 @@ public class GlobalAudioManager : MonoBehaviour
             return;
         }
 
-        globalAudioMixer.GetFloat(MUSIC_VOLUME, out var currentVol);
-
-        if (currentVol == 0f)
-        {
-            return;
-        }
-
         if (musicSource.clip == null)
         {
             PlayMusic(clipToPlay); 

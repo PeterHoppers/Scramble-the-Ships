@@ -15,6 +15,7 @@ public class EnergySystem : MonoBehaviour
     int _energyPerMove;
     int _energyPerFire;
     int _energyPerLifeLoss;
+    bool _isEnergyRestoredOnDeath;
     int _maxEnergy;
     int _maxEnergyPerPlayer;
     int _currentEnergy;
@@ -78,6 +79,7 @@ public class EnergySystem : MonoBehaviour
         _energyPerMove = gameSettings.energyPerMove;
         _energyPerFire = gameSettings.energyPerShot;
         _energyPerLifeLoss = gameSettings.energyPerDeath;
+        _isEnergyRestoredOnDeath = gameSettings.isEnergyRestoredToStartOnDeath;
 
         OnMaxEnergyPerPersonChanged(gameSettings.maxEnergy);
     }
@@ -132,7 +134,10 @@ public class EnergySystem : MonoBehaviour
 
     void OnScreenResetStart()
     {
-        CurrentEnergy = _energyAtScreenStart;
+        if (_isEnergyRestoredOnDeath)
+        {
+            CurrentEnergy = _energyAtScreenStart;
+        }
     }
 
     void OnScreenResetEnd()

@@ -37,6 +37,7 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
     public Slider energyPerMoveSlider;
     public Slider energyPerShotSlider;
     public Slider energyPerDeathSlider;
+    public TMP_Dropdown energyRestoreDropdown;
 
     [Space]
 
@@ -51,7 +52,6 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
     public delegate void ParametersChanged(GameSettingParameters gameSettings, SystemSettingParameters systemSettingParameters);
     public ParametersChanged OnParametersChanged;
 
-    TabbedPanelUI _panelUI;
     GameManager _gameManager;
 
     public void InitManager(GameManager manager)
@@ -73,7 +73,6 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        _panelUI = optionsCanvas.GetComponentInChildren<TabbedPanelUI>();
     }
 
     void Start()
@@ -143,6 +142,12 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
         energyPerDeathSlider.onValueChanged.AddListener((float newValue) =>
         {
             gameSettingParameters.energyPerDeath = (int)newValue;
+        });
+
+        energyRestoreDropdown.value = BoolToDropdownIndex(gameSettingParameters.isEnergyRestoredToStartOnDeath);
+        energyRestoreDropdown.onValueChanged.AddListener((int newSelection) =>
+        {
+            gameSettingParameters.isEnergyRestoredToStartOnDeath = DropdownValueToBool(newSelection);
         });
 
         modeTypeDropdown.value = BoolToDropdownIndex(systemSettingParameters.isFreeplay);
@@ -269,6 +274,7 @@ public struct GameSettingParameters
     public int energyPerMove;
     public int energyPerShot;
     public int energyPerDeath;
+    public bool isEnergyRestoredToStartOnDeath;
 }
 
 [System.Serializable]
