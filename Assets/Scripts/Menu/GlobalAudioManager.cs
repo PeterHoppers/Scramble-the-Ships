@@ -25,6 +25,10 @@ public class GlobalAudioManager : MonoBehaviour
     private const string SFX_VOLUME = "SFXVolume";
 
     private GameObject _previousSelectedObject;
+    private bool _isPreviewAudioEnabled = true;
+    private GlobalGameStateStatus _currentGameState = GlobalGameStateStatus.Preview;
+    private float _currentMusicVolume = 0f;
+    private float _currentSFXVolume = 0f;
 
     private static GlobalAudioManager instance;
     public static GlobalAudioManager Instance
@@ -62,10 +66,10 @@ public class GlobalAudioManager : MonoBehaviour
 
     void Start()
     {
-        OptionsManager.Instance.OnParametersChanged += UpdateMixerSettings;
-        GlobalGameStateManager.Instance.OnStateChange += UpdateBackgroundMusic;
+        OptionsManager.Instance.OnParametersChanged += OnOptionParametersChanged;
+        GlobalGameStateManager.Instance.OnStateChange += OnGlobalStateChange;
 
-        UpdateMixerSettings(OptionsManager.Instance.gameSettingParameters, OptionsManager.Instance.systemSettingParameters);
+        OnOptionParametersChanged(OptionsManager.Instance.gameSettingParameters, OptionsManager.Instance.systemSettingParameters);
         PlayMusic(mainMenuMusic);
     }
 
@@ -85,10 +89,39 @@ public class GlobalAudioManager : MonoBehaviour
         }
     }
 
+    void OnGlobalStateChange(GlobalGameStateStatus newState)
+    {
+        if (!_isPreviewAudioEnabled)
+        {
+            //if we're entering the preview state, mute the game
+            if (newState == GlobalGameStateStatus.Preview)
+            {
+                if (_currentGameState != GlobalGameStateStatus.Preview)
+                {
+                    musicSource.Stop();
+                    UpdateMixerSettings(0, 0);
+                }
+            }
+            else
+            //if we're leaving the preview state, unmute the game
+            {
+                if (_currentGameState == GlobalGameStateStatus.Preview)
+                {
+                    UpdateMixerSettings(_currentMusicVolume, _currentSFXVolume);
+                    musicSource.Stop();
+                    musicSource.Play();
+                }                
+            }
+        }
+
+        UpdateBackgroundMusic(newState);
+        _currentGameState = newState;
+    }
+
     void UpdateBackgroundMusic(GlobalGameStateStatus newState)
     {
-        switch (newState) 
-        { 
+        switch (newState)
+        {
             case GlobalGameStateStatus.Preview:
                 TransitionSongs(mainMenuMusic);
                 break;
@@ -98,11 +131,18 @@ public class GlobalAudioManager : MonoBehaviour
             default:
                 break;
         }
-    }   
+    }
 
     public void TransitionSongs(AudioClip clipToPlay, float transitionDuration = .25f)
     {
         if (clipToPlay == null || clipToPlay == musicSource.clip) 
+        {
+            return;
+        }
+
+        globalAudioMixer.GetFloat(MUSIC_VOLUME, out var currentVol);
+
+        if (currentVol == 0f)
         {
             return;
         }
@@ -153,15 +193,31 @@ public class GlobalAudioManager : MonoBehaviour
     }
 
     //from: https://discussions.unity.com/t/changing-audio-mixer-group-volume-with-ui-slider/567394/11
-    void UpdateMixerSettings(GameSettingParameters _, SystemSettingParameters systemSettingParameters)
+    void OnOptionParametersChanged(GameSettingParameters _, SystemSettingParameters systemSettingParameters)
     {
-        SetMixerVolumeLevel(globalAudioMixer, MUSIC_VOLUME, systemSettingParameters.musicVolume);
-        SetMixerVolumeLevel(globalAudioMixer, SFX_VOLUME, systemSettingParameters.sfxVolume);
+        _isPreviewAudioEnabled = systemSettingParameters.isAttractAudioEnabled; 
+        _currentMusicVolume = systemSettingParameters.musicVolume;
+        _currentSFXVolume = systemSettingParameters.sfxVolume;
+
+        if (!_isPreviewAudioEnabled && _currentGameState == GlobalGameStateStatus.Preview)
+        {
+            UpdateMixerSettings(0, 0);
+        }
+        else
+        {            
+            UpdateMixerSettings(_currentMusicVolume, _currentSFXVolume);
+        }        
+    }
+
+    void UpdateMixerSettings(float musicVolume, float sfxVolume)
+    {
+        SetMixerVolumeLevel(globalAudioMixer, MUSIC_VOLUME, musicVolume);
+        SetMixerVolumeLevel(globalAudioMixer, SFX_VOLUME, sfxVolume);
     }
 
     void SetMixerVolumeLevel(AudioMixer mixer, string variableName, float soundLevel)
     {
-        soundLevel = soundLevel / 100;
+        soundLevel /= 100;
         if (soundLevel == 0)
         {
             soundLevel = .001f; //It’s important to set the min value to 0.001, otherwise dropping it all the way to zero breaks the calculation and puts the volume up again.

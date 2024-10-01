@@ -42,10 +42,11 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
 
     public SystemSettingParameters systemSettingParameters;
     [Header("UI Components for System")]
-    public TMP_Dropdown modeTypeDropdown;
-    public SliderReader creditsForPlaySlider;
     public SliderReader musicVolumeSlider;
     public SliderReader sfxVolumeSlider;
+    public TMP_Dropdown modeTypeDropdown;
+    public TMP_Dropdown attractAudioDropdown;
+    public SliderReader creditsForPlaySlider;
 
     public delegate void ParametersChanged(GameSettingParameters gameSettings, SystemSettingParameters systemSettingParameters);
     public ParametersChanged OnParametersChanged;
@@ -148,6 +149,12 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
         modeTypeDropdown.onValueChanged.AddListener((int newSelection) =>
         {
             systemSettingParameters.isFreeplay = DropdownValueToBool(newSelection);
+        });
+
+        attractAudioDropdown.value = BoolToDropdownIndex(systemSettingParameters.isAttractAudioEnabled);
+        attractAudioDropdown.onValueChanged.AddListener((int newSelection) =>
+        {
+            systemSettingParameters.isAttractAudioEnabled = DropdownValueToBool(newSelection);
         });
 
         creditsForPlaySlider.SetValueToRead(systemSettingParameters.coinsPerPlay, true);
@@ -269,6 +276,7 @@ public struct SystemSettingParameters
 {
     public float sfxVolume;
     public float musicVolume;
+    public bool isAttractAudioEnabled;
     public bool isFreeplay;
     public int coinsPerPlay;
     [HideInInspector]
