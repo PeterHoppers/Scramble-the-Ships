@@ -2733,10 +2733,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 719655402535580406, guid: 23998af3c46b757499df508b643cf3ed, type: 3}
-      propertyPath: systemSettingParameters.isAttractAudioEnabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 747205774178758877, guid: 23998af3c46b757499df508b643cf3ed, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

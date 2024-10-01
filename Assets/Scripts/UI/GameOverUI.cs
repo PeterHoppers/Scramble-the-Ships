@@ -10,6 +10,7 @@ public class GameOverUI : MonoBehaviour
     public GameObject gameOverHolder;
     public CountdownUI countdownUI;
     public Button retryButton;
+    public GameObject gameOverCallToAction;
     [Space]
     public AudioClip gameOverJingle;
 
@@ -51,6 +52,7 @@ public class GameOverUI : MonoBehaviour
     private void SetPlayAgainState(bool isEnable)
     {
         retryButton.gameObject.SetActive(isEnable);
+        gameOverCallToAction.SetActive(!isEnable);
 
         if (isEnable)
         {
