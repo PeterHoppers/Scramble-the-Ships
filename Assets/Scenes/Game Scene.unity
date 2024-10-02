@@ -1306,6 +1306,7 @@ GameObject:
   - component: {fileID: 185841717}
   - component: {fileID: 185841719}
   - component: {fileID: 185841718}
+  - component: {fileID: 185841720}
   m_Layer: 5
   m_Name: Front Bar
   m_TagString: Untagged
@@ -1344,7 +1345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 96b2e9df76cc54a41bde7f748e4eed08, type: 2}
   m_Color: {r: 0, g: 0.6666667, b: 0.6666667, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -1370,6 +1371,45 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 185841716}
   m_CullTransparentMesh: 1
+--- !u!114 &185841720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 185841716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd358391cfbf574458647b9ed2309d50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fillCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _minIntensity: 0.5
+  _maxIntensity: 1.75
+  _flashDuration: 0.125
 --- !u!1 &228537378
 GameObject:
   m_ObjectHideFlags: 0
@@ -1981,7 +2021,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 96b2e9df76cc54a41bde7f748e4eed08, type: 2}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -2435,8 +2475,11 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   fillDuration: 1
-  lossEnergyColor: {r: 0, g: 0.39215687, b: 0.39215687, a: 1}
-  gainEnergyColor: {r: 0, g: 1, b: 1, a: 1}
+  lowPercentage: 0.33
+  lossEnergyColor: {r: 0.003921569, g: 0.22352941, b: 0.24705882, a: 1}
+  gainEnergyColor: {r: 0.509434, g: 0.509434, b: 0.509434, a: 1}
+  lowEnergyColor: {r: 1, g: 0, b: 0, a: 1}
+  lossLowEnergyColor: {r: 0.2830189, g: 0.012014948, b: 0.012014948, a: 1}
 --- !u!1 &496261858
 GameObject:
   m_ObjectHideFlags: 0
@@ -8183,6 +8226,26 @@ PrefabInstance:
       propertyPath: _isPreviewGame
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6824546314571791643, guid: 23998af3c46b757499df508b643cf3ed, type: 3}
+      propertyPath: _levels.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 847c99ed70d733249a1ecdf4d7573ae0, type: 2}
+    - target: {fileID: 6824546314571791643, guid: 23998af3c46b757499df508b643cf3ed, type: 3}
+      propertyPath: _levels.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 728a1716cff4b284b9ad127715156fc7, type: 2}
+    - target: {fileID: 6824546314571791643, guid: 23998af3c46b757499df508b643cf3ed, type: 3}
+      propertyPath: _levels.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: d6499b2d32df4374ea4661c93cb9b7a8, type: 2}
+    - target: {fileID: 6824546314571791643, guid: 23998af3c46b757499df508b643cf3ed, type: 3}
+      propertyPath: _levels.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: aa418f0335562b942a3316ffdf744c38, type: 2}
+    - target: {fileID: 6824546314571791643, guid: 23998af3c46b757499df508b643cf3ed, type: 3}
+      propertyPath: _levels.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: bdf06b2fabff1954aa022059ac90fc19, type: 2}
     - target: {fileID: 6856579681233464659, guid: 23998af3c46b757499df508b643cf3ed, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

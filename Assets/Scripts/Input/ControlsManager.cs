@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
+using System.Collections;
 
 public class ControlsManager : MonoBehaviour, IManager
 {
@@ -22,12 +23,10 @@ public class ControlsManager : MonoBehaviour, IManager
         _gameManager = manager;
         _gameManager.OnTickEnd += OnTickEnd;
         _gameManager.OnPlayerJoinedGame += OnPlayerJoined;
-        _gameManager.OnPlayerConditionStart += OnPlayerConditionStart;
 
         _gameManager.EffectsSystem.OnScrambleAmountChanged += (int scrambleAmount) => _amountToScramble = scrambleAmount;
         _gameManager.EffectsSystem.OnMultiplayerScrambleTypeChanged += (bool isSame) => _playersSameShuffle = isSame;
-        _gameManager.EffectsSystem.OnScrambleVarianceChanged += (int scrambleVarience) => _percentChanceNotDefaultScrambleAmount = scrambleVarience;
-        _gameManager.EffectsSystem.OnGameInputProgressionChanged += (GameInputProgression newScrambleType) =>
+        _gameManager.EffectsSystem.OnScrambleVarianceChanged += (int scrambleVarience) => _percentChanceNotDefaultScrambleAmount = scrambleVarience; _gameManager.EffectsSystem.OnGameInputProgressionChanged += (GameInputProgression newScrambleType) =>
         {
             var previousType = _scrambleType;
             _scrambleType = newScrambleType;
@@ -39,14 +38,9 @@ public class ControlsManager : MonoBehaviour, IManager
         };
 
         OptionsManager.Instance.OnParametersChanged += (GameSettingParameters gameSettings, SystemSettingParameters _) => _doesScrambleOnNoInput = gameSettings.doesScrambleOnNoInput;
-    }  
-
-    void OnTickEnd(int _)
-    {
-        UpdateShuffledValues();
     }
 
-    void OnPlayerConditionStart(Player player, Condition condition)
+    void OnTickEnd(int _)
     {
         UpdateShuffledValues();
     }
@@ -201,12 +195,27 @@ public class ControlsManager : MonoBehaviour, IManager
 
     private void OnPlayerJoined(Player player)
     {
+        player.OnPossibleInputs += OnPlayerUpdatePossibleInputs;
         _players = _gameManager.GetAllPlayers();
+
         _gameManager.OnScreenChange += OnScreenChange;
         void OnScreenChange(int current_, int max_)
         {
             _gameManager.OnScreenChange -= OnScreenChange;
             UpdateShuffledValues();
+        }
+    }
+
+    private void OnPlayerUpdatePossibleInputs(List<PlayerAction> possibleActions)
+    {
+        UpdateShuffledValues();
+    }
+
+    private void OnDisable()
+    {
+        foreach (var player in _players)
+        {
+            player.OnPossibleInputs -= OnPlayerUpdatePossibleInputs;
         }
     }
 

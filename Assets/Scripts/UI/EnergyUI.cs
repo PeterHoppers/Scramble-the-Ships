@@ -16,19 +16,31 @@ public class EnergyUI : MonoBehaviour
     private AnimationCurve _fillCurve;
     [SerializeField]
     private float fillDuration;
+    [SerializeField]
+    [Range(0, 1)]
+    private float lowPercentage;
 
     [SerializeField]
     private Color lossEnergyColor;
     [SerializeField]
     private Color gainEnergyColor;
+    [SerializeField]
+    private Color lowEnergyColor;
+    [SerializeField]
+    private Color lossLowEnergyColor;
 
     private int _pastEnergy;
     private int _currentEnergy;
+    private Color _defaultColor;
+    private bool _isLowEnergy = false;
+    private FlashingUI _flashingUI;
 
     // Start is called before the first frame update
     void Start()
     {
         _energyFrontBar.fillAmount = 1f;
+        _defaultColor = _energyFrontBar.color;
+        _flashingUI = _energyFrontBar.GetComponent<FlashingUI>();
         _energyBackBar.fillAmount = 1f;
         gameObject.SetActive(false);
     }
@@ -48,10 +60,23 @@ public class EnergyUI : MonoBehaviour
         var frontFill = _energyFrontBar.fillAmount;
         var backFill = _energyBackBar.fillAmount;
 
+        if (currentPercentageRemaining < lowPercentage && !_isLowEnergy)
+        {
+            _isLowEnergy = true;
+            _energyFrontBar.color = lowEnergyColor;
+            _flashingUI.StartFlashing();
+        }
+        else if (currentPercentageRemaining >= lowPercentage && _isLowEnergy)
+        {
+            _isLowEnergy = false;
+            _energyFrontBar.color = _defaultColor;
+            _flashingUI.StopFlashing();
+        }
+
         if (previousPercentageRemaining > currentPercentageRemaining)
         {
             _energyFrontBar.fillAmount = currentPercentageRemaining;
-            _energyBackBar.color = lossEnergyColor;
+            _energyBackBar.color = (_isLowEnergy) ? lossLowEnergyColor : lossEnergyColor;
             StopAllCoroutines();
             StartCoroutine(AnimateFill(_energyBackBar, backFill, currentPercentageRemaining, fillDuration));
         }
@@ -61,7 +86,7 @@ public class EnergyUI : MonoBehaviour
             _energyBackBar.fillAmount = currentPercentageRemaining;
             StopAllCoroutines();
             StartCoroutine(AnimateFill(_energyFrontBar, frontFill, currentPercentageRemaining, fillDuration));
-        }
+        }        
     }
 
     IEnumerator AnimateFill(Image imageFilling, float startingValue, float endingValue, float duration)

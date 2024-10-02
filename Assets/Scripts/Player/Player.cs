@@ -69,6 +69,7 @@ public class Player : Previewable
 
     private void OnGameInputProgressionChanged(GameInputProgression scrambleType)
     {
+        _possibleActions.Clear();
         AddPossibleInput(InputValue.Forward);
         AddPossibleInput(InputValue.Backward);
         AddPossibleInput(InputValue.Port);
