@@ -80,7 +80,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previewObject: {fileID: 0}
-  inputValueDisplays:
+  buttonValueDisplays:
     _serializedList:
     - Key: 0
       Value: {fileID: 2465579884317123656}

@@ -14,8 +14,8 @@ public class EffectsSystem : MonoBehaviour
     public delegate void ScrambleVarianceChanged(int scrambleVariance);
     public ScrambleVarianceChanged OnScrambleVarianceChanged;
 
-    public delegate void ScrambleTypeChanged(ScrambleType scrambleType);
-    public ScrambleTypeChanged OnScrambleTypeChanged;
+    public delegate void GameInputProgressionChanged(GameInputProgression scrambleType);
+    public GameInputProgressionChanged OnGameInputProgressionChanged;
 
     public delegate void MultiplayerScrambleTypeChanged(bool isSameResult);
     public MultiplayerScrambleTypeChanged OnMultiplayerScrambleTypeChanged;
@@ -31,9 +31,6 @@ public class EffectsSystem : MonoBehaviour
 
     public delegate void MaxEnergyChanged(int maxEnergy);
     public MaxEnergyChanged OnMaxEnergyChanged;
-
-    public delegate void ConditionChanged<T>(bool isGained) where T : Condition;
-    public ConditionChanged<ShootingDisable> OnShootingChanged;
 
     //Visual Effects
     [SerializeField]
@@ -57,7 +54,7 @@ public class EffectsSystem : MonoBehaviour
     private void InvokeCurrentParameters(GameSettingParameters gameSettings, SystemSettingParameters systemSettingParameters)
     {
         OnScrambleAmountChanged?.Invoke(gameSettings.amountControlsScrambled);
-        OnScrambleTypeChanged?.Invoke(gameSettings.scrambleType);
+        OnGameInputProgressionChanged?.Invoke(gameSettings.scrambleType);
         OnMultiplayerScrambleTypeChanged?.Invoke(gameSettings.isMultiplayerScrambleSame);
         OnTickDurationChanged?.Invoke(gameSettings.tickDuration);
         OnTickEndDurationChanged?.Invoke(gameSettings.tickEndDuration);
@@ -84,9 +81,9 @@ public class EffectsSystem : MonoBehaviour
             case EffectType.ScrambleVarience:
                 OnScrambleVarianceChanged?.Invoke(Mathf.RoundToInt(effect.amount));
                 break;
-            case EffectType.ScrambleType:                
-                var scrambleType = (ScrambleType)Mathf.RoundToInt(effect.amount);
-                OnScrambleTypeChanged?.Invoke(scrambleType);
+            case EffectType.GameInputProgression:                
+                var gameInputProgression = (GameInputProgression)Mathf.RoundToInt(effect.amount);
+                OnGameInputProgressionChanged?.Invoke(gameInputProgression);
                 break;
             case EffectType.TickDuration:
                 OnTickDurationChanged?.Invoke(effect.amount); 
@@ -96,9 +93,6 @@ public class EffectsSystem : MonoBehaviour
                 break;
             case EffectType.MoveOnInputChanged:
                 OnMoveOnInputChanged?.Invoke(Convert.ToBoolean(effect.amount));
-                break;
-            case EffectType.ShootingChanged:
-                OnShootingChanged?.Invoke(Convert.ToBoolean(effect.amount));
                 break;
             case EffectType.MaxEnergyChanged:
                 OnMaxEnergyChanged?.Invoke(Mathf.RoundToInt(effect.amount));
@@ -140,17 +134,16 @@ public struct Effect
 
 public enum EffectType
 { 
-    ScrambleAmount,
-    TickDuration,
-    TickEndDuration,
-    MoveOnInputChanged,
-    ShootingChanged,
-    DigitalGlitchIntensity,
-    ScanLineJitter,
-    VerticalJump,
-    HorizontalShake,
-    ColorDrift,
-    MaxEnergyChanged,
-    ScrambleType,
-    ScrambleVarience
+    ScrambleAmount = 0,
+    TickDuration = 1,
+    TickEndDuration = 2,
+    MoveOnInputChanged = 3,
+    DigitalGlitchIntensity = 5,
+    ScanLineJitter = 6,
+    VerticalJump = 7,
+    HorizontalShake = 8,
+    ColorDrift = 9,
+    MaxEnergyChanged = 10,
+    GameInputProgression = 11,
+    ScrambleVarience = 12
 }

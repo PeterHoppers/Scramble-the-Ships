@@ -7,46 +7,37 @@ using System;
 
 public class PlayerStatusUI : MonoBehaviour
 {
-    public FireUI fireUI;
+    public ActionButtonUI fireUI;
     Player _player;
+
+    const int BUTTON_UI_NEEDED = 5;
     
     void Awake()
     {
         fireUI.gameObject.SetActive(false);
     }
 
+    private void OnDisable()
+    {
+        if (_player != null)
+        {
+            _player.OnPossibleInputs -= OnPossibleInputChanged;
+        }
+    }
+
     public void AddPlayerReference(Player player)
     {
         _player = player;
         fireUI.gameObject.SetActive(true);
-        fireUI.SetFireControlSprite(player.GetSpriteForInput(InputValue.Fire));
-        fireUI.SetBulletSprite(player.GetBulletSprite());
-        player.AddInputRenderer(InputValue.Fire, fireUI.fireControlRenderer);        
+        fireUI.SetButtonControlSprite(player.GetSpriteForInput(InputValue.Fire));
+        player.AddButtonRenderer(ButtonValue.Action, fireUI.buttonControlRenderer);
+        
+        _player.OnPossibleInputs += OnPossibleInputChanged;
     }
 
-    public void GainedCondition(Condition condition)
-    { 
-        if (condition == null) 
-        {
-            return;        
-        }
-
-        if (condition.GetType() == typeof(ShootingDisable))
-        {
-            fireUI.SetFirableState(false);
-        }
-    }
-
-    public void LostCondition(Condition condition)
+    private void OnPossibleInputChanged(List<PlayerAction> possibleActions)
     {
-        if (condition == null)
-        {
-            return;
-        }
-
-        if (condition.GetType() == typeof(ShootingDisable))
-        {
-            fireUI.SetFirableState(true);
-        }
-    }
+        var isButtonNeededForInput = (possibleActions.Count >= BUTTON_UI_NEEDED);
+        fireUI.SetActiveState(isButtonNeededForInput);        
+    }    
 }

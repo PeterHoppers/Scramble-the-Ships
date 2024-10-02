@@ -24,8 +24,6 @@ public class UIManager : MonoBehaviour, IManager
         _gameManager = manager;
         _gameManager.OnTickStart += OnTickStart;
         _gameManager.OnPlayerJoinedGame += OnPlayerJoined;
-        _gameManager.OnPlayerConditionStart += OnPlayerConditionStart;
-        _gameManager.OnPlayerConditionEnd += OnPlayerConditionEnd;
         _gameManager.OnGameStateChanged += OnGameStateChanged;
         _gameManager.OnScreenChange += OnScreenChange;
         _gameManager.OnLevelEnd += OnLevelEnd;
@@ -108,18 +106,6 @@ public class UIManager : MonoBehaviour, IManager
     {
         var playerStatus = playerStatusUIs[player.PlayerId];
         playerStatus.AddPlayerReference(player);
-    }
-
-    void OnPlayerConditionStart(Player player, Condition condition)
-    {
-        var playerStatus = playerStatusUIs[player.PlayerId];
-        playerStatus.GainedCondition(condition);
-    }
-
-    void OnPlayerConditionEnd(Player player, Condition condition)
-    {
-        var playerStatus = playerStatusUIs[player.PlayerId];
-        playerStatus.LostCondition(condition);
     }
 
     void OnEnergyChange(int currentEnergy, int maxEnergy)

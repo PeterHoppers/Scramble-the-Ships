@@ -252,19 +252,20 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
 }
 
 [System.Serializable]
-public enum ScrambleType
-{ 
-    None = 0,
-    Movement = 1,
-    All = 2,
-    Rotation = 3,
+public enum GameInputProgression
+{
+    SimpleMovement = 0,
+    ScrambledMovement = 1,
+    MoveAndShooting = 2,
+    ScrambledShooting = 3,
+    Rotation = 4,
 }
 
 [System.Serializable]
 public struct GameSettingParameters
 {
     public int amountControlsScrambled;
-    public ScrambleType scrambleType;
+    public GameInputProgression scrambleType;
     public bool isMultiplayerScrambleSame;
     public bool doesScrambleOnNoInput;
     public float tickDuration;

@@ -90,7 +90,7 @@ public class GameManager : MonoBehaviour
     int _ticksSinceScreenStart = 0;    
     int _continuesUsed = 0;
 
-    ScrambleType _currentScrambleType;
+    GameInputProgression _currentScrambleType;
 
     void Awake()
     {
@@ -104,7 +104,7 @@ public class GameManager : MonoBehaviour
         _effectsSystem.OnTickDurationChanged += (float newDuration) => TickDuration = newDuration;
         _effectsSystem.OnTickEndDurationChanged += (float newEndDuration) => _tickEndDuration = newEndDuration;
         _effectsSystem.OnMoveOnInputChanged += (bool isMoveOnInput) => _isMovementAtInput = isMoveOnInput;
-        _effectsSystem.OnScrambleTypeChanged += (ScrambleType scrambleType) => _currentScrambleType = scrambleType;
+        _effectsSystem.OnGameInputProgressionChanged += (GameInputProgression scrambleType) => _currentScrambleType = scrambleType;
     }
 
     IEnumerator Start()
@@ -642,7 +642,7 @@ public class GameManager : MonoBehaviour
     {
         _tickIsOccuring = false;
         var tickEndDuration = _tickEndDuration;
-        if (_currentScrambleType == ScrambleType.None) //if we're not scrambled, speed up the animation between ticks because people know their next input will be
+        if (_currentScrambleType == GameInputProgression.SimpleMovement) //if we're not scrambled, speed up the animation between ticks because people know their next input will be
         {
             tickEndDuration /= 1.5f;
         }

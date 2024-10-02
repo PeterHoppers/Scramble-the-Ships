@@ -32,8 +32,6 @@ MonoBehaviour:
     amount: 1
   - type: 10
     amount: 100
-  - type: 4
-    amount: 0
   - type: 12
     amount: 50
   levelSong: {fileID: 8300000, guid: 81b9b52ccc716244c9c8b08c280b530e, type: 3}

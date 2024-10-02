@@ -10,10 +10,13 @@ using CartoonFX;
 public class Player : Previewable
 {
     [SerializedDictionary]
-    public SerializedDictionary<InputValue, InputRenderer> inputValueDisplays;
+    public SerializedDictionary<ButtonValue, InputRenderer> buttonValueDisplays;
+
+    public delegate void PossibleInputs(List<PlayerAction> possibleActions);
+    public PossibleInputs OnPossibleInputs;
 
     [SerializedDictionary]
-    protected SerializedDictionary<InputValue, PlayerAction> scrambledActions = new SerializedDictionary<InputValue, PlayerAction>();
+    protected SerializedDictionary<ButtonValue, PlayerAction> scrambledActions = new SerializedDictionary<ButtonValue, PlayerAction>();
     
     private PlayerShipInfo _shipInfo;
     private ParticleSystem _deathVFX;
@@ -27,7 +30,7 @@ public class Player : Previewable
     private bool _allowingInput;
     private bool _isInactive = false;
 
-    InputValue? _lastInput;
+    ButtonValue? _lastInput;
 
     List<PlayerAction> _possibleActions = new List<PlayerAction>();
     List<Condition> _playerConditions = new List<Condition>();    
@@ -41,8 +44,7 @@ public class Player : Previewable
     {
         if (_manager != null)
         {
-            _manager.EffectsSystem.OnShootingChanged -= OnShootingChanged;
-            _manager.EffectsSystem.OnScrambleTypeChanged -= OnScrambledTypeChanged;
+            _manager.EffectsSystem.OnGameInputProgressionChanged -= OnGameInputProgressionChanged;
         }        
     }
 
@@ -51,20 +53,9 @@ public class Player : Previewable
         _manager = manager;
         _manager.OnTickStart += OnTickStart;
         _manager.OnTickEnd += OnTickEnd;
-        _manager.EffectsSystem.OnShootingChanged += OnShootingChanged;
-        _manager.EffectsSystem.OnScrambleTypeChanged += OnScrambledTypeChanged;
+        _manager.EffectsSystem.OnGameInputProgressionChanged += OnGameInputProgressionChanged;
 
         _shipInfo = shipInfo;
-        foreach (InputValue inputValue in inputValueDisplays.Keys)
-        {
-            if (inputValue == InputValue.Clockwise || inputValue == InputValue.Counterclockwise)
-            {
-                continue;
-            }
-
-            AddPossibleInput(inputValue);
-        }
-
         PlayerId = id;
         _allowingInput = false;
 
@@ -76,40 +67,29 @@ public class Player : Previewable
         _shipAudio = GetComponentInChildren<AudioSource>();
     }
 
-    private void OnScrambledTypeChanged(ScrambleType scrambleType)
+    private void OnGameInputProgressionChanged(GameInputProgression scrambleType)
     {
-        if (scrambleType == ScrambleType.Rotation)
-        {
-            AddCondition<RotatingCondition>(int.MaxValue);
-        }
-        else
-        {
-            if (FindCondition<RotatingCondition>(out var condition))
-            {
-                condition.RemoveCondition();//kind of going through the backdoor here. The condition should normally end itself, not some UI
-                RemoveCondition(condition);
-            }
-        }
-    }
+        AddPossibleInput(InputValue.Forward);
+        AddPossibleInput(InputValue.Backward);
+        AddPossibleInput(InputValue.Port);
+        AddPossibleInput(InputValue.Starboard);
 
-    private void OnShootingChanged(bool isAdded)
-    {
-        if (isAdded)
-        {
-            if (FindCondition<ShootingDisable>(out var condition))
-            {
-                condition.RemoveCondition();//kind of going through the backdoor here. The condition should normally end itself, not some UI
-                RemoveCondition(condition);
-            }
-            else
-            {
+        switch (scrambleType)
+        {            
+            case GameInputProgression.Rotation:
+                RemovePossibleInput(InputValue.Starboard);
+                RemovePossibleInput(InputValue.Port);
+                AddPossibleInput(InputValue.Clockwise);
+                AddPossibleInput(InputValue.Counterclockwise);
                 AddPossibleInput(InputValue.Fire);
-            }            
-        }
-        else
-        {
-            AddCondition<ShootingDisable>(int.MaxValue);
-        }
+                break;
+            case GameInputProgression.MoveAndShooting:
+            case GameInputProgression.ScrambledShooting:
+                AddPossibleInput(InputValue.Fire);
+                break;
+            default:
+                break;
+        }        
     }
 
     protected virtual void OnTickStart(float _)
@@ -132,7 +112,7 @@ public class Player : Previewable
 
         _allowingInput = false;
         
-        foreach (var inputValue in inputValueDisplays)
+        foreach (var inputValue in buttonValueDisplays)
         {
             //if it is the key we inputted, keep it visible
             if (_lastInput != null && _lastInput == inputValue.Key)
@@ -170,8 +150,9 @@ public class Player : Previewable
         {
             playerActionPerformedOn = this,
             inputValue = inputToAdd,
-            actionUI = _shipInfo.inputsForSprites[inputToAdd]
         });
+
+        OnPossibleInputs?.Invoke(_possibleActions);
     }
 
     public void RemovePossibleInput(InputValue inputToRemove)
@@ -179,7 +160,7 @@ public class Player : Previewable
         _possibleActions.RemoveAll(x => x.inputValue == inputToRemove);
     }
 
-    public void SetScrambledActions(SerializedDictionary<InputValue, PlayerAction> playerActions)
+    public void SetScrambledActions(SerializedDictionary<ButtonValue, PlayerAction> playerActions)
     {
         scrambledActions = playerActions;
         var playerActionKeys = playerActions.Keys;
@@ -187,11 +168,13 @@ public class Player : Previewable
 
         foreach (var item in playerActionKeys)
         {
-            inputValueDisplays.TryGetValue(item, out var renderer);
+            buttonValueDisplays.TryGetValue(item, out var renderer);
 
             if (renderer != null) 
             {
-                var newSprite = playerActions[item].actionUI;
+                var playerAction = playerActions[item];
+                var input = playerAction.inputValue;
+                var newSprite = playerAction.playerActionPerformedOn.GetSpriteForInput(input);
 
                 if (!hasAnyActionsChanged)
                 {
@@ -220,7 +203,7 @@ public class Player : Previewable
 
     public void ClearSelected()
     {
-        foreach (var inputValue in inputValueDisplays)
+        foreach (var inputValue in buttonValueDisplays)
         {
             inputValue.Value.ResetInput();
         }
@@ -268,44 +251,29 @@ public class Player : Previewable
         }
     }
 
-    InputValue SimplifyDirection(Vector2 direction)
+    ButtonValue SimplifyDirection(Vector2 direction)
     {
         if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
         {
-            var isRotating = FindCondition<RotatingCondition>(out var _);
             if (direction.x > 0)
             {
-                if (isRotating)
-                {
-                    return InputValue.Clockwise;
-                }
-                else
-                {
-                    return InputValue.Starboard;
-                }                
+                return ButtonValue.Right;              
             }
             else
             {
 
-                if (isRotating)
-                {
-                    return InputValue.Counterclockwise;
-                }
-                else
-                {
-                    return InputValue.Port;
-                }
+                return ButtonValue.Left;
             }
         }
         else
         {
             if (direction.y > 0)
             {
-                return InputValue.Forward;
+                return ButtonValue.Up;
             }
             else
             {
-                return InputValue.Backward;
+                return ButtonValue.Down;
             }
         }
     }
@@ -324,28 +292,21 @@ public class Player : Previewable
             return;
         }
 
-        if (scrambledActions.TryGetValue(InputValue.Fire, out var playerAction))
+        if (scrambledActions.TryGetValue(ButtonValue.Action, out var playerAction))
         {
-            SendInput(InputValue.Fire, playerAction);
+            SendInput(ButtonValue.Action, playerAction);
         }
     }
 
     //Takes the input pressed and the action that press triggered
-    protected void SendInput(InputValue pressedValue, PlayerAction playerAction)
+    protected void SendInput(ButtonValue pressedValue, PlayerAction playerAction)
     {
         if (_lastInput == pressedValue)
         {
             return;
         }
 
-        if (_lastInput != null)
-        {
-            inputValueDisplays[_lastInput.Value].ResetInput();
-        }
-
-        _lastInput = pressedValue;
-        inputValueDisplays[_lastInput.Value].SelectInput();
-
+        UpdateLastInput(pressedValue);
         _manager.ClearPreviousPlayerAction(this);
         var targetTile = _manager.GetTileForPlayerAction(playerAction);
 
@@ -376,6 +337,17 @@ public class Player : Previewable
 
             _manager.AddPlayerPreviewAction(this, newPreview);
         }
+    }
+
+    void UpdateLastInput(ButtonValue pressedValue)
+    {
+        if (_lastInput != null)
+        {
+            buttonValueDisplays[_lastInput.Value].ResetInput();
+        }
+
+        _lastInput = pressedValue;
+        buttonValueDisplays[_lastInput.Value].SelectInput();
     }
 
     GridMovable CreateBullet(Player firingPlayer, Tile spawnTile)
@@ -462,7 +434,7 @@ public class Player : Previewable
 
     void SetInputVisibility(bool isVisible)
     {
-        foreach (var item in inputValueDisplays)
+        foreach (var item in buttonValueDisplays)
         {
             item.Value.SetVisibility(isVisible);
         }
@@ -528,9 +500,9 @@ public class Player : Previewable
         return _lastInput != null;
     }
 
-    public void AddInputRenderer(InputValue value, InputRenderer renderer)
+    public void AddButtonRenderer(ButtonValue value, InputRenderer renderer)
     {
-        inputValueDisplays.Add(value, renderer);
+        buttonValueDisplays.Add(value, renderer);
     }
 
     protected override void PerformInteraction(GridObject collidedGridObject)

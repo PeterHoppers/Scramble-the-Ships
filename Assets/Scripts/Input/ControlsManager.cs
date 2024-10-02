@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -14,7 +15,7 @@ public class ControlsManager : MonoBehaviour, IManager
     int _percentChanceNotDefaultScrambleAmount = 0;
     bool _playersSameShuffle = true;
     bool _doesScrambleOnNoInput = false;
-    ScrambleType _scrambleType;
+    GameInputProgression _scrambleType;
 
     public void InitManager(GameManager manager)
     {
@@ -26,7 +27,7 @@ public class ControlsManager : MonoBehaviour, IManager
         _gameManager.EffectsSystem.OnScrambleAmountChanged += (int scrambleAmount) => _amountToScramble = scrambleAmount;
         _gameManager.EffectsSystem.OnMultiplayerScrambleTypeChanged += (bool isSame) => _playersSameShuffle = isSame;
         _gameManager.EffectsSystem.OnScrambleVarianceChanged += (int scrambleVarience) => _percentChanceNotDefaultScrambleAmount = scrambleVarience;
-        _gameManager.EffectsSystem.OnScrambleTypeChanged += (ScrambleType newScrambleType) =>
+        _gameManager.EffectsSystem.OnGameInputProgressionChanged += (GameInputProgression newScrambleType) =>
         {
             var previousType = _scrambleType;
             _scrambleType = newScrambleType;
@@ -95,7 +96,7 @@ public class ControlsManager : MonoBehaviour, IManager
             {
                 if (lastIndexForScrambling == 0 || amountToScrambleWithVarience == 0 || currentControlsForPlayer.Count == 0)
                 {
-                    if (_scrambleType == ScrambleType.None || currentControlsForPlayer.Count == 0 || currentControlsForPlayer.Count != unshuffled.Count)
+                    if (_scrambleType == GameInputProgression.SimpleMovement || currentControlsForPlayer.Count == 0 || currentControlsForPlayer.Count != unshuffled.Count)
                     {
                         shuffledValues = unshuffled;
                     }
@@ -108,11 +109,11 @@ public class ControlsManager : MonoBehaviour, IManager
                 {
                     shuffledValues = ShuffleInputs(unshuffled, currentControlsForPlayer, amountToScrambleWithVarience, lastIndexForScrambling);
                 }
-            }            
+            }
 
-            var unShuffledInputs = unshuffled.Select(x => x.inputValue).ToList();
+            var unShuffledInputs = GetButtonValues(unshuffled.Count);
 
-            var playerActions = new SerializedDictionary<InputValue, PlayerAction>();
+            var playerActions = new SerializedDictionary<ButtonValue, PlayerAction>();
             for (int index = 0; index < unShuffledInputs.Count; index++)
             {
                 playerActions.Add(unShuffledInputs[index], shuffledValues[index]);
@@ -191,6 +192,13 @@ public class ControlsManager : MonoBehaviour, IManager
         return shuffledValues;
     }
 
+    List<ButtonValue> GetButtonValues(int lastButtonIndex)
+    {
+        var allButtonValues = (ButtonValue[])Enum.GetValues(typeof(ButtonValue));
+        return allButtonValues.ToList().Take(lastButtonIndex).ToList();
+    }
+
+
     private void OnPlayerJoined(Player player)
     {
         _players = _gameManager.GetAllPlayers();
@@ -202,17 +210,18 @@ public class ControlsManager : MonoBehaviour, IManager
         }
     }
 
-    private int GetLastIndexForScrambleType(ScrambleType type)
+    private int GetLastIndexForScrambleType(GameInputProgression type)
     { 
         switch (type) 
         {
-            case ScrambleType.None:
+            case GameInputProgression.SimpleMovement:
             default:
                 return 0;
-            case ScrambleType.Movement: 
+            case GameInputProgression.ScrambledMovement:
+            case GameInputProgression.MoveAndShooting:
                 return 4;
-            case ScrambleType.All:
-            case ScrambleType.Rotation:
+            case GameInputProgression.ScrambledShooting:
+            case GameInputProgression.Rotation:
                 return 5;
         }
     }
@@ -245,12 +254,20 @@ public enum InputValue
     None = 5,
 }
 
+public enum ButtonValue
+{ 
+    Up,
+    Down,
+    Left,
+    Right,
+    Action
+}
+
 [System.Serializable]
 public struct PlayerAction
 {
     public Player playerActionPerformedOn;
     public InputValue inputValue;
-    public Sprite actionUI;
 
     public override readonly string ToString() =>
         $"Input Value: {inputValue}; Player: {playerActionPerformedOn.name};";

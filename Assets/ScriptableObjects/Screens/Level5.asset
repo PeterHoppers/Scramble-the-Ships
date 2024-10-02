@@ -22,10 +22,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f043ca4729d7b084588394d46ea37bd8, type: 2}
   twoPlayerLevelScreens: []
   startingEffects:
-  - type: 4
-    amount: 1
   - type: 11
-    amount: 2
+    amount: 3
   - type: 0
     amount: 5
   levelSong: {fileID: 8300000, guid: 356ba3926ea55694e9332c97771a042e, type: 3}

@@ -13,7 +13,7 @@ public class CutsceneSystem : MonoBehaviour
 
     GameManager _gameManager;
     EffectsSystem _effectsSystem;
-    ScrambleType _scrambleType = ScrambleType.None;
+    GameInputProgression _scrambleType = GameInputProgression.SimpleMovement;
     private void Awake()
     {
         _gameManager = GetComponent<GameManager>();
@@ -23,7 +23,7 @@ public class CutsceneSystem : MonoBehaviour
         };
 
         _effectsSystem = _gameManager.EffectsSystem;
-        _effectsSystem.OnScrambleTypeChanged += (ScrambleType newType) => _scrambleType = newType;
+        _effectsSystem.OnGameInputProgressionChanged += (GameInputProgression newType) => _scrambleType = newType;
     }
 
     public void ActivateCutscene(CutsceneType type, float duration)
@@ -39,11 +39,11 @@ public class CutsceneSystem : MonoBehaviour
         }
     }
 
-    List<Effect> GetEffectsByScrambleType(ScrambleType type)
+    List<Effect> GetEffectsByScrambleType(GameInputProgression type)
     { 
         switch (type) 
         { 
-            case ScrambleType.None:
+            case GameInputProgression.SimpleMovement:
                 return new List<Effect>
                 {
                     new()
@@ -53,7 +53,7 @@ public class CutsceneSystem : MonoBehaviour
                     },
                     new()
                     {
-                        type = EffectType.ScrambleType,
+                        type = EffectType.GameInputProgression,
                         amount = 1f
                     },
                     new()
@@ -62,7 +62,7 @@ public class CutsceneSystem : MonoBehaviour
                         amount = 0f
                     }
                 };
-            case ScrambleType.Movement:
+            case GameInputProgression.MoveAndShooting:
                 return new List<Effect>
                 {
                     new()
@@ -72,8 +72,8 @@ public class CutsceneSystem : MonoBehaviour
                     },
                     new()
                     {
-                        type = EffectType.ScrambleType,
-                        amount = 2f
+                        type = EffectType.GameInputProgression,
+                        amount = 3f
                     },
                     new()
                     {
@@ -81,18 +81,18 @@ public class CutsceneSystem : MonoBehaviour
                         amount = 0f
                     }
                 };
-            case ScrambleType.All:
+            case GameInputProgression.ScrambledShooting:
                 return new List<Effect>
                 {
                     new()
                     {
                         type = EffectType.ScrambleAmount,
-                        amount = 4f
+                        amount = 5f
                     },
                     new()
                     {
-                        type = EffectType.ScrambleType,
-                        amount = 3f
+                        type = EffectType.GameInputProgression,
+                        amount = 4f
                     },
                     new()
                     {

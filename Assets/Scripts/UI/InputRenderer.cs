@@ -93,4 +93,12 @@ public class InputRenderer : MonoBehaviour
         yield return new WaitForSeconds(time / 2);
         _renderer.material = _defaultMaterial;
     }
+
+    private void OnDisable()
+    {
+        if (_renderer != null && _defaultMaterial != null)
+        {
+            _renderer.material = _defaultMaterial;
+        }
+    }
 }
