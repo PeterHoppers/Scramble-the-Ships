@@ -26,7 +26,7 @@ MonoBehaviour:
     amount: 3
   - type: 0
     amount: 5
-  levelName: Level 5
+  levelName: Sector Klein
   levelSong: {fileID: 8300000, guid: 356ba3926ea55694e9332c97771a042e, type: 3}
   levelBackground: {fileID: 21300000, guid: 985675f1712f6e94e945a38f4d5a475a, type: 3}
   overrideDefaultTransitionGrids: 0
