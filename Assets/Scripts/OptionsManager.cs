@@ -265,7 +265,6 @@ public enum GameInputProgression
 public struct GameSettingParameters
 {
     public int amountControlsScrambled;
-    public GameInputProgression scrambleType;
     public bool isMultiplayerScrambleSame;
     public bool doesScrambleOnNoInput;
     public float tickDuration;

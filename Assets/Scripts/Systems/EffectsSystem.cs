@@ -54,7 +54,6 @@ public class EffectsSystem : MonoBehaviour
     private void InvokeCurrentParameters(GameSettingParameters gameSettings, SystemSettingParameters systemSettingParameters)
     {
         OnScrambleAmountChanged?.Invoke(gameSettings.amountControlsScrambled);
-        OnGameInputProgressionChanged?.Invoke(gameSettings.scrambleType);
         OnMultiplayerScrambleTypeChanged?.Invoke(gameSettings.isMultiplayerScrambleSame);
         OnTickDurationChanged?.Invoke(gameSettings.tickDuration);
         OnTickEndDurationChanged?.Invoke(gameSettings.tickEndDuration);
