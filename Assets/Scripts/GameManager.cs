@@ -108,8 +108,13 @@ public class GameManager : MonoBehaviour
 
     IEnumerator Start()
     {
+        var _isAI = GlobalGameStateManager.Instance.IsAIPlaying;
         var _currentLevel = GlobalGameStateManager.Instance.CurrentLevel;
-        StartCoroutine(PlayIntroCutscene(_currentLevel.levelName));
+
+        if (!_isAI)
+        {
+            StartCoroutine(PlayIntroCutscene(_currentLevel.levelName));
+        }
 
         foreach (IManager managerObjects in FindAllManagers())
         {
@@ -120,8 +125,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(.125f); //TODO: Fix race condition
         OptionsManager.Instance.AfterInitManager();
 
-        _playerCount = GlobalGameStateManager.Instance.PlayerCount;
-        var _isAI = GlobalGameStateManager.Instance.IsAIPlaying;
+        _playerCount = GlobalGameStateManager.Instance.PlayerCount;        
 
         if (_playerCount == 0)
         {
@@ -141,6 +145,11 @@ public class GameManager : MonoBehaviour
         _energySystem.SetEnergy(_playerCount);
         _screenSystem.TriggerStartingEffects(_effectsSystem);
         UpdateGameState(GameState.Transition);
+
+        if (_isAI)
+        {
+            StartCoroutine(SetupNextScreen(TickDuration, false));
+        }
     }
 
     private List<IManager> FindAllManagers()

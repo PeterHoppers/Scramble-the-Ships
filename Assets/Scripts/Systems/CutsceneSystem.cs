@@ -176,7 +176,7 @@ public class CutsceneSystem : MonoBehaviour
         _cutsceneText.text = text;
         _fullscreenAnimator.Play("intro");
         yield return new WaitForSeconds(duration);
-        _fullscreenAnimator.Play("close");
+        _fullscreenAnimator.Play("panelFadeOut");
     }
 }
 
