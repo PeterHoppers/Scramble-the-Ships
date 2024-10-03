@@ -48,9 +48,7 @@ public class ScreenSystem : MonoBehaviour
             return;
         }
 
-        var panningBackground = Camera.main.GetComponent<PanningBackground>();
-
-        if (panningBackground != null) 
+        if (Camera.main.TryGetComponent<PanningBackground>(out var panningBackground)) 
         {
             panningBackground.UpdateBackgroundImage(_level.levelBackground);
         }

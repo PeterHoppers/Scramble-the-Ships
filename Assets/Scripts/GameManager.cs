@@ -59,7 +59,6 @@ public class GameManager : MonoBehaviour
     List<PreviewAction> _previewActions = new List<PreviewAction>();
     private List<Player> _players = new List<Player>();
     private int _playerCount = 0;
-    private Level _currentLevel;
     List<GridCoordinate> _startingPlayerPositions;
 
     GridSystem _gridSystem;
@@ -108,7 +107,10 @@ public class GameManager : MonoBehaviour
     }
 
     IEnumerator Start()
-    {       
+    {
+        var _currentLevel = GlobalGameStateManager.Instance.CurrentLevel;
+        StartCoroutine(PlayIntroCutscene(_currentLevel.levelName));
+
         foreach (IManager managerObjects in FindAllManagers())
         {
             managerObjects.InitManager(this);
@@ -118,7 +120,6 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(.125f); //TODO: Fix race condition
         OptionsManager.Instance.AfterInitManager();
 
-        _currentLevel = GlobalGameStateManager.Instance.CurrentLevel;
         _playerCount = GlobalGameStateManager.Instance.PlayerCount;
         var _isAI = GlobalGameStateManager.Instance.IsAIPlaying;
 
@@ -139,7 +140,6 @@ public class GameManager : MonoBehaviour
 
         _energySystem.SetEnergy(_playerCount);
         _screenSystem.TriggerStartingEffects(_effectsSystem);
-        StartCoroutine(SetupNextScreen(TickDuration, false));
         UpdateGameState(GameState.Transition);
     }
 
@@ -227,6 +227,15 @@ public class GameManager : MonoBehaviour
 
         ToggleIsPlaying(false, GameState.Cutscene);
         _cutsceneSystem.ActivateCutscene(type, cutsceneDuration);
+    }
+
+    public IEnumerator PlayIntroCutscene(string levelName)
+    {
+        var introDuration = 3f;
+        
+        StartCoroutine(_cutsceneSystem.PlayLevelIntro(levelName, introDuration));
+        yield return new WaitForSeconds(introDuration);
+        StartCoroutine(SetupNextScreen(TickDuration, false));
     }
 
     /// <summary>

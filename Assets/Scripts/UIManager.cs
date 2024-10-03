@@ -14,7 +14,6 @@ public class UIManager : MonoBehaviour, IManager
     public PlayerStatusUI[] playerStatusUIs;
     public GameOverUI gameOverUI;
     public WinScreenUI winScreenUI;
-    public GameObject loadingUI;
 
     private float _revealEndScreenUIDelay = .5f;
     GameManager _gameManager;
@@ -35,7 +34,7 @@ public class UIManager : MonoBehaviour, IManager
     {
         winScreenUI.gameObject.SetActive(false);
         gameOverUI.gameObject.SetActive(false);
-        loadingUI.SetActive(true);
+        energyUI.gameObject.SetActive(false);
     }
 
     void OnDisable()
@@ -82,6 +81,11 @@ public class UIManager : MonoBehaviour, IManager
     {
         levelProgressUI.SetupScreenUI(totalScreens);
         levelProgressUI.ScreensRemaining = screenLoaded;
+
+        if (!energyUI.isActiveAndEnabled)
+        {
+            energyUI.gameObject.SetActive(true);
+        }
     }
 
     void OnTickStart(float duration)
@@ -98,8 +102,6 @@ public class UIManager : MonoBehaviour, IManager
         { 
             ui.gameObject.SetActive(!isGameOver);
         }
-
-        loadingUI.SetActive((newState == GameState.Waiting));
     }
 
     void OnPlayerJoined(Player player)

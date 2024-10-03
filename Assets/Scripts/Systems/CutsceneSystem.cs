@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class CutsceneSystem : MonoBehaviour
 {
+    [SerializeField]
+    private TextMeshProUGUI _cutsceneText;
     [SerializeField]
     private Animator _fullscreenAnimator;
     [SerializeField]
@@ -36,8 +39,10 @@ public class CutsceneSystem : MonoBehaviour
             case CutsceneType.ScreenTransition:
                 StartCoroutine(ScreenTransitionCutscene(duration));
                 break;
+            default:
+                break;
         }
-    }
+    }    
 
     List<Effect> GetEffectsByScrambleType(GameInputProgression type)
     { 
@@ -165,10 +170,19 @@ public class CutsceneSystem : MonoBehaviour
 
         GlobalAudioManager.Instance.PlayAudioSFX(_rewindClip);
     }
+
+    public IEnumerator PlayLevelIntro(string text, float duration = 3f)
+    {
+        _cutsceneText.text = text;
+        _fullscreenAnimator.Play("intro");
+        yield return new WaitForSeconds(duration);
+        _fullscreenAnimator.Play("close");
+    }
 }
 
 public enum CutsceneType
 {
-    Hacking,
-    ScreenTransition    
+    Enterance = 2,
+    Hacking = 0,
+    ScreenTransition = 1    
 }

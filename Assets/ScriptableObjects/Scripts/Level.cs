@@ -13,6 +13,7 @@ public class Level : ScriptableObject
 
     public List<Effect> startingEffects;
 
+    public string levelName;
     public AudioClip levelSong;
     public Sprite levelBackground;
 

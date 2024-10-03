@@ -42,14 +42,13 @@ public class EnergyUI : MonoBehaviour
         _defaultColor = _energyFrontBar.color;
         _flashingUI = _energyFrontBar.GetComponent<FlashingUI>();
         _energyBackBar.fillAmount = 1f;
-        gameObject.SetActive(false);
     }
 
     public void SetEnergy(int currentEnergy, int maxEnergy)
     {
-        if (_pastEnergy == 0)
-        { 
-            gameObject.SetActive(true);
+        if (!isActiveAndEnabled)
+        {
+            return;
         }
 
         _pastEnergy = _currentEnergy;

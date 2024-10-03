@@ -8,6 +8,7 @@ public class LevelEditor : Editor
     SerializedProperty areLevelsSameToggle;
 
     SerializedProperty startingEffects;
+    SerializedProperty levelName;
     SerializedProperty levelSong;
     SerializedProperty backgroundImage;
 
@@ -18,6 +19,7 @@ public class LevelEditor : Editor
         twoPlayerScreens = serializedObject.FindProperty("twoPlayerLevelScreens");
         areLevelsSameToggle = serializedObject.FindProperty("useOnePlayerForBoth");
         startingEffects = serializedObject.FindProperty("startingEffects");
+        levelName = serializedObject.FindProperty("levelName");
         levelSong = serializedObject.FindProperty("levelSong");
         backgroundImage = serializedObject.FindProperty("levelBackground");
     }
@@ -39,6 +41,7 @@ public class LevelEditor : Editor
 
         EditorGUILayout.Space();
         EditorGUILayout.PropertyField(startingEffects);
+        EditorGUILayout.PropertyField(levelName);
         EditorGUILayout.PropertyField(levelSong);
         EditorGUILayout.PropertyField(backgroundImage);
 
