@@ -50,17 +50,17 @@ public class CutsceneSystem : MonoBehaviour
                     {
                         type = EffectType.ScrambleAmount,
                         amount = 4f
+                    },                    
+                    new()
+                    {
+                        type = EffectType.ScrambleVarience,
+                        amount = 0f
                     },
                     new()
                     {
                         type = EffectType.GameInputProgression,
                         amount = 1f
                     },
-                    new()
-                    {
-                        type = EffectType.ScrambleVarience,
-                        amount = 0f
-                    }
                 };
             case GameInputProgression.MoveAndShooting:
                 return new List<Effect>
@@ -69,17 +69,17 @@ public class CutsceneSystem : MonoBehaviour
                     {
                         type = EffectType.ScrambleAmount,
                         amount = 5f
+                    },                    
+                    new()
+                    {
+                        type = EffectType.ScrambleVarience,
+                        amount = 0f
                     },
                     new()
                     {
                         type = EffectType.GameInputProgression,
                         amount = 3f
                     },
-                    new()
-                    {
-                        type = EffectType.ScrambleVarience,
-                        amount = 0f
-                    }
                 };
             case GameInputProgression.ScrambledShooting:
                 return new List<Effect>
@@ -88,17 +88,17 @@ public class CutsceneSystem : MonoBehaviour
                     {
                         type = EffectType.ScrambleAmount,
                         amount = 5f
+                    },                    
+                    new()
+                    {
+                        type = EffectType.ScrambleVarience,
+                        amount = 0f
                     },
                     new()
                     {
                         type = EffectType.GameInputProgression,
                         amount = 4f
                     },
-                    new()
-                    {
-                        type = EffectType.ScrambleVarience,
-                        amount = 0f
-                    }
                 };
             default:
                 return new List<Effect>();

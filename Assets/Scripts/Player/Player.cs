@@ -31,6 +31,7 @@ public class Player : Previewable
     private bool _isInactive = false;
 
     ButtonValue? _lastInput;
+    GameInputProgression? _lastGameProgression;
 
     List<PlayerAction> _possibleActions = new List<PlayerAction>();
     List<Condition> _playerConditions = new List<Condition>();    
@@ -69,6 +70,13 @@ public class Player : Previewable
 
     private void OnGameInputProgressionChanged(GameInputProgression scrambleType)
     {
+        if (_lastGameProgression != null && _lastGameProgression.Value == scrambleType)
+        {
+            return;
+        }
+        
+        _lastGameProgression = scrambleType;
+
         _possibleActions.Clear();
         AddPossibleInput(InputValue.Forward);
         AddPossibleInput(InputValue.Backward);
@@ -90,7 +98,9 @@ public class Player : Previewable
                 break;
             default:
                 break;
-        }        
+        }
+
+        OnPossibleInputs?.Invoke(_possibleActions);
     }
 
     protected virtual void OnTickStart(float _)
@@ -152,8 +162,6 @@ public class Player : Previewable
             playerActionPerformedOn = this,
             inputValue = inputToAdd,
         });
-
-        OnPossibleInputs?.Invoke(_possibleActions);
     }
 
     public void RemovePossibleInput(InputValue inputToRemove)

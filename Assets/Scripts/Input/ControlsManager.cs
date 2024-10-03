@@ -26,16 +26,8 @@ public class ControlsManager : MonoBehaviour, IManager
 
         _gameManager.EffectsSystem.OnScrambleAmountChanged += (int scrambleAmount) => _amountToScramble = scrambleAmount;
         _gameManager.EffectsSystem.OnMultiplayerScrambleTypeChanged += (bool isSame) => _playersSameShuffle = isSame;
-        _gameManager.EffectsSystem.OnScrambleVarianceChanged += (int scrambleVarience) => _percentChanceNotDefaultScrambleAmount = scrambleVarience; _gameManager.EffectsSystem.OnGameInputProgressionChanged += (GameInputProgression newScrambleType) =>
-        {
-            var previousType = _scrambleType;
-            _scrambleType = newScrambleType;
-
-            if (previousType != _scrambleType)
-            {
-                UpdateShuffledValues();
-            }
-        };
+        _gameManager.EffectsSystem.OnScrambleVarianceChanged += (int scrambleVarience) => _percentChanceNotDefaultScrambleAmount = scrambleVarience;
+        _gameManager.EffectsSystem.OnGameInputProgressionChanged += (GameInputProgression newScrambleType) => _scrambleType = newScrambleType;
 
         OptionsManager.Instance.OnParametersChanged += (GameSettingParameters gameSettings, SystemSettingParameters _) => _doesScrambleOnNoInput = gameSettings.doesScrambleOnNoInput;
     }
