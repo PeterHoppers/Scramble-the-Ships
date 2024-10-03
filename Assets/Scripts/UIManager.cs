@@ -35,6 +35,7 @@ public class UIManager : MonoBehaviour, IManager
         winScreenUI.gameObject.SetActive(false);
         gameOverUI.gameObject.SetActive(false);
         energyUI.gameObject.SetActive(false);
+        UpdatePlayerStatusVisiblity(false);
     }
 
     void OnDisable()
@@ -86,6 +87,11 @@ public class UIManager : MonoBehaviour, IManager
         {
             energyUI.gameObject.SetActive(true);
         }
+
+        if (!playerStatusUIs[0].isActiveAndEnabled)
+        {
+            UpdatePlayerStatusVisiblity(true);
+        }
     }
 
     void OnTickStart(float duration)
@@ -96,12 +102,7 @@ public class UIManager : MonoBehaviour, IManager
     void OnGameStateChanged(GameState newState)
     {
         var isGameOver = (newState == GameState.GameOver);
-        gameOverUI.SetGameOverState(isGameOver);
-
-        foreach (var ui in playerStatusUIs)
-        { 
-            ui.gameObject.SetActive(!isGameOver);
-        }
+        gameOverUI.SetGameOverState(isGameOver);       
     }
 
     void OnPlayerJoined(Player player)
@@ -121,6 +122,14 @@ public class UIManager : MonoBehaviour, IManager
         if (_gameManager != null) 
         { 
             tickDurationUI.UpdateTickRemaining(_gameManager.GetTimeRemainingInTick());
+        }
+    }
+
+    void UpdatePlayerStatusVisiblity(bool isVisible)
+    {
+        foreach (var ui in playerStatusUIs)
+        {
+            ui.gameObject.SetActive(isVisible);
         }
     }
 }

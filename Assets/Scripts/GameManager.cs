@@ -53,8 +53,8 @@ public class GameManager : MonoBehaviour
     public PlayerPickupStart OnPlayerPickup;
 
     //Private Variables
-    GameState _currentGameState = GameState.Waiting;
-    GameState _previousGameState = GameState.Waiting;
+    GameState _currentGameState = GameState.Intro;
+    GameState _previousGameState = GameState.Intro;
     Dictionary<Player, PreviewAction> _attemptedPlayerActions = new Dictionary<Player, PreviewAction>();
     List<PreviewAction> _previewActions = new List<PreviewAction>();
     private List<Player> _players = new List<Player>();
@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour
             managerObjects.InitManager(this);
         }
 
-        UpdateGameState(GameState.Waiting);
+        UpdateGameState(GameState.Intro);
         yield return new WaitForSeconds(.125f); //TODO: Fix race condition
         OptionsManager.Instance.AfterInitManager();
 
@@ -811,7 +811,7 @@ public struct PreviewAction
 
 public enum GameState
 { 
-    Waiting,
+    Intro,
     Playing,
     Paused,
     Transition,
