@@ -11,7 +11,7 @@ public class InputRenderer : MonoBehaviour
     private Material _defaultMaterial;
     private TransformTransition _transformTransition;
 
-    private float _glitchDuration = .2f; //TODO: Set this up to be the same length as the tick end
+    private float _glitchDuration = .25f; //TODO: Set this up to be the same length as the tick end
     private float _scaleDuration = .1f;
     private Vector3 _defaultScale;
     private Vector3 _selectedScale;
@@ -103,12 +103,17 @@ public class InputRenderer : MonoBehaviour
 
     public IEnumerator OnTickEnd(float tickEndDuration)
     {
+        _glitchDuration = tickEndDuration;
         if (!isActiveAndEnabled || transform.localScale == _defaultScale)
         {
             yield return null;
         }
 
-        yield return new WaitForSeconds(tickEndDuration / 3);
+        if (transform.localScale != _selectedScale) 
+        {
+            yield return new WaitForSeconds(tickEndDuration / 3);
+        }
+        
         _transformTransition.StopAllCoroutines();
         _transformTransition.ScaleTo(_defaultScale, tickEndDuration / 3);
     }
@@ -130,11 +135,17 @@ public class InputRenderer : MonoBehaviour
 
     IEnumerator PerformGlitchEffect(float time, Sprite sprite)
     {
-        yield return new WaitForSeconds(_scaleDuration);
+        var durationOfEachPiece = time / 2;
+        if (transform.localScale != _selectedScale && transform.localScale != _defaultScale)
+        {
+            durationOfEachPiece = time / 3;
+            yield return new WaitForSeconds(durationOfEachPiece);
+        }
+
         _renderer.material = glitchedMaterial;
-        yield return new WaitForSeconds(time / 2);
+        yield return new WaitForSeconds(durationOfEachPiece);
         _renderer.sprite = sprite;
-        yield return new WaitForSeconds(time / 2);
+        yield return new WaitForSeconds(durationOfEachPiece);
         _renderer.material = _defaultMaterial;
     }
 

@@ -1426,7 +1426,7 @@ MonoBehaviour:
     doesScrambleOnNoInput: 0
     tickDuration: 1.2
     tickEndDuration: 0.25
-    inputMoveStyle: 0
+    inputMoveStyle: 1
     maxEnergy: 110
     energyPerMove: 1
     energyPerShot: 5
