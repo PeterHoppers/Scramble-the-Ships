@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: Tutorial 2
   m_EditorClassIdentifier: 
   dialogueNodes:
-  - textToDisplay: It looks like the alien forces have planted some turrets to deter
-      us. Your scouting mission has started to produce some helpful intel.
-  - textToDisplay: Your time-modifying grid will capture any foreign objects into
+  - textSpeaker: 0
+    textToDisplay: "Your time-modifying grid will capture any foreign objects into
       its time manipulation. This will give you time to plan your route around the
       obstacles, although we understand that process might be trivial for an experienced
-      pilot like you.
+      pilot like you.\r"
+  - textSpeaker: 0
+    textToDisplay: "Our sensors have scanned ahead and calculated how many screens
+      are remaining in this sector. We\u2019re detecting minimal alien resistance
+      and no further complications.\r"

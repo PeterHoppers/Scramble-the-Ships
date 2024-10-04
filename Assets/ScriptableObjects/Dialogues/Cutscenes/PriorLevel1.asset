@@ -13,12 +13,17 @@ MonoBehaviour:
   m_Name: PriorLevel1
   m_EditorClassIdentifier: 
   dialogueNodes:
-  - textToDisplay: "We\u2019ve finally managed to reach you! I\u2019m getting some
+  - textSpeaker: 0
+    textToDisplay: "We\u2019ve finally managed to reach you! I\u2019m getting some
       strange readings from your ship, however. Running a diagnostic test on its
       systems.\r"
-  - textToDisplay: "Results show that an alien virus of sorts has compromised your
+  - textSpeaker: 0
+    textToDisplay: Results show that an alien virus of sorts has compromised your
       system. All your navigational controls have been scrambled and have greatly
-      decreased your ship\u2019s max energy.\r\r"
-  - textToDisplay: "We\u2019ll need you to navigate back into safe territory so we
-      can do more through testing. We will try to assist any way we can as you navigate
-      through alien sectors."
+      hampered your ability to travel at subspace speeds.
+  - textSpeaker: 0
+    textToDisplay: With these systems compromised, the only way back into safe territory
+      will be slowly navigating through heavily-populated alien sectors. We will
+      try to assist any way we can.
+  - textSpeaker: 0
+    textToDisplay: Be careful out there, pilot.

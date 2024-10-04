@@ -15,6 +15,7 @@ public class InputRenderer : MonoBehaviour
     private float _scaleDuration = .1f;
     private Vector3 _defaultScale;
     private Vector3 _selectedScale;
+    private Sprite _incomingSprite;
 
     // Start is called before the first frame update
     void Awake()
@@ -59,14 +60,15 @@ public class InputRenderer : MonoBehaviour
             return;
         }
 
+        _incomingSprite = sprite;
         var previousSprite = _renderer.sprite;
         if (gameObject.activeInHierarchy && previousSprite != null)
         {
-            StartCoroutine(PerformGlitchEffect(_glitchDuration, sprite));
+            StartCoroutine(PerformGlitchEffect(_glitchDuration, _incomingSprite));
         }
         else
         { 
-            _renderer.sprite = sprite;
+            _renderer.sprite = _incomingSprite;
         }
     }
 
@@ -162,6 +164,7 @@ public class InputRenderer : MonoBehaviour
         if (_renderer != null && _defaultMaterial != null)
         {
             _renderer.material = _defaultMaterial;
+            _renderer.sprite = _incomingSprite;
         }
 
         transform.localScale = _defaultScale;

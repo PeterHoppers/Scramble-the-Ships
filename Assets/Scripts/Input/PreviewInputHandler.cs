@@ -29,12 +29,12 @@ public class PreviewInputHandler : MonoBehaviour
     private void SelectedOnePlayer()
     {
         GlobalGameStateManager.Instance.SetPlayerCount(1);
-        GlobalGameStateManager.Instance.GlobalGameStateStatus = GlobalGameStateStatus.LevelSelect;
+        GlobalGameStateManager.Instance.StartGame();
     }
 
     private void SelectedTwoPlayers()
     {
         GlobalGameStateManager.Instance.SetPlayerCount(2);
-        GlobalGameStateManager.Instance.GlobalGameStateStatus = GlobalGameStateStatus.LevelSelect;
+        GlobalGameStateManager.Instance.StartGame();
     }    
 }

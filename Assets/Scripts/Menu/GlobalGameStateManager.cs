@@ -27,9 +27,6 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
     [SerializeField]
     private Level _previewLevel;
 
-    [SerializeField]   
-    private Level _tutorialLevel;
-
     [SerializeField]
     private List<Level> _levels = new List<Level>();
 
@@ -126,13 +123,7 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
         _levelSceneSystem.LoadGameScene();
     }
 
-    public void PlayTutorial()
-    {
-        IsAIPlaying = false;
-        LoadLevel(_tutorialLevel);
-    }
-
-    public void SkipTutorial()
+    public void StartGame()
     {
         IsAIPlaying = false;
         LoadLevel(0);
@@ -163,16 +154,16 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
         _levelSceneSystem.LoadCutsceneScene();
     }
 
-    public void StartNextCutscene()
+    public void StartCutscene(int cutsceneId)
     {
-        CutsceneID++;
+        CutsceneID = cutsceneId;
         PlayCutscene();
     }
 
     public void NextLevel()
     {
+        StartCutscene(_activeLevelIndex);
         _activeLevelIndex++;
-        StartNextCutscene();
     }
 
     public void AdvanceFromCutsceneToGame()
@@ -212,7 +203,7 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
 
     public bool ShouldSkipLevelEndPrompt()
     {
-        return (CurrentLevel == _tutorialLevel || CurrentLevel == _previewLevel);
+        return (CurrentLevel == _previewLevel);
     }
 
     private void OnCoinsChange(int coinsInserted, int creditsEarned)
@@ -302,12 +293,11 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
 
 public enum GlobalGameStateStatus
 { 
-    Preview,
-    LevelSelect,
-    Cutscene,
-    Game,
-    GameOver,
-    NameInput
+    Preview = 0,
+    Cutscene = 2,
+    Game = 3,
+    GameOver = 4,
+    NameInput = 5
 }
 
 [System.Serializable]

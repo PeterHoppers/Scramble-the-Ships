@@ -1348,8 +1348,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _previewLevel: {fileID: 11400000, guid: c6fda308c339b2241897ec6999984298, type: 2}
-  _tutorialLevel: {fileID: 11400000, guid: 441b03407b426ff48b02378352246728, type: 2}
   _levels:
+  - {fileID: 11400000, guid: 441b03407b426ff48b02378352246728, type: 2}
   - {fileID: 11400000, guid: 728a1716cff4b284b9ad127715156fc7, type: 2}
   - {fileID: 11400000, guid: d6499b2d32df4374ea4661c93cb9b7a8, type: 2}
   - {fileID: 11400000, guid: aa418f0335562b942a3316ffdf744c38, type: 2}

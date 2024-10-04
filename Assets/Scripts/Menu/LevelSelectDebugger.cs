@@ -27,10 +27,15 @@ public class LevelSelectDebugger : MonoBehaviour
         {
             PlayLevel(4);
         }
+        else if (Input.GetKeyUp(KeyCode.F6))
+        {
+            PlayLevel(5);
+        }
     }
 
     void PlayLevel(int levelId)
-    { 
+    {
+        GlobalGameStateManager.Instance.SetPlayerCount(1);
         GlobalGameStateManager.Instance.LoadLevel(levelId);
     }
 }
