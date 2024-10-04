@@ -32,7 +32,7 @@ public class ControlsManager : MonoBehaviour, IManager
         OptionsManager.Instance.OnParametersChanged += (GameSettingParameters gameSettings, SystemSettingParameters _) => _doesScrambleOnNoInput = gameSettings.doesScrambleOnNoInput;
     }
 
-    void OnTickEnd(int _)
+    void OnTickEnd(float tickEndDuration, int _)
     {
         UpdateShuffledValues();
     }

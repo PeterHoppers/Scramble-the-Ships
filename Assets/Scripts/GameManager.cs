@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     public delegate void TickStart(float timeToTickEnd);
     public TickStart OnTickStart;
 
-    public delegate void TickEnd(int nextTickNumber);
+    public delegate void TickEnd(float timeToTickStart, int nextTickNumber);
     public TickEnd OnTickEnd;
 
     public delegate void ScreenChange(int nextScreenIndex, int maxScreens);
@@ -713,7 +713,7 @@ public class GameManager : MonoBehaviour
         }
 
         _lastTickEndedAt = GetCurrentTime();
-        OnTickEnd?.Invoke(_ticksSinceScreenStart);
+        OnTickEnd?.Invoke(tickEndDuration, _ticksSinceScreenStart);
     }
 
     void StartNextTick()

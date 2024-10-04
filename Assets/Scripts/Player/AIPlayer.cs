@@ -50,9 +50,9 @@ public class AIPlayer : Player
         }
     }
 
-    protected override void OnTickEnd(int nextTickNumber)
+    protected override void OnTickEnd(float tickEndDuration, int nextTickNumber)
     {
-        base.OnTickEnd(nextTickNumber);
+        base.OnTickEnd(tickEndDuration, nextTickNumber);
         _tickIndex = nextTickNumber;
     }
 

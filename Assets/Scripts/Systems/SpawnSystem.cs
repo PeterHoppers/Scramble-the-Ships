@@ -25,7 +25,7 @@ public class SpawnSystem : MonoBehaviour
         _gameManager.OnTickEnd += OnTickEnd;
     }
 
-    void OnTickEnd(int ticksPassed)
+    void OnTickEnd(float tickEndDuration, int ticksPassed)
     {
         var tickToPull = ticksPassed - _loopTickOffset;
         SpawnItemsForTick(tickToPull);

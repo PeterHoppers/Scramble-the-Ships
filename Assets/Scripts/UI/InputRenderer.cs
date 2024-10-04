@@ -2,17 +2,27 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(TransformTransition))]
 public class InputRenderer : MonoBehaviour
 {
     public Material glitchedMaterial;
+    public float scaleAmount = .35f;
     private RendererAdapter _renderer;
     private Material _defaultMaterial;
+    private TransformTransition _transformTransition;
 
-    private float _glitchDuration = .25f;
+    private float _glitchDuration = .2f; //TODO: Set this up to be the same length as the tick end
+    private float _scaleDuration = .1f;
+    private Vector3 _defaultScale;
+    private Vector3 _selectedScale;
+
     // Start is called before the first frame update
     void Awake()
     {
         SetRenderer();
+        _transformTransition = GetComponent<TransformTransition>();
+        _defaultScale = transform.localScale;
+        _selectedScale = new Vector3(_defaultScale.x + scaleAmount, _defaultScale.y + scaleAmount, _defaultScale.z + scaleAmount);
     }
 
     void SetRenderer()
@@ -62,7 +72,24 @@ public class InputRenderer : MonoBehaviour
 
     public void SelectInput()
     {
-        _renderer.color = Color.white;
+        if (!isActiveAndEnabled || !_renderer.isEnable)
+        {
+            return;
+        }
+
+        _transformTransition.ScaleTo(_selectedScale, _scaleDuration); 
+    }
+
+    public IEnumerator DeselectInput(float tickEndDuration)
+    {
+        if (!isActiveAndEnabled || transform.localScale == _defaultScale)
+        {
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(tickEndDuration / 3);
+        _transformTransition.StopAllCoroutines();
+        _transformTransition.ScaleTo(_defaultScale, tickEndDuration / 3);
     }
 
     public void SetNoInputSelectedEffect()
@@ -72,7 +99,7 @@ public class InputRenderer : MonoBehaviour
 
     public void ResetInput()
     {
-        _renderer.color = new Color(.75f, .75f, .75f, 1f);
+        _renderer.color = new Color(1f, 1f, 1f, 1f);        
     }
 
     public void SetVisibility(bool isVisible)
@@ -82,11 +109,17 @@ public class InputRenderer : MonoBehaviour
             SetRenderer();
         }
 
-        _renderer.isEnable = isVisible;        
+        _renderer.isEnable = isVisible;
+
+        if (!isVisible)
+        {
+            OnRendererDisable();
+        }
     }
 
     IEnumerator PerformGlitchEffect(float time, Sprite sprite)
     {
+        yield return new WaitForSeconds(_scaleDuration);
         _renderer.material = glitchedMaterial;
         yield return new WaitForSeconds(time / 2);
         _renderer.sprite = sprite;
@@ -96,9 +129,19 @@ public class InputRenderer : MonoBehaviour
 
     private void OnDisable()
     {
+        OnRendererDisable();
+    }
+
+    private void OnRendererDisable()
+    {
+        StopAllCoroutines();
+        _transformTransition.StopAllCoroutines();
+
         if (_renderer != null && _defaultMaterial != null)
         {
             _renderer.material = _defaultMaterial;
         }
+
+        transform.localScale = _defaultScale;
     }
 }

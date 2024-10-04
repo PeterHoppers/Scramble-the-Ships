@@ -44,7 +44,7 @@ public class VFXPausing : MonoBehaviour
         _gameManager.OnScreenResetStart -= DisableVFX;
     }
 
-    void PlayVFX(int _)
+    void PlayVFX(float tickEndDuration, int _)
     {
         foreach (ParticleSystem particleSystem in _particleSystems)
         {

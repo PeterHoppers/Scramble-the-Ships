@@ -109,7 +109,7 @@ public class EnergySystem : MonoBehaviour
         _energyAtScreenStart = CurrentEnergy;
     }
 
-    private void OnTickEnd(int _)
+    private void OnTickEnd(float tickEndDuration, int _)
     {
         CurrentEnergy -= _energyPerMove * _gameManager.GetPlayersRemaining();
     }

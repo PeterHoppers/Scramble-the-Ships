@@ -114,7 +114,7 @@ public class Player : Previewable
         ClearSelected();
     }
 
-    protected virtual void OnTickEnd(int nextTickNumber)
+    protected virtual void OnTickEnd(float tickEndDuration, int nextTickNumber)
     {
         if (_isInactive) 
         {
@@ -122,18 +122,19 @@ public class Player : Previewable
         }
 
         _allowingInput = false;
-        
+        var hasActiveInput = HasActiveInput();
         foreach (var inputValue in buttonValueDisplays)
         {
-            //if it is the key we inputted, keep it visible
-            if (_lastInput != null && _lastInput == inputValue.Key)
-            {
-                continue;
-            }
-
-            if (!HasActiveInput())
+            if (!hasActiveInput)
             {
                 inputValue.Value.SetNoInputSelectedEffect();
+            }
+            else
+            {
+                if (_lastInput.Value == inputValue.Key)
+                {
+                    StartCoroutine(inputValue.Value.DeselectInput(tickEndDuration));
+                }
             }
         }
 

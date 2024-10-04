@@ -12,8 +12,6 @@ public class LaserAdapter : Fireable
     private Laser _firingLaser;
     [SerializeField]
     private Laser _previewLaser;
-    [SerializeField]
-    private float _fireDelay = .05f;
 
     private bool _isActiveLaser = false;
 
@@ -29,7 +27,7 @@ public class LaserAdapter : Fireable
         manager.OnTickEnd += HidePreviewAfterTick;
     }
 
-    void HidePreviewAfterTick(int _)
+    void HidePreviewAfterTick(float tickEndDuration, int _)
     {
         _previewLaser.gameObject.SetActive(false);
     }
@@ -83,10 +81,10 @@ public class LaserAdapter : Fireable
         
     }
 
-    void EnableLasers(int _)
+    void EnableLasers(float tickEndDuration, int _)
     {
         _manager.OnTickEnd -= EnableLasers;
-        StartCoroutine(DelayedFire(_fireDelay));
+        StartCoroutine(DelayedFire(tickEndDuration / 3));
     }
 
     IEnumerator DelayedFire(float delay)
@@ -96,7 +94,7 @@ public class LaserAdapter : Fireable
         _laserAudioSource.Play();
     }
 
-    void DisableLasers(int _)
+    void DisableLasers(float tickEndDuration, int _)
     {
         _manager.OnTickEnd -= DisableLasers;
         _firingLaser.Disable();
