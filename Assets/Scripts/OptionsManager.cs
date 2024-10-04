@@ -114,10 +114,10 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
             gameSettingParameters.tickEndDuration = convertedValue;
         };
 
-        moveOnInputDropdown.value = BoolToDropdownIndex(gameSettingParameters.doesMoveOnInput);
-        moveOnInputDropdown.onValueChanged.AddListener((int newSelection) =>
+        moveOnInputDropdown.value = (int)gameSettingParameters.inputMoveStyle;
+        moveOnInputDropdown.onValueChanged.AddListener((int newValue) =>
         {
-            gameSettingParameters.doesMoveOnInput = DropdownValueToBool(newSelection);
+            gameSettingParameters.inputMoveStyle = (InputMoveStyle)newValue;
         });
 
         maxEnergySlider.SetValueToRead(gameSettingParameters.maxEnergy);
@@ -262,6 +262,14 @@ public enum GameInputProgression
 }
 
 [System.Serializable]
+public enum InputMoveStyle
+{ 
+    OnInputStart = 0,
+    OnInputEnd = 1,
+    OnTickEnd = 2
+}
+
+[System.Serializable]
 public struct GameSettingParameters
 {
     public int amountControlsScrambled;
@@ -269,7 +277,7 @@ public struct GameSettingParameters
     public bool doesScrambleOnNoInput;
     public float tickDuration;
     public float tickEndDuration;
-    public bool doesMoveOnInput;
+    public InputMoveStyle inputMoveStyle;
     public int maxEnergy;
     public int energyPerMove;
     public int energyPerShot;

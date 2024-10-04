@@ -80,8 +80,8 @@ public class GameManager : MonoBehaviour
             _tickDuration = value;
         }
     }
-    bool _isMovementAtInput = false;
 
+    InputMoveStyle _inputMoveStyle;
     float _tickElapsed = 0f;
     float _lastTickEndedAt = 0f;
     int _playerFinishedWithScreen = 0;
@@ -102,7 +102,7 @@ public class GameManager : MonoBehaviour
 
         _effectsSystem.OnTickDurationChanged += (float newDuration) => TickDuration = newDuration;
         _effectsSystem.OnTickEndDurationChanged += (float newEndDuration) => _tickEndDuration = newEndDuration;
-        _effectsSystem.OnMoveOnInputChanged += (bool isMoveOnInput) => _isMovementAtInput = isMoveOnInput;
+        _effectsSystem.OnInputMoveStyleChanged += (InputMoveStyle moveStyle) => _inputMoveStyle = moveStyle;
         _effectsSystem.OnGameInputProgressionChanged += (GameInputProgression scrambleType) => _currentScrambleType = scrambleType;
     }
 
@@ -166,7 +166,7 @@ public class GameManager : MonoBehaviour
         var newPlayer = playerObject.GetComponent<Player>();
 
         int playerId = _players.Count;
-        newPlayer.InitPlayer(this, shipInfos[playerId], playerId);
+        newPlayer.InitPlayer(this, shipInfos[playerId], playerId, _inputMoveStyle);
         newPlayer.transform.SetParent(transform);
 
         _players.Add(newPlayer);       
@@ -630,8 +630,11 @@ public class GameManager : MonoBehaviour
     {
         _attemptedPlayerActions.Add(playerPerformingAction, newPreview);
         AddPreviewAction(newPreview);
+    }
 
-        if (_isMovementAtInput && (_attemptedPlayerActions.Count + _playerFinishedWithScreen) >= _players.Count) //wait until all the players have inputted before advancing
+    public void EndCurrentTick(Player player)
+    { 
+        if ((_attemptedPlayerActions.Count + _playerFinishedWithScreen) >= _players.Count) //wait until all the players have inputted before advancing
         {
             _tickElapsed = TickDuration;
         }

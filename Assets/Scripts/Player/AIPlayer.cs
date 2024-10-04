@@ -15,9 +15,9 @@ public class AIPlayer : Player
 
     private InputValue _currentInputValue = InputValue.None;
 
-    public override void InitPlayer(GameManager manager, PlayerShipInfo shipInfo, int id)
+    public override void InitPlayer(GameManager manager, PlayerShipInfo shipInfo, int id, InputMoveStyle style)
     {
-        base.InitPlayer(manager, shipInfo, id);
+        base.InitPlayer(manager, shipInfo, id, InputMoveStyle.OnInputStart);
         manager.OnTickStart += CreateNextPreview;
         manager.OnScreenChange += GetCommandsForScreen;
     }

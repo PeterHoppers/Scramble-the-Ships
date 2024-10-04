@@ -32,6 +32,7 @@ public class Player : Previewable
 
     ButtonValue? _lastInput;
     GameInputProgression? _lastGameProgression;
+    InputMoveStyle _moveStyle;
 
     List<PlayerAction> _possibleActions = new List<PlayerAction>();
     List<Condition> _playerConditions = new List<Condition>();    
@@ -45,20 +46,23 @@ public class Player : Previewable
     {
         if (_manager != null)
         {
+            _manager.EffectsSystem.OnInputMoveStyleChanged -= OnInputMoveStyleChanged;
             _manager.EffectsSystem.OnGameInputProgressionChanged -= OnGameInputProgressionChanged;
         }        
     }
 
-    public virtual void InitPlayer(GameManager manager, PlayerShipInfo shipInfo, int id)
+    public virtual void InitPlayer(GameManager manager, PlayerShipInfo shipInfo, int id, InputMoveStyle style)
     {      
         _manager = manager;
         _manager.OnTickStart += OnTickStart;
         _manager.OnTickEnd += OnTickEnd;
+        _manager.EffectsSystem.OnInputMoveStyleChanged += OnInputMoveStyleChanged;
         _manager.EffectsSystem.OnGameInputProgressionChanged += OnGameInputProgressionChanged;
 
         _shipInfo = shipInfo;
         PlayerId = id;
         _allowingInput = false;
+        _moveStyle = style;
 
         _deathVFX = Instantiate(_shipInfo.deathVFX, transform);
         _deathVFX.gameObject.SetActive(false);
@@ -66,6 +70,11 @@ public class Player : Previewable
         _shipRenderer = GetComponentInChildren<SpriteRenderer>();
         _shipRenderer.sprite = _shipSprite;
         _shipAudio = GetComponentInChildren<AudioSource>();
+    }
+
+    private void OnInputMoveStyleChanged(InputMoveStyle style)
+    {
+        _moveStyle = style;
     }
 
     private void OnGameInputProgressionChanged(GameInputProgression scrambleType)
@@ -111,7 +120,12 @@ public class Player : Previewable
         }
 
         _allowingInput = true;
-        ClearSelected();
+        _lastInput = null;
+
+        foreach (var inputValue in buttonValueDisplays)
+        {
+            inputValue.Value.OnTickStart();
+        }
     }
 
     protected virtual void OnTickEnd(float tickEndDuration, int nextTickNumber)
@@ -127,13 +141,13 @@ public class Player : Previewable
         {
             if (!hasActiveInput)
             {
-                inputValue.Value.SetNoInputSelectedEffect();
+                inputValue.Value.OnNoInputSelected();
             }
             else
             {
                 if (_lastInput.Value == inputValue.Key)
                 {
-                    StartCoroutine(inputValue.Value.DeselectInput(tickEndDuration));
+                    StartCoroutine(inputValue.Value.OnTickEnd(tickEndDuration));
                 }
             }
         }
@@ -145,100 +159,6 @@ public class Player : Previewable
             condition.OnTickEnd();
         }
     }
-
-    public List<PlayerAction> GetPossibleActions()
-    { 
-        return _possibleActions;
-    }
-
-    public void AddPossibleInput(InputValue inputToAdd)
-    {
-        if (_possibleActions.Count(x => x.inputValue == inputToAdd) > 0)
-        {
-            return;
-        }
-
-        _possibleActions.Add(new PlayerAction()
-        {
-            playerActionPerformedOn = this,
-            inputValue = inputToAdd,
-        });
-    }
-
-    public void RemovePossibleInput(InputValue inputToRemove)
-    {
-        _possibleActions.RemoveAll(x => x.inputValue == inputToRemove);
-    }
-
-    public void SetScrambledActions(SerializedDictionary<ButtonValue, PlayerAction> playerActions)
-    {
-        scrambledActions = playerActions;
-        var playerActionKeys = playerActions.Keys;
-        var hasAnyActionsChanged = false;
-
-        foreach (var item in playerActionKeys)
-        {
-            buttonValueDisplays.TryGetValue(item, out var renderer);
-
-            if (renderer != null) 
-            {
-                var playerAction = playerActions[item];
-                var input = playerAction.inputValue;
-                var newSprite = playerAction.playerActionPerformedOn.GetSpriteForInput(input);
-
-                if (!hasAnyActionsChanged)
-                {
-                    hasAnyActionsChanged = renderer.WillSpriteChange(newSprite);
-                }
-
-                renderer.SetSprite(newSprite);                
-            }
-        }
-
-        if (hasAnyActionsChanged)
-        {
-            PlayShipSFX(_shipInfo.scrambleSFX);
-        }
-    }
-
-    public List<PlayerAction> GetScrambledActions()
-    {
-        if (scrambledActions == null)
-        {
-            return _possibleActions;
-        }
-
-        return scrambledActions.Values.ToList();
-    }
-
-    public void ClearSelected()
-    {
-        foreach (var inputValue in buttonValueDisplays)
-        {
-            inputValue.Value.ResetInput();
-        }
-
-        _lastInput = null;
-    }
-
-    public void SetInputStatus(bool isActive)
-    {
-        _allowingInput = isActive;
-        SetInputVisibility(isActive);
-
-        if (_shipCollider == null)
-        {
-            _shipCollider = GetComponent<Collider2D>();
-        }
-
-        _shipCollider.enabled = isActive;
-    }
-
-    public void SetActiveStatus(bool isActive)
-    { 
-        _isInactive = !isActive;
-    }
-
     public void OnPlayerMove(InputAction.CallbackContext context)
     {
         if (!_allowingInput || _isInactive)
@@ -247,6 +167,12 @@ public class Player : Previewable
         }
 
         Vector2 playerMovement = context.ReadValue<Vector2>();
+
+        if (_moveStyle == InputMoveStyle.OnInputEnd && context.canceled && _lastInput != ButtonValue.Action)
+        {
+            _manager.EndCurrentTick(this);
+            return;
+        }
 
         if (playerMovement == Vector2.zero || !context.performed)
         {
@@ -290,14 +216,18 @@ public class Player : Previewable
 
     public void OnPlayerFire(InputAction.CallbackContext context)
     {
-        var fired = context.ReadValueAsButton();
-
-        if (fired == false || !context.performed)
+        if (!_allowingInput || _isInactive)
         {
             return;
         }
 
-        if (!_allowingInput || _isInactive)
+        if (_moveStyle == InputMoveStyle.OnInputEnd && context.canceled && _lastInput == ButtonValue.Action)
+        {
+            _manager.EndCurrentTick(this);
+            return;
+        }
+
+        if (!context.performed)
         {
             return;
         }
@@ -346,6 +276,11 @@ public class Player : Previewable
             }
 
             _manager.AddPlayerPreviewAction(this, newPreview);
+
+            if (_moveStyle == InputMoveStyle.OnInputStart)
+            {
+                _manager.EndCurrentTick(this);
+            }
         }
     }
 
@@ -353,7 +288,7 @@ public class Player : Previewable
     {
         if (_lastInput != null)
         {
-            buttonValueDisplays[_lastInput.Value].ResetInput();
+            buttonValueDisplays[_lastInput.Value].DeselectInput();
         }
 
         _lastInput = pressedValue;
@@ -419,6 +354,89 @@ public class Player : Previewable
             SetInputStatus(true);
             _manager.OnTickStart -= ShowVisiblity;
         }
+    }
+
+    public List<PlayerAction> GetPossibleActions()
+    {
+        return _possibleActions;
+    }
+
+    public void AddPossibleInput(InputValue inputToAdd)
+    {
+        if (_possibleActions.Count(x => x.inputValue == inputToAdd) > 0)
+        {
+            return;
+        }
+
+        _possibleActions.Add(new PlayerAction()
+        {
+            playerActionPerformedOn = this,
+            inputValue = inputToAdd,
+        });
+    }
+
+    public void RemovePossibleInput(InputValue inputToRemove)
+    {
+        _possibleActions.RemoveAll(x => x.inputValue == inputToRemove);
+    }
+
+    public void SetScrambledActions(SerializedDictionary<ButtonValue, PlayerAction> playerActions)
+    {
+        scrambledActions = playerActions;
+        var playerActionKeys = playerActions.Keys;
+        var hasAnyActionsChanged = false;
+
+        foreach (var item in playerActionKeys)
+        {
+            buttonValueDisplays.TryGetValue(item, out var renderer);
+
+            if (renderer != null)
+            {
+                var playerAction = playerActions[item];
+                var input = playerAction.inputValue;
+                var newSprite = playerAction.playerActionPerformedOn.GetSpriteForInput(input);
+
+                if (!hasAnyActionsChanged)
+                {
+                    hasAnyActionsChanged = renderer.WillSpriteChange(newSprite);
+                }
+
+                renderer.SetSprite(newSprite);
+            }
+        }
+
+        if (hasAnyActionsChanged)
+        {
+            PlayShipSFX(_shipInfo.scrambleSFX);
+        }
+    }
+
+    public List<PlayerAction> GetScrambledActions()
+    {
+        if (scrambledActions == null)
+        {
+            return _possibleActions;
+        }
+
+        return scrambledActions.Values.ToList();
+    }
+
+    public void SetInputStatus(bool isActive)
+    {
+        _allowingInput = isActive;
+        SetInputVisibility(isActive);
+
+        if (_shipCollider == null)
+        {
+            _shipCollider = GetComponent<Collider2D>();
+        }
+
+        _shipCollider.enabled = isActive;
+    }
+
+    public void SetActiveStatus(bool isActive)
+    {
+        _isInactive = !isActive;
     }
 
     public void OnMoveOnScreen()

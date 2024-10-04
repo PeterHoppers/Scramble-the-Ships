@@ -26,8 +26,8 @@ public class EffectsSystem : MonoBehaviour
     public delegate void TickEndDurationChanged(float tickEndDuration);
     public TickEndDurationChanged OnTickEndDurationChanged;
 
-    public delegate void MoveOnInputChanged(bool isMoveOnInput);
-    public MoveOnInputChanged OnMoveOnInputChanged;
+    public delegate void InputMoveStyleChanged(InputMoveStyle moveStyle);
+    public InputMoveStyleChanged OnInputMoveStyleChanged;
 
     public delegate void MaxEnergyChanged(int maxEnergy);
     public MaxEnergyChanged OnMaxEnergyChanged;
@@ -57,7 +57,7 @@ public class EffectsSystem : MonoBehaviour
         OnMultiplayerScrambleTypeChanged?.Invoke(gameSettings.isMultiplayerScrambleSame);
         OnTickDurationChanged?.Invoke(gameSettings.tickDuration);
         OnTickEndDurationChanged?.Invoke(gameSettings.tickEndDuration);
-        OnMoveOnInputChanged?.Invoke(gameSettings.doesMoveOnInput);
+        OnInputMoveStyleChanged?.Invoke(gameSettings.inputMoveStyle);
         OnMaxEnergyChanged?.Invoke(gameSettings.maxEnergy);
     }
 
@@ -89,10 +89,7 @@ public class EffectsSystem : MonoBehaviour
                 break;
             case EffectType.TickEndDuration:
                 OnTickEndDurationChanged?.Invoke(Mathf.RoundToInt(effect.amount));
-                break;
-            case EffectType.MoveOnInputChanged:
-                OnMoveOnInputChanged?.Invoke(Convert.ToBoolean(effect.amount));
-                break;
+                break;            
             case EffectType.MaxEnergyChanged:
                 OnMaxEnergyChanged?.Invoke(Mathf.RoundToInt(effect.amount));
                 break;
@@ -136,7 +133,6 @@ public enum EffectType
     ScrambleAmount = 0,
     TickDuration = 1,
     TickEndDuration = 2,
-    MoveOnInputChanged = 3,
     DigitalGlitchIntensity = 5,
     ScanLineJitter = 6,
     VerticalJump = 7,
