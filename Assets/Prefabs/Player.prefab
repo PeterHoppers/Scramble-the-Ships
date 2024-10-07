@@ -328,7 +328,7 @@ MonoBehaviour:
     m_ActionId: 45919d41-eb65-4e81-830d-d3a8537b173f
     m_ActionName: UI/TwoPlayerSelection[/Keyboard/2,/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: Gamepad
+  m_DefaultControlScheme: Joystick
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}

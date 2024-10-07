@@ -1,40 +1,54 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
+using UnityEngine.InputSystem;
 
 public class PreviewInputHandler : MonoBehaviour
 {
-    private void Update()
+    InputSystemUIInputModule _inputSystem;
+    private void OnEnable()
+    {
+        _inputSystem = EventSystem.current.gameObject.GetComponent<InputSystemUIInputModule>();
+        _inputSystem.leftClick.action.performed += OnOnePlayerButtonPress;
+        _inputSystem.rightClick.action.performed += OnTwoPlayerButtonPress;
+    }
+
+    private void OnDisable()
+    {
+        _inputSystem.leftClick.action.performed -= OnOnePlayerButtonPress;
+        _inputSystem.rightClick.action.performed -= OnTwoPlayerButtonPress;
+    }
+
+    private void OnOnePlayerButtonPress(InputAction.CallbackContext context)
     {
         if (GlobalGameStateManager.Instance.GlobalGameStateStatus != GlobalGameStateStatus.Preview)
         {
             return;
         }
 
-        if (Input.GetKeyUp(KeyCode.Alpha1) || Input.GetKeyUp(KeyCode.Keypad1))
+        if (GlobalGameStateManager.Instance.CanPlay(1))
         {
-            if (GlobalGameStateManager.Instance.CanPlay(1))
-            {
-                SelectedOnePlayer();
-            }
-        }
-
-        if (Input.GetKeyUp(KeyCode.Alpha2) || Input.GetKeyUp(KeyCode.Keypad2))
-        {
-            if (GlobalGameStateManager.Instance.CanPlay(2))
-            {
-                SelectedTwoPlayers();
-            }
+            SelectedPlayerCount(1);
         }
     }
 
-    private void SelectedOnePlayer()
+    private void OnTwoPlayerButtonPress(InputAction.CallbackContext context)
     {
-        GlobalGameStateManager.Instance.SetPlayerCount(1);
-        GlobalGameStateManager.Instance.StartGame();
+        if (GlobalGameStateManager.Instance.GlobalGameStateStatus != GlobalGameStateStatus.Preview)
+        {
+            return;
+        }
+
+        if (GlobalGameStateManager.Instance.CanPlay(2))
+        {
+            SelectedPlayerCount(2);
+        }
     }
 
-    private void SelectedTwoPlayers()
+    private void SelectedPlayerCount(int playerCount)
     {
-        GlobalGameStateManager.Instance.SetPlayerCount(2);
+        GlobalGameStateManager.Instance.SetPlayerCount(playerCount);
         GlobalGameStateManager.Instance.StartGame();
-    }    
+    }
 }
