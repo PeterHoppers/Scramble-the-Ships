@@ -22,6 +22,7 @@ MonoBehaviour:
   scrambleSFX: {fileID: 8300000, guid: 67f81f0bf45340e4a91fc20ad4a82965, type: 3}
   exitSFX: {fileID: 8300000, guid: cfc824ab208433e448ed6d33b59b7d9d, type: 3}
   cutsceneSprite: {fileID: 21300000, guid: 1b6c17cd20084cb43b6c3646a7023843, type: 3}
+  actionButtonSprite: {fileID: 21300000, guid: c16429cc67b0bf745ae57176604495db, type: 3}
   inputsForSprites:
     _serializedList:
     - Key: 0

@@ -62,7 +62,7 @@ public class InputRenderer : MonoBehaviour
 
         _incomingSprite = sprite;
         var previousSprite = _renderer.sprite;
-        if (gameObject.activeInHierarchy && previousSprite != null)
+        if (gameObject.activeInHierarchy && previousSprite != null && glitchedMaterial != null)
         {
             StartCoroutine(PerformGlitchEffect(_glitchDuration, _incomingSprite));
         }

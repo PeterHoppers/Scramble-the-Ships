@@ -513,6 +513,11 @@ public class Player : Previewable
         return _shipInfo.bulletSprite;
     }
 
+    public Sprite GetActionButtonSprite()
+    { 
+        return _shipInfo.actionButtonSprite;
+    }
+
     public Sprite GetSpriteForInput(InputValue input)
     {
         if (_shipInfo.inputsForSprites.TryGetValue(input, out var sprite))

@@ -7,15 +7,22 @@ using UnityEngine.UI;
 public class ActionButtonUI : MonoBehaviour
 {
     public GameObject holderUI;
-    public InputRenderer buttonControlRenderer;
+    public InputRenderer actionRenderer;
+    public InputRenderer buttonRenderer;
+
 
     public void SetActiveState(bool isFirable)
     {
         holderUI.SetActive(isFirable);
     }
 
-    public void SetButtonControlSprite(Sprite sprite)
+    public void SetActionSprite(Sprite sprite)
     {
-        buttonControlRenderer.SetSprite(sprite);
+        actionRenderer.SetSprite(sprite);
+    }
+
+    public void SetButtonSprite(Sprite sprite) 
+    {
+        buttonRenderer.SetSprite(sprite);
     }
 }

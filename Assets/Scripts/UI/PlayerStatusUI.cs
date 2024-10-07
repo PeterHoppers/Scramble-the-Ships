@@ -7,14 +7,14 @@ using System;
 
 public class PlayerStatusUI : MonoBehaviour
 {
-    public ActionButtonUI fireUI;
+    public ActionButtonUI actionButtonUI;
     Player _player;
 
     const int BUTTON_UI_NEEDED = 5;
     
     void Awake()
     {
-        fireUI.gameObject.SetActive(false);
+        actionButtonUI.gameObject.SetActive(false);
     }
 
     private void OnDisable()
@@ -28,9 +28,11 @@ public class PlayerStatusUI : MonoBehaviour
     public void AddPlayerReference(Player player)
     {
         _player = player;
-        fireUI.gameObject.SetActive(true);
-        fireUI.SetButtonControlSprite(player.GetSpriteForInput(InputValue.Fire));
-        player.AddButtonRenderer(ButtonValue.Action, fireUI.buttonControlRenderer);
+        actionButtonUI.gameObject.SetActive(true);
+        
+        actionButtonUI.SetActionSprite(player.GetSpriteForInput(InputValue.Fire));
+        player.AddButtonRenderer(ButtonValue.Action, actionButtonUI.actionRenderer);
+        actionButtonUI.SetButtonSprite(player.GetActionButtonSprite());
         
         _player.OnPossibleInputs += OnPossibleInputChanged;
     }
@@ -38,6 +40,6 @@ public class PlayerStatusUI : MonoBehaviour
     private void OnPossibleInputChanged(List<PlayerAction> possibleActions)
     {
         var isButtonNeededForInput = (possibleActions.Count >= BUTTON_UI_NEEDED);
-        fireUI.SetActiveState(isButtonNeededForInput);        
+        actionButtonUI.SetActiveState(isButtonNeededForInput);        
     }    
 }

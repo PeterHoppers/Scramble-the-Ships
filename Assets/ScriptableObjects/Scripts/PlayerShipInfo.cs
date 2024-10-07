@@ -13,6 +13,7 @@ public class PlayerShipInfo : ShipInfo
 
     [Header("Additional Sprites")]
     public Sprite cutsceneSprite;
+    public Sprite actionButtonSprite;
     [SerializedDictionary("Input", "Sprite to Represent")]
     public SerializedDictionary<InputValue, Sprite> inputsForSprites;
 }
