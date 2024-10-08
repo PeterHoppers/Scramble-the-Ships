@@ -159,7 +159,11 @@ public class InputRenderer : MonoBehaviour
     private void OnRendererDisable()
     {
         StopAllCoroutines();
-        _transformTransition.StopAllCoroutines();
+
+        if (_transformTransition != null)
+        {
+            _transformTransition.StopAllCoroutines();
+        }
 
         if (_renderer != null && _defaultMaterial != null)
         {

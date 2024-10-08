@@ -10,10 +10,14 @@ public class ActionButtonUI : MonoBehaviour
     public InputRenderer actionRenderer;
     public InputRenderer buttonRenderer;
 
+    public void SetUIActiveState(bool isActive)
+    { 
+        gameObject.SetActive(isActive);
+    }
 
-    public void SetActiveState(bool isFirable)
+    public void SetActiveState(bool isActive)
     {
-        holderUI.SetActive(isFirable);
+        holderUI.SetActive(isActive);
     }
 
     public void SetActionSprite(Sprite sprite)

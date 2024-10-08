@@ -11,11 +11,6 @@ public class PlayerStatusUI : MonoBehaviour
     Player _player;
 
     const int BUTTON_UI_NEEDED = 5;
-    
-    void Awake()
-    {
-        actionButtonUI.gameObject.SetActive(false);
-    }
 
     private void OnDisable()
     {
@@ -28,7 +23,7 @@ public class PlayerStatusUI : MonoBehaviour
     public void AddPlayerReference(Player player)
     {
         _player = player;
-        actionButtonUI.gameObject.SetActive(true);
+        actionButtonUI.SetUIActiveState(true);
         
         actionButtonUI.SetActionSprite(player.GetSpriteForInput(InputValue.Fire));
         player.AddButtonRenderer(ButtonValue.Action, actionButtonUI.actionRenderer);
@@ -40,6 +35,6 @@ public class PlayerStatusUI : MonoBehaviour
     private void OnPossibleInputChanged(List<PlayerAction> possibleActions)
     {
         var isButtonNeededForInput = (possibleActions.Count >= BUTTON_UI_NEEDED);
-        actionButtonUI.SetActiveState(isButtonNeededForInput);        
+        actionButtonUI.SetActiveState(isButtonNeededForInput);       
     }    
 }
