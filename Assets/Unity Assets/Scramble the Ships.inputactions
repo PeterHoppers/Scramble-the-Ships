@@ -922,6 +922,17 @@
                 },
                 {
                     "name": "",
+                    "id": "15f6eae3-e7d9-4ed0-a2a3-0b83bf532688",
+                    "path": "<HID::16C0-5E1>/button9",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TwoPlayerSelection",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "1de0816f-6ab0-4ebd-8536-29b3ea2c6fe7",
                     "path": "<Mouse>/middleButton",
                     "interactions": "",
@@ -1165,7 +1176,7 @@
                 {
                     "name": "",
                     "id": "5c8eb02e-3e05-4a64-aad4-297b2adb85f1",
-                    "path": "<16C0-5E1>/button10",
+                    "path": "<HID::16C0-5E1>/button10",
                     "interactions": "",
                     "processors": "",
                     "groups": "Joystick;Keyboard&Mouse",
