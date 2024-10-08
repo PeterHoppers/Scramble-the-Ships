@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueNodes:
   - textSpeaker: 0
-    textToDisplay: "Your time-modifying grid will capture any foreign objects into
-      its time manipulation. This will give you time to plan your route around the
-      obstacles, although we understand that process might be trivial for an experienced
-      pilot like you.\r"
+    textToDisplay: "If your ship is ever destroyed by any obstacles, it will rewind
+      time back to when your system first detected them. Although we understand that
+      an experienced pilot like you doesn\u2019t have much of a need for that sort
+      of safety net.\r"
   - textSpeaker: 0
     textToDisplay: "Our sensors have scanned ahead and calculated how many screens
       are remaining in this sector. We\u2019re detecting minimal alien resistance

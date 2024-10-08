@@ -1274,7 +1274,7 @@ MonoBehaviour:
   - {fileID: 1991116951}
   - {fileID: 565684071}
   - {fileID: 1791757988}
-  _displayDuration: 10
+  _displayDuration: 5
 --- !u!114 &1507731709
 MonoBehaviour:
   m_ObjectHideFlags: 0

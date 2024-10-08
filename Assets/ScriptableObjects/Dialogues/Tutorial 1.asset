@@ -15,14 +15,14 @@ MonoBehaviour:
   dialogueNodes:
   - textSpeaker: 0
     textToDisplay: As you enter alien territory, pilot, your ship will activate its
-      cutting-edge time-modifying grid movement system whenever it detects obstacles.
-      If your ship is ever destroyed by said obstacles, it will rewind time back
-      to when you discovered them.
+      time-modifying grid movement system whenever it detects obstacles. This system
+      pauses time for roughly a second and previews where objects are going until
+      you choose an action to perform.
   - textSpeaker: 0
     textToDisplay: "However, this system constantly uses your ship\u2019s energy.
       If your energy fully depletes, you will be stranded in space and suffer the
-      consequences, as you well know.\r"
+      consequences, as you well know."
   - textSpeaker: 0
     textToDisplay: "The glowing squares at the top of the grid have been calculated
-      as safe transition zones. Navigating through the grid to them will recharge
-      some of your energy and move you to the next screen.\r"
+      as safe transition zones. When you interact with one, you\u2019ll move onto
+      the next collection of obstacles and recharge some of your energy."
