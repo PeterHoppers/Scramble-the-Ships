@@ -9,17 +9,9 @@ public class PreviewInputHandler : MonoBehaviour
     InputSystemUIInputModule _inputSystem;
     private void OnEnable()
     {
-        _inputSystem = EventSystem.current.gameObject.GetComponent<InputSystemUIInputModule>();
-        _inputSystem.middleClick.action.performed += (InputAction.CallbackContext context) =>
-        {
-            print(context);
-        };
+        _inputSystem = EventSystem.current.gameObject.GetComponent<InputSystemUIInputModule>();        
         _inputSystem.leftClick.action.performed += OnOnePlayerButtonPress;
-        _inputSystem.rightClick.action.performed += OnTwoPlayerButtonPress;
-        _inputSystem.submit.action.performed += (InputAction.CallbackContext context) =>
-        {
-            print(context);
-        };        
+        _inputSystem.rightClick.action.performed += OnTwoPlayerButtonPress;              
     }
 
     private void OnDisable()
@@ -30,7 +22,6 @@ public class PreviewInputHandler : MonoBehaviour
 
     private void OnOnePlayerButtonPress(InputAction.CallbackContext context)
     {
-        print(context);
         if (GlobalGameStateManager.Instance.GlobalGameStateStatus != GlobalGameStateStatus.Preview)
         {
             return;
