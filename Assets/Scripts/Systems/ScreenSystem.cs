@@ -12,6 +12,7 @@ public class ScreenSystem : MonoBehaviour
     private Level _level;
     GameManager _gameManager;
     Screen _currentScreen;
+    List<ScreenChangeTrigger> _currentScreenTransitions;
     int _playerAmount = 0;
     public int ScreenAmount { get; private set; }
     public int ScreensLoaded { get; private set; }
@@ -34,6 +35,11 @@ public class ScreenSystem : MonoBehaviour
     public Screen GetCurrentScreen()
     { 
         return _currentScreen;
+    }
+
+    public List<ScreenChangeTrigger> GetCurrentScreenTransitions()
+    {
+        return _currentScreenTransitions;
     }
 
     void UpdateLevelBackground()
@@ -110,7 +116,7 @@ public class ScreenSystem : MonoBehaviour
         spawnSystem.ResetSpawns();
         SetScreenStarters(spawnSystem, gridSystem, _currentScreen.startingItems);
         SetQueuedEnemies(spawnSystem, gridSystem, _currentScreen.enemySpawnInformation);
-        SetScreenTransitions(spawnSystem, gridSystem, screenTrigger, screenTransitions);
+        _currentScreenTransitions = SetScreenTransitions(spawnSystem, gridSystem, screenTrigger, screenTransitions);
 
         foreach (var effect in _currentScreen.effects)
         {

@@ -36,9 +36,13 @@ public class WinScreenUI : MonoBehaviour
     private int _secondsUntilAutoContinue;
     private int _currentScore;
 
+    [Space]
+    [SerializeField]
+    private ScoreManager _scoreManager;
+
     public void SetLevelScore(int energyLeft, int continuesUsed)
     {
-        int previousScore = GlobalGameStateManager.Instance.CurrentScore;
+        int previousScore = _scoreManager.CurrentScore;
         int energyScore = _energyValue * energyLeft;
         int continueScore = _continueLossValue * continuesUsed * - 1;
         int totalScore = previousScore + _levelValue + energyScore + continueScore;
