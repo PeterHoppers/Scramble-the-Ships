@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
 using System.Collections;
+using System.Net.NetworkInformation;
 
 public class ControlsManager : MonoBehaviour, IManager
 {
@@ -23,6 +24,7 @@ public class ControlsManager : MonoBehaviour, IManager
         _gameManager = manager;
         _gameManager.OnTickEnd += OnTickEnd;
         _gameManager.OnPlayerJoinedGame += OnPlayerJoined;
+        _gameManager.OnScreenChange += OnScreenChange;
 
         _gameManager.EffectsSystem.OnScrambleAmountChanged += (int scrambleAmount) => _amountToScramble = scrambleAmount;
         _gameManager.EffectsSystem.OnMultiplayerScrambleTypeChanged += (bool isSame) => _playersSameShuffle = isSame;
@@ -30,6 +32,11 @@ public class ControlsManager : MonoBehaviour, IManager
         _gameManager.EffectsSystem.OnGameInputProgressionChanged += (GameInputProgression newScrambleType) => _scrambleType = newScrambleType;
 
         OptionsManager.Instance.OnParametersChanged += (GameSettingParameters gameSettings, SystemSettingParameters _) => _doesScrambleOnNoInput = gameSettings.doesScrambleOnNoInput;
+    }
+
+    void OnScreenChange(int nextScreenIndex, int maxScreens)
+    {
+        UpdateShuffledValues();
     }
 
     void OnTickEnd(float tickEndDuration, int _)
@@ -44,9 +51,14 @@ public class ControlsManager : MonoBehaviour, IManager
 
         foreach (var player in _players)
         {
+            if (!player.IsActive())
+            {
+                continue;
+            }
+
             unshuffledActions.AddRange(player.GetPossibleActions());
             if (hasPlayerInputted)
-            { 
+            {                
                 hasPlayerInputted = player.HasActiveInput();
             }
         }

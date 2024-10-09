@@ -113,9 +113,9 @@ public class Player : Previewable
     }
 
     protected virtual void OnTickStart(float _)
-    {
+    {        
         if (_isInactive)
-        {
+        {            
             return;
         }
 
@@ -382,9 +382,14 @@ public class Player : Previewable
 
     public void SetScrambledActions(SerializedDictionary<ButtonValue, PlayerAction> playerActions)
     {
+        if (playerActions.Keys.Count == 0)
+        {
+            return;
+        }
+
         scrambledActions = playerActions;
         var playerActionKeys = playerActions.Keys;
-        var hasAnyActionsChanged = false;
+        var hasAnyRenderersChanged = false;
 
         foreach (var item in playerActionKeys)
         {
@@ -396,16 +401,16 @@ public class Player : Previewable
                 var input = playerAction.inputValue;
                 var newSprite = playerAction.playerActionPerformedOn.GetSpriteForInput(input);
 
-                if (!hasAnyActionsChanged)
+                if (!hasAnyRenderersChanged)
                 {
-                    hasAnyActionsChanged = renderer.WillSpriteChange(newSprite);
+                    hasAnyRenderersChanged = renderer.WillSpriteChangeVisibly(newSprite);
                 }
 
                 renderer.SetSprite(newSprite);
             }
         }
 
-        if (hasAnyActionsChanged)
+        if (hasAnyRenderersChanged)
         {
             PlayShipSFX(_shipInfo.scrambleSFX);
         }
@@ -531,6 +536,11 @@ public class Player : Previewable
     public bool HasActiveInput()
     { 
         return _lastInput != null;
+    }
+
+    public bool IsActive()
+    {
+        return !_isInactive;
     }
 
     public void AddButtonRenderer(ButtonValue value, InputRenderer renderer)

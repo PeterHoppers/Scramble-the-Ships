@@ -168,6 +168,7 @@ public class GameManager : MonoBehaviour
         int playerId = _players.Count;
         newPlayer.InitPlayer(this, shipInfos[playerId], playerId, _inputMoveStyle);
         newPlayer.transform.SetParent(transform);
+        newPlayer.name = "Player " + playerId;
 
         _players.Add(newPlayer);       
 
@@ -310,6 +311,11 @@ public class GameManager : MonoBehaviour
         {
             ActivateCutscene(CutsceneType.ScreenTransition, tickDuration);
             yield return new WaitForSeconds(tickDuration);
+        }
+
+        foreach (Player player in _players)
+        {
+            player.SetActiveStatus(true);
         }
 
         _screenSystem.SetupNewScreen(_spawnSystem, _gridSystem, _effectsSystem, dialogueSystem);

@@ -38,9 +38,9 @@ public class InputRenderer : MonoBehaviour
         _defaultMaterial = _renderer.material;
     }
 
-    public bool WillSpriteChange(Sprite newSprite)
+    public bool WillSpriteChangeVisibly(Sprite newSprite)
     {
-        if (_renderer == null || _renderer.sprite == null)
+        if (_renderer == null || _renderer.sprite == null || !_renderer.isEnable)
         {
             return false;
         }

@@ -85,7 +85,11 @@ public class GlobalAudioManager : MonoBehaviour
         if (currentObject != null && _previousSelectedObject != currentObject)
         {
             _previousSelectedObject = currentObject;
-            PlayAudioSFX(menuSFX);
+
+            if (currentObject.activeInHierarchy)
+            {
+                PlayAudioSFX(menuSFX);
+            }
         }
     }
 
@@ -123,6 +127,7 @@ public class GlobalAudioManager : MonoBehaviour
         switch (newState)
         {
             case GlobalGameStateStatus.Preview:
+            case GlobalGameStateStatus.NameInput:
                 TransitionSongs(mainMenuMusic);
                 break;
             case GlobalGameStateStatus.Cutscene:
