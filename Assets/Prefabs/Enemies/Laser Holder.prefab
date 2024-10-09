@@ -138,7 +138,7 @@ MonoBehaviour:
   bulletExplosion: {fileID: 725748389856807712, guid: e95db50273d4e5746b02ba9b960f0afd, type: 3}
   _firingLaser: {fileID: 4213889604010004498}
   _previewLaser: {fileID: 3529245596970493444}
-  _fireDelay: 0.05
+  _fireDelay: 0.15
 --- !u!82 &684399989028241814
 AudioSource:
   m_ObjectHideFlags: 0

@@ -19,14 +19,14 @@ MonoBehaviour:
       groupingSize: 1
     spawnCoordinates:
       x:
-        anchor: 1
+        anchor: 2
         offset: 0
       y:
         anchor: 1
         offset: 2
   - spawnInfo:
-      objectToSpawn: 8
-      direction: 0
+      objectToSpawn: 7
+      direction: 3
       groupingSize: 1
     spawnCoordinates:
       x:
@@ -34,14 +34,14 @@ MonoBehaviour:
         offset: 0
       y:
         anchor: 1
-        offset: 4
+        offset: -2
   - spawnInfo:
       objectToSpawn: 10
       direction: 2
       groupingSize: 1
     spawnCoordinates:
       x:
-        anchor: 1
+        anchor: 2
         offset: 0
       y:
         anchor: 1
@@ -64,6 +64,7 @@ MonoBehaviour:
   twoPlayerDialogue: {fileID: 0}
   effects: []
   playerAICommands: {fileID: 11400000, guid: ba0e9c549812a1846b5eb9299a368e45, type: 2}
+  screenMusicTransition: {fileID: 0}
   enemySpawnInformation:
     _serializedList: []
   spawnsLoopAtTick: 0
