@@ -6553,8 +6553,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _screenHolder: {fileID: 315266166}
   _screenImage: {fileID: 5449108139024045421, guid: 6de8c45348b862a4594875d003ca562d, type: 3}
-  _unvisitedColor: {r: 0.2924528, g: 0.2924528, b: 0.2924528, a: 1}
-  _visitedColor: {r: 0.745283, g: 0.745283, b: 0.745283, a: 1}
+  _unvisitedColor: {r: 0.2924528, g: 0.2924528, b: 0.2924528, a: 0.078431375}
+  _visitedColor: {r: 0.5411765, g: 0.5411765, b: 0.5411765, a: 1}
 --- !u!222 &1701797812
 CanvasRenderer:
   m_ObjectHideFlags: 0
