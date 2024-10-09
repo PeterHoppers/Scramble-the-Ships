@@ -49,17 +49,20 @@ public class NameInputManager : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    IEnumerator Start()
     {
+        NameInputted = "";
         _playerCount = GlobalGameStateManager.Instance.PlayerCount;
 
         foreach (var charater in CHARS)
         {
             var charInput = Instantiate(characterInputPrefab, charactersHolder.transform).GetComponent<NameCharacterInput>();
+            charInput.name = $"Character Button: {charater}";
             charInput.SetupCharacterInput(this, charater);
         }
 
         countdownUI.StartCountdown(() => OnSubmitName());
+        yield return new WaitForSeconds(.25f); //Prevent race condition with other code to set the selected button
         ResetInputter();
     }
 
