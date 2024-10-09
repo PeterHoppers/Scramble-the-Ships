@@ -58,12 +58,26 @@ MonoBehaviour:
           groupingSize: 1
         otherCoordinate:
           anchor: 0
-          offset: 1
+          offset: 0
       - spawnInfo:
           objectToSpawn: 3
           direction: 0
           groupingSize: 1
         otherCoordinate:
           anchor: 2
-          offset: 1
+          offset: 0
+      - spawnInfo:
+          objectToSpawn: 3
+          direction: 0
+          groupingSize: 1
+        otherCoordinate:
+          anchor: 2
+          offset: 2
+      - spawnInfo:
+          objectToSpawn: 3
+          direction: 0
+          groupingSize: 1
+        otherCoordinate:
+          anchor: 0
+          offset: 2
   spawnsLoopAtTick: 12

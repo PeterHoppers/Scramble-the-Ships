@@ -23,7 +23,7 @@ MonoBehaviour:
         offset: 0
       y:
         anchor: 1
-        offset: 4
+        offset: 5
   - spawnInfo:
       objectToSpawn: 0
       direction: 0
@@ -34,7 +34,7 @@ MonoBehaviour:
         offset: 0
       y:
         anchor: 1
-        offset: -4
+        offset: -5
   - spawnInfo:
       objectToSpawn: 0
       direction: 0
@@ -83,9 +83,23 @@ MonoBehaviour:
           offset: 2
       - spawnInfo:
           objectToSpawn: 3
-          direction: 2
-          groupingSize: 0
+          direction: 3
+          groupingSize: 1
         otherCoordinate:
           anchor: 1
           offset: -2
+      - spawnInfo:
+          objectToSpawn: 3
+          direction: 2
+          groupingSize: 1
+        otherCoordinate:
+          anchor: 1
+          offset: -3
+      - spawnInfo:
+          objectToSpawn: 3
+          direction: 2
+          groupingSize: 1
+        otherCoordinate:
+          anchor: 1
+          offset: 3
   spawnsLoopAtTick: 12
