@@ -31,6 +31,10 @@ public class LevelSelectDebugger : MonoBehaviour
         {
             PlayLevel(5);
         }
+        else if (Input.GetKeyUp(KeyCode.Home)) 
+        {
+            GlobalGameStateManager.Instance.ResetGame();
+        }
     }
 
     void PlayLevel(int levelId)

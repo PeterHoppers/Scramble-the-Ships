@@ -227,6 +227,7 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
 
         if (!_levelSceneSystem.IsPreviewScene())
         {
+            IsAIPlaying = false;
             ResetGame();
         }
     }
