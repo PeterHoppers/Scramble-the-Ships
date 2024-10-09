@@ -55,7 +55,7 @@ MonoBehaviour:
         offset: -1
       y:
         anchor: 0
-        offset: 0
+        offset: 1
   overrideDefaultStartingPositions: 0
   startingPlayerPositions:
     _serializedList: []

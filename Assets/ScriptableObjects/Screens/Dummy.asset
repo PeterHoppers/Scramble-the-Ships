@@ -15,14 +15,13 @@ MonoBehaviour:
   useOnePlayerForBoth: 1
   onePlayerLevelScreens:
   - {fileID: 11400000, guid: 2d38b9a6c36c3ca47bebb902761b7bb3, type: 2}
-  - {fileID: 11400000, guid: 2d38b9a6c36c3ca47bebb902761b7bb3, type: 2}
   twoPlayerLevelScreens:
   - {fileID: 11400000, guid: f22d92276758a57479dc359b11bbccf4, type: 2}
   startingEffects:
   - type: 11
     amount: 3
   levelName: 
-  levelSong: {fileID: 0}
+  levelSong: {fileID: 8300000, guid: cf50a51bcdcd14c42954aef9efe5e342, type: 3}
   levelBackground: {fileID: 0}
   overrideDefaultTransitionGrids: 0
   transitionGrids:

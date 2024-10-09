@@ -21,12 +21,17 @@ public class NameCharacterInput : MonoBehaviour
         _characterDisplay.text = character.ToString();
         _charcterSelect.onClick.AddListener(() =>
         {
-            manager.AddCharacter(_characterName);
+            manager.AddCharacter(this);
         });
 
         manager.OnNameInputChange += (string _, bool isMaxLength) => 
         { 
             _charcterSelect.interactable = !isMaxLength;
         };
+    }
+
+    public char GetCharacter()
+    { 
+        return _characterName;
     }
 }

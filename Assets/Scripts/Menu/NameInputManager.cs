@@ -25,6 +25,9 @@ public class NameInputManager : MonoBehaviour
 
     private List<string> _submittedNames = new List<string>();
     private int _playerCount = 0;
+    private bool _isMaxCharacters = false;
+
+    private const float _buttonSelectDelay = .25f;  //Prevent race condition with other code to set the selected button
 
     public string NameInputted
     {
@@ -37,14 +40,14 @@ public class NameInputManager : MonoBehaviour
             _nameInputted = value;
             nameDisplay.text = _nameInputted;
 
-            var isMaxCharacters = (_nameInputted.Length >= MAX_CHARACTERS);
-            if (isMaxCharacters)
+            _isMaxCharacters = (_nameInputted.Length >= MAX_CHARACTERS);
+            if (_isMaxCharacters)
             {
                 EventSystem.current.SetSelectedGameObject(submitNameButton.gameObject);
             }
 
             submitNameButton.interactable = (_nameInputted.Length != 0);
-            OnNameInputChange?.Invoke(_nameInputted, isMaxCharacters);
+            OnNameInputChange?.Invoke(_nameInputted, _isMaxCharacters);
         }
     }
 
@@ -62,13 +65,23 @@ public class NameInputManager : MonoBehaviour
         }
 
         countdownUI.StartCountdown(() => OnSubmitName());
-        yield return new WaitForSeconds(.25f); //Prevent race condition with other code to set the selected button
+        yield return new WaitForSeconds(_buttonSelectDelay);
         ResetInputter();
     }
 
-    public void AddCharacter(char character)
+    public void AddCharacter(NameCharacterInput characterInput)
     { 
-        NameInputted += character;        
+        NameInputted += characterInput.GetCharacter();
+        StartCoroutine(ReselectButton(characterInput.gameObject));
+    }
+
+    IEnumerator ReselectButton(GameObject selectedGO)
+    {
+        yield return new WaitForSeconds(_buttonSelectDelay);
+        if (EventSystem.current.currentSelectedGameObject == null && !_isMaxCharacters)
+        {
+            EventSystem.current.SetSelectedGameObject(selectedGO);
+        }
     }
 
     public void DeleteLastCharacter()
