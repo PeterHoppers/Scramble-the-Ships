@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,9 +6,7 @@ using UnityEngine;
 public class PreviewUIManager : MonoBehaviour
 {
     [SerializeField]
-    private List<GameObject> _previewUIs;
-    [SerializeField]
-    private float _displayDuration;
+    private List<PreviewInfo> _previewUIs;
     [SerializeField]
     private float _transitionDuration;
 
@@ -33,7 +32,8 @@ public class PreviewUIManager : MonoBehaviour
     IEnumerator IterateThroughDisplays()
     {
         var halfTransitionDuration = _transitionDuration / 2;
-        yield return new WaitForSeconds(_displayDuration - halfTransitionDuration);
+        var displayDuration = _previewUIs[_displayIndex].duration;
+        yield return new WaitForSeconds(displayDuration - halfTransitionDuration);
         StartTransitionEffects();
         yield return new WaitForSeconds(halfTransitionDuration);
         _displayIndex++;
@@ -56,7 +56,7 @@ public class PreviewUIManager : MonoBehaviour
     {
         for (int index = 0; index < _previewUIs.Count; index++)
         {
-            _previewUIs[index].SetActive(index == _displayIndex);
+            _previewUIs[index].UI.SetActive(index == _displayIndex);
         }
     }
 
@@ -67,4 +67,11 @@ public class PreviewUIManager : MonoBehaviour
         _glitchAdapter.SetHorizontalShakeIntensity(.45f);
         _glitchAdapter.SetVerticalJumpIntensity(.025f);
     }
+}
+
+[Serializable]
+public struct PreviewInfo
+{
+    public GameObject UI;
+    public float duration;
 }

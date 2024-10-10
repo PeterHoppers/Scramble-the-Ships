@@ -6,18 +6,15 @@ using TMPro;
 
 public class ScoreManager : MonoBehaviour, IManager
 {
-    [Header("Score Calculations")]
-    [SerializeField]
-    private int _pointsPerScreenCompletion;
-    [SerializeField]
-    private int _pointsPerTileMoved;    
-
+    public ScoreConfiguration scoreConfiguration;
     [Header("UI")]
     public TextMeshProUGUI currentScoreText;
 
     private int _currentScore;
     private int _scoreAtScreenStart;
-    
+    private int _pointsPerScreenCompletion;
+    private int _pointsPerTileMoved;
+
     private ScreenSystem _screenSystem;
     private GameManager _manager;
     private List<ScreenChangeTrigger> _screenTransitions;
@@ -38,6 +35,8 @@ public class ScoreManager : MonoBehaviour, IManager
     {
         CurrentScore = GlobalGameStateManager.Instance.CurrentScore;
         _scoreAtScreenStart = CurrentScore;
+        _pointsPerScreenCompletion = scoreConfiguration.pointsPerScreenCompletion;
+        _pointsPerTileMoved = scoreConfiguration.pointsPerTileMoved;
     }
 
     public void InitManager(GameManager manager)

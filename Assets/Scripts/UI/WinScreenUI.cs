@@ -8,14 +8,6 @@ using UnityEngine.UI;
 
 public class WinScreenUI : MonoBehaviour
 {
-    [Header("Score Calculations")]
-    [SerializeField]
-    private int _levelValue; //should this be in charge of calcuating the score? Probably not
-    [SerializeField]
-    private int _energyValue;
-    [SerializeField]
-    private int _continueLossValue;
-
     [Header("UI Configuration")]
     public TextMeshProUGUI previousScoreText;
     public TextMeshProUGUI levelValueText;
@@ -25,7 +17,7 @@ public class WinScreenUI : MonoBehaviour
     public TextMeshProUGUI continueValueText;
     public TextMeshProUGUI continuesUsedText;
     public TextMeshProUGUI continuesScoreText;
-    public TextMeshProUGUI totalScoreText;
+    public TextMeshProUGUI totalScoreText;  
 
     [Space]
     [SerializeField]
@@ -42,9 +34,14 @@ public class WinScreenUI : MonoBehaviour
 
     public void SetLevelScore(int energyLeft, int continuesUsed)
     {
+        var _scoreConfiguration = _scoreManager.scoreConfiguration;
+        var _energyValue = _scoreConfiguration.pointsPerEnergy;
+        var _continueLossValue = _scoreConfiguration.pointsPerContinue;
+        var _levelValue = _scoreConfiguration.pointsPerLevel;
+
         int previousScore = _scoreManager.CurrentScore;
         int energyScore = _energyValue * energyLeft;
-        int continueScore = _continueLossValue * continuesUsed * - 1;
+        int continueScore = _continueLossValue * continuesUsed;
         int totalScore = previousScore + _levelValue + energyScore + continueScore;
 
         previousScoreText.text = previousScore.ToString();
@@ -54,7 +51,7 @@ public class WinScreenUI : MonoBehaviour
         energyLeftText.text = energyLeft.ToString();
         energyScoreText.text = energyScore.ToString();
 
-        continueValueText.text = (_continueLossValue * -1).ToString();
+        continueValueText.text = _continueLossValue.ToString();
         continuesUsedText.text = continuesUsed.ToString();
         continuesScoreText.text = continueScore.ToString();
 

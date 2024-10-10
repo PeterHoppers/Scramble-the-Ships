@@ -2065,9 +2065,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00b7cc1f55eddfb468df7142a340a9a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _levelValue: 1000
-  _energyValue: 10
-  _continueLossValue: 250
   previousScoreText: {fileID: 67724789}
   levelValueText: {fileID: 1117699088}
   pointsPerEnergyText: {fileID: 2110032611}
@@ -9286,8 +9283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95f7f273b2721d247a7ce5a4301cdb18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pointsPerScreenCompletion: 100
-  _pointsPerTileMoved: 10
+  scoreConfiguration: {fileID: 11400000, guid: 7c82ca5c020500a409499dc640009272, type: 2}
   currentScoreText: {fileID: 948194942}
 --- !u!1001 &520288461271952675
 PrefabInstance:
