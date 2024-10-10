@@ -92,7 +92,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 1, g: 1, b: 1, a: 0.5}
-  m_EffectDistance: {x: 1, y: -1}
+  m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 1
 --- !u!114 &5674767200530567242
 MonoBehaviour:
@@ -615,6 +615,10 @@ PrefabInstance:
       propertyPath: m_text
       value: On Tick End
       objectReference: {fileID: 0}
+    - target: {fileID: 3252384816480203809, guid: d22e1c36b018ce94289d98b91200a81c, type: 3}
+      propertyPath: m_fontSize
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 7575474774657032621, guid: d22e1c36b018ce94289d98b91200a81c, type: 3}
       propertyPath: m_Options.m_Options.Array.size
       value: 2
@@ -999,6 +1003,10 @@ PrefabInstance:
     - target: {fileID: 2795473731893495207, guid: d22e1c36b018ce94289d98b91200a81c, type: 3}
       propertyPath: m_Name
       value: Scramble Amount
+      objectReference: {fileID: 0}
+    - target: {fileID: 3252384816480203809, guid: d22e1c36b018ce94289d98b91200a81c, type: 3}
+      propertyPath: m_fontSize
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 7575474774657032621, guid: d22e1c36b018ce94289d98b91200a81c, type: 3}
       propertyPath: m_Options.m_Options.Array.size
@@ -1565,6 +1573,10 @@ PrefabInstance:
     - target: {fileID: 3252384816480203809, guid: d22e1c36b018ce94289d98b91200a81c, type: 3}
       propertyPath: m_text
       value: Disabled
+      objectReference: {fileID: 0}
+    - target: {fileID: 3252384816480203809, guid: d22e1c36b018ce94289d98b91200a81c, type: 3}
+      propertyPath: m_fontSize
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 7575474774657032621, guid: d22e1c36b018ce94289d98b91200a81c, type: 3}
       propertyPath: m_Options.m_Options.Array.size
