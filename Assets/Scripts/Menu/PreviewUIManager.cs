@@ -8,8 +8,16 @@ public class PreviewUIManager : MonoBehaviour
     private List<GameObject> _previewUIs;
     [SerializeField]
     private float _displayDuration;
+    [SerializeField]
+    private float _transitionDuration;
 
+    private GlitchAdapter _glitchAdapter;
     private int _displayIndex = 0;
+
+    private void Awake()
+    {
+        _glitchAdapter = Camera.main.GetComponent<GlitchAdapter>();
+    }
 
     private void OnEnable()
     {
@@ -23,8 +31,11 @@ public class PreviewUIManager : MonoBehaviour
     }
 
     IEnumerator IterateThroughDisplays()
-    { 
-        yield return new WaitForSeconds(_displayDuration);
+    {
+        var halfTransitionDuration = _transitionDuration / 2;
+        yield return new WaitForSeconds(_displayDuration - halfTransitionDuration);
+        StartTransitionEffects();
+        yield return new WaitForSeconds(halfTransitionDuration);
         _displayIndex++;
 
         if (_displayIndex >= _previewUIs.Count)
@@ -35,7 +46,10 @@ public class PreviewUIManager : MonoBehaviour
         {
             DisplayUI();
             StartCoroutine(IterateThroughDisplays());
-        }       
+        }
+
+        yield return new WaitForSeconds(halfTransitionDuration);
+        _glitchAdapter.ClearGlitchEffects();
     }
 
     void DisplayUI()
@@ -44,5 +58,13 @@ public class PreviewUIManager : MonoBehaviour
         {
             _previewUIs[index].SetActive(index == _displayIndex);
         }
+    }
+
+    void StartTransitionEffects()
+    {
+        _glitchAdapter.SetScanLineJitterIntensity(.5F);
+        _glitchAdapter.SetColorDriftIntensity(.35f);
+        _glitchAdapter.SetHorizontalShakeIntensity(.45f);
+        _glitchAdapter.SetVerticalJumpIntensity(.025f);
     }
 }

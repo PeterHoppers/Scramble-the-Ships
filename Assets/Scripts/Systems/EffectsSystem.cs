@@ -32,18 +32,11 @@ public class EffectsSystem : MonoBehaviour
     public delegate void MaxEnergyChanged(int maxEnergy);
     public MaxEnergyChanged OnMaxEnergyChanged;
 
-    //Visual Effects
-    [SerializeField]
-    Volume _mainCameraVolume;
-    private DigitalGlitchVolume _digitalGlitchVolume;
-    private AnalogGlitchVolume _analogueGlichVolume;
+    private GlitchAdapter _glitchAdapter;
 
     private void Awake()
     {
-        _mainCameraVolume.profile.TryGet<DigitalGlitchVolume>(out var digitalGlitchVolume);
-        _digitalGlitchVolume = digitalGlitchVolume;
-        _mainCameraVolume.profile.TryGet<AnalogGlitchVolume>(out var analogGlitchVolume);
-        _analogueGlichVolume = analogGlitchVolume;
+        _glitchAdapter = Camera.main.GetComponent<GlitchAdapter>();
     }
 
     private void Start()
@@ -94,30 +87,26 @@ public class EffectsSystem : MonoBehaviour
                 OnMaxEnergyChanged?.Invoke(Mathf.RoundToInt(effect.amount));
                 break;
             case EffectType.DigitalGlitchIntensity:
-                _digitalGlitchVolume.intensity.value = effect.amount;
+                _glitchAdapter.SetDigitalGlitchIntensity(effect.amount);
                 break;
             case EffectType.ScanLineJitter:
-                _analogueGlichVolume.scanLineJitter.value = effect.amount;
+                _glitchAdapter.SetScanLineJitterIntensity(effect.amount);
                 break;
             case EffectType.VerticalJump:
-                _analogueGlichVolume.verticalJump.value = effect.amount;
+                _glitchAdapter.SetVerticalJumpIntensity(effect.amount);
                 break;
             case EffectType.HorizontalShake:
-                _analogueGlichVolume.horizontalShake.value = effect.amount;
+                _glitchAdapter.SetHorizontalShakeIntensity(effect.amount);
                 break;
             case EffectType.ColorDrift:
-                _analogueGlichVolume.colorDrift.value = effect.amount;
+                _glitchAdapter.SetColorDriftIntensity(effect.amount);
                 break;
         }
     }
 
     public void ClearCameraEffects()
     {
-        _digitalGlitchVolume.intensity.value = 0;
-        _analogueGlichVolume.scanLineJitter.value = 0;
-        _analogueGlichVolume.verticalJump.value = 0;
-        _analogueGlichVolume.horizontalShake.value = 0;
-        _analogueGlichVolume.colorDrift.value = 0;
+        _glitchAdapter.ClearGlitchEffects();
     }
 }
 
