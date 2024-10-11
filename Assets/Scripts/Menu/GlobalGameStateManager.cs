@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using AYellowpaper.SerializedCollections;
 using System.Linq;
+using System;
 
 public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
 {
@@ -14,9 +15,12 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
 
     public int CurrentScore { get; set; }
 
+    public int ActiveLevelIndex { get; private set; }
+
     public Level CurrentLevel { get; set; }
 
     public bool IsAIPlaying { get; set; }
+    public Guid? CurrentPlayingGUID { get; private set; }
 
     List<ScoreInfo> _scoreInfos;
     public List<ScoreInfo> ScoreInfos 
@@ -41,8 +45,6 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
     [Header("Default Locations")]
     public PlayerTransitionInfo defaultLocationForTransitionGrids;
     public SerializedDictionary<PlayerAmount, PlayerTransitionInfo> startingPlayerPositions;
-
-    int _activeLevelIndex = 0;
     LevelSceneSystem _levelSceneSystem;
     CreditsSystem _creditsSystem;
 
@@ -126,12 +128,13 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
     public void StartGame()
     {
         IsAIPlaying = false;
+        CurrentPlayingGUID = Guid.NewGuid();
         LoadLevel(0);
     }
 
     public void LoadLevel(int levelIndex)
     {
-        _activeLevelIndex = levelIndex;
+        ActiveLevelIndex = levelIndex;
         LoadLevel(_levels[levelIndex]);
     }
 
@@ -162,15 +165,15 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
 
     public void NextLevel()
     {
-        StartCutscene(_activeLevelIndex);
-        _activeLevelIndex++;
+        StartCutscene(ActiveLevelIndex);
+        ActiveLevelIndex++;
     }
 
     public void AdvanceFromCutsceneToGame()
     {
-        if (_activeLevelIndex < _levels.Count)
+        if (ActiveLevelIndex < _levels.Count)
         {
-            LoadLevel(_activeLevelIndex);
+            LoadLevel(ActiveLevelIndex);
         }
         else
         { 
@@ -185,8 +188,9 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
 
     public void ResetGame()
     {
-        _activeLevelIndex = 0;
+        ActiveLevelIndex = 0;
         CutsceneID = 0;
+        CurrentPlayingGUID = null;
 
         if (HasHighScore(CurrentScore))
         {
