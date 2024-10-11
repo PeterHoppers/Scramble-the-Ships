@@ -122,6 +122,7 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
     {
         CurrentLevel = _previewLevel;
         IsAIPlaying = true;
+        PlayerCount = 1;
         _levelSceneSystem.LoadGameScene();
     }
 
@@ -198,8 +199,8 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
         }
         else
         {
-            CurrentScore = 0;
             GlobalGameStateStatus = GlobalGameStateStatus.Preview;
+            CurrentScore = 0;
         }
         
         _levelSceneSystem.LoadPreviewScene();

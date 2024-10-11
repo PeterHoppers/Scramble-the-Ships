@@ -47,7 +47,7 @@ public class ScoreManager : MonoBehaviour, IManager
         manager.OnTickEnd += OnTickEnd;
         manager.OnPlayerJoinedGame += OnPlayerJoined;
         manager.OnScreenResetStart += OnScreenResetStart;
-        manager.OnPlayerDeath += OnPlayerDeath;
+        manager.OnGameStateChanged += OnGameStateChanged;
     }    
 
     private void OnPlayerJoined(Player player)
@@ -73,9 +73,12 @@ public class ScoreManager : MonoBehaviour, IManager
         CurrentScore = _scoreAtScreenStart;
     }
 
-    private void OnPlayerDeath(Player player)
+    private void OnGameStateChanged(GameState newState)
     {
-        GlobalGameStateManager.Instance.CurrentScore = CurrentScore;
+        if (newState == GameState.GameOver)
+        {
+            GlobalGameStateManager.Instance.CurrentScore = CurrentScore;
+        }
     }
 
     private void OnTickEnd(float timeToTickStart, int nextTickNumber)

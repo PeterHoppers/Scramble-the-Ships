@@ -110,6 +110,7 @@ public class LoggingManager : MonoBehaviour, IManager
                 {
                     playerEvent = LoggingEvents.OnGameStart,
                     playerGuid = GlobalGameStateManager.Instance.CurrentPlayingGUID,
+                    param1 = GlobalGameStateManager.Instance.PlayerCount.ToString()
                 });
             }
         }
@@ -188,6 +189,11 @@ public class LoggingManager : MonoBehaviour, IManager
 
     private void PostToForm(LoggingData data)
     {
+        if (GlobalGameStateManager.Instance.IsAIPlaying)
+        {
+            return;
+        }
+
         if (_loggingAdapter == null)
         {
             _loggingAdapter = gameObject.AddComponent<LoggingAdapter>();
