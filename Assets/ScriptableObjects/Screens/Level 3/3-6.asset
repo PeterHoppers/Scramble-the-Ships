@@ -70,6 +70,8 @@ MonoBehaviour:
   effects:
   - type: 12
     amount: 100
+  playerAICommands: {fileID: 0}
+  screenMusicTransition: {fileID: 0}
   enemySpawnInformation:
     _serializedList:
     - Key: 2
@@ -95,4 +97,4 @@ MonoBehaviour:
         otherCoordinate:
           anchor: 1
           offset: 3
-  spawnsLoopAtTick: 12
+  spawnsLoopAtTick: 0

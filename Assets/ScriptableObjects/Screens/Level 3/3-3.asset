@@ -16,18 +16,18 @@ MonoBehaviour:
   - spawnInfo:
       objectToSpawn: 0
       direction: 0
-      groupingSize: 3
+      groupingSize: 4
     spawnCoordinates:
       x:
         anchor: 0
         offset: 0
       y:
         anchor: 1
-        offset: 2
+        offset: 4
   - spawnInfo:
       objectToSpawn: 0
       direction: 0
-      groupingSize: 3
+      groupingSize: 4
     spawnCoordinates:
       x:
         anchor: 2
@@ -38,18 +38,40 @@ MonoBehaviour:
   - spawnInfo:
       objectToSpawn: 0
       direction: 0
-      groupingSize: 3
+      groupingSize: 4
+    spawnCoordinates:
+      x:
+        anchor: 2
+        offset: 0
+      y:
+        anchor: 1
+        offset: 6
+  - spawnInfo:
+      objectToSpawn: 0
+      direction: 0
+      groupingSize: 4
     spawnCoordinates:
       x:
         anchor: 0
         offset: 0
       y:
         anchor: 1
-        offset: -2
+        offset: 0
   - spawnInfo:
       objectToSpawn: 0
       direction: 0
-      groupingSize: 3
+      groupingSize: 4
+    spawnCoordinates:
+      x:
+        anchor: 0
+        offset: 0
+      y:
+        anchor: 1
+        offset: -4
+  - spawnInfo:
+      objectToSpawn: 0
+      direction: 0
+      groupingSize: 4
     spawnCoordinates:
       x:
         anchor: 2
@@ -68,6 +90,8 @@ MonoBehaviour:
   screenDialogue: {fileID: 0}
   twoPlayerDialogue: {fileID: 0}
   effects: []
+  playerAICommands: {fileID: 0}
+  screenMusicTransition: {fileID: 0}
   enemySpawnInformation:
     _serializedList:
     - Key: 2
@@ -75,8 +99,8 @@ MonoBehaviour:
       - spawnInfo:
           objectToSpawn: 3
           direction: 0
-          groupingSize: 5
+          groupingSize: 3
         otherCoordinate:
           anchor: 1
           offset: 0
-  spawnsLoopAtTick: 12
+  spawnsLoopAtTick: 0

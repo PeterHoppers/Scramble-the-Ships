@@ -100,29 +100,29 @@ MonoBehaviour:
         offset: 2
       y:
         anchor: 0
+        offset: 0
+  - spawnInfo:
+      objectToSpawn: 1
+      direction: 0
+      groupingSize: 1
+    spawnCoordinates:
+      x:
+        anchor: 0
+        offset: 1
+      y:
+        anchor: 0
+        offset: 1
+  - spawnInfo:
+      objectToSpawn: 1
+      direction: 0
+      groupingSize: 1
+    spawnCoordinates:
+      x:
+        anchor: 0
+        offset: 0
+      y:
+        anchor: 0
         offset: 2
-  - spawnInfo:
-      objectToSpawn: 1
-      direction: 0
-      groupingSize: 1
-    spawnCoordinates:
-      x:
-        anchor: 0
-        offset: 1
-      y:
-        anchor: 0
-        offset: 1
-  - spawnInfo:
-      objectToSpawn: 1
-      direction: 0
-      groupingSize: 1
-    spawnCoordinates:
-      x:
-        anchor: 0
-        offset: 0
-      y:
-        anchor: 0
-        offset: 0
   overrideDefaultTransitionGrids: 1
   transitionGrids:
     direction: 0
@@ -178,6 +178,8 @@ MonoBehaviour:
   screenDialogue: {fileID: 11400000, guid: 94c28b2642786434d8d08b404717ef99, type: 2}
   twoPlayerDialogue: {fileID: 0}
   effects: []
+  playerAICommands: {fileID: 0}
+  screenMusicTransition: {fileID: 0}
   enemySpawnInformation:
     _serializedList: []
   spawnsLoopAtTick: 0
