@@ -3224,9 +3224,9 @@ MonoBehaviour:
   m_MoveAction: {fileID: -4234008609291981031, guid: 9ee2e139bcc85ba45a376553e568eb47, type: 3}
   m_SubmitAction: {fileID: 8249021062822888465, guid: 9ee2e139bcc85ba45a376553e568eb47, type: 3}
   m_CancelAction: {fileID: 2834473491647633463, guid: 9ee2e139bcc85ba45a376553e568eb47, type: 3}
-  m_LeftClickAction: {fileID: 5362066832688484278, guid: 9ee2e139bcc85ba45a376553e568eb47, type: 3}
+  m_LeftClickAction: {fileID: 0}
   m_MiddleClickAction: {fileID: 8552989344440004014, guid: 9ee2e139bcc85ba45a376553e568eb47, type: 3}
-  m_RightClickAction: {fileID: 1253204294594403376, guid: 9ee2e139bcc85ba45a376553e568eb47, type: 3}
+  m_RightClickAction: {fileID: 0}
   m_ScrollWheelAction: {fileID: -2082664887129979114, guid: 9ee2e139bcc85ba45a376553e568eb47, type: 3}
   m_TrackedDevicePositionAction: {fileID: -2635429237018129040, guid: 9ee2e139bcc85ba45a376553e568eb47, type: 3}
   m_TrackedDeviceOrientationAction: {fileID: 5079663291732267072, guid: 9ee2e139bcc85ba45a376553e568eb47, type: 3}

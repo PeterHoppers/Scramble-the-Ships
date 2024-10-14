@@ -9,15 +9,30 @@ public class PreviewInputHandler : MonoBehaviour
     InputSystemUIInputModule _inputSystem;
     private void OnEnable()
     {
-        _inputSystem = EventSystem.current.gameObject.GetComponent<InputSystemUIInputModule>();        
-        _inputSystem.leftClick.action.performed += OnOnePlayerButtonPress;
-        _inputSystem.rightClick.action.performed += OnTwoPlayerButtonPress;              
+        _inputSystem = EventSystem.current.gameObject.GetComponent<InputSystemUIInputModule>();
+
+        if (_inputSystem.leftClick != null)
+        {
+            _inputSystem.leftClick.action.performed += OnOnePlayerButtonPress;
+        }
+
+        if (_inputSystem.rightClick != null)
+        {
+            _inputSystem.rightClick.action.performed += OnTwoPlayerButtonPress;
+        }          
     }
 
     private void OnDisable()
     {
-        _inputSystem.leftClick.action.performed -= OnOnePlayerButtonPress;
-        _inputSystem.rightClick.action.performed -= OnTwoPlayerButtonPress;
+        if (_inputSystem.leftClick != null)
+        {
+            _inputSystem.leftClick.action.performed -= OnOnePlayerButtonPress;
+        }
+
+        if (_inputSystem.rightClick != null)
+        {
+            _inputSystem.rightClick.action.performed -= OnTwoPlayerButtonPress;
+        }
     }
 
     private void OnOnePlayerButtonPress(InputAction.CallbackContext context)
