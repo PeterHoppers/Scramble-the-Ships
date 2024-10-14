@@ -508,7 +508,7 @@ public class GameManager : MonoBehaviour
 
         if (!isOnContinue)
         {
-            yield return new WaitForSeconds(_tickDuration * 2);
+            yield return new WaitForSeconds(_tickDuration * 1.5f);
         }
         else
         {
@@ -518,7 +518,8 @@ public class GameManager : MonoBehaviour
         OnScreenResetStart?.Invoke();
         _cutsceneSystem.PerformRewindEffect();
 
-        yield return new WaitForSeconds(_tickDuration);
+        float rewindDuration = 1.25f;
+        yield return new WaitForSeconds(rewindDuration);
         _effectsSystem.PerformEffect(EffectType.DigitalGlitchIntensity, 0);
         _effectsSystem.PerformEffect(EffectType.ScanLineJitter, 0);
         _effectsSystem.PerformEffect(EffectType.HorizontalShake, 0);

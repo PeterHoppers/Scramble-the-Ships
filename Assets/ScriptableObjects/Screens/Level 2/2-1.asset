@@ -26,17 +26,6 @@ MonoBehaviour:
         offset: 0
   - spawnInfo:
       objectToSpawn: 1
-      direction: 1
-      groupingSize: 1
-    spawnCoordinates:
-      x:
-        anchor: 0
-        offset: 3
-      y:
-        anchor: 2
-        offset: 2
-  - spawnInfo:
-      objectToSpawn: 1
       direction: 2
       groupingSize: 1
     spawnCoordinates:
@@ -115,5 +104,14 @@ MonoBehaviour:
   playerAICommands: {fileID: 0}
   screenMusicTransition: {fileID: 0}
   enemySpawnInformation:
-    _serializedList: []
+    _serializedList:
+    - Key: 2
+      Value:
+      - spawnInfo:
+          objectToSpawn: 3
+          direction: 0
+          groupingSize: 1
+        otherCoordinate:
+          anchor: 1
+          offset: -2
   spawnsLoopAtTick: 0

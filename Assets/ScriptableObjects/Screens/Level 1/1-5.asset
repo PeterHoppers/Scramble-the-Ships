@@ -66,15 +66,15 @@ MonoBehaviour:
       - spawnInfo:
           objectToSpawn: 3
           direction: 1
-          groupingSize: 2
+          groupingSize: 1
         otherCoordinate:
           anchor: 1
           offset: -1
       - spawnInfo:
           objectToSpawn: 3
           direction: 1
-          groupingSize: 2
+          groupingSize: 1
         otherCoordinate:
           anchor: 1
-          offset: 2
+          offset: 1
   spawnsLoopAtTick: 0
