@@ -22,18 +22,20 @@ MonoBehaviour:
       Value: 0
     - Key: 8
       Value: 2
-    - Key: 9
-      Value: 0
     - Key: 10
-      Value: 3
+      Value: 0
     - Key: 11
       Value: 2
-    - Key: 12
+    - Key: 13
       Value: 0
     - Key: 14
       Value: 2
-    - Key: 16
+    - Key: 15
       Value: 0
+    - Key: 17
+      Value: 3
     - Key: 18
+      Value: 0
+    - Key: 20
       Value: 2
   commandsLoopAtTick: 0

@@ -23,6 +23,7 @@ MonoBehaviour:
     amount: 100
   - type: 11
     amount: 1
+  levelName: 
   levelSong: {fileID: 0}
   levelBackground: {fileID: 0}
   overrideDefaultTransitionGrids: 0

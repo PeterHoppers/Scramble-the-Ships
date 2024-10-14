@@ -15,9 +15,9 @@ MonoBehaviour:
   dialogueNodes:
   - textSpeaker: 0
     textToDisplay: Whenever you reach the end of a screen, you get some energy back
-      before moving onto the next one screen. When you reach the end of the last
-      screen in a level, you get points depending on how much energy you manage to
-      have left.
+      before moving onto the next screen. When you reach the end of the last screen
+      in a level, you'll also get points depending on how much energy you manage
+      to have left.
   - textSpeaker: 0
     textToDisplay: As you travel across space completing levels, they become increasingly
       more difficult with new surprises around every turn. Can you successfully make
