@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df69872ed23ca47408b79a87ee0fa191, type: 3}
   m_Name: EnemyTurret
   m_EditorClassIdentifier: 
-  fireable: {fileID: 1014171297647524943, guid: d176f98117a525146b6616b1e92f26b2, type: 3}
+  fireable: {fileID: 4358801067479974209, guid: 325e66a33d45622429c2008f98d14266, type: 3}
   baseColor: {r: 0, g: 0, b: 0, a: 0}
   shipSprite: {fileID: 21300000, guid: 9d04da7dc203b364bab535bec3432309, type: 3}
   bulletSprite: {fileID: 21300000, guid: 211bc55e0fa189544b53690a80afdc90, type: 3}

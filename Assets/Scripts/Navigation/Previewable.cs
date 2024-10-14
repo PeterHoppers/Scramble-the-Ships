@@ -19,7 +19,7 @@ public abstract class Previewable : GridObject
 
     public virtual Vector2 GetPreviewScale()
     { 
-        return transform.localScale * .95f; //slightly smaller so that the original completely covers up the preview
+        return transform.localScale * .85f; //slightly smaller so that the original completely covers up the preview
     }
 
     public virtual Color GetPreviewColor()
@@ -29,7 +29,7 @@ public abstract class Previewable : GridObject
 
     public virtual Color GetPreviewOutline()
     {
-        return new Color(1f, 0, 0, .35f);
+        return new Color(3f, 0, 0, .35f);
     }
 
     public virtual void TransitionToTile(Tile tileDestination, float duration)

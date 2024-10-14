@@ -9,6 +9,7 @@ public class ShipInfo : ScriptableObject
     [Header("Related Objects")]
     [SerializeField]
     public Fireable fireable;
+    [ColorUsage(true, true)]
     public Color baseColor;
     [Header("Sprites")]
     public Sprite shipSprite;

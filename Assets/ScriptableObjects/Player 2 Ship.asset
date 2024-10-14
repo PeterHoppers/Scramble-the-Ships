@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Player 2 Ship
   m_EditorClassIdentifier: 
   fireable: {fileID: 1014171297647524943, guid: d176f98117a525146b6616b1e92f26b2, type: 3}
-  baseColor: {r: 0, g: 0, b: 0.627451, a: 0.39215687}
+  baseColor: {r: 0, g: 0.13812077, b: 2.6381066, a: 1}
   shipSprite: {fileID: 21300000, guid: ba981403310806a469301b151e978a3b, type: 3}
   bulletSprite: {fileID: 21300000, guid: 7493e25f93525414699e42496bb47fa7, type: 3}
   deathVFX: {fileID: 8011153890280474160, guid: 2e9a99bb253ca914583823885a70ba57, type: 3}

@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1436052264247922692, guid: 325e66a33d45622429c2008f98d14266, type: 3}
       propertyPath: m_Name
-      value: Base Bullet
+      value: Player Bullet
       objectReference: {fileID: 0}
     - target: {fileID: 3884832493439792901, guid: 325e66a33d45622429c2008f98d14266, type: 3}
       propertyPath: m_PlayOnAwake
@@ -28,6 +28,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 64f577f9d3a5c194990f01397e4d1ca1, type: 3}
+    - target: {fileID: 4070071728427121044, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 4358801067479974209, guid: 325e66a33d45622429c2008f98d14266, type: 3}
       propertyPath: isFriendly
       value: 1

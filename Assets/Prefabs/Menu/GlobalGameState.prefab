@@ -1426,7 +1426,7 @@ MonoBehaviour:
     amountControlsScrambled: 5
     isMultiplayerScrambleSame: 1
     doesScrambleOnNoInput: 0
-    tickDuration: 1.2
+    tickDuration: 1.5
     tickEndDuration: 0.25
     inputMoveStyle: 1
     maxEnergy: 110
@@ -1704,6 +1704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1de6b4c0586d1f4b9f7429d261b4050, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsLoggingInEditor: 0
 --- !u!1001 &120222456969128027
 PrefabInstance:
   m_ObjectHideFlags: 0

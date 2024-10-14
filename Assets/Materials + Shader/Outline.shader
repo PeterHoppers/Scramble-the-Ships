@@ -5,12 +5,12 @@ Shader "Hidden/Outline"
     Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
-		_Color("Tint", Color) = (1,1,1,1)
+		[HDR] _Color("Tint", Color) = (1,1,1,1)
 		[MaterialToggle] PixelSnap("Pixel snap", Float) = 0
 
 		// Add values to determine if outlining is enabled and outline color.
 		_Outline("Outline", Float) = 1
-		[PerRendererData]_OutlineColor("Outline Color", Color) = (1,1,1,1)
+		[PerRendererData] [HDR] _OutlineColor("Outline Color", Color) = (1,1,1,1)
 		_OutlineSize("Outline Size", int) = 1
 	}
 

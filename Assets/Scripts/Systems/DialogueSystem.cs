@@ -12,7 +12,7 @@ public class DialogueSystem : MonoBehaviour
     public float endDelay = .75f;
     [Range(0, .1f)]
     public float dialogueSpeed;
-    [Range(0, 15)]
+    [Range(0, 45)]
     public float autoTextAdvanceInSeconds;
     [Range(0, 15)]
     public float aiAutoTextAdvanceInSeconds;
