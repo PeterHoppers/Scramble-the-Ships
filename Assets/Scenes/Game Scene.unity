@@ -9185,7 +9185,7 @@ MonoBehaviour:
         command: {fileID: 11400000, guid: 93d0d970be511a9488889f44356c6a6a, type: 2}
     - Key: 8
       Value:
-        objectToSpawn: {fileID: 7509605564329555489, guid: 983eabdd08a2dab498343999f499a759, type: 3}
+        objectToSpawn: {fileID: 7509605564329555489, guid: 9dddd969a481f44428d2b5b344f5f017, type: 3}
         command: {fileID: 11400000, guid: f3757e817011a05418d2bf95696faeb6, type: 2}
     - Key: 7
       Value:

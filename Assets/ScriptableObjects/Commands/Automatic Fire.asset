@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2960700f51c1aea428b1a73bd9bb1597, type: 3}
-  m_Name: Delayed Fire
+  m_Name: Automatic Fire
   m_EditorClassIdentifier: 
   commands:
     _serializedList:
-    - Key: 2
+    - Key: 0
       Value: 4
   commandsLoopAtTick: 0
