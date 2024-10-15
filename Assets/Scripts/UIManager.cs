@@ -8,7 +8,6 @@ using UnityEngine.EventSystems;
 public class UIManager : MonoBehaviour, IManager
 {
     public GameObject gameUIHolder;
-    public TickDurationUI tickDurationUI;
     public EnergyUI energyUI;
     public LevelProgressUI levelProgressUI;
     public PlayerStatusUI[] playerStatusUIs;
@@ -21,7 +20,6 @@ public class UIManager : MonoBehaviour, IManager
     public void InitManager(GameManager manager)
     {
         _gameManager = manager;
-        _gameManager.OnTickStart += OnTickStart;
         _gameManager.OnPlayerJoinedGame += OnPlayerJoined;
         _gameManager.OnGameStateChanged += OnGameStateChanged;
         _gameManager.OnScreenChange += OnScreenChange;
@@ -92,12 +90,7 @@ public class UIManager : MonoBehaviour, IManager
         {
             UpdatePlayerStatusVisiblity(true);
         }
-    }
-
-    void OnTickStart(float duration)
-    {
-        tickDurationUI.TickDuration = duration;
-    }
+    }    
 
     void OnGameStateChanged(GameState newState)
     {
@@ -114,16 +107,7 @@ public class UIManager : MonoBehaviour, IManager
     void OnEnergyChange(int currentEnergy, int maxEnergy)
     {
         energyUI.SetEnergy(currentEnergy, maxEnergy);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (_gameManager != null) 
-        { 
-            tickDurationUI.UpdateTickRemaining(_gameManager.GetTimeRemainingInTick());
-        }
-    }
+    }   
 
     void UpdatePlayerStatusVisiblity(bool isVisible)
     {

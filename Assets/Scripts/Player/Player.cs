@@ -32,6 +32,7 @@ public class Player : Previewable
     SpriteRenderer _shipRenderer;
     Collider2D _shipCollider;
     AudioSource _shipAudio;
+    TickDurationUI _tickDurationUI;
 
     public int PlayerId { get; private set; }
     private bool _allowingInput;
@@ -78,6 +79,8 @@ public class Player : Previewable
         _shipRenderer = GetComponentInChildren<SpriteRenderer>();
         _shipRenderer.sprite = _shipSprite;
         _shipAudio = GetComponentInChildren<AudioSource>();
+        _tickDurationUI = GetComponentInChildren<TickDurationUI>();
+        _tickDurationUI.SetupTickListening(manager);
     }
 
     private void OnInputMoveStyleChanged(InputMoveStyle style)
