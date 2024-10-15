@@ -38,7 +38,7 @@ public class EnemyShip : GridMovable
                 {
                     var shootingTile = _manager.GetTileFromInput(this, inputValue);
                     var moveable = _manager.CreateMovableAtTile(bullet, this, shootingTile);
-                    moveable.GetComponent<Bullet>().isFriendly = false;
+                    moveable.GetComponent<Bullet>().owner = this;
                     moveable.GetComponentInChildren<SpriteRenderer>().sprite = shipInfo.bulletSprite;
                     var newPreview = _manager.CreatePreviewOfPreviewableAtTile(moveable, shootingTile);
                     newPreview.creatorOfPreview = this;
@@ -50,7 +50,7 @@ public class EnemyShip : GridMovable
                     {
                         var fireableGO = _spawnSystem.CreateToggableFirable(shipInfo.fireable, this);
                         _currentFirable = fireableGO.GetComponent<Fireable>();
-                        _currentFirable.isFriendly = false;
+                        _currentFirable.owner = this;
                     }
                 }
 

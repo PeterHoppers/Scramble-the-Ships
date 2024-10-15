@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Fireable : GridMovable
 {
-    public bool isFriendly = true;
+    [HideInInspector]
+    public GridObject owner;
     public ParticleSystem bulletExplosion;
 
     public virtual void OnOwnerInputChange(GridMovable owner, GameManager gameManager, InputValue previewInput)
@@ -19,16 +20,9 @@ public class Fireable : GridMovable
             return;
         }
 
-        if (collidedPreviewable.CompareTag("Player"))
+        if (collidedPreviewable.CompareTag("Player") || collidedPreviewable.CompareTag("Enemy"))
         {
-            if (!isFriendly)
-            {
-                _manager.HandleGridObjectCollision(this, collidedPreviewable);
-            }
-        }
-        else if (collidedPreviewable.CompareTag("Enemy")) //right now, these are the same, but unsure if that'll be true in the future
-        {
-            if (isFriendly)
+            if (collidedPreviewable != owner)
             {
                 _manager.HandleGridObjectCollision(this, collidedPreviewable);
             }

@@ -334,6 +334,7 @@ public class Player : Previewable
         var bullet = bulletGridMoveable.GetComponent<Bullet>();
         bullet.spawnSound = fireSFX;
         bullet.PreviewColor = _shipInfo.baseColor;
+        bullet.owner = this;
         bulletGridMoveable.GetComponentInChildren<SpriteRenderer>().sprite = _shipInfo.bulletSprite;
 
         return bulletGridMoveable;
