@@ -182,7 +182,7 @@ public class Player : Previewable
 
         if (!_allowingInput)
         {
-            if (_betweenTicks)
+            if (_betweenTicks && context.performed)
             {
                 PlayShipSFX(unableToMoveSFX);
             }
@@ -246,7 +246,7 @@ public class Player : Previewable
 
         if (!_allowingInput)
         {
-            if (_betweenTicks)
+            if (_betweenTicks && context.performed)
             {
                 PlayShipSFX(unableToMoveSFX);
             }

@@ -16,29 +16,7 @@ MonoBehaviour:
   - spawnInfo:
       objectToSpawn: 0
       direction: 0
-      groupingSize: 1
-    spawnCoordinates:
-      x:
-        anchor: 2
-        offset: 0
-      y:
-        anchor: 1
-        offset: 0
-  - spawnInfo:
-      objectToSpawn: 0
-      direction: 0
-      groupingSize: 1
-    spawnCoordinates:
-      x:
-        anchor: 0
-        offset: 0
-      y:
-        anchor: 1
-        offset: 0
-  - spawnInfo:
-      objectToSpawn: 0
-      direction: 0
-      groupingSize: 3
+      groupingSize: 20
     spawnCoordinates:
       x:
         anchor: 1
