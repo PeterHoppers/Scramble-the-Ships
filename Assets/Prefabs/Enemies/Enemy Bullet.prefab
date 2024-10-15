@@ -358,7 +358,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0a41f45696fdb9544b338c5dc86e8347, type: 2}
+  - {fileID: 2100000, guid: 43419e78c430ec949a9acd3138e59a29, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -379,7 +379,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 211bc55e0fa189544b53690a80afdc90, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ccb8fb0aa48cf4e468ee191cf942d0ff, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
