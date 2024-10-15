@@ -6,33 +6,27 @@ using UnityEngine.InputSystem;
 
 public class PreviewInputHandler : MonoBehaviour
 {
-    InputSystemUIInputModule _inputSystem;
+    [SerializeField]
+    private InputActionAsset _actions;
+
+    private InputActionMap _uiActionMap;
+    private InputAction _onePlayerAction;
+    private InputAction _twoPlayerAction;
+
     private void OnEnable()
     {
-        _inputSystem = EventSystem.current.gameObject.GetComponent<InputSystemUIInputModule>();
-
-        if (_inputSystem.leftClick != null)
-        {
-            _inputSystem.leftClick.action.performed += OnOnePlayerButtonPress;
-        }
-
-        if (_inputSystem.rightClick != null)
-        {
-            _inputSystem.rightClick.action.performed += OnTwoPlayerButtonPress;
-        }          
+        _uiActionMap = _actions.FindActionMap("ui");
+        _onePlayerAction = _uiActionMap.FindAction("OnePlayerSelection");
+        _twoPlayerAction = _uiActionMap.FindAction("TwoPlayerSelection");
+        
+        _onePlayerAction.performed += OnOnePlayerButtonPress;
+        _twoPlayerAction.performed += OnTwoPlayerButtonPress;
     }
 
     private void OnDisable()
     {
-        if (_inputSystem.leftClick != null)
-        {
-            _inputSystem.leftClick.action.performed -= OnOnePlayerButtonPress;
-        }
-
-        if (_inputSystem.rightClick != null)
-        {
-            _inputSystem.rightClick.action.performed -= OnTwoPlayerButtonPress;
-        }
+        _onePlayerAction.performed -= OnOnePlayerButtonPress;
+        _twoPlayerAction.performed -= OnTwoPlayerButtonPress;
     }
 
     private void OnOnePlayerButtonPress(InputAction.CallbackContext context)

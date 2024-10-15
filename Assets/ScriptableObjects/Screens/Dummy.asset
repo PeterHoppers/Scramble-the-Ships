@@ -20,7 +20,7 @@ MonoBehaviour:
   startingEffects:
   - type: 11
     amount: 3
-  levelName: 
+  levelName: Dummy Land
   levelSong: {fileID: 8300000, guid: cf50a51bcdcd14c42954aef9efe5e342, type: 3}
   levelBackground: {fileID: 0}
   overrideDefaultTransitionGrids: 0
