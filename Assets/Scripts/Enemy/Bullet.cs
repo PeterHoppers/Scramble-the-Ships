@@ -27,4 +27,9 @@ public class Bullet : Fireable
 
         return base.GetPreviewOutline();
     }
+
+    public override Vector2 GetPreviewScale()
+    {
+        return transform.localScale * 1.15f; //slightly larger so that the it can be easily seen
+    }
 }

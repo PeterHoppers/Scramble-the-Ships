@@ -40,6 +40,14 @@ PrefabInstance:
       propertyPath: spawnSound
       value: 
       objectReference: {fileID: 8300000, guid: f8c4a365aa50b3549950e23165daa844, type: 3}
+    - target: {fileID: 4585690953295777244, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4585690953295777244, guid: 325e66a33d45622429c2008f98d14266, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7910747077131624722, guid: 325e66a33d45622429c2008f98d14266, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

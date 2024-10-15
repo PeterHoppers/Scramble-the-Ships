@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Sprites-GrayScale
+  m_Name: Sprites-GrayScale_Half 1
   m_Shader: {fileID: 4800000, guid: 0bf12de13660c2744baed6918d56f07c, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -30,7 +30,7 @@ Material:
     m_Ints: []
     m_Floats:
     - PixelSnap: 0
-    - _GrayscaleAmount: 0.566
+    - _GrayscaleAmount: 0.5
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

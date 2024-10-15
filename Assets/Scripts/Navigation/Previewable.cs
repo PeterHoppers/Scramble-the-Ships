@@ -29,7 +29,7 @@ public abstract class Previewable : GridObject
 
     public virtual Color GetPreviewOutline()
     {
-        return new Color(3f, 0, 0, .35f);
+        return new Color(4f, 0, 0, .35f);
     }
 
     public virtual void TransitionToTile(Tile tileDestination, float duration)

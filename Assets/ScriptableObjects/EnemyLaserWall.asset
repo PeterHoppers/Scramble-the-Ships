@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireable: {fileID: -9168727962612195409, guid: 8ce4b21b8477f3d44bac6782cea6ce44, type: 3}
   baseColor: {r: 0, g: 0, b: 0, a: 0}
-  shipSprite: {fileID: 21300000, guid: 60b48e4d319df064182f2dcca387579e, type: 3}
+  shipSprite: {fileID: 21300000, guid: 67cea083c8605604db98f6c4854af9f3, type: 3}
   bulletSprite: {fileID: 21300000, guid: 211bc55e0fa189544b53690a80afdc90, type: 3}
   deathVFX: {fileID: 725748389856807712, guid: e95db50273d4e5746b02ba9b960f0afd, type: 3}
