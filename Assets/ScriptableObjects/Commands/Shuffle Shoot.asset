@@ -51,7 +51,15 @@ MonoBehaviour:
     - Key: 19
       Value: 4
     - Key: 20
-      Value: 5
+      Value: 2
+    - Key: 21
+      Value: 4
     - Key: 22
+      Value: 3
+    - Key: 23
+      Value: 4
+    - Key: 24
+      Value: 5
+    - Key: 26
       Value: 1
   commandsLoopAtTick: 0
