@@ -12,6 +12,13 @@ public class Player : Previewable
     [SerializedDictionary]
     public SerializedDictionary<ButtonValue, InputRenderer> buttonValueDisplays;
 
+    [Header("SFX")]
+    public AudioClip moveSFX;
+    public AudioClip unableToMoveSFX;
+    public AudioClip fireSFX;
+    public AudioClip scrambleSFX;
+    public AudioClip exitSFX;
+
     public delegate void PossibleInputs(List<PlayerAction> possibleActions);
     public PossibleInputs OnPossibleInputs;
 
@@ -29,6 +36,7 @@ public class Player : Previewable
     public int PlayerId { get; private set; }
     private bool _allowingInput;
     private bool _isInactive = false;
+    private bool _betweenTicks = false;
 
     ButtonValue? _lastInput;
     GameInputProgression? _lastGameProgression;
@@ -121,6 +129,7 @@ public class Player : Previewable
 
         _allowingInput = true;
         _lastInput = null;
+        _betweenTicks = false;
 
         foreach (var inputValue in buttonValueDisplays)
         {
@@ -136,6 +145,8 @@ public class Player : Previewable
         }
 
         _allowingInput = false;
+        _betweenTicks = true;
+
         var hasActiveInput = HasActiveInput();
         foreach (var inputValue in buttonValueDisplays)
         {
@@ -161,8 +172,17 @@ public class Player : Previewable
     }
     public void OnPlayerMove(InputAction.CallbackContext context)
     {
-        if (!_allowingInput || _isInactive)
+        if (_isInactive)
         {
+            return;
+        }
+
+        if (!_allowingInput)
+        {
+            if (_betweenTicks)
+            {
+                PlayShipSFX(unableToMoveSFX);
+            }
             return;
         }
 
@@ -216,8 +236,17 @@ public class Player : Previewable
 
     public void OnPlayerFire(InputAction.CallbackContext context)
     {
-        if (!_allowingInput || _isInactive)
+        if (_isInactive)
         {
+            return;
+        }
+
+        if (!_allowingInput)
+        {
+            if (_betweenTicks)
+            {
+                PlayShipSFX(unableToMoveSFX);
+            }
             return;
         }
 
@@ -300,7 +329,7 @@ public class Player : Previewable
         var bulletGridMoveable = _manager.CreateMovableAtTile(firingPlayer._shipInfo.fireable, firingPlayer, spawnTile);
         bulletGridMoveable.gameObject.transform.localRotation = GetTransfromAsReference().localRotation;
         var bullet = bulletGridMoveable.GetComponent<Bullet>();
-        bullet.spawnSound = _shipInfo.fireSFX;
+        bullet.spawnSound = fireSFX;
         bullet.PreviewColor = _shipInfo.baseColor;
         bulletGridMoveable.GetComponentInChildren<SpriteRenderer>().sprite = _shipInfo.bulletSprite;
 
@@ -412,7 +441,7 @@ public class Player : Previewable
 
         if (hasAnyRenderersChanged)
         {
-            PlayShipSFX(_shipInfo.scrambleSFX);
+            PlayShipSFX(scrambleSFX);
         }
     }
 
@@ -445,13 +474,14 @@ public class Player : Previewable
     }
 
     public void OnMoveOnScreen()
-    { 
-        
+    {
+        _betweenTicks = false;
     }
 
     public void OnMoveOffScreen()
     {
-        PlayShipSFX(_shipInfo.exitSFX);
+        PlayShipSFX(exitSFX);
+        _betweenTicks = false;
     }
 
     void SetShipVisiblity(bool isVisible)
@@ -576,7 +606,7 @@ public class Player : Previewable
 
     public override void ResolvePreviewable()
     {
-        PlayShipSFX(_shipInfo.moveSFX);
+        PlayShipSFX(moveSFX);
     }
 
     private void PlayShipSFX(AudioClip clipToPlay)

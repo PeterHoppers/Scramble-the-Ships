@@ -327,6 +327,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 45919d41-eb65-4e81-830d-d3a8537b173f
     m_ActionName: UI/TwoPlayerSelection[/Keyboard/2,/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9a6ced45-8061-4b75-96a6-3294b3ff07eb
+    m_ActionName: UI/DebuggingAction
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Joystick
   m_DefaultActionMap: Player
@@ -355,6 +359,11 @@ MonoBehaviour:
       Value: {fileID: 805343917840480206}
     - Key: 3
       Value: {fileID: 1247267858957673250}
+  moveSFX: {fileID: 8300000, guid: 743179a7df6ce904eae7a5ad0cbd65f9, type: 3}
+  unableToMoveSFX: {fileID: 8300000, guid: b069c0022b0a0154cb296e547310adc9, type: 3}
+  fireSFX: {fileID: 8300000, guid: 5c5f6158eba2d2e4e9b1e79e2b9b9d05, type: 3}
+  scrambleSFX: {fileID: 8300000, guid: 67f81f0bf45340e4a91fc20ad4a82965, type: 3}
+  exitSFX: {fileID: 8300000, guid: cfc824ab208433e448ed6d33b59b7d9d, type: 3}
 --- !u!114 &6090239053312004524
 MonoBehaviour:
   m_ObjectHideFlags: 0

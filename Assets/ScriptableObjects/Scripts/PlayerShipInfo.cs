@@ -5,12 +5,8 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Player Info", menuName = "Player Info")]
 public class PlayerShipInfo : ShipInfo
-{
-    public AudioClip moveSFX;
-    public AudioClip fireSFX;
-    public AudioClip scrambleSFX;
-    public AudioClip exitSFX;
-
+{   
+    //only items that should be constimized by a per player basis should exist in here
     [Header("Additional Sprites")]
     public Sprite cutsceneSprite;
     public Sprite actionButtonSprite;
