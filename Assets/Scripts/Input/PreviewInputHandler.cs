@@ -16,9 +16,10 @@ public class PreviewInputHandler : MonoBehaviour
     private void OnEnable()
     {
         _uiActionMap = _actions.FindActionMap("ui");
+        _uiActionMap.Enable();
         _onePlayerAction = _uiActionMap.FindAction("OnePlayerSelection");
         _twoPlayerAction = _uiActionMap.FindAction("TwoPlayerSelection");
-        
+
         _onePlayerAction.performed += OnOnePlayerButtonPress;
         _twoPlayerAction.performed += OnTwoPlayerButtonPress;
     }
@@ -27,6 +28,8 @@ public class PreviewInputHandler : MonoBehaviour
     {
         _onePlayerAction.performed -= OnOnePlayerButtonPress;
         _twoPlayerAction.performed -= OnTwoPlayerButtonPress;
+
+        _uiActionMap.Disable();
     }
 
     private void OnOnePlayerButtonPress(InputAction.CallbackContext context)
