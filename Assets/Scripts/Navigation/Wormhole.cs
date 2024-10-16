@@ -49,6 +49,16 @@ public class Wormhole : GridMovable
             return;
         }
 
+        if (objectEntering.TryGetComponent<Fireable>(out var firable))
+        {
+            //if there's something in the wormhole, either let it collide with whatever is inside of it or let it leave as something inside of it is firing
+            if (_objectsInWormhole.Count > 0)
+            {
+                firable.CollideWith(_objectsInWormhole[0]);
+                return;
+            }
+        }
+
         _objectsInWormhole.Add(objectEntering);
         if (collidedGridObject.TryGetComponent<Player>(out var player))
         {

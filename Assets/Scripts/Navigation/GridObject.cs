@@ -63,6 +63,7 @@ public abstract class GridObject : MonoBehaviour, ILaserEntered
             }
         }
 
+        StopAllCoroutines();
         _spawnSystem.DespawnObject(this);
     }
 

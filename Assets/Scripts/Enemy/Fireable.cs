@@ -45,4 +45,9 @@ public class Fireable : GridMovable
             _manager.HandleGridObjectCollision(this, collidedPreviewable);
         }
     }
+
+    public void CollideWith(GridObject collidedPreviewable)
+    {
+        PerformInteraction(collidedPreviewable); //used by the wormhole to handle weird edgecases
+    }
 }
