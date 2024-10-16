@@ -389,6 +389,11 @@ public class Player : Previewable
         }
     }
 
+    public void OnGameOver()
+    {
+        _isInactive = true;
+    }
+
     public List<PlayerAction> GetPossibleActions()
     {
         return _possibleActions;

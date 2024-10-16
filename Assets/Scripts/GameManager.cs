@@ -495,10 +495,15 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        ToggleIsPlaying(false, GameState.GameOver);
         ClearAllPreviews();
-        _energySystem.CurrentEnergy = 0;
-        UpdateGameState(GameState.GameOver);
+        _energySystem.CurrentEnergy = 0; 
         GlobalGameStateManager.Instance.GlobalGameStateStatus = GlobalGameStateStatus.GameOver;
+
+        foreach (Player player in _players)
+        {
+            player.OnGameOver();
+        }
     }
 
     IEnumerator ResetScreen(bool isOnContinue)
