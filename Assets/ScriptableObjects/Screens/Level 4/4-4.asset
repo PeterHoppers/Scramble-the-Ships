@@ -123,6 +123,28 @@ MonoBehaviour:
       y:
         anchor: 2
         offset: 1
+  - spawnInfo:
+      objectToSpawn: 0
+      direction: 1
+      groupingSize: 1
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: 2
+      y:
+        anchor: 2
+        offset: 0
+  - spawnInfo:
+      objectToSpawn: 0
+      direction: 1
+      groupingSize: 1
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: -2
+      y:
+        anchor: 2
+        offset: 0
   overrideDefaultTransitionGrids: 1
   transitionGrids:
     direction: 0
