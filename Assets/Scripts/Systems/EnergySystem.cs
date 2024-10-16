@@ -24,6 +24,7 @@ public class EnergySystem : MonoBehaviour
     int _energyAtScreenStart;
 
     GameManager _gameManager;
+    bool _hasCollectedEnergyPickupForThisScreen = false; //todo: if we ever make a screen with multiple energy pick-ups, we'll need to change this
 
     public int CurrentEnergy
     { 
@@ -130,6 +131,7 @@ public class EnergySystem : MonoBehaviour
 
         CurrentEnergy = energyToHave;
         _energyAtScreenStart = CurrentEnergy;
+        _hasCollectedEnergyPickupForThisScreen = false;
     }
 
     void OnScreenResetStart()
@@ -144,6 +146,21 @@ public class EnergySystem : MonoBehaviour
     {
         CurrentEnergy -= GetEnergyLossWhenDied();
         _energyAtScreenStart = CurrentEnergy;
+
+        if (_hasCollectedEnergyPickupForThisScreen)
+        {
+            var energyPickup = GameObject.FindGameObjectsWithTag("Pickup");
+            foreach(var pickupGO in energyPickup) 
+            {
+                if (pickupGO.TryGetComponent<GridPickup>(out var gridPickup))
+                {
+                    if (gridPickup.pickupType == PickupType.Energy)
+                    {
+                        gridPickup.RemovePickup();
+                    }
+                }
+            }
+        }
     }
 
     private void OnPlayerPickup(Player _, PickupType pickupType)
@@ -151,6 +168,7 @@ public class EnergySystem : MonoBehaviour
         if (pickupType == PickupType.Energy)
         {
             CurrentEnergy += energyRegainedOnPickup * _playerCount;
+            _hasCollectedEnergyPickupForThisScreen = true;
         }
     }
 

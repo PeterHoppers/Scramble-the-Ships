@@ -18,6 +18,11 @@ public class GridPickup : GridObject
 
         GlobalAudioManager.Instance.PlayAudioSFX(aquiredSFX);
         _manager.OnPlayerPickup(playerCollided, pickupType);
+        RemovePickup();
+    }
+
+    public void RemovePickup()
+    {
         DestroyObject();
     }
 }
