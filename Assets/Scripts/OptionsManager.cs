@@ -53,6 +53,9 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
     public ParametersChanged OnParametersChanged;
 
     GameManager _gameManager;
+    GameSettingParameters _defaultGameSettings;
+    SystemSettingParameters _defaultSystemSettings;
+    bool _hasBeenLoaded;
 
     public void InitManager(GameManager manager)
     {
@@ -73,10 +76,24 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        
+        if (!_hasBeenLoaded)
+        {
+            _defaultGameSettings = gameSettingParameters;
+            _defaultSystemSettings = systemSettingParameters;
+        }
     }
 
     void Start()
     {
+        SetupSettings();
+        transform.GetChild(0).gameObject.SetActive(false);
+    }
+
+    public void ResetSettings()
+    {
+        gameSettingParameters = _defaultGameSettings;
+        systemSettingParameters = _defaultSystemSettings;
         SetupSettings();
     }
 
@@ -180,8 +197,6 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
         {
             systemSettingParameters.sfxVolume = baseValue;
         };
-
-        transform.GetChild(0).gameObject.SetActive(false);
     }
 
     bool DropdownToBool(TMP_Dropdown dropdown)
@@ -229,6 +244,9 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
 
     public void LoadData(SaveData data)
     {
+        _defaultGameSettings = gameSettingParameters;
+        _defaultSystemSettings = systemSettingParameters;
+
         if (data == null)
         {
             return;
@@ -242,6 +260,8 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
 
         gameSettingParameters = data.gameSettingParameters;
         systemSettingParameters = data.systemSettingParameters;
+
+        _hasBeenLoaded = true;
     }
 
     public void SaveData(SaveData data)
