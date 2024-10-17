@@ -14,6 +14,7 @@ public class ScreenSystem : MonoBehaviour
     Screen _currentScreen;
     List<ScreenChangeTrigger> _currentScreenTransitions;
     int _playerAmount = 0;
+    AudioClip _currentLevelSong;
     public int ScreenAmount { get; private set; }
     public int ScreensLoaded { get; private set; }
 
@@ -28,6 +29,7 @@ public class ScreenSystem : MonoBehaviour
         _playerAmount = playerAmount;
         _levelScreens = level.GetLevelScreens(playerAmount);
         ScreenAmount = _levelScreens.Length;
+        _currentLevelSong = _level.levelSong;
         PlayLevelSong();
         UpdateLevelBackground();
     }
@@ -62,12 +64,12 @@ public class ScreenSystem : MonoBehaviour
 
     public void PlayLevelSong()
     {
-        if (_level == null)
+        if (_currentLevelSong == null)
         {
             return;
         }
 
-        GlobalAudioManager.Instance.TransitionSongs(_level.levelSong);
+        GlobalAudioManager.Instance.TransitionSongs(_currentLevelSong);
     }
 
     public void TriggerStartingEffects(EffectsSystem effectsSystem)
@@ -101,7 +103,12 @@ public class ScreenSystem : MonoBehaviour
     {
         _currentScreen = _levelScreens[ScreensLoaded];
         spawnSystem.LoopTick = _currentScreen.spawnsLoopAtTick;
-        GlobalAudioManager.Instance.TransitionSongs(_currentScreen.screenMusicTransition);
+
+        if (_currentScreen.screenMusicTransition != null)
+        {
+            _currentLevelSong = _currentScreen.screenMusicTransition;
+            GlobalAudioManager.Instance.TransitionSongs(_currentLevelSong);
+        }
 
         ConfigureCurrentScreen(spawnSystem, gridSystem, effectsSystem);
 
