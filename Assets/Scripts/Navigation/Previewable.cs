@@ -53,6 +53,10 @@ public abstract class Previewable : GridObject
 
         _transitioner.MoveTo(destination, duration);
         CurrentTile = tileDestination;
+        if (_previewObject != null)
+        { 
+            _previewObject.FadeOut(duration);
+        }
     }
 
     public IEnumerator WarpToTile(Tile tileDestination, float duration)
