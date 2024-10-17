@@ -97,6 +97,11 @@ public class ScoreManager : MonoBehaviour, IManager
             pointsThroughMovement += (_playerMaxSpacesAway[p] - currentMinSpacesAway) * _pointsPerTileMoved;
         });
 
+        if (pointsThroughMovement < 0)
+        {
+            pointsThroughMovement = 0;
+        }
+
         CurrentScore = pointsThroughMovement + _scoreAtScreenStart;
     }
 
