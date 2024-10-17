@@ -13,7 +13,7 @@ public struct ScoreInfo
 
 public class ScoreSystem
 {
-    public List<ScoreInfo> GenerateDefaultScores(int numberOfScores = 10, int maxNumberOfPlayers = 2, int minScore = 350, int maxScore = 3500)
+    public List<ScoreInfo> GenerateDefaultScores(int numberOfScores = 10, int maxNumberOfPlayers = 2, int minScore = 1000, int maxScore = 10000)
     { 
         var defaultScores = new List<ScoreInfo>();
         for (int scoresIndex = 0; scoresIndex < numberOfScores; scoresIndex++) 

@@ -87,7 +87,7 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
     void Start()
     {
         SetupSettings();
-        transform.GetChild(0).gameObject.SetActive(false);
+        SetOptionsCanvasVisibilty(false);
     }
 
     public void ResetSettings()
@@ -217,9 +217,14 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
     public void ToggleOptions()
     {
         var toggledActiveState = !optionsCanvas.activeSelf;
-        optionsCanvas.SetActive(toggledActiveState);
+        SetOptionsCanvasVisibilty(toggledActiveState);        
+    }
 
-        if (toggledActiveState)
+    public void SetOptionsCanvasVisibilty(bool isVisible)
+    {
+        optionsCanvas.SetActive(isVisible);
+
+        if (isVisible)
         {
             Time.timeScale = 0;
         }

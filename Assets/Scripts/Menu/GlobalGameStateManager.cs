@@ -251,12 +251,14 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
     public void ClearCredits()
     {
         _creditsSystem.ClearCoins();
+        OptionsManager.Instance.SetOptionsCanvasVisibilty(false);
     }
 
     public void ClearScores()
     { 
         _scoreInfos = new ScoreSystem().GenerateDefaultScores();
         _levelSceneSystem.ReloadCurrentScene();
+        OptionsManager.Instance.SetOptionsCanvasVisibilty(false);
     }
 
     public void LoadData(SaveData data)

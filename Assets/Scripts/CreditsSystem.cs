@@ -40,6 +40,8 @@ public class CreditsSystem : MonoBehaviour
         {
             OnCoinsChange?.Invoke(0, int.MaxValue);
         }
+
+        UpdateCoinAmount(_coinsInserted);
     }
 
     private void UpdateCreditsBasedOnState(GlobalGameStateStatus newState)
