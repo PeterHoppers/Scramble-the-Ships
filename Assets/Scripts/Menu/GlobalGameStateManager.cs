@@ -289,6 +289,8 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
             playerCount = PlayerCount,
             displayName = name
         });
+
+        DataPersistenceManager.Instance.SaveGame();
     }
 
     private bool HasHighScore(int score)

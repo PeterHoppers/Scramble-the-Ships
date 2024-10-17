@@ -227,6 +227,7 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
         {
             Time.timeScale = 1;
             OnParametersChanged?.Invoke(gameSettingParameters, systemSettingParameters);
+            DataPersistenceManager.Instance.SaveGame();
         }
     }
 
