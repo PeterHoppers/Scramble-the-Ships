@@ -20,17 +20,14 @@ public class LevelProgressUI : MonoBehaviour
     }
 
     private int _maxScreens;
-
+    [SerializeField]
+    private float _levelProgressDuration;
     [SerializeField]
     private GameObject _screenHolder;
     [SerializeField]
-    private Image _screenImage;
-    [SerializeField]
-    private Color _unvisitedColor;
-    [SerializeField]
-    private Color _visitedColor;
+    private LevelProgressNode _levelProgressNode;
 
-    private List<Image> _screenImages = new List<Image>();
+    private List<LevelProgressNode> _progressNodes = new List<LevelProgressNode>();
 
     private void Awake()
     {
@@ -49,25 +46,25 @@ public class LevelProgressUI : MonoBehaviour
 
         for (int index  = 0; index < _maxScreens; index++) 
         {
-            GameObject screenImageGameObject = Instantiate(_screenImage.gameObject, _screenHolder.transform);
-            _screenImages.Add(screenImageGameObject.GetComponent<Image>());
+            GameObject screenImageGameObject = Instantiate(_levelProgressNode.gameObject, _screenHolder.transform);
+            _progressNodes.Add(screenImageGameObject.GetComponent<LevelProgressNode>());
         }
     }
 
     void SetColorOfScreenImages(int screenCount)
     {
         int screenIndex = screenCount - 1; //1th to 0th
-        for (int index = 0; index < _screenImages.Count; index++) 
+        for (int index = 0; index < _progressNodes.Count; index++) 
         { 
-            var targetImage = _screenImages[index];
+            var targetNode = _progressNodes[index];
 
             if (index <= screenIndex)
             {
-                targetImage.color = _visitedColor;
+                targetNode.ActivateNode(_levelProgressDuration);
             }
             else
             {
-                targetImage.color = _unvisitedColor;
+                targetNode.DeactivateNode();
             }
         }
     }

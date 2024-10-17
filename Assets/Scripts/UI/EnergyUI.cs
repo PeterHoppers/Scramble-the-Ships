@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(RendererTransition))]
 public class EnergyUI : MonoBehaviour
 {
     [Header("UI Elements")]
@@ -13,9 +14,7 @@ public class EnergyUI : MonoBehaviour
 
     [Header("Animation Settings")]
     [SerializeField]
-    private AnimationCurve _fillCurve;
-    [SerializeField]
-    private float fillDuration;
+    private float _energyChangeDuration;
     [SerializeField]
     [Range(0, 1)]
     private float lowPercentage;
@@ -34,6 +33,7 @@ public class EnergyUI : MonoBehaviour
     private Color _defaultColor;
     private bool _isLowEnergy = false;
     private FlashingUI _flashingUI;
+    private RendererTransition _rendererTransition;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +41,7 @@ public class EnergyUI : MonoBehaviour
         _energyFrontBar.fillAmount = 1f;
         _defaultColor = _energyFrontBar.color;
         _flashingUI = _energyFrontBar.GetComponent<FlashingUI>();
+        _rendererTransition = GetComponent<RendererTransition>();
         _energyBackBar.fillAmount = 1f;
     }
 
@@ -76,40 +77,13 @@ public class EnergyUI : MonoBehaviour
         {
             _energyFrontBar.fillAmount = currentPercentageRemaining;
             _energyBackBar.color = (_isLowEnergy) ? lossLowEnergyColor : lossEnergyColor;
-            StopAllCoroutines();
-            StartCoroutine(AnimateFill(_energyBackBar, backFill, currentPercentageRemaining, fillDuration));
+            _rendererTransition.AnimateFill(_energyBackBar, backFill, currentPercentageRemaining, _energyChangeDuration);
         }
         else
         {
             _energyBackBar.color = gainEnergyColor;
             _energyBackBar.fillAmount = currentPercentageRemaining;
-            StopAllCoroutines();
-            StartCoroutine(AnimateFill(_energyFrontBar, frontFill, currentPercentageRemaining, fillDuration));
+            _rendererTransition.AnimateFill(_energyFrontBar, frontFill, currentPercentageRemaining, _energyChangeDuration);
         }        
-    }
-
-    IEnumerator AnimateFill(Image imageFilling, float startingValue, float endingValue, float duration)
-    {
-        float fillProgress = 0f;
-        while (fillProgress <= duration)
-        {
-            fillProgress += Time.deltaTime;
-            float curvePercent = GetCurvePercent(fillProgress, duration, _fillCurve);
-
-            imageFilling.fillAmount = Mathf.LerpUnclamped(startingValue, endingValue, curvePercent);
-
-            yield return null;
-        }
-    }
-
-    float GetCurvePercent(float journey, float duration, AnimationCurve curve)
-    {
-        float percent = Mathf.Clamp01(journey / duration);
-        return curve.Evaluate(percent);
-    }
-
-    private void OnDisable()
-    {
-        StopAllCoroutines();
     }
 }

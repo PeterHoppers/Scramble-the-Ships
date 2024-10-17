@@ -913,6 +913,7 @@ GameObject:
   m_Component:
   - component: {fileID: 137461682}
   - component: {fileID: 137461683}
+  - component: {fileID: 137461684}
   m_Layer: 5
   m_Name: Energy Display
   m_TagString: Untagged
@@ -955,6 +956,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _energyFrontBar: {fileID: 185841718}
   _energyBackBar: {fileID: 344305478}
+  _energyChangeDuration: 0.5
+  lowPercentage: 0.33
+  lossEnergyColor: {r: 0.003921569, g: 0.22352941, b: 0.24705882, a: 1}
+  gainEnergyColor: {r: 0.509434, g: 0.509434, b: 0.509434, a: 1}
+  lowEnergyColor: {r: 1, g: 0, b: 0, a: 1}
+  lossLowEnergyColor: {r: 0.2830189, g: 0.012014948, b: 0.012014948, a: 1}
+--- !u!114 &137461684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 137461681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea88af216cf6b5d488e3efc5f8182cc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _fillCurve:
     serializedVersion: 2
     m_Curve:
@@ -979,12 +998,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  fillDuration: 0.5
-  lowPercentage: 0.33
-  lossEnergyColor: {r: 0.003921569, g: 0.22352941, b: 0.24705882, a: 1}
-  gainEnergyColor: {r: 0.509434, g: 0.509434, b: 0.509434, a: 1}
-  lowEnergyColor: {r: 1, g: 0, b: 0, a: 1}
-  lossLowEnergyColor: {r: 0.2830189, g: 0.012014948, b: 0.012014948, a: 1}
 --- !u!1 &176471726
 GameObject:
   m_ObjectHideFlags: 0
@@ -2076,10 +2089,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8c880e2e49f2474d80375c052580bcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _levelProgressDuration: 2
   _screenHolder: {fileID: 315266166}
-  _screenImage: {fileID: 5449108139024045421, guid: 6de8c45348b862a4594875d003ca562d, type: 3}
-  _unvisitedColor: {r: 0.2924528, g: 0.2924528, b: 0.2924528, a: 0.078431375}
-  _visitedColor: {r: 0.5411765, g: 0.5411765, b: 0.5411765, a: 1}
+  _levelProgressNode: {fileID: 3298863627469782578, guid: 6de8c45348b862a4594875d003ca562d, type: 3}
 --- !u!1 &416403386
 GameObject:
   m_ObjectHideFlags: 0
@@ -4554,7 +4566,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.078431375}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.05882353}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

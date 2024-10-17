@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TransformTransition : MonoBehaviour
+public class TransformTransition : Transitioner
 {
     public AnimationCurve positionCurve;
     public AnimationCurve rotationCurve;
@@ -88,11 +88,5 @@ public class TransformTransition : MonoBehaviour
 
             yield return null;
         }
-    }
-
-    float GetCurvePercent(float journey, float duration, AnimationCurve curve)
-    {
-        float percent = Mathf.Clamp01(journey / duration);
-        return curve.Evaluate(percent);
-    }
+    }    
 }
