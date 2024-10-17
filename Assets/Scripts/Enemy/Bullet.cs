@@ -9,6 +9,8 @@ public class Bullet : Fireable
 
     public Color PreviewColor { private get; set; }
 
+    private const int BULLET_PREVIEW_ORDER = 20;
+
     public override void OnPreviewableCreation()
     {
         base.OnPreviewableCreation();
@@ -31,5 +33,13 @@ public class Bullet : Fireable
     public override Vector2 GetPreviewScale()
     {
         return transform.localScale * 1.15f; //slightly larger so that the it can be easily seen
+    }
+
+    public override void SetPreviewObject(PreviewableBase newPreviewable)
+    {
+        base.SetPreviewObject(newPreviewable);
+
+        var renderer = newPreviewable.GetRenderer();
+        renderer.sortingOrder = BULLET_PREVIEW_ORDER;
     }
 }

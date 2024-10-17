@@ -567,7 +567,7 @@ public class GameManager : MonoBehaviour
             _previewActions.Remove(previousPreview);
             _attemptedPlayerActions.Remove(playerSent);
 
-            Destroy(previousPreview.sourcePreviewable.previewObject); //look into using pooling instead
+            previousPreview.sourcePreviewable.ClearPreviewObject();
 
             if (previousPreview.creatorOfPreview)
             {
@@ -598,8 +598,9 @@ public class GameManager : MonoBehaviour
         var renderer = preview.GetComponent<SpriteRenderer>();
         renderer.sprite = previewImage;
         renderer.color = previewableObject.GetPreviewColor();
-        preview.GetComponent<PreviewableBase>().SetPreviewOutlineColor(previewableObject.GetPreviewOutline(), previewImage);
-        previewableObject.previewObject = preview;
+        var previewBase = preview.GetComponent<PreviewableBase>();
+        previewBase.SetPreviewOutlineColor(previewableObject.GetPreviewOutline(), previewImage);
+        previewableObject.SetPreviewObject(previewBase);
 
         return new PreviewAction()
         {
@@ -748,7 +749,7 @@ public class GameManager : MonoBehaviour
             var preview = _previewActions[index];
             if (preview.previewFinishedTick - _ticksSinceScreenStart <= 0)
             {
-                Destroy(preview.sourcePreviewable.previewObject);
+                preview.sourcePreviewable.ClearPreviewObject();
                 _previewActions.Remove(preview);
             }
         }

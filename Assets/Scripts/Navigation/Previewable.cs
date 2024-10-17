@@ -6,9 +6,7 @@ using UnityEngine;
 public abstract class Previewable : GridObject
 {    
     protected TransformTransition _transitioner;
-
-    [HideInInspector]
-    public GameObject previewObject;
+    protected PreviewableBase _previewObject;
 
     private void Start()
     {
@@ -32,6 +30,19 @@ public abstract class Previewable : GridObject
         return new Color(4f, 0, 0, .35f);
     }
 
+    public virtual void SetPreviewObject(PreviewableBase newPreviewable)
+    {
+        _previewObject = newPreviewable;
+    }
+
+    public void ClearPreviewObject() //look into using pooling instead
+    {
+        if (_previewObject != null)
+        {
+            Destroy(_previewObject.gameObject);
+        }
+    }
+
     public virtual void TransitionToTile(Tile tileDestination, float duration)
     {
         var destination = tileDestination.GetTilePosition();
@@ -49,9 +60,9 @@ public abstract class Previewable : GridObject
         var startingScale = transform.localScale;
         var shrinkScale = new Vector2(.25f, .25f);
 
-        if (previewObject != null)
+        if (_previewObject != null)
         { 
-            previewObject.transform.localPosition = tileDestination.GetTilePosition();
+            _previewObject.transform.localPosition = tileDestination.GetTilePosition();
         }
 
         var pieceDuration = duration / 3;
@@ -64,12 +75,12 @@ public abstract class Previewable : GridObject
 
     public virtual void UpdateRotationToPreview(float duration)
     {
-        if (previewObject == null)
+        if (_previewObject == null)
         {
             return;
         }
 
-        var newRotation = previewObject.transform.rotation;
+        var newRotation = _previewObject.transform.rotation;
         if (newRotation == GetTransfromAsReference().rotation) 
         {
             return;
@@ -121,11 +132,7 @@ public abstract class Previewable : GridObject
 
     public override void DestroyObject()
     {
-        if (previewObject != null) 
-        { 
-            Destroy(previewObject);
-        }        
-
+        ClearPreviewObject();
         base.DestroyObject();
     }
 
