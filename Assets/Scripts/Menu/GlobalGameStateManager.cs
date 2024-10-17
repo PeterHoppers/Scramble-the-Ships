@@ -106,9 +106,9 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
         UnityEngine.Screen.SetResolution(1920, 1080, true);
 
 #if UNITY_EDITOR
-        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
 #else
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 #endif
     }
 
