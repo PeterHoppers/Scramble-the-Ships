@@ -48,7 +48,6 @@ public class SliderReader : MonoBehaviour
     public void SetValueToRead(float baseValue, bool setSliderToBase = false)
     {
         var convertedValue = baseValue / stepFactor;
-        SetText(convertedValue);
 
         if (setSliderToBase)
         {
@@ -58,6 +57,8 @@ public class SliderReader : MonoBehaviour
         {
             slider.value = convertedValue;
         }
+
+        OnSliderUpdate(slider.value);
     }
 
     public float GetSliderValue()

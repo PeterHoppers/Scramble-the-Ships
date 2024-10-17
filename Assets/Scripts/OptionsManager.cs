@@ -87,6 +87,7 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
     void Start()
     {
         SetupSettings();
+        AddEventListeners();
         SetOptionsCanvasVisibilty(false);
     }
 
@@ -100,99 +101,104 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
     void SetupSettings()
     {
         var dropdownScrambledOptions = amountScrambledDropdown.options.Select(option => option.text).ToList();
-        amountScrambledDropdown.value = dropdownScrambledOptions.IndexOf(gameSettingParameters.amountControlsScrambled.ToString());
-        amountScrambledDropdown.onValueChanged.AddListener((int newValue) => 
+        amountScrambledDropdown.value = dropdownScrambledOptions.IndexOf(gameSettingParameters.amountControlsScrambled.ToString());      
+
+        noInputScrambleDropdown.value = BoolToDropdownIndex(gameSettingParameters.doesScrambleOnNoInput);
+        multiplayerResultDropdown.value = BoolToDropdownIndex(gameSettingParameters.isMultiplayerScrambleSame);
+        tickDurationSlider.SetValueToRead(gameSettingParameters.tickDuration);
+        tickEndDurationSlider.SetValueToRead(gameSettingParameters.tickEndDuration);
+        moveOnInputDropdown.value = (int)gameSettingParameters.inputMoveStyle;
+        maxEnergySlider.SetValueToRead(gameSettingParameters.maxEnergy);
+        energyPerMoveSlider.value = gameSettingParameters.energyPerMove;
+        energyPerShotSlider.value = gameSettingParameters.energyPerShot;
+        energyPerDeathSlider.value = gameSettingParameters.energyPerDeath;
+        energyRestoreDropdown.value = BoolToDropdownIndex(gameSettingParameters.isEnergyRestoredToStartOnDeath);
+        modeTypeDropdown.value = BoolToDropdownIndex(systemSettingParameters.isFreeplay);
+        attractAudioDropdown.value = BoolToDropdownIndex(systemSettingParameters.isAttractAudioEnabled);
+        creditsForPlaySlider.SetValueToRead(systemSettingParameters.coinsPerPlay, true);
+        musicVolumeSlider.SetValueToRead(systemSettingParameters.musicVolume, true);
+        sfxVolumeSlider.SetValueToRead(systemSettingParameters.sfxVolume, true);        
+    }
+
+    void AddEventListeners()
+    {
+        amountScrambledDropdown.onValueChanged.AddListener((int newValue) =>
         {
             var dropdownOptions = amountScrambledDropdown.options.Select(option => option.text).ToList();
             gameSettingParameters.amountControlsScrambled = int.Parse(dropdownOptions[newValue]);
         });
 
-        noInputScrambleDropdown.value = BoolToDropdownIndex(gameSettingParameters.doesScrambleOnNoInput);
         noInputScrambleDropdown.onValueChanged.AddListener((int newSelection) =>
         {
             gameSettingParameters.doesScrambleOnNoInput = DropdownValueToBool(newSelection);
         });
 
-        multiplayerResultDropdown.value = BoolToDropdownIndex(gameSettingParameters.isMultiplayerScrambleSame);
         multiplayerResultDropdown.onValueChanged.AddListener((int newSelection) =>
         {
             gameSettingParameters.isMultiplayerScrambleSame = DropdownValueToBool(newSelection);
         });
 
-        tickDurationSlider.SetValueToRead(gameSettingParameters.tickDuration);
-        tickDurationSlider.OnSliderChange += (float baseValue, float convertedValue, string _) => 
+        tickDurationSlider.OnSliderChange += (float baseValue, float convertedValue, string _) =>
         {
             gameSettingParameters.tickDuration = convertedValue;
         };
 
-        tickEndDurationSlider.SetValueToRead(gameSettingParameters.tickEndDuration);
         tickEndDurationSlider.OnSliderChange += (float baseValue, float convertedValue, string _) =>
         {
             gameSettingParameters.tickEndDuration = convertedValue;
         };
 
-        moveOnInputDropdown.value = (int)gameSettingParameters.inputMoveStyle;
         moveOnInputDropdown.onValueChanged.AddListener((int newValue) =>
         {
             gameSettingParameters.inputMoveStyle = (InputMoveStyle)newValue;
         });
 
-        maxEnergySlider.SetValueToRead(gameSettingParameters.maxEnergy);
         maxEnergySlider.OnSliderChange += (float baseValue, float convertedValue, string _) =>
         {
             gameSettingParameters.maxEnergy = (int)convertedValue;
         };
 
-        energyPerMoveSlider.value = gameSettingParameters.energyPerMove;
-        energyPerMoveSlider.onValueChanged.AddListener((float newValue) => 
+        energyPerMoveSlider.onValueChanged.AddListener((float newValue) =>
         {
             gameSettingParameters.energyPerMove = (int)newValue;
         });
 
-        energyPerShotSlider.value = gameSettingParameters.energyPerShot;
         energyPerShotSlider.onValueChanged.AddListener((float newValue) =>
         {
             gameSettingParameters.energyPerShot = (int)newValue;
         });
 
-        energyPerDeathSlider.value = gameSettingParameters.energyPerDeath;
         energyPerDeathSlider.onValueChanged.AddListener((float newValue) =>
         {
             gameSettingParameters.energyPerDeath = (int)newValue;
         });
 
-        energyRestoreDropdown.value = BoolToDropdownIndex(gameSettingParameters.isEnergyRestoredToStartOnDeath);
         energyRestoreDropdown.onValueChanged.AddListener((int newSelection) =>
         {
             gameSettingParameters.isEnergyRestoredToStartOnDeath = DropdownValueToBool(newSelection);
         });
 
-        modeTypeDropdown.value = BoolToDropdownIndex(systemSettingParameters.isFreeplay);
         modeTypeDropdown.onValueChanged.AddListener((int newSelection) =>
         {
             systemSettingParameters.isFreeplay = DropdownValueToBool(newSelection);
         });
 
-        attractAudioDropdown.value = BoolToDropdownIndex(systemSettingParameters.isAttractAudioEnabled);
         attractAudioDropdown.onValueChanged.AddListener((int newSelection) =>
         {
             systemSettingParameters.isAttractAudioEnabled = DropdownValueToBool(newSelection);
         });
 
-        creditsForPlaySlider.SetValueToRead(systemSettingParameters.coinsPerPlay, true);
         creditsForPlaySlider.OnSliderChange += (float baseValue, float convertedValue, string renderedText) =>
         {
             systemSettingParameters.coinsPerPlay = (int)baseValue;
             systemSettingParameters.creditDisplay = renderedText;
         };
 
-        musicVolumeSlider.SetValueToRead(systemSettingParameters.musicVolume, true);
         musicVolumeSlider.OnSliderChange += (float baseValue, float _, string _) =>
         {
             systemSettingParameters.musicVolume = baseValue;
         };
 
-        sfxVolumeSlider.SetValueToRead(systemSettingParameters.sfxVolume, true);
         sfxVolumeSlider.OnSliderChange += (float baseValue, float _, string _) =>
         {
             systemSettingParameters.sfxVolume = baseValue;
