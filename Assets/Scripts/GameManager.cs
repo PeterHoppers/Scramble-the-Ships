@@ -417,7 +417,10 @@ public class GameManager : MonoBehaviour
         switch (gameState) 
         {
             case GameState.Playing:
-                StartNextTick();
+                if (_previousGameState != GameState.Paused) // don't end the current tick if we're just leaving pausing
+                {
+                    StartNextTick();
+                }
                 break;
             case GameState.Dialogue:
                 dialogueSystem.SetDialogueIsEnable(true);
@@ -445,8 +448,17 @@ public class GameManager : MonoBehaviour
 
     public void HandlePlayerCollision(Player playerAttack, Player playerHit)
     {
-        PlayerCollision(playerAttack);
-        PlayerCollision(playerHit);
+        if (playerAttack.IsPlayerDeadOnHit())
+        {
+            HandlePlayerDeath(playerAttack);
+        }
+
+        if (playerHit.IsPlayerDeadOnHit())
+        {
+            HandlePlayerDeath(playerHit);
+        }
+
+        UpdateStateOnPlayerDeath();
     }
 
     public void HandleGridObjectCollision(GridObject attacking, GridObject hit) //Should this be here in this state? Feels like something the grid object itself should be in charge of
@@ -458,7 +470,11 @@ public class GameManager : MonoBehaviour
 
         if (hit.TryGetComponent<Player>(out var player))
         {
-            PlayerCollision(player);
+            if (player.IsPlayerDeadOnHit())
+            {
+                HandlePlayerDeath(player);
+                UpdateStateOnPlayerDeath();
+            }
         }
         else
         {
@@ -469,22 +485,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void PlayerCollision(Player player)
+    void HandlePlayerDeath(Player player)
     {
-        bool canPlayerDie = player.OnHit();
-        if (canPlayerDie)
-        {
-            player.OnDeath();            
-            OnPlayerDeath?.Invoke(player);
+        player.OnDeath();
+        OnPlayerDeath?.Invoke(player);
+    }
 
-            if (_energySystem.CanPlayerDieAndGameContinue())
-            {
-                StartCoroutine(ResetScreen(false));
-            }
-            else
-            {
-                OnGameOver();
-            }
+    void UpdateStateOnPlayerDeath()
+    {
+        if (_energySystem.CanPlayerDieAndGameContinue())
+        {
+            StartCoroutine(ResetScreen(false));
+        }
+        else
+        {
+            OnGameOver();
         }
     }
 

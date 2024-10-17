@@ -340,7 +340,7 @@ public class Player : Previewable
         return bulletGridMoveable;
     }
 
-    public bool OnHit()
+    public bool IsPlayerDeadOnHit()
     {
         if (_isInactive)
         { 
