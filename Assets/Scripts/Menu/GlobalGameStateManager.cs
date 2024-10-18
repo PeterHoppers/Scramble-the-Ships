@@ -124,6 +124,11 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
         }
     }
 
+    public void CreateNewGUID()
+    {
+        CurrentPlayingGUID = Guid.NewGuid();
+    }
+
     public void PlayPreviewLevel()
     {
         CurrentLevel = _previewLevel;
@@ -135,7 +140,7 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
     public void StartGame()
     {
         IsAIPlaying = false;
-        CurrentPlayingGUID = Guid.NewGuid();
+        CreateNewGUID();
         LoadLevel(0);
     }
 

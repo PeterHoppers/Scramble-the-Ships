@@ -47,6 +47,7 @@ public class LevelSelectDebugger : MonoBehaviour
 
     void PlayLevel(int levelId, int playerCount = 1)
     {
+        GlobalGameStateManager.Instance.CreateNewGUID();
         GlobalGameStateManager.Instance.SetPlayerCount(playerCount);
         GlobalGameStateManager.Instance.LoadLevel(levelId);
     }
