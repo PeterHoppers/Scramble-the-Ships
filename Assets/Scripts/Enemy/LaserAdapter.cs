@@ -27,12 +27,6 @@ public class LaserAdapter : Fireable
     public override void SetupMoveable(GameManager manager, SpawnSystem spawnSystem, Tile startingTile)
     {
         base.SetupMoveable(manager, spawnSystem, startingTile);
-        manager.OnTickEnd += HidePreviewAfterTick;
-    }
-
-    void HidePreviewAfterTick(float tickEndDuration, int _)
-    {
-        _previewLaser.gameObject.SetActive(false);
     }
 
     public override void OnOwnerInputChange(GridMovable owner, GameManager gameManager, InputValue previewInput)
@@ -74,8 +68,7 @@ public class LaserAdapter : Fireable
 
         if (isActive)
         {
-            _manager.OnTickEnd += EnableLasers;
-            
+            _manager.OnTickEnd += EnableLasers;            
         }
         else
         {
@@ -105,24 +98,9 @@ public class LaserAdapter : Fireable
 
     private void OnDisable()
     {
-        _manager.OnTickEnd -= HidePreviewAfterTick;
         _manager.OnTickEnd -= EnableLasers;
         _manager.OnTickEnd -= DisableLasers;
-    }
-
-    protected new Quaternion ConvertInputValueToRotation(InputValue input)
-    {
-        var currentRotation = transform.rotation;
-        switch (input)
-        {
-            case InputValue.Clockwise:
-                return currentRotation *= Quaternion.Euler(0, 0, 90f);
-            case InputValue.Counterclockwise:
-                return currentRotation *= Quaternion.Euler(0, 0, -90f);
-            default:
-                return currentRotation *= Quaternion.Euler(0, 0, 180f);
-        }
-    }
+    }    
 
     public void OnLaserHit(Laser attackingLaser, GridObject hitObject)
     {

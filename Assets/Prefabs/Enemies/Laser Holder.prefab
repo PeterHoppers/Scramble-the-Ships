@@ -32,8 +32,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3602315031274707206}
   - {fileID: 4286624203330694928}
+  - {fileID: 3602315031274707206}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3728949172815731536
@@ -132,9 +132,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6297633ba9b21d346a488160fc18ca0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewObject: {fileID: 0}
   movingInput: 5
-  isFriendly: 1
+  owner: {fileID: 0}
   bulletExplosion: {fileID: 725748389856807712, guid: e95db50273d4e5746b02ba9b960f0afd, type: 3}
   _firingLaser: {fileID: 4213889604010004498}
   _previewLaser: {fileID: 3529245596970493444}
