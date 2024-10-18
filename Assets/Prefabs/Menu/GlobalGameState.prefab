@@ -380,7 +380,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 0.5882353}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -663,6 +663,7 @@ MonoBehaviour:
   creditsHolder: {fileID: 1786528226249314338}
   costMessage: {fileID: 753223772770452190}
   creditMessage: {fileID: 2715631754617246055}
+  playerMessage: {fileID: 4128009875131226120}
   creditAudioClip: {fileID: 8300000, guid: 8420935145a47e146a5ec38ad058ee9c, type: 3}
 --- !u!114 &8820932192981805827
 MonoBehaviour:

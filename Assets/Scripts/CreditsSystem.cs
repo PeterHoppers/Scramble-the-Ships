@@ -10,6 +10,7 @@ public class CreditsSystem : MonoBehaviour
     [Space]
     public TextMeshProUGUI costMessage;
     public TextMeshProUGUI creditMessage;
+    public TextMeshProUGUI playerMessage;
     [Space]
     public AudioClip creditAudioClip;
 
@@ -60,11 +61,13 @@ public class CreditsSystem : MonoBehaviour
         if (_isFreeplay)
         {
             costMessage.text = "Freeplay";
+            playerMessage.gameObject.SetActive(false);
             _coinsPerCredit = 1;
             OnCoinsChange?.Invoke(0, int.MaxValue);
         }
         else
         {
+            playerMessage.gameObject.SetActive(true);
             costMessage.text = $"{systemSettingParameters.creditDisplay} per Play";
             _coinsPerCredit = systemSettingParameters.coinsPerPlay;            
         }
