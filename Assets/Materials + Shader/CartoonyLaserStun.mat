@@ -67,6 +67,6 @@ Material:
     m_Colors:
     - _DissolveColor: {r: 1.8634343, g: 0.79861474, b: 18.36814, a: 1}
     - _LineColor: {r: 0.109803915, g: 0.69870377, b: 0.7647059, a: 1}
-    - _MiddleColor: {r: 0.30869636, g: 13.044589, b: 0.1845929, a: 1}
-    - _OutlineColor: {r: 0.2994991, g: 9.734288, b: 0.15289429, a: 0.76862746}
+    - _MiddleColor: {r: 0.5014602, g: 0.20392156, b: 1, a: 1}
+    - _OutlineColor: {r: 4.5479407, g: 0.15289429, b: 9.734288, a: 0.76862746}
   m_BuildTextureStacks: []
