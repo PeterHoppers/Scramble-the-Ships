@@ -14,7 +14,9 @@ public class EnergyUI : MonoBehaviour
 
     [Header("Animation Settings")]
     [SerializeField]
-    private float _energyChangeDuration;
+    private float _energyLossDuration;
+    [SerializeField]
+    private float _energyGainedDuration;
     [SerializeField]
     [Range(0, 1)]
     private float lowPercentage;
@@ -77,13 +79,13 @@ public class EnergyUI : MonoBehaviour
         {
             _energyFrontBar.fillAmount = currentPercentageRemaining;
             _energyBackBar.color = (_isLowEnergy) ? lossLowEnergyColor : lossEnergyColor;
-            _rendererTransition.AnimateFill(_energyBackBar, backFill, currentPercentageRemaining, _energyChangeDuration);
+            _rendererTransition.AnimateFill(_energyBackBar, backFill, currentPercentageRemaining, _energyLossDuration);
         }
         else
         {
             _energyBackBar.color = gainEnergyColor;
             _energyBackBar.fillAmount = currentPercentageRemaining;
-            _rendererTransition.AnimateFill(_energyFrontBar, frontFill, currentPercentageRemaining, _energyChangeDuration);
+            _rendererTransition.AnimateFill(_energyFrontBar, frontFill, currentPercentageRemaining, _energyGainedDuration);
         }        
     }
 }

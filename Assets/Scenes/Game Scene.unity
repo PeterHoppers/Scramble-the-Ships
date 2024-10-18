@@ -956,7 +956,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _energyFrontBar: {fileID: 185841718}
   _energyBackBar: {fileID: 344305478}
-  _energyChangeDuration: 0.5
+  _energyLossDuration: 0.25
+  _energyGainedDuration: 1
   lowPercentage: 0.33
   lossEnergyColor: {r: 0.16078432, g: 0.1764706, b: 0.34117648, a: 1}
   gainEnergyColor: {r: 0.509434, g: 0.509434, b: 0.509434, a: 1}
