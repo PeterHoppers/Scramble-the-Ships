@@ -986,6 +986,17 @@
                 },
                 {
                     "name": "",
+                    "id": "5211f55c-7a7e-4c37-b23f-503e326d3636",
+                    "path": "<HID::xin-mo.com Xinmotek Coller>/button10",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick;Gamepad;Keyboard&Mouse",
+                    "action": "OnePlayerSelection",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "b2751975-b3a7-4e25-ad80-efca4efea785",
                     "path": "<Gamepad>/start",
                     "interactions": "",
@@ -1228,6 +1239,17 @@
                 },
                 {
                     "name": "",
+                    "id": "600d926b-7a7e-4c37-b23f-503e326d3636",
+                    "path": "<HID::xin-mo.com Xinmotek Coller>/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick;Gamepad;Keyboard&Mouse",
+                    "action": "CoinInserted",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "600d926b-c982-4818-a65d-02d2a609ba08",
                     "path": "<HID::16C0-5E1>/button2",
                     "interactions": "",
@@ -1261,12 +1283,67 @@
                 },
                 {
                     "name": "",
+                    "id": "5f870cd6-7a7e-4c37-b23f-503e326d3636",
+                    "path": "<HID::xin-mo.com Xinmotek Coller>/button9",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick;Gamepad;Keyboard&Mouse",
+                    "action": "TwoPlayerSelection",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "fe670705-8541-4cf9-be4d-8c888bbdfb1a",
                     "path": "<HID::xin-mo.com Xinmotek Controller>/button9",
                     "interactions": "",
                     "processors": "",
                     "groups": "Joystick;Gamepad;Keyboard&Mouse",
                     "action": "TwoPlayerSelection",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "56f06e2b-e008-4247-a129-bfa162694f2d",
+                    "path": "<HID::xin-mo.com Xinmotek Coller>/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick;Gamepad;Keyboard&Mouse",
+                    "action": "DebuggingAction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e2795496-0e01-4df5-9e91-db7778f62aec",
+                    "path": "<HID::xincom Xinmotek Controller>/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick;Gamepad;Keyboard&Mouse",
+                    "action": "DebuggingAction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fb3b15ea-4bb0-473b-8c09-e75e4018e527",
+                    "path": "<HID::xin-mo.com Xinmotek Controller>/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick;Gamepad;Keyboard&Mouse",
+                    "action": "DebuggingAction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "482a34a9-9b5d-45e1-b19f-5a9079a8c0b3",
+                    "path": "<HID::16C0-5E1>/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick;Keyboard&Mouse",
+                    "action": "DebuggingAction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
