@@ -422,6 +422,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "CoinInserted",
+                    "type": "Button",
+                    "id": "d18824ab-15a9-4ca3-8b6f-eee6ad2b6f79",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1170,6 +1179,94 @@
                     "processors": "",
                     "groups": "Gamepad;Joystick",
                     "action": "DebuggingAction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "334a163e-c9cc-43aa-a416-e2ab45532589",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CoinInserted",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9305f2d1-de34-4e6c-96d5-2c4479a5c7d2",
+                    "path": "<HID::xin-mo.com Xinmotek Controller>/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick;Gamepad;Keyboard&Mouse",
+                    "action": "CoinInserted",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a0eef78c-5ec4-406b-9dac-67782e1a6c0a",
+                    "path": "<HID::xincom Xinmotek Controller>/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick;Gamepad;Keyboard&Mouse",
+                    "action": "CoinInserted",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dce67aef-d951-417c-bcf9-91a5b2f4d3e9",
+                    "path": "<HID::xin-mo.com Xinmotek Controller>/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick;Gamepad;Keyboard&Mouse",
+                    "action": "CoinInserted",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "600d926b-c982-4818-a65d-02d2a609ba08",
+                    "path": "<HID::16C0-5E1>/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick;Keyboard&Mouse",
+                    "action": "CoinInserted",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8f656832-c866-4576-973c-cea14642eccf",
+                    "path": "<HID::xin-mo.com Xinmotek Controller>/button9",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick;Gamepad;Keyboard&Mouse",
+                    "action": "TwoPlayerSelection",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5f870cd6-6c23-47e8-8302-e7688d1cb9ca",
+                    "path": "<HID::xincom Xinmotek Controller>/button9",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick;Gamepad;Keyboard&Mouse",
+                    "action": "TwoPlayerSelection",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fe670705-8541-4cf9-be4d-8c888bbdfb1a",
+                    "path": "<HID::xin-mo.com Xinmotek Controller>/button9",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick;Gamepad;Keyboard&Mouse",
+                    "action": "TwoPlayerSelection",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
