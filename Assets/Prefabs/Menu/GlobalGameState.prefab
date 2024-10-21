@@ -665,6 +665,7 @@ MonoBehaviour:
   creditMessage: {fileID: 2715631754617246055}
   playerMessage: {fileID: 4128009875131226120}
   creditAudioClip: {fileID: 8300000, guid: 8420935145a47e146a5ec38ad058ee9c, type: 3}
+  _actions: {fileID: -944628639613478452, guid: 9ee2e139bcc85ba45a376553e568eb47, type: 3}
 --- !u!114 &8820932192981805827
 MonoBehaviour:
   m_ObjectHideFlags: 0

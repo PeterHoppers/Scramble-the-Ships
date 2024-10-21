@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 
 public class CreditsSystem : MonoBehaviour
@@ -14,21 +16,37 @@ public class CreditsSystem : MonoBehaviour
     [Space]
     public AudioClip creditAudioClip;
 
+    [Space]
+    [SerializeField]
+    private InputActionAsset _actions;
+
+    private InputActionMap _uiActionMap;
+    private InputAction _coinsInsertedMap;
+
     public delegate void CoinsChange(int coinsInserted, int creditsEarned);
     public CoinsChange OnCoinsChange;
 
     int _coinsPerCredit = 1;
     int _coinsInserted = 0;
     bool _isFreeplay = false;
-
     private void OnEnable()
     {
         GlobalGameStateManager.Instance.OnStateChange += UpdateCreditsBasedOnState;
+
+        _uiActionMap = _actions.FindActionMap("ui");
+        _uiActionMap.Enable();
+        _coinsInsertedMap = _uiActionMap.FindAction("CoinInserted");
+
+        _coinsInsertedMap.performed += OnCoinInserted;
     }
 
     private void OnDisable()
     {
         GlobalGameStateManager.Instance.OnStateChange -= UpdateCreditsBasedOnState;
+
+        _coinsInsertedMap.performed -= OnCoinInserted;
+
+        _uiActionMap.Disable();
     }
 
     private void Start()
@@ -73,15 +91,12 @@ public class CreditsSystem : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void OnCoinInserted(InputAction.CallbackContext context)
     {
-        if (Input.GetKeyUp(KeyCode.Alpha5) || Input.GetKeyUp(KeyCode.Keypad5) || Input.GetKeyUp(KeyCode.Alpha6) || Input.GetKeyUp(KeyCode.Keypad6))
-        {
-            CoinInserted();
-        }
+        CoinInserted();
     }
 
-    public void CoinInserted()
+    void CoinInserted()
     {
         _coinsInserted++;
         UpdateCoinAmount(_coinsInserted);
