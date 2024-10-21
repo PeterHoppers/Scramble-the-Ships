@@ -13,6 +13,8 @@ public class PreviewInputHandler : MonoBehaviour
     private InputAction _onePlayerAction;
     private InputAction _twoPlayerAction;
 
+    InputSystemUIInputModule _inputSystem;
+
     private void OnEnable()
     {
         _uiActionMap = _actions.FindActionMap("ui");
@@ -22,6 +24,9 @@ public class PreviewInputHandler : MonoBehaviour
 
         _onePlayerAction.performed += OnOnePlayerButtonPress;
         _twoPlayerAction.performed += OnTwoPlayerButtonPress;
+
+        _inputSystem = EventSystem.current.gameObject.GetComponent<InputSystemUIInputModule>();
+        _inputSystem.leftClick.action.performed += OnOnePlayerButtonPress;
     }
 
     private void OnDisable()
