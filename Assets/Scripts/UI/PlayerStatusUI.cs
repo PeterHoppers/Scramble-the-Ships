@@ -22,13 +22,18 @@ public class PlayerStatusUI : MonoBehaviour
     public void AddPlayerReference(Player player)
     {
         _player = player;
+        _player.OnScrambledInputsChanged += OnScrambledInputChanged;
+
         actionButtonUI.SetUIActiveState(true);
         
         actionButtonUI.SetActionSprite(player.GetSpriteForInput(InputValue.Fire));
         player.AddButtonRenderer(ButtonValue.Action, actionButtonUI.actionRenderer);
         actionButtonUI.SetButtonSprite(player.GetActionButtonSprite());
+    }
 
-        _player.OnScrambledInputsChanged += OnScrambledInputChanged;
+    public void RemovePlayerReference(Player player) 
+    {
+        player.OnScrambledInputsChanged -= OnScrambledInputChanged;
     }
 
     private void OnScrambledInputChanged(SerializedDictionary<ButtonValue, PlayerAction> scrambledActions)

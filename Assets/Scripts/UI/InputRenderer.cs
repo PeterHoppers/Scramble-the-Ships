@@ -55,7 +55,7 @@ public class InputRenderer : MonoBehaviour
             SetRenderer();
         }
 
-        if (sprite == _renderer.sprite)
+        if (sprite == _incomingSprite)
         {
             return;
         }

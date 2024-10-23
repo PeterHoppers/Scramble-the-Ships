@@ -23,7 +23,7 @@ MonoBehaviour:
         offset: 0
       y:
         anchor: 1
-        offset: 4
+        offset: -3
   - spawnInfo:
       objectToSpawn: 1
       direction: 0

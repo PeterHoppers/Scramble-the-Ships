@@ -117,7 +117,7 @@ MonoBehaviour:
   _playerCommands:
     _serializedList:
     - Key: {fileID: 11400000, guid: f4cf12b3a78a85945b098a87e62ce597, type: 2}
-      Value: 04000000
+      Value: 0400000000000000
   _defaultShipCommands:
     _serializedList:
     - Key: {fileID: 11400000, guid: f4cf12b3a78a85945b098a87e62ce597, type: 2}
