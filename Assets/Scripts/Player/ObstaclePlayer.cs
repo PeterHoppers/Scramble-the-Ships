@@ -9,14 +9,22 @@ public class ObstaclePlayer : Player
 {
     [Space]
     public SerializedDictionary<Screen, List<InputValue>> _playerCommands;
+    public SerializedDictionary<Screen, GridObjectCommands> _defaultShipCommands;
     public PlayerShipInfo playerInfo;
 
-    private ScreenSystem _screenSystem;
+    private int _tickIndex = 0;
+    private SerializedDictionary<int, InputValue> _shipCommands;
+
+    private InputValue _currentInputValue = InputValue.None;
+    private List<PlayerAction> _possibleShipActions = new List<PlayerAction>();
+
 
     public override void InitPlayer(GameManager manager, PlayerShipInfo shipInfo, int id, InputMoveStyle style)
     {
         base.InitPlayer(manager, shipInfo, id, style);
-        _screenSystem = manager.GetComponent<ScreenSystem>();
+        manager.OnTickStart += CreateNextPreview;
+        manager.OnScreenChange += OnScreenChange;
+        manager.OnScreenResetEnd += OnScreenReset;
 
         //move the rotation from the parent to wherever needs the proper rotation to make the ship fire correctly
         var currentRotation = transform.rotation;        
@@ -26,22 +34,47 @@ public class ObstaclePlayer : Player
         SetInputVisibility(false);
     }
 
-    public override List<PlayerAction> GetPossibleActions()
+    private void OnScreenReset()
     {
-        var currentScreen = _screenSystem.GetCurrentScreen();
-        var inputs = _playerCommands[currentScreen];
+        SetupConfiguration();
+    }
+
+    private void OnScreenChange(int nextScreenIndex, int maxScreens)
+    {
+        SetupConfiguration();
+    }
+
+    void SetupConfiguration()
+    {
+        var screen = _manager.GetComponent<ScreenSystem>().GetCurrentScreen();
+        _shipCommands = _defaultShipCommands[screen].commands;
+
+        var playerInputOptions = _playerCommands[screen];
+
         var actions = new List<PlayerAction>();
 
-        foreach (var input in inputs) 
+        foreach (var input in playerInputOptions)
         {
             actions.Add(new PlayerAction()
             {
                 playerActionPerformedOn = this,
                 inputValue = input,
-            });        
+            });
         }
 
-        return actions;
+        _possibleShipActions = actions;
+
+        OnPossibleInputsChanged?.Invoke(_possibleShipActions);
+    }
+
+    public override List<PlayerAction> GetPossibleActions()
+    {
+        if (_possibleShipActions == null ) 
+        {
+            SetupConfiguration();
+        }
+
+        return _possibleShipActions;
     }
 
     public override void SetScrambledActions(SerializedDictionary<ButtonValue, PlayerAction> playerActions)
@@ -70,8 +103,30 @@ public class ObstaclePlayer : Player
         return allButtonValues.ToList().TakeLast(lastButtonIndex).ToList();
     }
 
+    protected void CreateNextPreview(float _)
+    {
+        if (_shipCommands != null && _shipCommands.TryGetValue(_tickIndex, out var inputValue))
+        {
+            _currentInputValue = inputValue;
+        }
+
+        SendPlayerAction(new PlayerAction()
+        {
+            playerActionPerformedOn = this,
+            inputValue = _currentInputValue
+        });
+    }
+
+    protected override void OnTickEnd(float tickEndDuration, int nextTickNumber)
+    {
+        base.OnTickEnd(tickEndDuration, nextTickNumber);
+        _tickIndex = nextTickNumber;
+    }
+
     private void OnDestroy()
     {
+        _manager.OnTickStart -= CreateNextPreview;
+        StopAllCoroutines();
         _manager.OnPlayerLeaveGame(this);
     }
 }

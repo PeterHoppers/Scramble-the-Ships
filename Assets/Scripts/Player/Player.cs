@@ -287,6 +287,22 @@ public class Player : Previewable
 
         UpdateLastInput(pressedValue);
         _manager.ClearPreviousPlayerAction(this);
+        SendPlayerAction(playerAction);
+    }
+
+    void UpdateLastInput(ButtonValue pressedValue)
+    {
+        if (_lastInput != null)
+        {
+            buttonValueDisplays[_lastInput.Value].DeselectInput();
+        }
+
+        _lastInput = pressedValue;
+        buttonValueDisplays[_lastInput.Value].SelectInput();
+    }
+
+    protected void SendPlayerAction(PlayerAction playerAction) 
+    {
         var targetTile = _manager.GetTileForPlayerAction(playerAction);
 
         if (targetTile != null && targetTile.IsVisible)
@@ -321,17 +337,6 @@ public class Player : Previewable
                 _manager.EndCurrentTick(this);
             }
         }
-    }
-
-    void UpdateLastInput(ButtonValue pressedValue)
-    {
-        if (_lastInput != null)
-        {
-            buttonValueDisplays[_lastInput.Value].DeselectInput();
-        }
-
-        _lastInput = pressedValue;
-        buttonValueDisplays[_lastInput.Value].SelectInput();
     }
 
     GridMovable CreateBullet(Player firingPlayer, Tile spawnTile)

@@ -332,6 +332,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9a6ced45-8061-4b75-96a6-3294b3ff07eb
     m_ActionName: UI/DebuggingAction
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d18824ab-15a9-4ca3-8b6f-eee6ad2b6f79
+    m_ActionName: UI/CoinInserted[/XInputControllerWindows/buttonEast]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Joystick
   m_DefaultActionMap: Player
