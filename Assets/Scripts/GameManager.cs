@@ -274,8 +274,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// <param name="player"></param>
     public void ScreenChangeTriggered(Player player, SpawnDirections transitionDirection)
-    {       
-       StartCoroutine(OnScreenChangeTriggered(player, transitionDirection));
+    {
+        StartCoroutine(OnScreenChangeTriggered(player, transitionDirection));
     }
 
     IEnumerator OnScreenChangeTriggered(Player player, SpawnDirections transitionDirection)
@@ -287,22 +287,21 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(_tickEndDuration);
         }
 
-        MovePlayerOffScreen(player);
+        if (_currentGameState == GameState.Playing)
+        {
+            MovePlayerOffScreen(player);
+        }
     }
 
     void MovePlayerOffScreen(Player player)
     {
-        var currentPos = player.CurrentTile.GetTilePosition();
-        _spawnSystem.MovePreviewableOffScreenToPosition(player, player.GetTransfromAsReference().up, currentPos, TickDuration);
-        player.OnMoveOffScreen();
-
         _playerFinishedWithScreen++;
 
         if (_playerFinishedWithScreen >= _players.Count)
         {
+            ToggleIsPlaying(false, GameState.Transition);
             _playerFinishedWithScreen = 0;
             ClearAllPreviews();
-            ToggleIsPlaying(false, GameState.Transition);
             EndScreen(TickDuration);
         }
         else
@@ -310,6 +309,10 @@ public class GameManager : MonoBehaviour
             player.SetInputStatus(false);
             player.SetActiveStatus(false);
         }
+
+        var currentPos = player.CurrentTile.GetTilePosition();
+        _spawnSystem.MovePreviewableOffScreenToPosition(player, player.GetTransfromAsReference().up, currentPos, TickDuration);
+        player.OnMoveOffScreen();
     }
 
     void EndScreen(float endingDuration)
@@ -519,6 +522,11 @@ public class GameManager : MonoBehaviour
 
     void UpdateStateOnPlayerDeath()
     {
+        if (_currentGameState != GameState.Playing)
+        {
+            return;
+        }
+
         if (_energySystem.CanPlayerDieAndGameContinue())
         {
             StartCoroutine(ResetScreen(false));
