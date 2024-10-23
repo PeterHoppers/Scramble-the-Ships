@@ -23,8 +23,8 @@ public class ObstaclePlayer : Player
     {
         base.InitPlayer(manager, shipInfo, id, style);
         manager.OnTickStart += CreateNextPreview;
-        manager.OnScreenChange += OnScreenChange;
-        manager.OnScreenResetEnd += OnScreenReset;
+        var screen = _manager.GetComponent<ScreenSystem>().GetCurrentScreen();
+        SetupConfiguration(screen);
 
         //move the rotation from the parent to wherever needs the proper rotation to make the ship fire correctly
         var currentRotation = transform.rotation;        
@@ -34,19 +34,8 @@ public class ObstaclePlayer : Player
         SetInputVisibility(false);
     }
 
-    private void OnScreenReset()
-    {
-        SetupConfiguration();
-    }
-
-    private void OnScreenChange(int nextScreenIndex, int maxScreens)
-    {
-        SetupConfiguration();
-    }
-
-    void SetupConfiguration()
-    {
-        var screen = _manager.GetComponent<ScreenSystem>().GetCurrentScreen();
+    void SetupConfiguration(Screen screen)
+    {       
         _shipCommands = _defaultShipCommands[screen].commands;
 
         var playerInputOptions = _playerCommands[screen];
@@ -69,11 +58,6 @@ public class ObstaclePlayer : Player
 
     public override List<PlayerAction> GetPossibleActions()
     {
-        if (_possibleShipActions == null ) 
-        {
-            SetupConfiguration();
-        }
-
         return _possibleShipActions;
     }
 
