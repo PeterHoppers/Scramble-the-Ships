@@ -6940,6 +6940,10 @@ MonoBehaviour:
       Value:
         objectToSpawn: {fileID: 4615446596132542967, guid: 4a050c3a7fe636c4db7b31af63a7b8e1, type: 3}
         command: {fileID: 0}
+    - Key: 11
+      Value:
+        objectToSpawn: {fileID: 1998823422387664389, guid: e6752fb587b665742af4a4f077ae9961, type: 3}
+        command: {fileID: 0}
 --- !u!114 &2124894465
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -100,6 +100,10 @@ public class UIManager : MonoBehaviour, IManager
 
     void OnPlayerJoined(Player player)
     {
+        if (player.PlayerId >= playerStatusUIs.Length)
+        {
+            return;
+        }
         var playerStatus = playerStatusUIs[player.PlayerId];
         playerStatus.AddPlayerReference(player);
     }

@@ -40,6 +40,9 @@ public class GameManager : MonoBehaviour
     public delegate void PlayerJoined(Player player);
     public PlayerJoined OnPlayerJoinedGame;
 
+    public delegate void PlayerLeave(Player player);
+    public PlayerLeave OnPlayerLeaveGame;
+
     public delegate void PlayerDeath(Player player);
     public PlayerDeath OnPlayerDeath;
 
@@ -179,6 +182,19 @@ public class GameManager : MonoBehaviour
         OnPlayerJoinedGame?.Invoke(newPlayer);
     }
 
+    public void CreateDummyShip(ObstaclePlayer dummyShip)
+    {
+        if (_players.Count >= 2)
+        {
+            Debug.LogWarning("We're making a dummy ship, while we already have 2 ships. Did we want that?");
+        }
+        dummyShip.InitPlayer(this, dummyShip.playerInfo, 1, _inputMoveStyle);
+        dummyShip.transform.SetParent(transform);
+        dummyShip.name = "Dummy Player";
+
+        OnPlayerJoinedGame?.Invoke(dummyShip);
+    }
+
     Tile GetStartingTileForPlayer(int playerId)
     {
         var startingPosition = _startingPlayerPositions[playerId];
@@ -211,6 +227,11 @@ public class GameManager : MonoBehaviour
         UpdatePlayerStartRotation(player);
         var startingTile = GetStartingTileForPlayer(player.PlayerId);
         MovePlayerOnScreenToTile(player, startingTile, duration);
+    }
+
+    public void PlayerLeaveGame(Player player)
+    { 
+        OnPlayerLeaveGame?.Invoke(player);
     }
 
     public void PlayerGainedCondition(Player player, Condition condition)

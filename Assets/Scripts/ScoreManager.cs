@@ -52,6 +52,11 @@ public class ScoreManager : MonoBehaviour, IManager
 
     private void OnPlayerJoined(Player player)
     {
+        if (player.TryGetComponent<ObstaclePlayer>(out var obstacle))
+        {
+            return;
+        }
+
         _playerSpacesAway.Add(player, int.MaxValue);
     }
 

@@ -20,7 +20,10 @@ public class Player : Previewable
     public AudioClip exitSFX;
 
     public delegate void PossibleInputs(List<PlayerAction> possibleActions);
-    public PossibleInputs OnPossibleInputs;
+    public PossibleInputs OnPossibleInputsChanged;
+
+    public delegate void ScrambledInputs(SerializedDictionary<ButtonValue, PlayerAction> scrambledActions);
+    public ScrambledInputs OnScrambledInputsChanged;
 
     [SerializedDictionary]
     protected SerializedDictionary<ButtonValue, PlayerAction> scrambledActions = new SerializedDictionary<ButtonValue, PlayerAction>();
@@ -80,7 +83,11 @@ public class Player : Previewable
         _shipRenderer.sprite = _shipSprite;
         _shipAudio = GetComponentInChildren<AudioSource>();
         _tickDurationUI = GetComponentInChildren<TickDurationUI>();
-        _tickDurationUI.SetupTickListening(manager);
+
+        if (_tickDurationUI)
+        {
+            _tickDurationUI.SetupTickListening(manager);
+        }
     }
 
     private void OnInputMoveStyleChanged(InputMoveStyle style)
@@ -120,7 +127,7 @@ public class Player : Previewable
                 break;
         }
 
-        OnPossibleInputs?.Invoke(_possibleActions);
+        OnPossibleInputsChanged?.Invoke(_possibleActions);
     }
 
     protected virtual void OnTickStart(float _)
@@ -159,7 +166,7 @@ public class Player : Previewable
             }
             else
             {
-                if (_lastInput.Value == inputValue.Key)
+                if (_lastInput != null && _lastInput.Value == inputValue.Key)
                 {
                     StartCoroutine(inputValue.Value.OnTickEnd(tickEndDuration));
                 }
@@ -303,7 +310,7 @@ public class Player : Previewable
             else
             {
                 var inputValue = playerAction.inputValue;
-                var rotation = ConvertInputValueToRotation(inputValue);
+                var rotation = playerActedUpon.ConvertInputValueToRotation(inputValue);
                 newPreview = _manager.CreatePreviewOfPreviewableAtTile(playerActedUpon, targetTile, rotation);
             }
 
@@ -333,8 +340,8 @@ public class Player : Previewable
         bulletGridMoveable.gameObject.transform.localRotation = GetTransfromAsReference().localRotation;
         var bullet = bulletGridMoveable.GetComponent<Bullet>();
         bullet.spawnSound = fireSFX;
-        bullet.PreviewColor = _shipInfo.baseColor;
-        bullet.owner = this;
+        bullet.PreviewColor = firingPlayer._shipInfo.baseColor;
+        bullet.owner = firingPlayer;
         bulletGridMoveable.GetComponentInChildren<SpriteRenderer>().sprite = _shipInfo.bulletSprite;
 
         return bulletGridMoveable;
@@ -360,7 +367,7 @@ public class Player : Previewable
         return isPlayerDead;
     }
 
-    public void OnDeath() 
+    public virtual void OnDeath() 
     {
         _deathVFX.gameObject.SetActive(true);
         _deathVFX.Play();
@@ -394,7 +401,7 @@ public class Player : Previewable
         _isInactive = true;
     }
 
-    public List<PlayerAction> GetPossibleActions()
+    public virtual List<PlayerAction> GetPossibleActions()
     {
         return _possibleActions;
     }
@@ -418,7 +425,7 @@ public class Player : Previewable
         _possibleActions.RemoveAll(x => x.inputValue == inputToRemove);
     }
 
-    public void SetScrambledActions(SerializedDictionary<ButtonValue, PlayerAction> playerActions)
+    public virtual void SetScrambledActions(SerializedDictionary<ButtonValue, PlayerAction> playerActions)
     {
         if (playerActions.Keys.Count == 0)
         {
@@ -452,9 +459,11 @@ public class Player : Previewable
         {
             PlayShipSFX(scrambleSFX);
         }
+
+        OnScrambledInputsChanged?.Invoke(scrambledActions);
     }
 
-    public List<PlayerAction> GetScrambledActions()
+    public virtual List<PlayerAction> GetScrambledActions()
     {
         if (scrambledActions == null)
         {
@@ -493,7 +502,7 @@ public class Player : Previewable
         _betweenTicks = false;
     }
 
-    void SetShipVisiblity(bool isVisible)
+    protected void SetShipVisiblity(bool isVisible)
     {
         _shipRenderer.enabled = isVisible;
 
@@ -504,7 +513,7 @@ public class Player : Previewable
         _shipCollider.enabled = isVisible;
     }
 
-    void SetInputVisibility(bool isVisible)
+    protected void SetInputVisibility(bool isVisible)
     {
         foreach (var item in buttonValueDisplays)
         {
@@ -572,7 +581,7 @@ public class Player : Previewable
         return null;
     }
 
-    public bool HasActiveInput()
+    public virtual bool HasActiveInput()
     { 
         return _lastInput != null;
     }
@@ -585,6 +594,12 @@ public class Player : Previewable
     public void AddButtonRenderer(ButtonValue value, InputRenderer renderer)
     {
         buttonValueDisplays.Add(value, renderer);
+    }
+
+    public virtual List<ButtonValue> GetButtonValues(int lastButtonIndex)
+    {
+        var allButtonValues = (ButtonValue[])Enum.GetValues(typeof(ButtonValue));
+        return allButtonValues.ToList().Take(lastButtonIndex).ToList();
     }
 
     protected override void PerformInteraction(GridObject collidedGridObject)

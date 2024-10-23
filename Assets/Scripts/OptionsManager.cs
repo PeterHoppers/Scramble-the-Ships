@@ -291,6 +291,7 @@ public enum GameInputProgression
     MoveAndShooting = 2,
     ScrambledShooting = 3,
     Rotation = 4,
+    DummyShip = 100
 }
 
 [System.Serializable]

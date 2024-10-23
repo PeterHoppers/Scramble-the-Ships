@@ -24,6 +24,7 @@ public class ControlsManager : MonoBehaviour, IManager
         _gameManager = manager;
         _gameManager.OnTickEnd += OnTickEnd;
         _gameManager.OnPlayerJoinedGame += OnPlayerJoined;
+        _gameManager.OnPlayerLeaveGame += OnPlayerLeave;
         _gameManager.OnScreenChange += OnScreenChange;
 
         _gameManager.EffectsSystem.OnScrambleAmountChanged += (int scrambleAmount) => _amountToScramble = scrambleAmount;
@@ -73,14 +74,37 @@ public class ControlsManager : MonoBehaviour, IManager
         }
 
         foreach (var player in _players) 
-        {
-            //TODO: Allow different players to get other player's actions
-            var unshuffled = unshuffledActions.Where(x => x.playerActionPerformedOn == player).ToList();
+        {            
+            List<PlayerAction> unshuffled = new List<PlayerAction>();
+            if (_scrambleType == GameInputProgression.DummyShip)
+            {
+                if (lastIndexForScrambling <= unshuffledActions.Count)
+                {
+                    unshuffled = unshuffledActions.Take(lastIndexForScrambling).ToList();
+                }
+                else
+                {
+                    if (unshuffledActions.Count == 0)
+                    {                        
+                        continue;
+                    }
+                    else
+                    {
+                        unshuffled = unshuffledActions.Take(unshuffledActions.Count).ToList();
+                    }
+                }
+            }
+            else
+            {
+                unshuffled = unshuffledActions.Where(x => x.playerActionPerformedOn == player).ToList();
+            }
+
+            unshuffledActions.RemoveAll(x => unshuffled.Contains(x));
 
             List<PlayerAction> shuffledValues;
             var currentControlsForPlayer = player.GetScrambledActions();
 
-            if (_playersSameShuffle && previousShuffle.Count != 0)
+            if (_playersSameShuffle && previousShuffle.Count != 0 && _scrambleType != GameInputProgression.DummyShip)
             {
                 shuffledValues = new List<PlayerAction>();
                 for (int index = 0; index < previousShuffle.Count; index++)
@@ -109,13 +133,14 @@ public class ControlsManager : MonoBehaviour, IManager
                 }
             }
 
-            var unShuffledInputs = GetButtonValues(unshuffled.Count);
+            var unShuffledInputs = player.GetButtonValues(unshuffled.Count);
 
             var playerActions = new SerializedDictionary<ButtonValue, PlayerAction>();
             for (int index = 0; index < unShuffledInputs.Count; index++)
             {
                 playerActions.Add(unShuffledInputs[index], shuffledValues[index]);
             }
+
 
             player.SetScrambledActions(playerActions);
 
@@ -190,17 +215,10 @@ public class ControlsManager : MonoBehaviour, IManager
         return shuffledValues;
     }
 
-    List<ButtonValue> GetButtonValues(int lastButtonIndex)
-    {
-        var allButtonValues = (ButtonValue[])Enum.GetValues(typeof(ButtonValue));
-        return allButtonValues.ToList().Take(lastButtonIndex).ToList();
-    }
-
-
     private void OnPlayerJoined(Player player)
     {
-        player.OnPossibleInputs += OnPlayerUpdatePossibleInputs;
-        _players = _gameManager.GetAllPlayers();
+        player.OnPossibleInputsChanged += OnPlayerUpdatePossibleInputs;
+        _players.Add(player);
 
         _gameManager.OnScreenChange += OnScreenChange;
         void OnScreenChange(int current_, int max_)
@@ -208,6 +226,13 @@ public class ControlsManager : MonoBehaviour, IManager
             _gameManager.OnScreenChange -= OnScreenChange;
             UpdateShuffledValues();
         }
+    }
+
+    private void OnPlayerLeave(Player player)
+    {
+        player.OnPossibleInputsChanged -= OnPlayerUpdatePossibleInputs;
+        _players.Remove(player);
+        UpdateShuffledValues();
     }
 
     private void OnPlayerUpdatePossibleInputs(List<PlayerAction> possibleActions)
@@ -219,7 +244,7 @@ public class ControlsManager : MonoBehaviour, IManager
     {
         foreach (var player in _players)
         {
-            player.OnPossibleInputs -= OnPlayerUpdatePossibleInputs;
+            player.OnPossibleInputsChanged -= OnPlayerUpdatePossibleInputs;
         }
     }
 
@@ -235,6 +260,7 @@ public class ControlsManager : MonoBehaviour, IManager
                 return 4;
             case GameInputProgression.ScrambledShooting:
             case GameInputProgression.Rotation:
+            case GameInputProgression.DummyShip:
                 return 5;
         }
     }

@@ -70,7 +70,12 @@ public class SpawnSystem : MonoBehaviour
 
     public void ConfigureSpawnedObject(GameObject spawnedObject, Tile spawnTile, GridObjectCommands spawnCommand)
     {
-        if (spawnedObject.TryGetComponent<GridMovable>(out var damageable))
+        if (spawnedObject.TryGetComponent<ObstaclePlayer>(out var player))
+        {
+            player.SetPosition(spawnTile);
+            _gameManager.CreateDummyShip(player);
+        }
+        else if (spawnedObject.TryGetComponent<GridMovable>(out var damageable))
         {
             damageable.SetupMoveable(_gameManager, this, spawnTile);
 
@@ -343,6 +348,7 @@ public enum SpawnObject
     BossLaser = 5,
     EnergyPickup = 6,
     Wormhole = 10,
+    DummyPlayer = 11,
 }
 
 [System.Serializable]
