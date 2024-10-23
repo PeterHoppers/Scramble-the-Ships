@@ -469,6 +469,11 @@ public class GameManager : MonoBehaviour
 
     public void HandlePlayerCollision(Player playerAttack, Player playerHit)
     {
+        if (_currentGameState != GameState.Playing)
+        {
+            return;
+        }
+
         if (playerAttack.IsPlayerDeadOnHit())
         {
             HandlePlayerDeath(playerAttack);
