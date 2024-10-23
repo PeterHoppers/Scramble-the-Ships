@@ -12,10 +12,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerDummy
       objectReference: {fileID: 0}
-    - target: {fileID: 1903801631095842690, guid: eddc66d2a7d2a3c4ea805ef786e6f4dc, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 0a41f45696fdb9544b338c5dc86e8347, type: 2}
     - target: {fileID: 2486107759580429252, guid: eddc66d2a7d2a3c4ea805ef786e6f4dc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -57,12 +53,32 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3703629377010989106, guid: eddc66d2a7d2a3c4ea805ef786e6f4dc, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703629377010989106, guid: eddc66d2a7d2a3c4ea805ef786e6f4dc, type: 3}
+      propertyPath: m_ActionEvents.Array.data[15].m_ActionId
+      value: d18824ab-15a9-4ca3-8b6f-eee6ad2b6f79
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703629377010989106, guid: eddc66d2a7d2a3c4ea805ef786e6f4dc, type: 3}
+      propertyPath: m_ActionEvents.Array.data[15].m_ActionName
+      value: UI/CoinInserted[/XInputControllerWindows/buttonEast]
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703629377010989106, guid: eddc66d2a7d2a3c4ea805ef786e6f4dc, type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1998823422387664389}
     - target: {fileID: 3703629377010989106, guid: eddc66d2a7d2a3c4ea805ef786e6f4dc, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 1998823422387664389}
+    - target: {fileID: 3703629377010989106, guid: eddc66d2a7d2a3c4ea805ef786e6f4dc, type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnPlayerMove
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703629377010989106, guid: eddc66d2a7d2a3c4ea805ef786e6f4dc, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnPlayerFire
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1531159744596222164, guid: eddc66d2a7d2a3c4ea805ef786e6f4dc, type: 3}

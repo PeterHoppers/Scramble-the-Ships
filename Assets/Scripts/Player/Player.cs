@@ -337,7 +337,7 @@ public class Player : Previewable
     GridMovable CreateBullet(Player firingPlayer, Tile spawnTile)
     {
         var bulletGridMoveable = _manager.CreateMovableAtTile(firingPlayer._shipInfo.fireable, firingPlayer, spawnTile);
-        bulletGridMoveable.gameObject.transform.localRotation = GetTransfromAsReference().localRotation;
+        bulletGridMoveable.gameObject.transform.localRotation = firingPlayer.GetTransfromAsReference().localRotation;
         var bullet = bulletGridMoveable.GetComponent<Bullet>();
         bullet.spawnSound = fireSFX;
         bullet.PreviewColor = firingPlayer._shipInfo.baseColor;

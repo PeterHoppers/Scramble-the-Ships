@@ -17,6 +17,12 @@ public class ObstaclePlayer : Player
     {
         base.InitPlayer(manager, shipInfo, id, style);
         _screenSystem = manager.GetComponent<ScreenSystem>();
+
+        //move the rotation from the parent to wherever needs the proper rotation to make the ship fire correctly
+        var currentRotation = transform.rotation;        
+        transform.rotation = new Quaternion();
+        TransitionToRotation(currentRotation, 0);
+
         SetInputVisibility(false);
     }
 

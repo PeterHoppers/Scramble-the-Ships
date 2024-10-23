@@ -45,7 +45,7 @@ public class ControlsManager : MonoBehaviour, IManager
         UpdateShuffledValues();
     }
 
-    void UpdateShuffledValues()
+    void UpdateShuffledValues(bool isForcedToShuffle = false)
     {
         var unshuffledActions = new List<PlayerAction>();
         var hasPlayerInputted = true;
@@ -70,7 +70,10 @@ public class ControlsManager : MonoBehaviour, IManager
 
         if (!hasPlayerInputted && !_doesScrambleOnNoInput)
         {
-            amountToScrambleWithVarience = 0;
+            if (!isForcedToShuffle)
+            {
+                amountToScrambleWithVarience = 0;
+            }
         }
 
         foreach (var player in _players) 
@@ -140,7 +143,6 @@ public class ControlsManager : MonoBehaviour, IManager
             {
                 playerActions.Add(unShuffledInputs[index], shuffledValues[index]);
             }
-
 
             player.SetScrambledActions(playerActions);
 
@@ -232,7 +234,7 @@ public class ControlsManager : MonoBehaviour, IManager
     {
         player.OnPossibleInputsChanged -= OnPlayerUpdatePossibleInputs;
         _players.Remove(player);
-        UpdateShuffledValues();
+        UpdateShuffledValues(true);
     }
 
     private void OnPlayerUpdatePossibleInputs(List<PlayerAction> possibleActions)
