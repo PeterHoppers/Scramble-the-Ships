@@ -10,19 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6e1ca9cdebeea74e97319e82b7ad330, type: 3}
-  m_Name: Dummy
+  m_Name: Level6
   m_EditorClassIdentifier: 
-  useOnePlayerForBoth: 1
+  useOnePlayerForBoth: 0
   onePlayerLevelScreens:
-  - {fileID: 11400000, guid: 2d38b9a6c36c3ca47bebb902761b7bb3, type: 2}
-  - {fileID: 11400000, guid: f4cf12b3a78a85945b098a87e62ce597, type: 2}
-  twoPlayerLevelScreens:
-  - {fileID: 11400000, guid: f22d92276758a57479dc359b11bbccf4, type: 2}
-  startingEffects:
-  - type: 11
-    amount: 200
-  levelName: Dummy Land
-  levelSong: {fileID: 8300000, guid: cf50a51bcdcd14c42954aef9efe5e342, type: 3}
+  - {fileID: 11400000, guid: 7727f09e91dd6a443b5b552e2fe071f3, type: 2}
+  - {fileID: 11400000, guid: 0bad0bd1f16c15846bef3f7a06fd7eec, type: 2}
+  - {fileID: 11400000, guid: c527ba94fca31794a98a0cd6ef8e45a1, type: 2}
+  - {fileID: 11400000, guid: 61a3269858c54f741893f9623dbc5e6f, type: 2}
+  twoPlayerLevelScreens: []
+  startingEffects: []
+  levelName: 
+  levelSong: {fileID: 0}
   levelBackground: {fileID: 0}
   overrideDefaultTransitionGrids: 0
   transitionGrids:

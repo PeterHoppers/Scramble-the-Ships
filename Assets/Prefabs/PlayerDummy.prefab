@@ -116,10 +116,20 @@ MonoBehaviour:
   exitSFX: {fileID: 0}
   _playerCommands:
     _serializedList:
+    - Key: {fileID: 11400000, guid: 7727f09e91dd6a443b5b552e2fe071f3, type: 2}
+      Value: 04000000
+    - Key: {fileID: 11400000, guid: 0bad0bd1f16c15846bef3f7a06fd7eec, type: 2}
+      Value: 04000000
+    - Key: {fileID: 11400000, guid: c527ba94fca31794a98a0cd6ef8e45a1, type: 2}
+      Value: 04000000
+    - Key: {fileID: 11400000, guid: 61a3269858c54f741893f9623dbc5e6f, type: 2}
+      Value: 0400000007000000
     - Key: {fileID: 11400000, guid: f4cf12b3a78a85945b098a87e62ce597, type: 2}
       Value: 0400000000000000
   _defaultShipCommands:
     _serializedList:
-    - Key: {fileID: 11400000, guid: f4cf12b3a78a85945b098a87e62ce597, type: 2}
+    - Key: {fileID: 11400000, guid: 0bad0bd1f16c15846bef3f7a06fd7eec, type: 2}
       Value: {fileID: 11400000, guid: d6f79f37a7f699f4ea9ec2d8fb3b88c6, type: 2}
+    - Key: {fileID: 11400000, guid: c527ba94fca31794a98a0cd6ef8e45a1, type: 2}
+      Value: {fileID: 11400000, guid: 606661a2e3350584082be1d23877d408, type: 2}
   playerInfo: {fileID: 11400000, guid: 1308066075c527b4bb474b11e5de6035, type: 2}

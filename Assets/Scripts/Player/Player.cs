@@ -111,12 +111,13 @@ public class Player : Previewable
         AddPossibleInput(InputValue.Starboard);
 
         switch (scrambleType)
-        {            
+        {
+            case GameInputProgression.DummyShipDefault:
+                AddRotationInputs();
+                break;
             case GameInputProgression.Rotation:
-                RemovePossibleInput(InputValue.Starboard);
-                RemovePossibleInput(InputValue.Port);
-                AddPossibleInput(InputValue.Clockwise);
-                AddPossibleInput(InputValue.Counterclockwise);
+            case GameInputProgression.CrossScrambleShooting:
+                AddRotationInputs();
                 AddPossibleInput(InputValue.Fire);
                 break;
             case GameInputProgression.MoveAndShooting:
@@ -128,6 +129,14 @@ public class Player : Previewable
         }
 
         OnPossibleInputsChanged?.Invoke(_possibleActions);
+    }
+
+    void AddRotationInputs()
+    {
+        RemovePossibleInput(InputValue.Starboard);
+        RemovePossibleInput(InputValue.Port);
+        AddPossibleInput(InputValue.Clockwise);
+        AddPossibleInput(InputValue.Counterclockwise);
     }
 
     protected virtual void OnTickStart(float _)
@@ -435,6 +444,7 @@ public class Player : Previewable
     {
         if (playerActions.Keys.Count == 0)
         {
+            OnScrambledInputsChanged?.Invoke(playerActions);
             return;
         }
 

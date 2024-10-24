@@ -35,10 +35,16 @@ public class ObstaclePlayer : Player
     }
 
     void SetupConfiguration(Screen screen)
-    {       
-        _shipCommands = _defaultShipCommands[screen].commands;
+    {
+        if (_defaultShipCommands.TryGetValue(screen, out var commands))
+        {
+            _shipCommands = commands.commands;
+        }
 
-        var playerInputOptions = _playerCommands[screen];
+        if (!_playerCommands.TryGetValue(screen, out var playerInputOptions))
+        {
+            return;
+        }
 
         var actions = new List<PlayerAction>();
 

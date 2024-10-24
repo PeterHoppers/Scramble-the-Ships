@@ -23,7 +23,7 @@ MonoBehaviour:
         offset: 0
       y:
         anchor: 1
-        offset: -3
+        offset: 1
   - spawnInfo:
       objectToSpawn: 1
       direction: 0
@@ -37,7 +37,7 @@ MonoBehaviour:
         offset: -1
   overrideDefaultTransitionGrids: 1
   transitionGrids:
-    direction: 3
+    direction: 0
     positions:
     - x:
         anchor: 1

@@ -22,6 +22,11 @@ public class InputRenderer : MonoBehaviour
     {
         SetRenderer();
         _transformTransition = GetComponent<TransformTransition>();
+        if (transform.localScale == Vector3.zero)
+        { 
+            transform.localScale = Vector3.one;
+        }
+
         _defaultScale = transform.localScale;
         _selectedScale = new Vector3(_defaultScale.x + scaleAmount, _defaultScale.y + scaleAmount, _defaultScale.z + scaleAmount);
     }
