@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueNodes:
   - textSpeaker: 0
-    textToDisplay: "Readings for this upcoming sector reveal that the alien defenses
-      are formidable. They have reused some of their laser technology to destroy
-      anything it interacts with.\r"
+    textToDisplay: Readings for this upcoming sector reveal that the alien defenses
+      have become increasingly more formidable. They have reused some of their laser
+      technology to destroy anything it interacts with.
   - textSpeaker: 0
     textToDisplay: "Since your ship\u2019s hull and missiles are already vulnerable
-      to their other lasers, we presume colliding with these lasers will go badly."
+      to their lasers, we presume colliding with these lasers will result in their
+      destruction. Be careful."

@@ -14,9 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueNodes:
   - textSpeaker: 0
-    textToDisplay: "We\u2019ve finally managed to reach you! I\u2019m getting some
-      strange readings from your ship, however. Running a diagnostic test on its
-      systems.\r"
+    textToDisplay: "We\u2019ve finally managed to reach you! We're getting some strange
+      readings from your ship, however. Running a diagnostic test on its systems.\r"
   - textSpeaker: 0
     textToDisplay: Results show that an alien virus of sorts has compromised your
       system. All your navigational controls have been scrambled and have greatly

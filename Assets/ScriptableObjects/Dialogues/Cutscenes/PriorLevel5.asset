@@ -15,8 +15,8 @@ MonoBehaviour:
   dialogueNodes:
   - textSpeaker: 0
     textToDisplay: "The further your ship travels through space, the more bizarre
-      results we\u2019re seeing through our scans. It looks like there are spatial
+      results we\u2019re seeing through our scans. This upcoming sector has spatial
       tunnels that can warp you between two different points in space."
   - textSpeaker: 0
-    textToDisplay: And they look stable enough to be interacted with safely. Hopefully
-      it is another element that you can use to your advantage.
+    textToDisplay: And to our surprise, they are stable enough to be interacted with
+      safely. This could be an element that you can use to your advantage.

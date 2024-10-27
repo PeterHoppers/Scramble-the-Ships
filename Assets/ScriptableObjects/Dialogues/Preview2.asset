@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueNodes:
   - textSpeaker: 0
-    textToDisplay: Whenever you reach the end of a screen, you get some energy back
-      before moving onto the next screen. When you reach the end of the last screen
-      in a level, you'll also get points depending on how much energy you manage
-      to have left.
+    textToDisplay: "Whenever you reach the end of a grid, you get some energy back
+      before moving onto the next grid. When you finish the last grid in a sector,
+      you get bonus points depending on how much energy you have left. If you ever
+      run out of energy, it\u2019s game over!"
   - textSpeaker: 0
-    textToDisplay: As you travel across space completing levels, they become increasingly
-      more difficult with new surprises around every turn. Can you successfully make
-      it back home or will you succumb to the alien threat?
+    textToDisplay: As you travel across space navigating through various sectors,
+      they become increasingly more difficult to traverse through with new surprises
+      around every turn. Can you successfully make it back home or will you succumb
+      to the alien threat?
