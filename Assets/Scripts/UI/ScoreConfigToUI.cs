@@ -30,12 +30,12 @@ public class ScoreConfigToUI : MonoBehaviour
         DisplayPoints(_scoreConfiguration.pointsPerTileMoved, _gridPoints);
         DisplayPoints(_scoreConfiguration.pointsPerScreenCompletion, _completedGrid);
         DisplayPoints(_scoreConfiguration.pointsPerLevel, _completedSector);
-        DisplayPoints(_scoreConfiguration.pointsPerEnergy, _energyAtEnd);
+        DisplayPoints(_scoreConfiguration.pointsPerEnergy, _energyAtEnd, " per Energy");
         DisplayPoints(_scoreConfiguration.pointsPerContinue, _continuesUsed);
     }
 
-    void DisplayPoints(int points, TextMeshProUGUI ui)
+    void DisplayPoints(int points, TextMeshProUGUI ui, string extraText = "")
     {
-        ui.text = $"{points} points";
+        ui.text = $"{points} points{extraText}";
     }
 }
