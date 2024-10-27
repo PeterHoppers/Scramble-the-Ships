@@ -3566,8 +3566,6 @@ MonoBehaviour:
     duration: 5
   - UI: {fileID: 392093637}
     duration: 10
-  - UI: {fileID: 1311430030}
-    duration: 15
   _transitionDuration: 0.5
 --- !u!1001 &1552655011
 PrefabInstance:
