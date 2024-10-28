@@ -4,37 +4,41 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using AYellowpaper.SerializedCollections;
 
 public class PlayerStatusUI : MonoBehaviour
 {
     public ActionButtonUI actionButtonUI;
     Player _player;
 
-    const int BUTTON_UI_NEEDED = 5;
-
     private void OnDisable()
     {
         if (_player != null)
         {
-            _player.OnPossibleInputs -= OnPossibleInputChanged;
+            _player.OnScrambledInputsChanged -= OnScrambledInputChanged;
         }
     }
 
     public void AddPlayerReference(Player player)
     {
         _player = player;
+        _player.OnScrambledInputsChanged += OnScrambledInputChanged;
+
         actionButtonUI.SetUIActiveState(true);
         
         actionButtonUI.SetActionSprite(player.GetSpriteForInput(InputValue.Fire));
         player.AddButtonRenderer(ButtonValue.Action, actionButtonUI.actionRenderer);
         actionButtonUI.SetButtonSprite(player.GetActionButtonSprite());
-        
-        _player.OnPossibleInputs += OnPossibleInputChanged;
     }
 
-    private void OnPossibleInputChanged(List<PlayerAction> possibleActions)
+    public void RemovePlayerReference(Player player) 
     {
-        var isButtonNeededForInput = (possibleActions.Count >= BUTTON_UI_NEEDED);
-        actionButtonUI.SetActiveState(isButtonNeededForInput);       
-    }    
+        player.OnScrambledInputsChanged -= OnScrambledInputChanged;
+    }
+
+    private void OnScrambledInputChanged(SerializedDictionary<ButtonValue, PlayerAction> scrambledActions)
+    {
+        var isButtonNeededForInput = scrambledActions.ContainsKey(ButtonValue.Action);
+        actionButtonUI.SetActiveState(isButtonNeededForInput);
+    }
 }

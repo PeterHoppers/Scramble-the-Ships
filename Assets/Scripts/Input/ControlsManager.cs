@@ -13,7 +13,7 @@ public class ControlsManager : MonoBehaviour, IManager
 
     private System.Random _random = new System.Random();
 
-    int _amountToScramble = 0;
+    int _amountScrambledOption = 0;
     int _percentChanceNotDefaultScrambleAmount = 0;
     bool _playersSameShuffle = true;
     bool _doesScrambleOnNoInput = false;
@@ -24,12 +24,13 @@ public class ControlsManager : MonoBehaviour, IManager
         _gameManager = manager;
         _gameManager.OnTickEnd += OnTickEnd;
         _gameManager.OnPlayerJoinedGame += OnPlayerJoined;
+        _gameManager.OnPlayerLeaveGame += OnPlayerLeave;
         _gameManager.OnScreenChange += OnScreenChange;
 
-        _gameManager.EffectsSystem.OnScrambleAmountChanged += (int scrambleAmount) => _amountToScramble = scrambleAmount;
+        _gameManager.EffectsSystem.OnScrambleAmountChanged += (int scrambleAmount) => _amountScrambledOption = scrambleAmount;
         _gameManager.EffectsSystem.OnMultiplayerScrambleTypeChanged += (bool isSame) => _playersSameShuffle = isSame;
         _gameManager.EffectsSystem.OnScrambleVarianceChanged += (int scrambleVarience) => _percentChanceNotDefaultScrambleAmount = scrambleVarience;
-        _gameManager.EffectsSystem.OnGameInputProgressionChanged += (GameInputProgression newScrambleType) => _scrambleType = newScrambleType;
+        _gameManager.EffectsSystem.OnGameInputProgressionChanged += OnGameInputProgressionChanged;
 
         OptionsManager.Instance.OnParametersChanged += (GameSettingParameters gameSettings, SystemSettingParameters _) => _doesScrambleOnNoInput = gameSettings.doesScrambleOnNoInput;
     }
@@ -44,10 +45,9 @@ public class ControlsManager : MonoBehaviour, IManager
         UpdateShuffledValues();
     }
 
-    void UpdateShuffledValues()
+    void UpdateShuffledValues(bool isForcedToShuffle = false)
     {
-        var unshuffledActions = new List<PlayerAction>();
-        var hasPlayerInputted = true;
+        var allPossibleActions = new List<PlayerAction>();
 
         foreach (var player in _players)
         {
@@ -56,60 +56,59 @@ public class ControlsManager : MonoBehaviour, IManager
                 continue;
             }
 
-            unshuffledActions.AddRange(player.GetPossibleActions());
-            if (hasPlayerInputted)
-            {                
-                hasPlayerInputted = player.HasActiveInput();
+            allPossibleActions.AddRange(player.GetPossibleActions());           
+        }
+
+        var amountToScramble = AdjustScrambleAmountForVarience(_amountScrambledOption, _percentChanceNotDefaultScrambleAmount);
+
+        if (!_doesScrambleOnNoInput)
+        {
+            var hasPlayerInputted = true;
+
+            foreach (var player in _players)
+            {
+                if (hasPlayerInputted)
+                {
+                    hasPlayerInputted = player.HasActiveInput();
+                }
+            }
+
+            if (!hasPlayerInputted && !isForcedToShuffle)
+            {
+                amountToScramble = 0;
             }
         }
 
-        var previousShuffle = new List<PlayerAction>();
         var lastIndexForScrambling = GetLastIndexForScrambleType(_scrambleType);
-        var amountToScrambleWithVarience = AdjustScrambleAmountForVarience(_amountToScramble, _percentChanceNotDefaultScrambleAmount);
+        var previousShuffle = new List<PlayerAction>();
 
-        if (!hasPlayerInputted && !_doesScrambleOnNoInput)
+        foreach (var player in _players)
         {
-            amountToScrambleWithVarience = 0;
-        }
-
-        foreach (var player in _players) 
-        {
-            //TODO: Allow different players to get other player's actions
-            var unshuffled = unshuffledActions.Where(x => x.playerActionPerformedOn == player).ToList();
-
-            List<PlayerAction> shuffledValues;
-            var currentControlsForPlayer = player.GetScrambledActions();
-
-            if (_playersSameShuffle && previousShuffle.Count != 0)
+            List<PlayerAction> shuffledValues;            
+            var possibleActions = GetPossibleActionsForPlayer(player, allPossibleActions, lastIndexForScrambling);
+            if (possibleActions.Count == 0)
+            {
+                shuffledValues = new List<PlayerAction>();
+            }
+            else if (_playersSameShuffle && previousShuffle.Count == possibleActions.Count)
             {
                 shuffledValues = new List<PlayerAction>();
                 for (int index = 0; index < previousShuffle.Count; index++)
                 {
                     var previousShuffledAction = previousShuffle[index];
-                    var actionWithSameInput = unshuffled.Find(x => x.inputValue == previousShuffledAction.inputValue);
-                    shuffledValues.Add(actionWithSameInput);
+                    var actionWithSameInput = possibleActions.Find(x => x.inputValue == previousShuffledAction.inputValue);
+                    if (actionWithSameInput.playerActionPerformedOn != null)
+                    {
+                        shuffledValues.Add(actionWithSameInput);
+                    }
                 }
             }
             else
             {
-                if (lastIndexForScrambling == 0 || amountToScrambleWithVarience == 0 || currentControlsForPlayer.Count == 0)
-                {
-                    if (_scrambleType == GameInputProgression.SimpleMovement || currentControlsForPlayer.Count == 0 || currentControlsForPlayer.Count != unshuffled.Count)
-                    {
-                        shuffledValues = unshuffled;
-                    }
-                    else
-                    {
-                        shuffledValues = currentControlsForPlayer;
-                    }
-                }
-                else
-                {
-                    shuffledValues = ShuffleInputs(unshuffled, currentControlsForPlayer, amountToScrambleWithVarience, lastIndexForScrambling);
-                }
+                shuffledValues = ShuffleInputs(possibleActions, player.GetScrambledActions(), amountToScramble, lastIndexForScrambling);
             }
 
-            var unShuffledInputs = GetButtonValues(unshuffled.Count);
+            var unShuffledInputs = player.GetButtonValues(possibleActions.Count);
 
             var playerActions = new SerializedDictionary<ButtonValue, PlayerAction>();
             for (int index = 0; index < unShuffledInputs.Count; index++)
@@ -126,8 +125,73 @@ public class ControlsManager : MonoBehaviour, IManager
         }
     }
 
+    List<PlayerAction> GetPossibleActionsForPlayer(Player player, List<PlayerAction> possibleActions, int lastIndexForScrambling)
+    {
+        if (_scrambleType == GameInputProgression.DummyShipDefault)
+        {
+            if (player.PlayerId == 0)
+            {
+                return possibleActions.Take(lastIndexForScrambling).ToList();
+            }
+            else
+            {
+                var remainingActions = possibleActions.Count - lastIndexForScrambling;
+                return possibleActions.Skip(lastIndexForScrambling).Take(remainingActions).ToList();
+            }
+        }
+        else if (_scrambleType == GameInputProgression.CrossScrambleShooting)
+        { 
+            var playerMovementActions = possibleActions.Where(x => x.playerActionPerformedOn == player && x.inputValue != InputValue.Fire).ToList();
+            var otherPlayerShootingAction = possibleActions.FirstOrDefault(x => x.playerActionPerformedOn != player && x.inputValue == InputValue.Fire);
+            
+            if (otherPlayerShootingAction.playerActionPerformedOn != null)
+            {
+                playerMovementActions.Add(otherPlayerShootingAction);                
+            }
+            else
+            {
+                var playerShootingAction = possibleActions.FirstOrDefault(x => x.playerActionPerformedOn == player && x.inputValue == InputValue.Fire);
+
+                if (playerShootingAction.playerActionPerformedOn != null)
+                {
+                    playerMovementActions.Add(playerShootingAction);
+                }
+            }
+
+            return playerMovementActions;
+        }
+
+        return possibleActions.Where(x => x.playerActionPerformedOn == player).ToList();
+    }
+
     List<PlayerAction> ShuffleInputs(List<PlayerAction> unshuffledValues, List<PlayerAction> lastShuffle, int amountOfOptionsToScramble, int totalAmountOfScrambleOptions)
     {
+        //if it is the first scramble, set their possible values to the default
+        if (lastShuffle.Count == 0)
+        { 
+            return unshuffledValues;
+        }
+
+        //if we don't want any controls to be scrambled at all, use the defaults
+        if (totalAmountOfScrambleOptions == 0) 
+        {
+            return unshuffledValues;
+        }
+
+        //if we don't want to scramble their current controls, either keep them the same (if the options of controls haven't changed) or go to the default if they have
+        if (amountOfOptionsToScramble == 0) 
+        {
+            //Hashset taken from:https://stackoverflow.com/questions/1673347/linq-determine-if-two-sequences-contains-exactly-the-same-elements
+            if (new HashSet<PlayerAction>(unshuffledValues).SetEquals(lastShuffle))
+            {
+                return lastShuffle;
+            }
+            else
+            {
+                return unshuffledValues;
+            }
+        }
+
         List<PlayerAction> shuffledValues = new List<PlayerAction>();
 
         //this is the same as long as amount scramble options does change
@@ -137,8 +201,7 @@ public class ControlsManager : MonoBehaviour, IManager
         {
             var lastShuffledValues = lastShuffle.Take(totalAmountOfScrambleOptions).ToList();
 
-            //if we're still shuffling the same values, refer back to the last shuffle as our baseline, so that we change the previous
-            //Hashset taken from: https://stackoverflow.com/questions/1673347/linq-determine-if-two-sequences-contains-exactly-the-same-elements
+            //if we're still shuffling the same values, refer back to the last shuffle as our baseline, so that our new values are for sure different from the previous shuffle   
             if (new HashSet<PlayerAction>(valuesToShuffle).SetEquals(lastShuffledValues))
             {
                 valuesToShuffle = lastShuffledValues;
@@ -190,17 +253,10 @@ public class ControlsManager : MonoBehaviour, IManager
         return shuffledValues;
     }
 
-    List<ButtonValue> GetButtonValues(int lastButtonIndex)
-    {
-        var allButtonValues = (ButtonValue[])Enum.GetValues(typeof(ButtonValue));
-        return allButtonValues.ToList().Take(lastButtonIndex).ToList();
-    }
-
-
     private void OnPlayerJoined(Player player)
     {
-        player.OnPossibleInputs += OnPlayerUpdatePossibleInputs;
-        _players = _gameManager.GetAllPlayers();
+        player.OnPossibleInputsChanged += OnPlayerUpdatePossibleInputs;
+        _players.Add(player);
 
         _gameManager.OnScreenChange += OnScreenChange;
         void OnScreenChange(int current_, int max_)
@@ -210,16 +266,46 @@ public class ControlsManager : MonoBehaviour, IManager
         }
     }
 
+    private void OnPlayerLeave(Player player)
+    {
+        player.OnPossibleInputsChanged -= OnPlayerUpdatePossibleInputs;
+        _players.Remove(player);
+        UpdateShuffledValues(true);
+    }
+
     private void OnPlayerUpdatePossibleInputs(List<PlayerAction> possibleActions)
     {
         UpdateShuffledValues();
     }
 
+    private void OnGameInputProgressionChanged(GameInputProgression scrambleType)
+    {
+        if (_scrambleType == scrambleType)
+        {
+            return;
+        }
+
+        _scrambleType = scrambleType;
+
+        if (_gameManager.GetGameState() != GameState.Cutscene)
+        {
+            return;
+        }
+
+        _gameManager.OnTickStart += OnNextTickOfProgression;
+        void OnNextTickOfProgression(float _)
+        {
+            _gameManager.OnTickStart -= OnNextTickOfProgression;
+            UpdateShuffledValues(true);
+        }
+    }
+
+
     private void OnDisable()
     {
         foreach (var player in _players)
         {
-            player.OnPossibleInputs -= OnPlayerUpdatePossibleInputs;
+            player.OnPossibleInputsChanged -= OnPlayerUpdatePossibleInputs;
         }
     }
 
@@ -232,9 +318,11 @@ public class ControlsManager : MonoBehaviour, IManager
                 return 0;
             case GameInputProgression.ScrambledMovement:
             case GameInputProgression.MoveAndShooting:
+            case GameInputProgression.CrossScrambleShooting:
                 return 4;
             case GameInputProgression.ScrambledShooting:
             case GameInputProgression.Rotation:
+            case GameInputProgression.DummyShipDefault:
                 return 5;
         }
     }

@@ -40,6 +40,9 @@ public class GameManager : MonoBehaviour
     public delegate void PlayerJoined(Player player);
     public PlayerJoined OnPlayerJoinedGame;
 
+    public delegate void PlayerLeave(Player player);
+    public PlayerLeave OnPlayerLeaveGame;
+
     public delegate void PlayerDeath(Player player);
     public PlayerDeath OnPlayerDeath;
 
@@ -179,6 +182,19 @@ public class GameManager : MonoBehaviour
         OnPlayerJoinedGame?.Invoke(newPlayer);
     }
 
+    public void CreateDummyShip(ObstaclePlayer dummyShip)
+    {
+        if (_players.Count >= 2)
+        {
+            Debug.LogWarning("We're making a dummy ship, while we already have 2 ships. Did we want that?");
+        }
+        dummyShip.InitPlayer(this, dummyShip.playerInfo, 1, _inputMoveStyle);
+        dummyShip.transform.SetParent(transform);
+        dummyShip.name = "Dummy Player";
+
+        OnPlayerJoinedGame?.Invoke(dummyShip);
+    }
+
     Tile GetStartingTileForPlayer(int playerId)
     {
         var startingPosition = _startingPlayerPositions[playerId];
@@ -211,6 +227,11 @@ public class GameManager : MonoBehaviour
         UpdatePlayerStartRotation(player);
         var startingTile = GetStartingTileForPlayer(player.PlayerId);
         MovePlayerOnScreenToTile(player, startingTile, duration);
+    }
+
+    public void PlayerLeaveGame(Player player)
+    { 
+        OnPlayerLeaveGame?.Invoke(player);
     }
 
     public void PlayerGainedCondition(Player player, Condition condition)
@@ -253,8 +274,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// <param name="player"></param>
     public void ScreenChangeTriggered(Player player, SpawnDirections transitionDirection)
-    {       
-       StartCoroutine(OnScreenChangeTriggered(player, transitionDirection));
+    {
+        StartCoroutine(OnScreenChangeTriggered(player, transitionDirection));
     }
 
     IEnumerator OnScreenChangeTriggered(Player player, SpawnDirections transitionDirection)
@@ -266,22 +287,21 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(_tickEndDuration);
         }
 
-        MovePlayerOffScreen(player);
+        if (_currentGameState == GameState.Playing)
+        {
+            MovePlayerOffScreen(player);
+        }
     }
 
     void MovePlayerOffScreen(Player player)
     {
-        var currentPos = player.CurrentTile.GetTilePosition();
-        _spawnSystem.MovePreviewableOffScreenToPosition(player, player.GetTransfromAsReference().up, currentPos, TickDuration);
-        player.OnMoveOffScreen();
-
         _playerFinishedWithScreen++;
 
         if (_playerFinishedWithScreen >= _players.Count)
         {
+            ToggleIsPlaying(false, GameState.Transition);
             _playerFinishedWithScreen = 0;
             ClearAllPreviews();
-            ToggleIsPlaying(false, GameState.Transition);
             EndScreen(TickDuration);
         }
         else
@@ -289,6 +309,10 @@ public class GameManager : MonoBehaviour
             player.SetInputStatus(false);
             player.SetActiveStatus(false);
         }
+
+        var currentPos = player.CurrentTile.GetTilePosition();
+        _spawnSystem.MovePreviewableOffScreenToPosition(player, player.GetTransfromAsReference().up, currentPos, TickDuration);
+        player.OnMoveOffScreen();
     }
 
     void EndScreen(float endingDuration)
@@ -409,6 +433,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public GameState GetGameState()
+    {
+        return _currentGameState;
+    }
+
     void UpdateGameState(GameState gameState) 
     {
         _previousGameState = _currentGameState;
@@ -448,6 +477,11 @@ public class GameManager : MonoBehaviour
 
     public void HandlePlayerCollision(Player playerAttack, Player playerHit)
     {
+        if (_currentGameState != GameState.Playing)
+        {
+            return;
+        }
+
         if (playerAttack.IsPlayerDeadOnHit())
         {
             HandlePlayerDeath(playerAttack);
@@ -493,6 +527,11 @@ public class GameManager : MonoBehaviour
 
     void UpdateStateOnPlayerDeath()
     {
+        if (_currentGameState != GameState.Playing)
+        {
+            return;
+        }
+
         if (_energySystem.CanPlayerDieAndGameContinue())
         {
             StartCoroutine(ResetScreen(false));

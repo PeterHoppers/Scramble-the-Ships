@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: EnemyShip_Intro
   m_EditorClassIdentifier: 
   dialogueNodes:
-  - textToDisplay: Heads up, pilot. We have been running some scans and our sensors
+  - textSpeaker: 0
+    textToDisplay: Heads up, pilot. We have been running some scans and our sensors
       have detected readings of alien ships in the region heading your way.
-  - textToDisplay: They should be appearing on your screen momentarily. Thankfully,
-      your time-modifying grid will impact them as well, but please still be careful.
+  - textSpeaker: 0
+    textToDisplay: "You\u2019ll be able to get a visual on them momentarily. Thankfully,
+      your time-modifying grid will impact them as well, but please still be careful."

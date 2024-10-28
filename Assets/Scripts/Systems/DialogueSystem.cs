@@ -69,6 +69,7 @@ public class DialogueSystem : MonoBehaviour
         _dialogueAudioSource = GetComponent<AudioSource>();
         CurrentLineShown = false;
         continuePrompt.SetActive(false);
+       
         dialogueTypewriter.onTextShowed.AddListener(() => 
         {
             CurrentLineShown = true;
@@ -78,14 +79,16 @@ public class DialogueSystem : MonoBehaviour
                 StartCoroutine(AutoAdvanceDialogue(advanceTime));
             }
         });
-
-        _inputSystem = EventSystem.current.gameObject.GetComponent<InputSystemUIInputModule>();
-        _inputSystem.submit.action.performed += OnSubmit;
-
         dialogueTypewriter.waitForNormalChars = dialogueSpeed;
         dialogueTypewriter.waitMiddle = dialogueSpeed * 10;
         dialogueTypewriter.waitLong = dialogueSpeed * 20;
         dialogueHolder.SetActive(false);
+
+        if (!GlobalGameStateManager.Instance.IsAIPlaying)
+        {
+            _inputSystem = EventSystem.current.gameObject.GetComponent<InputSystemUIInputModule>();
+            _inputSystem.submit.action.performed += OnSubmit;
+        }       
     }
 
     void OnSubmit(InputAction.CallbackContext context)
@@ -208,6 +211,10 @@ public class DialogueSystem : MonoBehaviour
     private void OnDisable()
     {
         StopAllCoroutines();
-        _inputSystem.submit.action.performed -= OnSubmit;
+
+        if (_inputSystem != null) 
+        {
+            _inputSystem.submit.action.performed -= OnSubmit;
+        }
     }
 }

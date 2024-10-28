@@ -21,6 +21,7 @@ public class UIManager : MonoBehaviour, IManager
     {
         _gameManager = manager;
         _gameManager.OnPlayerJoinedGame += OnPlayerJoined;
+        _gameManager.OnPlayerLeaveGame += OnPlayerLeave;
         _gameManager.OnGameStateChanged += OnGameStateChanged;
         _gameManager.OnScreenChange += OnScreenChange;
         _gameManager.OnLevelEnd += OnLevelEnd;
@@ -100,8 +101,22 @@ public class UIManager : MonoBehaviour, IManager
 
     void OnPlayerJoined(Player player)
     {
+        if (player.PlayerId >= playerStatusUIs.Length)
+        {
+            return;
+        }
         var playerStatus = playerStatusUIs[player.PlayerId];
         playerStatus.AddPlayerReference(player);
+    }
+
+    void OnPlayerLeave(Player player)
+    {
+        if (player.PlayerId >= playerStatusUIs.Length)
+        {
+            return;
+        }
+        var playerStatus = playerStatusUIs[player.PlayerId];
+        playerStatus.RemovePlayerReference(player);
     }
 
     void OnEnergyChange(int currentEnergy, int maxEnergy)

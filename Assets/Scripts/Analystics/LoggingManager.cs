@@ -53,7 +53,8 @@ public class LoggingManager : MonoBehaviour, IManager
         _manager.OnLevelEnd += OnLevelEnd;
         _manager.OnPlayerDeath += OnPlayerDeath;
         _manager.OnScreenChange += OnScreenChange;
-    }
+        _manager.OnPlayerPickup += OnPlayerPickup;
+    }    
 
     private void OnDestroy()
     {
@@ -79,6 +80,7 @@ public class LoggingManager : MonoBehaviour, IManager
         _manager.OnLevelEnd -= OnLevelEnd;
         _manager.OnPlayerDeath -= OnPlayerDeath;
         _manager.OnScreenChange -= OnScreenChange;
+        _manager.OnPlayerPickup -= OnPlayerPickup;
     }
 
     private void OnCreditChange(int creditAmount)
@@ -187,6 +189,22 @@ public class LoggingManager : MonoBehaviour, IManager
         });
     }
 
+    private void OnPlayerPickup(Player player, PickupType pickupType)
+    {
+        if (pickupType != PickupType.Energy)
+        {
+            return;
+        }
+
+        PostToForm(new LoggingData()
+        {
+            playerEvent = LoggingEvents.OnEnergyPickup,
+            playerGuid = GlobalGameStateManager.Instance.CurrentPlayingGUID,
+            param1 = GlobalGameStateManager.Instance.ActiveLevelIndex.ToString(),
+            param2 = _currentScreen.ToString(),
+        });
+    }
+
     private void PostToForm(LoggingData data)
     {
         if (GlobalGameStateManager.Instance.IsAIPlaying)
@@ -224,5 +242,6 @@ public enum LoggingEvents
     OnGameOver,
     OnContinueUsed,
     OnLevelEnd,
-    OnGameEnd
+    OnGameEnd,
+    OnEnergyPickup
 }

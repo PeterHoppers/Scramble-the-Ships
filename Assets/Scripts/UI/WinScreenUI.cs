@@ -11,11 +11,9 @@ public class WinScreenUI : MonoBehaviour
     [Header("UI Configuration")]
     public TextMeshProUGUI previousScoreText;
     public TextMeshProUGUI levelValueText;
-    public TextMeshProUGUI pointsPerEnergyText;
-    public TextMeshProUGUI energyLeftText;
+    public TextMeshProUGUI energyText;
     public TextMeshProUGUI energyScoreText;
-    public TextMeshProUGUI continueValueText;
-    public TextMeshProUGUI continuesUsedText;
+    public TextMeshProUGUI continueText;
     public TextMeshProUGUI continuesScoreText;
     public TextMeshProUGUI totalScoreText;  
 
@@ -47,12 +45,10 @@ public class WinScreenUI : MonoBehaviour
         previousScoreText.text = previousScore.ToString();
         levelValueText.text = _levelValue.ToString();
 
-        pointsPerEnergyText.text = _energyValue.ToString();
-        energyLeftText.text = energyLeft.ToString();
+        energyText.text = $"({energyLeft} x {_energyValue})";
         energyScoreText.text = energyScore.ToString();
 
-        continueValueText.text = _continueLossValue.ToString();
-        continuesUsedText.text = continuesUsed.ToString();
+        continueText.text = $"({continuesUsed} x {_continueLossValue})";
         continuesScoreText.text = continueScore.ToString();
 
         totalScoreText.text = totalScore.ToString();

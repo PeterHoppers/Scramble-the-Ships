@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: PriorLevel2
   m_EditorClassIdentifier: 
   dialogueNodes:
-  - textToDisplay: "We\u2019re getting data back from your systems about the upcoming
-      sector, and the chosen spots to arrive and safely depart each screen is becoming
-      abnormal."
-  - textToDisplay: "We are unsure if that\u2019s due to your systems being hacked,
+  - textSpeaker: 0
+    textToDisplay: "We\u2019re getting some abnormal data back about this upcoming
+      sector. When running an analysis of which squares could be considered as safe
+      transition zones, the results no longer return squares only found at the top
+      of the grid."
+  - textSpeaker: 0
+    textToDisplay: "We are unsure if that\u2019s due to your systems being hacked,
       or if it's due to anomalies found within the sector itself. Nonetheless, be
-      prepared for a less linear route through it."
+      prepared for your journey to become even less straight-forward."

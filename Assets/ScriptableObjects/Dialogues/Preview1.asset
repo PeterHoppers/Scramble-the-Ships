@@ -19,6 +19,5 @@ MonoBehaviour:
       ship\u2019s energy runs out!\r"
   - textSpeaker: 0
     textToDisplay: However, due to alien interference, your controls get scrambled
-      every time you command your ship! Thankfully, your ship has the ability to
-      stop time for a limited amount of time to allow you to react to the scrambled
-      results.
+      whenever you command your ship! Thankfully, your ship has the ability to stop
+      time for a short duration to allow you to react to the scrambled results.

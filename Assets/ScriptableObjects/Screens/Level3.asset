@@ -16,10 +16,10 @@ MonoBehaviour:
   onePlayerLevelScreens:
   - {fileID: 11400000, guid: 266103a7550dd8b44b02505f8c027de7, type: 2}
   - {fileID: 11400000, guid: f22d92276758a57479dc359b11bbccf4, type: 2}
-  - {fileID: 11400000, guid: d8737a5631f012444badab1f43cec125, type: 2}
+  - {fileID: 11400000, guid: 2576f78066da254419d7e0da2ea1d443, type: 2}
   - {fileID: 11400000, guid: 38235691008956447a60184fe522f64a, type: 2}
   - {fileID: 11400000, guid: 2f2b3f9833ffd094f84133543db1c06b, type: 2}
-  - {fileID: 11400000, guid: 2576f78066da254419d7e0da2ea1d443, type: 2}
+  - {fileID: 11400000, guid: d8737a5631f012444badab1f43cec125, type: 2}
   twoPlayerLevelScreens: []
   startingEffects:
   - type: 0

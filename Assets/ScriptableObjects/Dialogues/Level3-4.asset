@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Level3-4
   m_EditorClassIdentifier: 
   dialogueNodes:
-  - textToDisplay: As these sectors increase in length and complexity, the limited
-      energy amount that your ship can carry could start to impact your ability to
-      successfully navigate through it all.
-  - textToDisplay: "And so, we\u2019ve sent a couple of energy packs to arrive in
-      your sector. One should be on the screen you are on now. Simply fly your ship
-      into it and it will absorb its contents."
+  - textSpeaker: 0
+    textToDisplay: As these sectors increase in length and complexity, we are concerned
+      that the limited energy your ship can carry will start to impact your ability
+      to successfully navigate through the whole sector.
+  - textSpeaker: 0
+    textToDisplay: "And so, we\u2019ve deployed a couple of energy packs to arrive
+      in your sector. One should have landed in your current grid. Move your ship
+      into an energy pack to have it gain its energy."
