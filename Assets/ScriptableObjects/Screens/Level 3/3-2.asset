@@ -16,69 +16,47 @@ MonoBehaviour:
   - spawnInfo:
       objectToSpawn: 0
       direction: 3
-      groupingSize: 8
-    spawnCoordinates:
-      x:
-        anchor: 0
-        offset: 2
-      y:
-        anchor: 1
-        offset: 1
-  - spawnInfo:
-      objectToSpawn: 0
-      direction: 3
-      groupingSize: 8
+      groupingSize: 9
     spawnCoordinates:
       x:
         anchor: 0
         offset: 1
       y:
         anchor: 1
-        offset: 1
+        offset: 0
   - spawnInfo:
       objectToSpawn: 0
       direction: 3
-      groupingSize: 8
+      groupingSize: 9
     spawnCoordinates:
       x:
         anchor: 0
         offset: 0
       y:
         anchor: 1
-        offset: 1
+        offset: 0
   - spawnInfo:
       objectToSpawn: 0
       direction: 3
-      groupingSize: 8
-    spawnCoordinates:
-      x:
-        anchor: 2
-        offset: 2
-      y:
-        anchor: 1
-        offset: 1
-  - spawnInfo:
-      objectToSpawn: 0
-      direction: 3
-      groupingSize: 8
+      groupingSize: 9
     spawnCoordinates:
       x:
         anchor: 2
         offset: 1
       y:
         anchor: 1
-        offset: 1
+        offset: 0
   - spawnInfo:
       objectToSpawn: 0
       direction: 3
-      groupingSize: 8
+      groupingSize: 9
     spawnCoordinates:
       x:
         anchor: 2
         offset: 0
       y:
         anchor: 1
-        offset: 1
+        offset: 0
   - spawnInfo:
       objectToSpawn: 1
       direction: 0
@@ -134,6 +112,28 @@ MonoBehaviour:
       y:
         anchor: 1
         offset: -2
+  - spawnInfo:
+      objectToSpawn: 1
+      direction: 0
+      groupingSize: 1
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: 3
+      y:
+        anchor: 1
+        offset: -3
+  - spawnInfo:
+      objectToSpawn: 1
+      direction: 0
+      groupingSize: 1
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: -3
+      y:
+        anchor: 1
+        offset: -3
   overrideDefaultTransitionGrids: 1
   transitionGrids:
     direction: 0
@@ -158,6 +158,7 @@ MonoBehaviour:
   twoPlayerDialogue: {fileID: 0}
   effects: []
   playerAICommands: {fileID: 0}
+  screenMusicTransition: {fileID: 0}
   enemySpawnInformation:
     _serializedList: []
   spawnsLoopAtTick: 0

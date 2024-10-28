@@ -16,69 +16,47 @@ MonoBehaviour:
   - spawnInfo:
       objectToSpawn: 0
       direction: 0
-      groupingSize: 4
+      groupingSize: 3
     spawnCoordinates:
       x:
-        anchor: 0
+        anchor: 1
         offset: 0
       y:
         anchor: 1
-        offset: 4
+        offset: 0
   - spawnInfo:
       objectToSpawn: 0
       direction: 0
-      groupingSize: 4
+      groupingSize: 3
     spawnCoordinates:
       x:
-        anchor: 2
+        anchor: 1
+        offset: 0
+      y:
+        anchor: 1
+        offset: 1
+  - spawnInfo:
+      objectToSpawn: 1
+      direction: 1
+      groupingSize: 3
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: 0
+      y:
+        anchor: 1
+        offset: -1
+  - spawnInfo:
+      objectToSpawn: 1
+      direction: 0
+      groupingSize: 3
+    spawnCoordinates:
+      x:
+        anchor: 1
         offset: 0
       y:
         anchor: 1
         offset: 2
-  - spawnInfo:
-      objectToSpawn: 0
-      direction: 0
-      groupingSize: 4
-    spawnCoordinates:
-      x:
-        anchor: 2
-        offset: 0
-      y:
-        anchor: 1
-        offset: 6
-  - spawnInfo:
-      objectToSpawn: 0
-      direction: 0
-      groupingSize: 4
-    spawnCoordinates:
-      x:
-        anchor: 0
-        offset: 0
-      y:
-        anchor: 1
-        offset: 0
-  - spawnInfo:
-      objectToSpawn: 0
-      direction: 0
-      groupingSize: 4
-    spawnCoordinates:
-      x:
-        anchor: 0
-        offset: 0
-      y:
-        anchor: 1
-        offset: -4
-  - spawnInfo:
-      objectToSpawn: 0
-      direction: 0
-      groupingSize: 4
-    spawnCoordinates:
-      x:
-        anchor: 2
-        offset: 0
-      y:
-        anchor: 1
-        offset: -2
   overrideDefaultTransitionGrids: 0
   transitionGrids:
     direction: 0
@@ -89,7 +67,9 @@ MonoBehaviour:
   useDifferentDialogueForBothPlayers: 0
   screenDialogue: {fileID: 0}
   twoPlayerDialogue: {fileID: 0}
-  effects: []
+  effects:
+  - type: 12
+    amount: 100
   playerAICommands: {fileID: 0}
   screenMusicTransition: {fileID: 0}
   enemySpawnInformation:
@@ -99,8 +79,15 @@ MonoBehaviour:
       - spawnInfo:
           objectToSpawn: 3
           direction: 0
-          groupingSize: 3
+          groupingSize: 2
         otherCoordinate:
-          anchor: 1
-          offset: 0
+          anchor: 2
+          offset: 1
+      - spawnInfo:
+          objectToSpawn: 3
+          direction: 0
+          groupingSize: 2
+        otherCoordinate:
+          anchor: 0
+          offset: 1
   spawnsLoopAtTick: 0
