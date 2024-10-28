@@ -30,7 +30,7 @@ public class ControlsManager : MonoBehaviour, IManager
         _gameManager.EffectsSystem.OnScrambleAmountChanged += (int scrambleAmount) => _amountScrambledOption = scrambleAmount;
         _gameManager.EffectsSystem.OnMultiplayerScrambleTypeChanged += (bool isSame) => _playersSameShuffle = isSame;
         _gameManager.EffectsSystem.OnScrambleVarianceChanged += (int scrambleVarience) => _percentChanceNotDefaultScrambleAmount = scrambleVarience;
-        _gameManager.EffectsSystem.OnGameInputProgressionChanged += (GameInputProgression newScrambleType) => _scrambleType = newScrambleType;
+        _gameManager.EffectsSystem.OnGameInputProgressionChanged += OnGameInputProgressionChanged;
 
         OptionsManager.Instance.OnParametersChanged += (GameSettingParameters gameSettings, SystemSettingParameters _) => _doesScrambleOnNoInput = gameSettings.doesScrambleOnNoInput;
     }
@@ -277,6 +277,29 @@ public class ControlsManager : MonoBehaviour, IManager
     {
         UpdateShuffledValues();
     }
+
+    private void OnGameInputProgressionChanged(GameInputProgression scrambleType)
+    {
+        if (_scrambleType == scrambleType)
+        {
+            return;
+        }
+
+        _scrambleType = scrambleType;
+
+        if (_gameManager.GetGameState() != GameState.Cutscene)
+        {
+            return;
+        }
+
+        _gameManager.OnTickStart += OnNextTickOfProgression;
+        void OnNextTickOfProgression(float _)
+        {
+            _gameManager.OnTickStart -= OnNextTickOfProgression;
+            UpdateShuffledValues(true);
+        }
+    }
+
 
     private void OnDisable()
     {

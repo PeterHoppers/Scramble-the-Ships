@@ -433,6 +433,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public GameState GetGameState()
+    {
+        return _currentGameState;
+    }
+
     void UpdateGameState(GameState gameState) 
     {
         _previousGameState = _currentGameState;
