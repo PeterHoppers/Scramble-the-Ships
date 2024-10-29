@@ -168,18 +168,6 @@ public class LoggingManager : MonoBehaviour, IManager
         });
     }
 
-    private void OnLevelEnd(int energyLeft, int continuesUsed)
-    {
-        PostToForm(new LoggingData()
-        {
-            playerEvent = LoggingEvents.OnLevelEnd,
-            playerGuid = GlobalGameStateManager.Instance.CurrentPlayingGUID,
-            param1 = _currentLevel.ToString(),
-            param2 = GlobalGameStateManager.Instance.CurrentScore.ToString(),
-            param3 = energyLeft.ToString(),
-        });
-    }
-
     private void OnLevelStart(int levelId)
     {
         _currentLevel = levelId + 1;
@@ -189,6 +177,23 @@ public class LoggingManager : MonoBehaviour, IManager
             playerGuid = GlobalGameStateManager.Instance.CurrentPlayingGUID,
             param1 = _currentLevel.ToString()
         });
+    }
+
+    private void OnLevelEnd(int energyLeft, int continuesUsed)
+    {
+        _manager.OnScoreSubmit += OnScoreSubmitted;
+        void OnScoreSubmitted(int newScore)
+        {
+            _manager.OnScoreSubmit -= OnScoreSubmitted;
+            PostToForm(new LoggingData()
+            {
+                playerEvent = LoggingEvents.OnLevelEnd,
+                playerGuid = GlobalGameStateManager.Instance.CurrentPlayingGUID,
+                param1 = _currentLevel.ToString(),
+                param2 = newScore.ToString(),
+                param3 = energyLeft.ToString(),
+            });
+        }       
     }
 
     private void OnPlayerPickup(Player player, PickupType pickupType)

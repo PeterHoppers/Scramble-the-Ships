@@ -46,6 +46,9 @@ public class GameManager : MonoBehaviour
     public delegate void PlayerDeath(Player player);
     public PlayerDeath OnPlayerDeath;
 
+    public delegate void ScoreSubmit(int newScore);
+    public ScoreSubmit OnScoreSubmit;
+
     public delegate void PlayerConditionStart(Player player, Condition condition);
     public PlayerConditionStart OnPlayerConditionStart;
 
@@ -559,6 +562,12 @@ public class GameManager : MonoBehaviour
         {
             player.OnGameOver();
         }
+    }
+
+    public void OnSubmitScore(int newScore)
+    { 
+        OnScoreSubmit?.Invoke(newScore);
+        GlobalGameStateManager.Instance.CurrentScore = newScore;
     }
 
     IEnumerator ResetScreen(bool isOnContinue)

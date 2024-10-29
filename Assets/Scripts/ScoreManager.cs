@@ -48,7 +48,8 @@ public class ScoreManager : MonoBehaviour, IManager
         manager.OnPlayerJoinedGame += OnPlayerJoined;
         manager.OnScreenResetStart += OnScreenResetStart;
         manager.OnGameStateChanged += OnGameStateChanged;
-    }    
+        manager.OnLevelEnd += OnLevelEnd;
+    }
 
     private void OnPlayerJoined(Player player)
     {
@@ -82,7 +83,7 @@ public class ScoreManager : MonoBehaviour, IManager
     {
         if (newState == GameState.GameOver)
         {
-            GlobalGameStateManager.Instance.CurrentScore = CurrentScore;
+            _manager.OnScoreSubmit(CurrentScore);
         }
     }
 
@@ -144,4 +145,40 @@ public class ScoreManager : MonoBehaviour, IManager
             });
         }
     }
+
+    private void OnLevelEnd(int energyLeft, int continuesUsed)
+    {
+        currentScoreText.gameObject.SetActive(false);
+    }
+
+    public EndLevelScoreInfo CalcEndLevelScoreInfo(int energyLeft, int continuesUsed)
+    {
+        var _energyValue = scoreConfiguration.pointsPerEnergy;
+        var _continueLossValue = scoreConfiguration.pointsPerContinue;
+        var _levelValue = scoreConfiguration.pointsPerLevel;
+
+        int previousScore = CurrentScore;
+        int energyScore = _energyValue * energyLeft;
+        int continueScore = _continueLossValue * continuesUsed;
+        int totalScore = previousScore + _levelValue + energyScore + continueScore;
+
+        CurrentScore = totalScore;
+        _manager.OnScoreSubmit(CurrentScore);
+
+        return new EndLevelScoreInfo()
+        {
+            previousScore = previousScore,
+            energyScore = energyScore,
+            continueScore = continueScore,
+            totalScore = totalScore,
+        };
+    }
+}
+
+public struct EndLevelScoreInfo
+{
+    public int previousScore;
+    public int energyScore;
+    public int continueScore;
+    public int totalScore;
 }

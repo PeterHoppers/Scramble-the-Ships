@@ -24,7 +24,6 @@ public class WinScreenUI : MonoBehaviour
     [Space]
     [SerializeField]
     private int _secondsUntilAutoContinue;
-    private int _currentScore;
 
     [Space]
     [SerializeField]
@@ -32,27 +31,23 @@ public class WinScreenUI : MonoBehaviour
 
     public void SetLevelScore(int energyLeft, int continuesUsed)
     {
+        var levelScoreInfo = _scoreManager.CalcEndLevelScoreInfo(energyLeft, continuesUsed);
+
         var _scoreConfiguration = _scoreManager.scoreConfiguration;
         var _energyValue = _scoreConfiguration.pointsPerEnergy;
         var _continueLossValue = _scoreConfiguration.pointsPerContinue;
-        var _levelValue = _scoreConfiguration.pointsPerLevel;
+        var _levelValue = _scoreConfiguration.pointsPerLevel;        
 
-        int previousScore = _scoreManager.CurrentScore;
-        int energyScore = _energyValue * energyLeft;
-        int continueScore = _continueLossValue * continuesUsed;
-        int totalScore = previousScore + _levelValue + energyScore + continueScore;
-
-        previousScoreText.text = previousScore.ToString();
+        previousScoreText.text = levelScoreInfo.previousScore.ToString();
         levelValueText.text = _levelValue.ToString();
 
         energyText.text = $"({energyLeft} x {_energyValue})";
-        energyScoreText.text = energyScore.ToString();
+        energyScoreText.text = levelScoreInfo.energyScore.ToString();
 
         continueText.text = $"({continuesUsed} x {_continueLossValue})";
-        continuesScoreText.text = continueScore.ToString();
+        continuesScoreText.text = levelScoreInfo.continueScore.ToString();
 
-        totalScoreText.text = totalScore.ToString();
-        _currentScore = totalScore; //we have to store this as a private variable because of setting up the onclick in the Unity UI
+        totalScoreText.text = levelScoreInfo.totalScore.ToString();
 
         var advanceButton = gameObject.GetComponentInChildren<Button>();
         EventSystem.current.SetSelectedGameObject(advanceButton.gameObject);
@@ -69,7 +64,6 @@ public class WinScreenUI : MonoBehaviour
 
     public void MoveOntoNextLevel()
     {
-        GlobalGameStateManager.Instance.CurrentScore = _currentScore;
         GlobalGameStateManager.Instance.NextLevel();
     }
 }
