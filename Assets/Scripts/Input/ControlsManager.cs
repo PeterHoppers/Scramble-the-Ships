@@ -338,6 +338,11 @@ public class ControlsManager : MonoBehaviour, IManager
 
         int minScramble = (_doesScrambleOnNoInput) ? 0 : 1;
 
+        if (minScramble > defaultScrambleAmount)
+        {
+            return minScramble;
+        }
+
         int randomScrambleAmount = _random.Next(minScramble, defaultScrambleAmount);
         return randomScrambleAmount;        
     }
