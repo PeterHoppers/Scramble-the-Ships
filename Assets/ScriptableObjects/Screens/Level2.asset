@@ -30,8 +30,6 @@ MonoBehaviour:
     amount: 4
   - type: 11
     amount: 1
-  - type: 10
-    amount: 100
   - type: 12
     amount: 50
   levelName: Sector Rapienda
