@@ -10,45 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53eb3f1cbb508f54abbcf1790983544d, type: 3}
-  m_Name: 0-2
+  m_Name: 6-4
   m_EditorClassIdentifier: 
   startingItems:
   - spawnInfo:
-      objectToSpawn: 1
-      direction: 2
-      groupingSize: 0
-    spawnCoordinates:
-      x:
-        anchor: 2
-        offset: 0
-      y:
-        anchor: 1
-        offset: -3
-  - spawnInfo:
-      objectToSpawn: 1
-      direction: 3
-      groupingSize: 0
-    spawnCoordinates:
-      x:
-        anchor: 0
-        offset: 0
-      y:
-        anchor: 1
-        offset: 1
-  - spawnInfo:
-      objectToSpawn: 1
-      direction: 2
-      groupingSize: 0
-    spawnCoordinates:
-      x:
-        anchor: 2
-        offset: 0
-      y:
-        anchor: 1
-        offset: 5
-  - spawnInfo:
-      objectToSpawn: 0
-      direction: 0
+      objectToSpawn: 5
+      direction: 1
       groupingSize: 3
     spawnCoordinates:
       x:
@@ -58,18 +25,29 @@ MonoBehaviour:
         anchor: 1
         offset: -1
   - spawnInfo:
-      objectToSpawn: 0
+      objectToSpawn: 4
       direction: 0
-      groupingSize: 4
+      groupingSize: 0
     spawnCoordinates:
       x:
-        anchor: 0
+        anchor: 1
         offset: 0
       y:
-        anchor: 1
-        offset: 3
+        anchor: 2
+        offset: 2
   - spawnInfo:
-      objectToSpawn: 0
+      objectToSpawn: 6
+      direction: 0
+      groupingSize: 1
+    spawnCoordinates:
+      x:
+        anchor: 2
+        offset: 0
+      y:
+        anchor: 2
+        offset: 1
+  - spawnInfo:
+      objectToSpawn: 9
       direction: 0
       groupingSize: 4
     spawnCoordinates:
@@ -77,19 +55,76 @@ MonoBehaviour:
         anchor: 2
         offset: 0
       y:
-        anchor: 1
+        anchor: 2
         offset: 3
-  overrideDefaultTransitionGrids: 0
+  - spawnInfo:
+      objectToSpawn: 9
+      direction: 0
+      groupingSize: 4
+    spawnCoordinates:
+      x:
+        anchor: 0
+        offset: 0
+      y:
+        anchor: 2
+        offset: 3
+  - spawnInfo:
+      objectToSpawn: 9
+      direction: 2
+      groupingSize: 4
+    spawnCoordinates:
+      x:
+        anchor: 0
+        offset: 3
+      y:
+        anchor: 2
+        offset: 3
+  - spawnInfo:
+      objectToSpawn: 9
+      direction: 3
+      groupingSize: 4
+    spawnCoordinates:
+      x:
+        anchor: 2
+        offset: 3
+      y:
+        anchor: 2
+        offset: 3
+  overrideDefaultTransitionGrids: 1
   transitionGrids:
-    direction: 0
-    positions: []
+    direction: 2
+    positions:
+    - x:
+        anchor: 0
+        offset: 0
+      y:
+        anchor: 2
+        offset: 0
+    - x:
+        anchor: 0
+        offset: 0
+      y:
+        anchor: 2
+        offset: 1
+    - x:
+        anchor: 0
+        offset: 0
+      y:
+        anchor: 2
+        offset: 2
   overrideDefaultStartingPositions: 0
   startingPlayerPositions:
     _serializedList: []
   useDifferentDialogueForBothPlayers: 0
-  screenDialogue: {fileID: 11400000, guid: fbd6401951c120444a69f0fc5d128f8e, type: 2}
+  screenDialogue: {fileID: 0}
   twoPlayerDialogue: {fileID: 0}
-  effects: []
+  effects:
+  - type: 6
+    amount: 0.05
+  - type: 7
+    amount: 0.005
+  - type: 11
+    amount: 3
   playerAICommands: {fileID: 0}
   screenMusicTransition: {fileID: 0}
   enemySpawnInformation:

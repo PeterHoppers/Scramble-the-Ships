@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6e1ca9cdebeea74e97319e82b7ad330, type: 3}
+  m_Name: Level7
+  m_EditorClassIdentifier: 
+  useOnePlayerForBoth: 0
+  onePlayerLevelScreens:
+  - {fileID: 11400000, guid: 7727f09e91dd6a443b5b552e2fe071f3, type: 2}
+  - {fileID: 11400000, guid: 0bad0bd1f16c15846bef3f7a06fd7eec, type: 2}
+  - {fileID: 11400000, guid: c527ba94fca31794a98a0cd6ef8e45a1, type: 2}
+  - {fileID: 11400000, guid: 61a3269858c54f741893f9623dbc5e6f, type: 2}
+  twoPlayerLevelScreens: []
+  startingEffects: []
+  levelName: 
+  levelSong: {fileID: 0}
+  levelBackground: {fileID: 0}
+  overrideDefaultTransitionGrids: 0
+  transitionGrids:
+    direction: 0
+    positions: []
+  overrideDefaultStartingPositions: 0
+  startingPlayerPositions:
+    _serializedList: []

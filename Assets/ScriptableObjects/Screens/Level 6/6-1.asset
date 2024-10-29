@@ -10,64 +10,75 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53eb3f1cbb508f54abbcf1790983544d, type: 3}
-  m_Name: 0-1
+  m_Name: 6-1
   m_EditorClassIdentifier: 
   startingItems:
   - spawnInfo:
-      objectToSpawn: 0
-      direction: 0
-      groupingSize: 3
+      objectToSpawn: 9
+      direction: 3
+      groupingSize: 15
     spawnCoordinates:
       x:
-        anchor: 1
-        offset: 0
-      y:
         anchor: 1
         offset: 4
-  - spawnInfo:
-      objectToSpawn: 0
-      direction: 0
-      groupingSize: 3
-    spawnCoordinates:
-      x:
-        anchor: 0
-        offset: 1
       y:
-        anchor: 1
+        anchor: 0
         offset: 0
   - spawnInfo:
       objectToSpawn: 0
-      direction: 0
+      direction: 2
+      groupingSize: 8
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: -4
+      y:
+        anchor: 0
+        offset: 0
+  - spawnInfo:
+      objectToSpawn: 8
+      direction: 3
       groupingSize: 3
     spawnCoordinates:
       x:
-        anchor: 2
-        offset: 1
+        anchor: 1
+        offset: -4
       y:
         anchor: 1
+        offset: 2
+  - spawnInfo:
+      objectToSpawn: 0
+      direction: 2
+      groupingSize: 4
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: -4
+      y:
+        anchor: 2
         offset: 0
   - spawnInfo:
-      objectToSpawn: 1
-      direction: 1
+      objectToSpawn: 10
+      direction: 0
       groupingSize: 1
     spawnCoordinates:
       x:
-        anchor: 0
+        anchor: 1
         offset: 0
       y:
         anchor: 1
-        offset: 0
+        offset: -1
   - spawnInfo:
-      objectToSpawn: 1
-      direction: 1
+      objectToSpawn: 10
+      direction: 0
       groupingSize: 1
     spawnCoordinates:
       x:
-        anchor: 2
-        offset: 0
-      y:
         anchor: 1
         offset: 0
+      y:
+        anchor: 2
+        offset: 2
   overrideDefaultTransitionGrids: 0
   transitionGrids:
     direction: 0
@@ -76,11 +87,10 @@ MonoBehaviour:
   startingPlayerPositions:
     _serializedList: []
   useDifferentDialogueForBothPlayers: 0
-  screenDialogue: {fileID: 11400000, guid: e02ade380974da143a92ede59bb8e974, type: 2}
+  screenDialogue: {fileID: 0}
   twoPlayerDialogue: {fileID: 0}
   effects: []
   playerAICommands: {fileID: 0}
-  screenMusicTransition: {fileID: 0}
   enemySpawnInformation:
     _serializedList: []
   spawnsLoopAtTick: 0

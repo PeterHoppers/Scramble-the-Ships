@@ -14,23 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useOnePlayerForBoth: 1
   onePlayerLevelScreens:
-  - {fileID: 11400000, guid: 2caad1ea8815a0c41899794bd610af6c, type: 2}
-  - {fileID: 11400000, guid: a19beb1c1a69bb5479c5d9ea9dd75f35, type: 2}
-  - {fileID: 11400000, guid: e213ed48f3ce51549b6c7ff5df83889b, type: 2}
-  - {fileID: 11400000, guid: 215ca32ffb6b64a4c8a9e2aacb629cfd, type: 2}
-  - {fileID: 11400000, guid: 719b5eb52abdc614a9616fe12101d54c, type: 2}
-  - {fileID: 11400000, guid: c9749591900b0cd449a8045ef2158243, type: 2}
-  twoPlayerLevelScreens: []
+  - {fileID: 11400000, guid: 43c261739b65dd543ae69b6c6ee49f57, type: 2}
+  - {fileID: 11400000, guid: a88d57be80c1ea240a8349fc06845ed9, type: 2}
+  - {fileID: 11400000, guid: 213d9669239c252479e1120960b948e6, type: 2}
+  - {fileID: 11400000, guid: 12a2c099ff6dd2e408e7579356a1bcc9, type: 2}
+  - {fileID: 11400000, guid: f0b4c55d7b116674388d7da27016b87b, type: 2}
+  twoPlayerLevelScreens:
+  - {fileID: 11400000, guid: 43c261739b65dd543ae69b6c6ee49f57, type: 2}
+  - {fileID: 11400000, guid: a88d57be80c1ea240a8349fc06845ed9, type: 2}
+  - {fileID: 11400000, guid: 12a2c099ff6dd2e408e7579356a1bcc9, type: 2}
+  - {fileID: 11400000, guid: 213d9669239c252479e1120960b948e6, type: 2}
+  - {fileID: 11400000, guid: f0b4c55d7b116674388d7da27016b87b, type: 2}
   startingEffects:
   - type: 0
     amount: 4
   - type: 11
     amount: 1
+  - type: 10
+    amount: 100
   - type: 12
-    amount: 40
-  levelName: Sector Obtor
-  levelSong: {fileID: 8300000, guid: fed7accaf6c6a1544a1c1fd3d8c8389e, type: 3}
-  levelBackground: {fileID: 21300000, guid: 2be4b71b6afd9e44196ebe1cc01d34fc, type: 3}
+    amount: 50
+  levelName: Sector Rapienda
+  levelSong: {fileID: 8300000, guid: 81b9b52ccc716244c9c8b08c280b530e, type: 3}
+  levelBackground: {fileID: 21300000, guid: 096fc01b2b9abe045bdbb6172c4e01ef, type: 3}
   overrideDefaultTransitionGrids: 0
   transitionGrids:
     direction: 0

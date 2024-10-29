@@ -12,17 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6e1ca9cdebeea74e97319e82b7ad330, type: 3}
   m_Name: Level6
   m_EditorClassIdentifier: 
-  useOnePlayerForBoth: 0
+  useOnePlayerForBoth: 1
   onePlayerLevelScreens:
-  - {fileID: 11400000, guid: 7727f09e91dd6a443b5b552e2fe071f3, type: 2}
-  - {fileID: 11400000, guid: 0bad0bd1f16c15846bef3f7a06fd7eec, type: 2}
-  - {fileID: 11400000, guid: c527ba94fca31794a98a0cd6ef8e45a1, type: 2}
-  - {fileID: 11400000, guid: 61a3269858c54f741893f9623dbc5e6f, type: 2}
+  - {fileID: 11400000, guid: b06043227bfb64d45bc575d859345ef4, type: 2}
+  - {fileID: 11400000, guid: 28c6a0aad219cc04694de5d32fa64007, type: 2}
+  - {fileID: 11400000, guid: 4e5f4a04d3d7fe74aae13ebc3585057d, type: 2}
+  - {fileID: 11400000, guid: ed309949a8512574bbeeebf5b393d179, type: 2}
+  - {fileID: 11400000, guid: ba3a57c2970bfc944a5420ed091393d4, type: 2}
+  - {fileID: 11400000, guid: 64f54af2cbc7fd94ebf0455de268b89d, type: 2}
+  - {fileID: 11400000, guid: f043ca4729d7b084588394d46ea37bd8, type: 2}
   twoPlayerLevelScreens: []
-  startingEffects: []
-  levelName: 
-  levelSong: {fileID: 0}
-  levelBackground: {fileID: 0}
+  startingEffects:
+  - type: 11
+    amount: 3
+  - type: 0
+    amount: 5
+  levelName: Sector Klein
+  levelSong: {fileID: 8300000, guid: 356ba3926ea55694e9332c97771a042e, type: 3}
+  levelBackground: {fileID: 21300000, guid: 985675f1712f6e94e945a38f4d5a475a, type: 3}
   overrideDefaultTransitionGrids: 0
   transitionGrids:
     direction: 0

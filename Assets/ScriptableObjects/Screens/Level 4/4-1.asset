@@ -14,86 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingItems:
   - spawnInfo:
-      objectToSpawn: 1
-      direction: 1
-      groupingSize: 1
-    spawnCoordinates:
-      x:
-        anchor: 1
-        offset: 0
-      y:
-        anchor: 2
-        offset: 1
-  - spawnInfo:
-      objectToSpawn: 1
-      direction: 1
-      groupingSize: 1
-    spawnCoordinates:
-      x:
-        anchor: 1
-        offset: 2
-      y:
-        anchor: 2
-        offset: 1
-  - spawnInfo:
-      objectToSpawn: 1
-      direction: 1
-      groupingSize: 1
-    spawnCoordinates:
-      x:
-        anchor: 1
-        offset: -2
-      y:
-        anchor: 2
-        offset: 1
-  - spawnInfo:
-      objectToSpawn: 8
-      direction: 3
-      groupingSize: 1
-    spawnCoordinates:
-      x:
-        anchor: 0
-        offset: 2
-      y:
-        anchor: 2
-        offset: 3
-  - spawnInfo:
       objectToSpawn: 0
-      direction: 2
-      groupingSize: 18
+      direction: 0
+      groupingSize: 20
     spawnCoordinates:
       x:
         anchor: 0
-        offset: 1
-      y:
-        anchor: 2
         offset: 0
-  - spawnInfo:
-      objectToSpawn: 0
-      direction: 3
-      groupingSize: 18
-    spawnCoordinates:
-      x:
-        anchor: 2
-        offset: 1
-      y:
-        anchor: 0
-        offset: 0
-  - spawnInfo:
-      objectToSpawn: 8
-      direction: 2
-      groupingSize: 1
-    spawnCoordinates:
-      x:
-        anchor: 2
-        offset: 2
       y:
         anchor: 1
-        offset: -1
+        offset: 0
   overrideDefaultTransitionGrids: 0
-  transitionGrids:
-    direction: 0
-    positions: []
+  transitionGrids: []
   overrideDefaultStartingPositions: 0
   startingPlayerPositions:
     _serializedList: []
