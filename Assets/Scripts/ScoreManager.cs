@@ -83,7 +83,7 @@ public class ScoreManager : MonoBehaviour, IManager
     {
         if (newState == GameState.GameOver)
         {
-            _manager.OnScoreSubmit(CurrentScore);
+            _manager.OnSubmitScore(CurrentScore);
         }
     }
 
@@ -163,7 +163,7 @@ public class ScoreManager : MonoBehaviour, IManager
         int totalScore = previousScore + _levelValue + energyScore + continueScore;
 
         CurrentScore = totalScore;
-        _manager.OnScoreSubmit(CurrentScore);
+        _manager.OnSubmitScore(CurrentScore);
 
         return new EndLevelScoreInfo()
         {
