@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     public delegate void LevelEnd(int energyLeft, int continuesUsed);
     public LevelEnd OnLevelEnd;
 
-    public delegate void TickStart(float timeToTickEnd);
+    public delegate void TickStart(float timeToTickEnd, int currentTickNumber);
     public TickStart OnTickStart;
 
     public delegate void TickEnd(float timeToTickStart, int nextTickNumber);
@@ -799,7 +799,7 @@ public class GameManager : MonoBehaviour
     void StartNextTick()
     {
         ClearAllPreviews();
-        OnTickStart?.Invoke(TickDuration);
+        OnTickStart?.Invoke(TickDuration, _ticksSinceScreenStart);
         _tickIsOccuring = true;
         _ticksSinceScreenStart++;
         _tickElapsed = 0;

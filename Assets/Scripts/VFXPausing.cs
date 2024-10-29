@@ -53,7 +53,7 @@ public class VFXPausing : MonoBehaviour
         }
     }
 
-    void PauseVFX(float _)
+    void PauseVFX(float _, int currentTickNumber)
     {
         PauseVFX();
     }

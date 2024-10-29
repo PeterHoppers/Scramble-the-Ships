@@ -52,9 +52,9 @@ public class LaserAdapter : Fireable
         }
     }
 
-    protected override void CreateNextPreview(float timeToTickEnd)
+    protected override void CreateNextPreview(float timeToTickEnd, int currentTickNumber)
     {
-        base.CreateNextPreview(timeToTickEnd);
+        base.CreateNextPreview(timeToTickEnd, currentTickNumber);
         if (_isActiveLaser)
         {
             _previewLaser.gameObject.SetActive(true);

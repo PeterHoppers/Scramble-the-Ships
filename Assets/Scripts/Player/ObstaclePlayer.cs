@@ -93,7 +93,7 @@ public class ObstaclePlayer : Player
         return allButtonValues.ToList().TakeLast(lastButtonIndex).ToList();
     }
 
-    protected void CreateNextPreview(float _)
+    protected void CreateNextPreview(float _, int currentTickNumber)
     {
         if (_shipCommands != null && _shipCommands.TryGetValue(_tickIndex, out var inputValue))
         {

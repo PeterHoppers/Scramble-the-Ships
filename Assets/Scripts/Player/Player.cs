@@ -139,7 +139,7 @@ public class Player : Previewable
         AddPossibleInput(InputValue.Counterclockwise);
     }
 
-    protected virtual void OnTickStart(float _)
+    protected virtual void OnTickStart(float _, int currentTickNumber)
     {        
         if (_isInactive)
         {            
@@ -404,7 +404,7 @@ public class Player : Previewable
         SetShipVisiblity(true);
 
         //use a local function to queue up a function for the next call of a event
-        void ShowVisiblity(float _)
+        void ShowVisiblity(float _, int currentTickNumber)
         {
             SetInputStatus(true);
             _manager.OnTickStart -= ShowVisiblity;

@@ -43,7 +43,7 @@ public class TickDurationUI : MonoBehaviour
         }
     }
 
-    void OnTickStart(float duration)
+    void OnTickStart(float duration, int currentTickNumber)
     {
         TickDuration = duration;
     }

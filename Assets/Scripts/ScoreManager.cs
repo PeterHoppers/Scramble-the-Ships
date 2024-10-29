@@ -133,7 +133,7 @@ public class ScoreManager : MonoBehaviour, IManager
     void ResetScreenProgress()
     {
         _manager.OnTickStart += OnFirstTickStart;
-        void OnFirstTickStart(float _)
+        void OnFirstTickStart(float _, int currentTickNumber)
         {
             _manager.OnTickStart -= OnFirstTickStart;
             _playerMaxSpacesAway.Clear();

@@ -21,7 +21,7 @@ public class GridMovable : Previewable
         StopAllCoroutines();
     }
 
-    protected virtual void CreateNextPreview(float timeToTickEnd)
+    protected virtual void CreateNextPreview(float timeToTickEnd, int currentTickNumber)
     {
         if (movingInput == InputValue.None) 
         {
@@ -44,7 +44,7 @@ public class GridMovable : Previewable
         _manager.OnTickStart += HideMoveable;
     }
 
-    private void HideMoveable(float timeToTickStart)
+    private void HideMoveable(float timeToTickStart, int currentTickNumber)
     {
         if (this == null) 
         {

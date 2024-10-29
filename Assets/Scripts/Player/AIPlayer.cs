@@ -28,7 +28,7 @@ public class AIPlayer : Player
         _shipCommands = screen.playerAICommands.commands;
     }
 
-    protected void CreateNextPreview(float _)
+    protected void CreateNextPreview(float _, int currentTickNumber)
     {
         StartCoroutine(PerformCommand(_inputDelay));
     }

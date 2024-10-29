@@ -293,7 +293,7 @@ public class ControlsManager : MonoBehaviour, IManager
         }
 
         _gameManager.OnTickStart += OnNextTickOfProgression;
-        void OnNextTickOfProgression(float _)
+        void OnNextTickOfProgression(float _, int currentTickNumber)
         {
             _gameManager.OnTickStart -= OnNextTickOfProgression;
             UpdateShuffledValues(true);

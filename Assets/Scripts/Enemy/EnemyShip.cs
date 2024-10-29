@@ -28,7 +28,7 @@ public class EnemyShip : GridMovable
         _commandsLoopAtTick = commandsLoopAtTick;
     }
 
-    protected override void CreateNextPreview(float timeToTickEnd)
+    protected override void CreateNextPreview(float timeToTickEnd, int currentTickNumber)
     {
         if (_shipCommands != null && _shipCommands.TryGetValue(_ticksSinceSpawn, out var inputValue)) 
         {
@@ -67,7 +67,7 @@ public class EnemyShip : GridMovable
             }
         }
 
-        base.CreateNextPreview(timeToTickEnd);
+        base.CreateNextPreview(timeToTickEnd, currentTickNumber);
         _ticksSinceSpawn++;
 
         if (_commandsLoopAtTick > 0 && _ticksSinceSpawn >= _commandsLoopAtTick)
