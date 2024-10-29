@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueNodes:
   - textSpeaker: 0
-    textToDisplay: "In Scramble the Ships, you'll need to navigate through grids
-      of obstacles and enemies in your pursuit to make it back home before your space
-      ship\u2019s energy runs out!\r"
+    textToDisplay: "In this game, you'll need to navigate through grids of obstacles
+      and enemies as you attempt to make it back home before your space ship\u2019s
+      energy runs out!\r"
   - textSpeaker: 0
     textToDisplay: However, due to alien interference, your controls get scrambled
       whenever you command your ship! Thankfully, your ship has the ability to stop
