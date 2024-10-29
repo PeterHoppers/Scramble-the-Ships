@@ -13,6 +13,7 @@ public class NameInputManager : MonoBehaviour
     public CountdownUI countdownUI;
 
     [Space]
+    public TextMeshProUGUI initialsMessage;
     public TextMeshProUGUI nameDisplay;
     public GameObject charactersHolder;
 
@@ -22,6 +23,7 @@ public class NameInputManager : MonoBehaviour
     private const int MAX_CHARACTERS = 3;
     private const string CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private string _nameInputted = "";
+    private string _defaultInitialMessage = "";
 
     private List<string> _submittedNames = new List<string>();
     private int _playerCount = 0;
@@ -62,6 +64,13 @@ public class NameInputManager : MonoBehaviour
             var charInput = Instantiate(characterInputPrefab, charactersHolder.transform).GetComponent<NameCharacterInput>();
             charInput.name = $"Character Button: {charater}";
             charInput.SetupCharacterInput(this, charater);
+        }
+
+        _defaultInitialMessage = initialsMessage.text;
+
+        if (_playerCount > 1)
+        {
+            UpdateInitialsMessage(_submittedNames.Count);
         }
 
         countdownUI.StartCountdown(() => OnSubmitName());
@@ -110,6 +119,7 @@ public class NameInputManager : MonoBehaviour
         else
         {
             ResetInputter();
+            UpdateInitialsMessage(_submittedNames.Count);
         }
     }
 
@@ -118,5 +128,10 @@ public class NameInputManager : MonoBehaviour
         NameInputted = "";
         countdownUI.ResetCountdown();
         EventSystem.current.SetSelectedGameObject(charactersHolder.GetComponentInChildren<Button>().gameObject);
+    }
+
+    void UpdateInitialsMessage(int playerNumber)
+    {
+        initialsMessage.text = $"Player {playerNumber + 1}: {_defaultInitialMessage}";
     }
 }
