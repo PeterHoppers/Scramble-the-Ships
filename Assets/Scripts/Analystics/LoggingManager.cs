@@ -41,7 +41,6 @@ public class LoggingManager : MonoBehaviour, IManager
 
     private void OnEnable()
     {
-        _globalGameStateManager.OnCreditsChange += OnCreditChange;
         _globalGameStateManager.OnStateChange += OnStateChange;
     }
   
@@ -66,7 +65,6 @@ public class LoggingManager : MonoBehaviour, IManager
     {
         UnsubscribeFromManager();
 
-        _globalGameStateManager.OnCreditsChange -= OnCreditChange;
         _globalGameStateManager.OnStateChange -= OnStateChange;
     }
 
@@ -82,17 +80,6 @@ public class LoggingManager : MonoBehaviour, IManager
         _manager.OnPlayerDeath -= OnPlayerDeath;
         _manager.OnScreenChange -= OnScreenChange;
         _manager.OnPlayerPickup -= OnPlayerPickup;
-    }
-
-    private void OnCreditChange(int creditAmount)
-    {
-        var creditText = (creditAmount == int.MaxValue) ? "Freeplay" : creditAmount.ToString();
-
-        PostToForm(new LoggingData()
-        {
-            playerEvent = LoggingEvents.OnCreditsChange,
-            param1 = creditText
-        });
     }
 
     private void OnStateChange(GlobalGameStateStatus newState)

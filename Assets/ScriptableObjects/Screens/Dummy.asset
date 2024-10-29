@@ -15,7 +15,6 @@ MonoBehaviour:
   useOnePlayerForBoth: 1
   onePlayerLevelScreens:
   - {fileID: 11400000, guid: 2d38b9a6c36c3ca47bebb902761b7bb3, type: 2}
-  - {fileID: 11400000, guid: f4cf12b3a78a85945b098a87e62ce597, type: 2}
   twoPlayerLevelScreens:
   - {fileID: 11400000, guid: f22d92276758a57479dc359b11bbccf4, type: 2}
   startingEffects:
