@@ -148,6 +148,7 @@ public class GameManager : MonoBehaviour
         _energySystem.SetEnergy(_playerCount);
         _screenSystem.TriggerStartingEffects(_effectsSystem);
         UpdateGameState(GameState.Transition);
+        OnLevelStart?.Invoke(GlobalGameStateManager.Instance.ActiveLevelIndex);
 
         if (_isAI)
         {

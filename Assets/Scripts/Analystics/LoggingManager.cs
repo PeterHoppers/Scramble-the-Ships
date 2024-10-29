@@ -15,6 +15,7 @@ public class LoggingManager : MonoBehaviour, IManager
 
     private GlobalGameStateStatus _previousState;
     private int _currentScreen = 0;
+    private int _currentLevel = 0;
 
     private void Awake()
     {
@@ -122,7 +123,7 @@ public class LoggingManager : MonoBehaviour, IManager
             {
                 playerEvent = LoggingEvents.OnGameOver,
                 playerGuid = GlobalGameStateManager.Instance.CurrentPlayingGUID,
-                param1 = GlobalGameStateManager.Instance.ActiveLevelIndex.ToString(),
+                param1 = _currentLevel.ToString(),
                 param2 = _currentScreen.ToString(),
             });
         }
@@ -150,7 +151,7 @@ public class LoggingManager : MonoBehaviour, IManager
         {
             playerEvent = LoggingEvents.OnScreenStart,
             playerGuid = GlobalGameStateManager.Instance.CurrentPlayingGUID,
-            param1 = GlobalGameStateManager.Instance.ActiveLevelIndex.ToString(),
+            param1 = _currentLevel.ToString(),
             param2 = _currentScreen.ToString(),
             param3 = currentEnergy.ToString(),
         });
@@ -162,7 +163,7 @@ public class LoggingManager : MonoBehaviour, IManager
         {
             playerEvent = LoggingEvents.OnPlayerDied,
             playerGuid = GlobalGameStateManager.Instance.CurrentPlayingGUID,
-            param1 = GlobalGameStateManager.Instance.ActiveLevelIndex.ToString(),
+            param1 = _currentLevel.ToString(),
             param2 = _currentScreen.ToString(),
         });
     }
@@ -173,7 +174,7 @@ public class LoggingManager : MonoBehaviour, IManager
         {
             playerEvent = LoggingEvents.OnLevelEnd,
             playerGuid = GlobalGameStateManager.Instance.CurrentPlayingGUID,
-            param1 = GlobalGameStateManager.Instance.ActiveLevelIndex.ToString(),
+            param1 = _currentLevel.ToString(),
             param2 = GlobalGameStateManager.Instance.CurrentScore.ToString(),
             param3 = energyLeft.ToString(),
         });
@@ -181,11 +182,12 @@ public class LoggingManager : MonoBehaviour, IManager
 
     private void OnLevelStart(int levelId)
     {
+        _currentLevel = levelId + 1;
         PostToForm(new LoggingData()
         {
             playerEvent = LoggingEvents.OnLevelStart,
             playerGuid = GlobalGameStateManager.Instance.CurrentPlayingGUID,
-            param1 = levelId.ToString()
+            param1 = _currentLevel.ToString()
         });
     }
 
