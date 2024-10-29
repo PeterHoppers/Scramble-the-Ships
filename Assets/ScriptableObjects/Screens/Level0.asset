@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6e1ca9cdebeea74e97319e82b7ad330, type: 3}
-  m_Name: Tutorial
+  m_Name: Level0
   m_EditorClassIdentifier: 
   useOnePlayerForBoth: 1
   onePlayerLevelScreens:
