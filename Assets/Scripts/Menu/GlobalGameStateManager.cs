@@ -141,7 +141,13 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
     {
         IsAIPlaying = false;
         CreateNewGUID();
-        LoadLevel(0);
+        GoToLevelSelect();
+    }
+
+    void GoToLevelSelect()
+    {
+        GlobalGameStateStatus = GlobalGameStateStatus.LevelSelect;
+        _levelSceneSystem.LoadLevelSelectScene();
     }
 
     public void LoadLevel(int levelIndex)
@@ -326,6 +332,7 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
 public enum GlobalGameStateStatus
 { 
     Preview = 0,
+    LevelSelect = 1,
     Cutscene = 2,
     Game = 3,
     GameOver = 4,

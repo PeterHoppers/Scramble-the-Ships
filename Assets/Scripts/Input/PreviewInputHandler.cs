@@ -64,5 +64,6 @@ public class PreviewInputHandler : MonoBehaviour
     {
         GlobalGameStateManager.Instance.SetPlayerCount(playerCount);
         GlobalGameStateManager.Instance.StartGame();
+        GlobalAudioManager.Instance.PlayClickSFX();
     }
 }

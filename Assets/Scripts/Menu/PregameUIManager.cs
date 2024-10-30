@@ -30,14 +30,15 @@ public class PregameUIManager : MonoBehaviour
             ui.Value.SetActive(false);
         }
 
-        var targetUI = UIs[newStatus];
-
-        targetUI.SetActive(true);
-        var firstInput = targetUI.GetComponentInChildren<Button>();
-        
-        if (firstInput != null)
+        if (UIs.TryGetValue(newStatus, out var targetUI))
         {
-            EventSystem.current.SetSelectedGameObject(firstInput.gameObject);
-        }
+            targetUI.SetActive(true);
+            var firstInput = targetUI.GetComponentInChildren<Button>();
+
+            if (firstInput != null)
+            {
+                EventSystem.current.SetSelectedGameObject(firstInput.gameObject);
+            }
+        }        
     }
 }
