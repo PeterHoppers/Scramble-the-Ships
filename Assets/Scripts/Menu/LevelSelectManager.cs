@@ -12,6 +12,18 @@ public class LevelSelectManager : MonoBehaviour
     [SerializeField]
     private List<LevelSelectNode> _levelSelectNodes = new List<LevelSelectNode>();
     private int _selectedNodeIndex;
+    int SelectedNodeIndex
+    {
+        get { return _selectedNodeIndex; }
+        set
+        {
+            _selectedNodeIndex = value;
+
+            _backArrow.SetActive(_selectedNodeIndex != 0);
+            _forwardArrow.SetActive(_selectedNodeIndex < (_levelSelectNodes.Count- 1));
+        }
+    }
+
     private LevelSelectNode _selectedNode;
 
     [Header("UI")]
@@ -23,6 +35,10 @@ public class LevelSelectManager : MonoBehaviour
     private Image _levelImage;
     [SerializeField]
     private CountdownUI _countdownUI;
+    [SerializeField]
+    private GameObject _forwardArrow;
+    [SerializeField]
+    private GameObject _backArrow;
 
     [Space]
     [SerializeField]
@@ -53,8 +69,8 @@ public class LevelSelectManager : MonoBehaviour
     {
         _glitchAdapter = Camera.main.GetComponent<GlitchAdapter>();
 
-        _selectedNodeIndex = 0;
-        SetSelectedNode(_selectedNodeIndex, true);
+        SelectedNodeIndex = 0;
+        SetSelectedNode(SelectedNodeIndex, true);
         _countdownUI.StartCountdown(OnNodeSelect);
     }   
 
@@ -104,7 +120,7 @@ public class LevelSelectManager : MonoBehaviour
 
     void SetSelectedNode(int nodeIndex, bool isImmediatelyChanging = false)
     {
-        _selectedNodeIndex = nodeIndex;
+        SelectedNodeIndex = nodeIndex;
         _selectedNode = _levelSelectNodes[nodeIndex];
 
         StartCoroutine(UpdateDisplay(isImmediatelyChanging));
