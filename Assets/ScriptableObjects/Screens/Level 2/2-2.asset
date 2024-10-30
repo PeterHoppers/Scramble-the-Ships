@@ -14,17 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingItems:
   - spawnInfo:
-      objectToSpawn: 1
-      direction: 1
-      groupingSize: 0
-    spawnCoordinates:
-      x:
-        anchor: 1
-        offset: 0
-      y:
-        anchor: 2
-        offset: 4
-  - spawnInfo:
       objectToSpawn: 0
       direction: 0
       groupingSize: 5
@@ -32,51 +21,112 @@ MonoBehaviour:
       x:
         anchor: 2
         offset: 0
+      y:
+        anchor: 1
+        offset: -2
+  - spawnInfo:
+      objectToSpawn: 0
+      direction: 0
+      groupingSize: 5
+    spawnCoordinates:
+      x:
+        anchor: 0
+        offset: 0
+      y:
+        anchor: 1
+        offset: -4
+  - spawnInfo:
+      objectToSpawn: 0
+      direction: 0
+      groupingSize: 1
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: 0
+      y:
+        anchor: 1
+        offset: -3
+  - spawnInfo:
+      objectToSpawn: 1
+      direction: 1
+      groupingSize: 1
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: 0
+      y:
+        anchor: 1
+        offset: 0
+  - spawnInfo:
+      objectToSpawn: 1
+      direction: 0
+      groupingSize: 1
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: 0
+      y:
+        anchor: 1
+        offset: 2
+  - spawnInfo:
+      objectToSpawn: 0
+      direction: 0
+      groupingSize: 1
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: 0
+      y:
+        anchor: 1
+        offset: 1
+  - spawnInfo:
+      objectToSpawn: 1
+      direction: 3
+      groupingSize: 1
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: 1
+      y:
+        anchor: 1
+        offset: 1
+  - spawnInfo:
+      objectToSpawn: 1
+      direction: 2
+      groupingSize: 1
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: -1
       y:
         anchor: 1
         offset: 1
   - spawnInfo:
       objectToSpawn: 0
       direction: 0
-      groupingSize: 5
+      groupingSize: 20
     spawnCoordinates:
       x:
-        anchor: 0
-        offset: 0
-      y:
-        anchor: 1
-        offset: -3
-  - spawnInfo:
-      objectToSpawn: 0
-      direction: 0
-      groupingSize: 3
-    spawnCoordinates:
-      x:
-        anchor: 0
+        anchor: 2
         offset: 0
       y:
         anchor: 2
         offset: 2
+  - spawnInfo:
+      objectToSpawn: 0
+      direction: 0
+      groupingSize: 20
+    spawnCoordinates:
+      x:
+        anchor: 2
+        offset: 0
+      y:
+        anchor: 2
+        offset: 1
   overrideDefaultTransitionGrids: 0
   transitionGrids:
-  - x:
-      anchor: 1
-      offset: 0
-    y:
-      anchor: 2
-      offset: 0
-  - x:
-      anchor: 1
-      offset: -1
-    y:
-      anchor: 2
-      offset: 0
-  - x:
-      anchor: 1
-      offset: 1
-    y:
-      anchor: 2
-      offset: 0
+    direction: 0
+    positions: []
   overrideDefaultStartingPositions: 0
   startingPlayerPositions:
     _serializedList: []
@@ -84,6 +134,8 @@ MonoBehaviour:
   screenDialogue: {fileID: 0}
   twoPlayerDialogue: {fileID: 0}
   effects: []
+  playerAICommands: {fileID: 0}
+  screenMusicTransition: {fileID: 0}
   enemySpawnInformation:
     _serializedList: []
   spawnsLoopAtTick: 0
