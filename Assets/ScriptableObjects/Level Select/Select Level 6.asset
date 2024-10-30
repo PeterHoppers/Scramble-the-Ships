@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 894e42ea423d766419ba6fe136863046, type: 3}
+  m_Name: Select Level 6
+  m_EditorClassIdentifier: 
+  level: {fileID: 11400000, guid: 847c99ed70d733249a1ecdf4d7573ae0, type: 2}
+  title: Sector 6:<br>Klein
+  description: Anomalies In This Sector Produce Wormholes
+  levelImage: {fileID: 21300000, guid: 87f415b918f54744aab6476a8df2dc03, type: 3}

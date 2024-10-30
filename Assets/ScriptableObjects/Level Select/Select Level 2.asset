@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 894e42ea423d766419ba6fe136863046, type: 3}
+  m_Name: Select Level 2
+  m_EditorClassIdentifier: 
+  level: {fileID: 11400000, guid: 728a1716cff4b284b9ad127715156fc7, type: 2}
+  title: 'Sector 2: <br>Rapienda'
+  description: Alien Reinforcements Have Arrived To Stop You
+  levelImage: {fileID: 21300000, guid: 7d6496459ed00fa4a9c6371c6319a8d2, type: 3}

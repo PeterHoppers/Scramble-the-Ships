@@ -34,7 +34,7 @@ public class PreviewUIManager : MonoBehaviour
         var halfTransitionDuration = _transitionDuration / 2;
         var displayDuration = _previewUIs[_displayIndex].duration;
         yield return new WaitForSeconds(displayDuration - halfTransitionDuration);
-        StartTransitionEffects();
+        _glitchAdapter.PerformDefaultGlitchTransitionEffect();
         yield return new WaitForSeconds(halfTransitionDuration);
         _displayIndex++;
 
@@ -58,14 +58,6 @@ public class PreviewUIManager : MonoBehaviour
         {
             _previewUIs[index].UI.SetActive(index == _displayIndex);
         }
-    }
-
-    void StartTransitionEffects()
-    {
-        _glitchAdapter.SetScanLineJitterIntensity(.5F);
-        _glitchAdapter.SetColorDriftIntensity(.35f);
-        _glitchAdapter.SetHorizontalShakeIntensity(.45f);
-        _glitchAdapter.SetVerticalJumpIntensity(.025f);
     }
 }
 

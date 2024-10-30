@@ -46,6 +46,14 @@ public class GlitchAdapter : MonoBehaviour
         _analogueGlichVolume.colorDrift.value = intensity;
     }
 
+    public void PerformDefaultGlitchTransitionEffect()
+    {
+        SetScanLineJitterIntensity(.5F);
+        SetColorDriftIntensity(.35f);
+        SetHorizontalShakeIntensity(.45f);
+        SetVerticalJumpIntensity(.025f);
+    }
+
     public void ClearGlitchEffects()
     {
         _digitalGlitchVolume.intensity.value = 0;

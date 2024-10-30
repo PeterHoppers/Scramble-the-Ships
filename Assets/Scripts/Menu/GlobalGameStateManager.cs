@@ -147,10 +147,21 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
     public void LoadLevel(int levelIndex)
     {
         ActiveLevelIndex = levelIndex;
-        LoadLevel(_levels[levelIndex]);
+        GoToLevelScene(_levels[levelIndex]);
     }
 
     public void LoadLevel(Level level)
+    {
+        var levelIndex = _levels.FindIndex(x => x == level);
+
+        if (levelIndex >= 0)
+        {
+            ActiveLevelIndex = levelIndex;
+            GoToLevelScene(level);
+        }
+    }
+
+    void GoToLevelScene(Level level)
     {
         CurrentLevel = level;
         GlobalGameStateStatus = GlobalGameStateStatus.Game;
