@@ -33,7 +33,7 @@ public class CutsceneManager : MonoBehaviour
     IEnumerator Start()
     {
         yield return new WaitForSeconds(_dialogueDelay);
-        var dialogueId = GlobalGameStateManager.Instance.CutsceneID;
+        var dialogueId = GlobalGameStateManager.Instance.ActiveLevelIndex;
         var dialogue = dialogues[dialogueId];
 
         _dialogueSystem.SetDialogue(dialogue);

@@ -11,8 +11,6 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
     public int PlayerCount { get; set; }
     public int CreditCount { get; set; }
 
-    public int CutsceneID { get; set; }
-
     public int CurrentScore { get; set; }
 
     public int ActiveLevelIndex { get; private set; }
@@ -186,20 +184,14 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
         _levelSceneSystem.LoadCutsceneScene();
     }
 
-    public void StartCutscene(int cutsceneId)
-    {
-        CutsceneID = cutsceneId;
-        PlayCutscene();
-    }
-
     public void NextLevel()
     {
-        StartCutscene(ActiveLevelIndex);
-        ActiveLevelIndex++;
+        PlayCutscene();
     }
 
     public void AdvanceFromCutsceneToGame()
     {
+        ActiveLevelIndex++;
         if (ActiveLevelIndex < _levels.Count)
         {
             LoadLevel(ActiveLevelIndex);
@@ -218,7 +210,6 @@ public class GlobalGameStateManager : MonoBehaviour, IDataPersistence
     public void ResetGame()
     {
         ActiveLevelIndex = 0;
-        CutsceneID = 0;
         CurrentPlayingGUID = null;
 
         if (HasHighScore(CurrentScore))
