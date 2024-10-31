@@ -36,7 +36,15 @@ public class UIManager : MonoBehaviour, IManager
         gameOverUI.gameObject.SetActive(false);
         energyUI.gameObject.SetActive(false);
         UpdatePlayerStatusVisiblity(false);
-        levelNameUI.text = GlobalGameStateManager.Instance.CurrentLevel.GetDisplayName(false);
+
+        if (GlobalGameStateManager.Instance.IsAIPlaying)
+        {
+            levelNameUI.gameObject.SetActive(false);
+        }
+        else
+        {
+            levelNameUI.text = GlobalGameStateManager.Instance.CurrentLevel.GetDisplayName(false);
+        }
     }
 
     void OnDisable()

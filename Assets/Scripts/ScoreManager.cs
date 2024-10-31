@@ -48,6 +48,12 @@ public class ScoreManager : MonoBehaviour, IManager
         _scoreAtScreenStart = CurrentScore;
         _pointsPerScreenCompletion = scoreConfiguration.pointsPerScreenCompletion;
         _pointsPerTileMoved = scoreConfiguration.pointsPerTileMoved;
+
+        if (GlobalGameStateManager.Instance.IsAIPlaying)
+        {
+            currentScoreText.gameObject.SetActive(false);
+            nextScoreToBeatText.gameObject.SetActive(false);
+        }
     }
 
     public void InitManager(GameManager manager)
