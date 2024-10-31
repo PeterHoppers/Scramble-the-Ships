@@ -266,7 +266,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator PlayIntroCutscene(string levelName)
     {
-        var introDuration = 3f;
+        var introDuration = .25f;
         
         StartCoroutine(_cutsceneSystem.PlayLevelIntro(levelName, introDuration));
         yield return new WaitForSeconds(introDuration);

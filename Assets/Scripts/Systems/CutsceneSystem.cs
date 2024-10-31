@@ -171,10 +171,10 @@ public class CutsceneSystem : MonoBehaviour
         GlobalAudioManager.Instance.PlayAudioSFX(_rewindClip);
     }
 
-    public IEnumerator PlayLevelIntro(string text, float duration = 3f)
+    public IEnumerator PlayLevelIntro(string text, float duration)
     {
-        _cutsceneText.text = text;
-        _fullscreenAnimator.Play("intro");
+        _fullscreenAnimator.Play("fullBlack");
+        _cutsceneText.text = "";
         yield return new WaitForSeconds(duration);
         _fullscreenAnimator.Play("panelFadeOut");
     }
