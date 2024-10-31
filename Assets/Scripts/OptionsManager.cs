@@ -6,6 +6,7 @@ using TMPro;
 using System.Linq;
 using System;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
 {
@@ -22,6 +23,8 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
         }
     }
 
+    [SerializeField]
+    private InputActionAsset _actions;
     public GameObject optionsCanvas;
     [Space]
     public GameSettingParameters gameSettingParameters;
@@ -55,17 +58,9 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
     GameManager _gameManager;
     GameSettingParameters _defaultGameSettings;
     SystemSettingParameters _defaultSystemSettings;
-    bool _hasBeenLoaded;
-
-    public void InitManager(GameManager manager)
-    {
-        _gameManager = manager;
-    }
-
-    public void AfterInitManager()
-    { 
-        OnParametersChanged?.Invoke(gameSettingParameters, systemSettingParameters);
-    }
+    bool _hasBeenLoaded; 
+    private InputActionMap _uiActionMap;
+    private InputAction _cancelActionMap;
 
     private void Awake()
     {
@@ -76,7 +71,7 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        
+
         if (!_hasBeenLoaded)
         {
             _defaultGameSettings = gameSettingParameters;
@@ -90,6 +85,39 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
         AddEventListeners();
         SetOptionsCanvasVisibilty(false);
     }
+
+    public void InitManager(GameManager manager)
+    {
+        _gameManager = manager;
+    }
+
+    public void AfterInitManager()
+    { 
+        OnParametersChanged?.Invoke(gameSettingParameters, systemSettingParameters);
+    }
+
+    private void OnEnable()
+    {
+        _uiActionMap = _actions.FindActionMap("ui");
+        _uiActionMap.Enable();
+        _cancelActionMap = _uiActionMap.FindAction("Cancel");
+
+        _cancelActionMap.performed += OnCancelPerformed;
+    }
+
+    private void OnDisable()
+    {
+        _cancelActionMap.performed -= OnCancelPerformed;
+    }
+
+    private void OnCancelPerformed(InputAction.CallbackContext context)
+    {
+        if (_gameManager)
+        {
+            _gameManager.PauseGame();
+        }
+        ToggleOptions();
+    }    
 
     public void ResetSettings()
     {
@@ -239,18 +267,6 @@ public class OptionsManager : MonoBehaviour, IManager, IDataPersistence
             Time.timeScale = 1;
             OnParametersChanged?.Invoke(gameSettingParameters, systemSettingParameters);
             DataPersistenceManager.Instance.SaveGame();
-        }
-    }
-
-    void Update() 
-    { 
-        if (Input.GetKeyUp(KeyCode.Escape)) 
-        {
-            if (_gameManager)
-            {
-                _gameManager.PauseGame();
-            }
-            ToggleOptions();
         }
     }
 

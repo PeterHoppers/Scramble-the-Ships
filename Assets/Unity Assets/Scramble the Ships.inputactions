@@ -712,7 +712,7 @@
                 {
                     "name": "",
                     "id": "82627dcc-3b13-4ba9-841d-e4b746d6553e",
-                    "path": "*/{Cancel}",
+                    "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse;Gamepad;Touch;Joystick;XR",
@@ -984,7 +984,7 @@
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
-		{
+                {
                     "name": "",
                     "id": "111a2261-7a7e-4c37-b23f-503e326d3636",
                     "path": "<HID::xincom Xinmotek Controller>/button10",
@@ -1259,7 +1259,7 @@
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
- 		{
+                {
                     "name": "",
                     "id": "611d926b-7a7e-4c37-b23f-503e326d3636",
                     "path": "<HID::/xincom Xinmotek Controller>/button2",
@@ -1292,7 +1292,7 @@
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
-		{
+                {
                     "name": "",
                     "id": "1f870cd6-6c23-47e8-8302-e7688d1cb9ca",
                     "path": "<HID::xincom Xinmotek Controller>/button9",

@@ -1440,6 +1440,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 467cd097f2a985945a10a1feaa8171ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _actions: {fileID: -944628639613478452, guid: 9ee2e139bcc85ba45a376553e568eb47, type: 3}
   optionsCanvas: {fileID: 585386869735075545}
   gameSettingParameters:
     amountControlsScrambled: 5
