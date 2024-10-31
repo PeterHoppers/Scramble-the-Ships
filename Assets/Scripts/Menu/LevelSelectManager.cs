@@ -59,10 +59,8 @@ public class LevelSelectManager : MonoBehaviour
 
     private void OnDisable()
     {
-        if (_inputSystem != null ) 
-        {
-            _inputSystem.submit.action.performed -= OnSubmit;
-        }
+        _inputSystem.submit.action.performed -= OnSubmit;
+        _inputSystem.move.action.performed -= OnMove;
     }
 
     private void Start()
