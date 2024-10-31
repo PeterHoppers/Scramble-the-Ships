@@ -568,6 +568,11 @@ public class Player : Previewable
         Destroy(condition); //TODO: Consider pooling/disabling rather than creating and destorying
     }
 
+    public string GetPrintableLocation()
+    {
+        return CurrentTile.GetPrintableCoordinates();
+    }
+
     public override Sprite GetPreviewSprite()
     {
         return _shipSprite;

@@ -106,12 +106,25 @@ public class LoggingManager : MonoBehaviour, IManager
         }
         else if (newState == GlobalGameStateStatus.GameOver)
         {
+            var playerLocations = "";
+            var players = _manager.GetAllPlayers();
+
+            foreach (Player player in players)
+            {
+                if (playerLocations != "")
+                {
+                    playerLocations += " | ";
+                }
+                playerLocations += $"{player.name} @ {player.GetPrintableLocation()}";
+            }
+
             PostToForm(new LoggingData()
             {
                 playerEvent = LoggingEvents.OnGameOver,
                 playerGuid = GlobalGameStateManager.Instance.CurrentPlayingGUID,
                 param1 = _currentLevel.ToString(),
                 param2 = _currentScreen.ToString(),
+                param3 = playerLocations
             });
         }
         else if (newState == GlobalGameStateStatus.NameInput || newState == GlobalGameStateStatus.Preview)
@@ -145,15 +158,14 @@ public class LoggingManager : MonoBehaviour, IManager
     }
 
     private void OnPlayerDeath(Player player, string killingObject)
-    {        
-        var deathPosition = player.CurrentTile.GetPrintableCoordinates();
+    {
         PostToForm(new LoggingData()
         {
             playerEvent = LoggingEvents.OnPlayerDied,
             playerGuid = GlobalGameStateManager.Instance.CurrentPlayingGUID,
             param1 = _currentLevel.ToString(),
             param2 = _currentScreen.ToString(),
-            param3 = $"{player.name}: {killingObject} @ {deathPosition}"
+            param3 = $"{player.name}: {killingObject} @ {player.GetPrintableLocation()}"
         }); 
     }
 
