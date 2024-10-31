@@ -54,9 +54,14 @@ public class CountdownUI : MonoBehaviour
 
     void UpdateVisuals()
     {
-        _countdownAudioSource.Play();
-        _countdownDisplay.text = _secondsRemaining.ToString();
         var countdownPercent = _secondsRemaining / _countdownDurationInSeconds;
+
+        if (countdownPercent < 1)
+        {
+            _countdownAudioSource.Play();
+        }
+
         _countdownImage.fillAmount = countdownPercent;
+        _countdownDisplay.text = _secondsRemaining.ToString();
     }
 }
