@@ -117,12 +117,14 @@ public class EnergySystem : MonoBehaviour
 
     private void OnScreenChange(int _, int max_)
     {
-        var energyToHave = CurrentEnergy + (energyRegainedOnScreenEnd * _playerCount);
+        var energyToHave = CurrentEnergy;
         
         if (energyToHave < (_maxEnergy / 2))
         {
             energyToHave += energyRegainedOnScreenEnd / 2 * _playerCount;
-        } 
+        }
+
+        energyToHave += energyRegainedOnScreenEnd * _playerCount;
 
         if (energyToHave < minEnergyOnScreenStart * _playerCount)
         {
