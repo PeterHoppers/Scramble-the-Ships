@@ -90,6 +90,7 @@ public class LevelSelectManager : MonoBehaviour
         }
 
         GlobalAudioManager.Instance.PlayClickSFX();
+        _glitchAdapter.PerformDefaultGlitchTransitionEffect();
         GlobalGameStateManager.Instance.LoadLevel(_selectedNode.level);
     }
 
