@@ -64,8 +64,9 @@ public class Level : ScriptableObject
         return GlobalGameStateManager.Instance.defaultLocationForTransitionGrids;
     }
 
-    public string GetDisplayName()
+    public string GetDisplayName(bool isMultipleLines = true)
     {
-        return $"Sector {levelNumber}:<br>{levelName}";
+        var divider = (isMultipleLines) ? "<br>" : " ";
+        return $"Sector {levelNumber}:{divider}{levelName}";
     }
 }

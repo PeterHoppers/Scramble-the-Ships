@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour, IManager
     public PlayerStatusUI[] playerStatusUIs;
     public GameOverUI gameOverUI;
     public WinScreenUI winScreenUI;
+    public TextMeshProUGUI levelNameUI;
 
     private float _revealEndScreenUIDelay = .5f;
     GameManager _gameManager;
@@ -35,6 +36,7 @@ public class UIManager : MonoBehaviour, IManager
         gameOverUI.gameObject.SetActive(false);
         energyUI.gameObject.SetActive(false);
         UpdatePlayerStatusVisiblity(false);
+        levelNameUI.text = GlobalGameStateManager.Instance.CurrentLevel.GetDisplayName(false);
     }
 
     void OnDisable()
