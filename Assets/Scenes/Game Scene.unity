@@ -638,7 +638,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &92623041
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7492,6 +7492,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreConfiguration: {fileID: 11400000, guid: 7c82ca5c020500a409499dc640009272, type: 2}
   currentScoreText: {fileID: 948194942}
+  nextScoreToBeatText: {fileID: 92623042}
 --- !u!1001 &520288461271952675
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Linq;
 
 public class ScoreManager : MonoBehaviour, IManager
 {
     public ScoreConfiguration scoreConfiguration;
     [Header("UI")]
     public TextMeshProUGUI currentScoreText;
+    public TextMeshProUGUI nextScoreToBeatText;
 
     private int _currentScore;
     private int _scoreAtScreenStart;
@@ -20,6 +22,11 @@ public class ScoreManager : MonoBehaviour, IManager
     private List<ScreenChangeTrigger> _screenTransitions;
     private Dictionary<Player, int> _playerMaxSpacesAway = new Dictionary<Player, int>();
     private Dictionary<Player, int> _playerSpacesAway = new Dictionary<Player, int>();
+    private List<ScoreInfo> _scoreInfos;
+    
+    private ScoreInfo _nextScoreToBeat;
+    private int _nextScoreToBeatIndex;
+    private int _scoreIndexOnScreenChange;
 
     public int CurrentScore
     { 
@@ -27,13 +34,17 @@ public class ScoreManager : MonoBehaviour, IManager
         private set
         {
             _currentScore = value;
-            currentScoreText.text = string.Format("{0:D5}", _currentScore);
+            currentScoreText.text = PrintScore(_currentScore);
+            UpdateNextHighScore(value);
         }
     }
 
     void Start()
     {
-        CurrentScore = GlobalGameStateManager.Instance.CurrentScore;
+        _scoreInfos = GlobalGameStateManager.Instance.ScoreInfos;
+        _scoreInfos = _scoreInfos.Where(x => x.playerCount == GlobalGameStateManager.Instance.PlayerCount).OrderBy(x => x.scoreAmount).ToList();
+        CurrentScore = GlobalGameStateManager.Instance.CurrentScore;        
+
         _scoreAtScreenStart = CurrentScore;
         _pointsPerScreenCompletion = scoreConfiguration.pointsPerScreenCompletion;
         _pointsPerTileMoved = scoreConfiguration.pointsPerTileMoved;
@@ -70,6 +81,7 @@ public class ScoreManager : MonoBehaviour, IManager
         }
 
         _scoreAtScreenStart = CurrentScore;
+        _scoreIndexOnScreenChange = _nextScoreToBeatIndex;
         ResetScreenProgress();        
     }
 
@@ -77,6 +89,7 @@ public class ScoreManager : MonoBehaviour, IManager
     {
         ResetScreenProgress();
         CurrentScore = _scoreAtScreenStart;
+        UpdateNextScoreDisplay(_scoreIndexOnScreenChange);
     }
 
     private void OnGameStateChanged(GameState newState)
@@ -144,6 +157,49 @@ public class ScoreManager : MonoBehaviour, IManager
                 _playerMaxSpacesAway.Add(p, DistanceAwayFromEnd(p, int.MaxValue));
             });
         }
+    }
+
+    private void UpdateNextHighScore(int currentScore)
+    {
+        if (_scoreInfos == null)
+        {
+            return;
+        }
+
+        if (_nextScoreToBeat.playerCount == 0)
+        {
+            UpdateNextScoreDisplay(0);
+        }
+
+        if (currentScore <= _nextScoreToBeat.scoreAmount)
+        {
+            return;
+        }
+
+        for (int scoreIndex = _nextScoreToBeatIndex; scoreIndex < _scoreInfos.Count; scoreIndex++) 
+        { 
+            var nextScore = _scoreInfos[scoreIndex];
+
+            if (currentScore <= nextScore.scoreAmount)
+            {                
+                UpdateNextScoreDisplay(scoreIndex);
+                break;
+            }
+        }
+    }
+
+    void UpdateNextScoreDisplay(int scoreIndex)
+    {
+        _nextScoreToBeatIndex = scoreIndex;
+        _nextScoreToBeat = _scoreInfos[_nextScoreToBeatIndex];
+        var ranking = _scoreInfos.Count - scoreIndex;
+
+        nextScoreToBeatText.text = $"High Score #{ranking}: {PrintScore(_nextScoreToBeat.scoreAmount)}";
+    }
+
+    string PrintScore(int score)
+    {
+        return string.Format("{0:D5}", score);
     }
 
     private void OnLevelEnd(int levelNumber, int energyLeft, int continuesUsed)

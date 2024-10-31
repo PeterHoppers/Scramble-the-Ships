@@ -9,6 +9,11 @@ public struct ScoreInfo
     public int scoreAmount;
     public int playerCount;
     public string displayName;
+
+    public override readonly string ToString()
+    {
+        return $"{displayName}: {scoreAmount}";
+    }
 }
 
 public class ScoreSystem
