@@ -67,6 +67,6 @@ public class Level : ScriptableObject
     public string GetDisplayName(bool isMultipleLines = true)
     {
         var divider = (isMultipleLines) ? "<br>" : " ";
-        return $"Sector {levelNumber}:{divider}{levelName}";
+        return $"Level {levelNumber}:{divider}{levelName}";
     }
 }

@@ -1589,7 +1589,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7669346181932971935, guid: 32ac0e5a5134c074dac5be93717cba6b, type: 3}
       propertyPath: m_text
-      value: Energy Bonus at Sector End
+      value: Energy Bonus at Level End
       objectReference: {fileID: 0}
     - target: {fileID: 8126486374009367283, guid: 32ac0e5a5134c074dac5be93717cba6b, type: 3}
       propertyPath: m_text
@@ -2062,7 +2062,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7669346181932971935, guid: 32ac0e5a5134c074dac5be93717cba6b, type: 3}
       propertyPath: m_text
-      value: Completed Sector Bonus
+      value: Completed Level Bonus
       objectReference: {fileID: 0}
     - target: {fileID: 8126486374009367283, guid: 32ac0e5a5134c074dac5be93717cba6b, type: 3}
       propertyPath: m_text
