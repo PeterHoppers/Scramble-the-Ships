@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
     public delegate void PlayerLeave(Player player);
     public PlayerLeave OnPlayerLeaveGame;
 
-    public delegate void PlayerDeath(Player player);
+    public delegate void PlayerDeath(Player player, string killingObject);
     public PlayerDeath OnPlayerDeath;
 
     public delegate void ScoreSubmit(int newScore);
@@ -175,7 +175,7 @@ public class GameManager : MonoBehaviour
         int playerId = _players.Count;
         newPlayer.InitPlayer(this, shipInfos[playerId], playerId, _inputMoveStyle);
         newPlayer.transform.SetParent(transform);
-        newPlayer.name = "Player " + playerId;
+        newPlayer.name = "Player " + (playerId + 1);
 
         _players.Add(newPlayer);       
 
@@ -488,12 +488,12 @@ public class GameManager : MonoBehaviour
 
         if (playerAttack.IsPlayerDeadOnHit())
         {
-            HandlePlayerDeath(playerAttack);
+            HandlePlayerDeath(playerAttack, playerHit.name);
         }
 
         if (playerHit.IsPlayerDeadOnHit())
         {
-            HandlePlayerDeath(playerHit);
+            HandlePlayerDeath(playerHit, playerAttack.name);
         }
 
         UpdateStateOnPlayerDeath();
@@ -510,7 +510,7 @@ public class GameManager : MonoBehaviour
         {
             if (player.IsPlayerDeadOnHit())
             {
-                HandlePlayerDeath(player);
+                HandlePlayerDeath(player, attacking.name);
                 UpdateStateOnPlayerDeath();
             }
         }
@@ -523,10 +523,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void HandlePlayerDeath(Player player)
+    void HandlePlayerDeath(Player player, string killingObject)
     {
         player.OnDeath();
-        OnPlayerDeath?.Invoke(player);
+        OnPlayerDeath?.Invoke(player, killingObject);
     }
 
     void UpdateStateOnPlayerDeath()
@@ -655,7 +655,7 @@ public class GameManager : MonoBehaviour
         }
 
         var preview = _spawnSystem.CreateSpawnObject(previewableBase.gameObject, previewTile, newRotation.Value);
-        preview.name = $"Preview of {previewableObject}";
+        preview.name = $"Preview of {previewableObject.name}";
         preview.transform.localScale = previewableObject.GetPreviewScale();
         var previewImage = previewableObject.GetPreviewSprite();
 

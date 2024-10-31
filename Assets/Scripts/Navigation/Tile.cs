@@ -73,6 +73,11 @@ public class Tile : MonoBehaviour
     {
         return gridCoordinates;
     }
+
+    public string GetPrintableCoordinates()
+    {
+        return $"({gridCoordinates.x} , {gridCoordinates.y})";
+    }
 }
 
 public enum TileType

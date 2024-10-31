@@ -63,6 +63,7 @@ public class SpawnSystem : MonoBehaviour
     {
         var spawnedObject = Instantiate(spawnObject, Vector2.zero, spawnRotation, transform);
         var tilePosition = spawnTile.GetTilePosition();
+        spawnedObject.name = $"{spawnObject.name} {spawnTile.GetPrintableCoordinates()}";
         spawnedObject.transform.localPosition = (isOffscreen) ? GetOffscreenPosition(spawnedObject.transform.up, tilePosition, true) : tilePosition;
         _spawnList.Add(spawnedObject);
         return spawnedObject;

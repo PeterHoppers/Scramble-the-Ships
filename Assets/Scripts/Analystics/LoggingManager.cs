@@ -144,15 +144,17 @@ public class LoggingManager : MonoBehaviour, IManager
         });
     }
 
-    private void OnPlayerDeath(Player player)
-    {
+    private void OnPlayerDeath(Player player, string killingObject)
+    {        
+        var deathPosition = player.CurrentTile.GetPrintableCoordinates();
         PostToForm(new LoggingData()
         {
             playerEvent = LoggingEvents.OnPlayerDied,
             playerGuid = GlobalGameStateManager.Instance.CurrentPlayingGUID,
             param1 = _currentLevel.ToString(),
             param2 = _currentScreen.ToString(),
-        });
+            param3 = $"{player.name}: {killingObject} @ {deathPosition}"
+        }); 
     }
 
     private void OnLevelStart(int levelId)

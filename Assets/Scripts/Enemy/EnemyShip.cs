@@ -40,6 +40,7 @@ public class EnemyShip : GridMovable
                     var moveable = _manager.CreateMovableAtTile(bullet, this, shootingTile);
                     moveable.GetComponent<Bullet>().owner = this;
                     moveable.GetComponentInChildren<SpriteRenderer>().sprite = shipInfo.bulletSprite;
+                    moveable.name = $"Bullet of {name}";
                     var newPreview = _manager.CreatePreviewOfPreviewableAtTile(moveable, shootingTile);
                     newPreview.creatorOfPreview = this;
                     _manager.AddPreviewAction(newPreview);
