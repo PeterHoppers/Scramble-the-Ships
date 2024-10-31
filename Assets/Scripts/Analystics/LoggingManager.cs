@@ -166,7 +166,7 @@ public class LoggingManager : MonoBehaviour, IManager
         });
     }
 
-    private void OnLevelEnd(int energyLeft, int continuesUsed)
+    private void OnLevelEnd(int levelNumber, int energyLeft, int continuesUsed)
     {
         _manager.OnScoreSubmit += OnScoreSubmitted;
         void OnScoreSubmitted(int newScore)

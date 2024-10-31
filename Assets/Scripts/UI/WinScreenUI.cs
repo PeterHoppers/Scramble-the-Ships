@@ -10,7 +10,8 @@ public class WinScreenUI : MonoBehaviour
 {
     [Header("UI Configuration")]
     public TextMeshProUGUI previousScoreText;
-    public TextMeshProUGUI levelValueText;
+    public TextMeshProUGUI levelText;
+    public TextMeshProUGUI levelScoreText;
     public TextMeshProUGUI energyText;
     public TextMeshProUGUI energyScoreText;
     public TextMeshProUGUI continueText;
@@ -29,9 +30,9 @@ public class WinScreenUI : MonoBehaviour
     [SerializeField]
     private ScoreManager _scoreManager;
 
-    public void SetLevelScore(int energyLeft, int continuesUsed)
+    public void SetLevelScore(int levelNumber, int energyLeft, int continuesUsed)
     {
-        var levelScoreInfo = _scoreManager.CalcEndLevelScoreInfo(energyLeft, continuesUsed);
+        var levelScoreInfo = _scoreManager.CalcEndLevelScoreInfo(levelNumber, energyLeft, continuesUsed);
 
         var _scoreConfiguration = _scoreManager.scoreConfiguration;
         var _energyValue = _scoreConfiguration.pointsPerEnergy;
@@ -39,7 +40,9 @@ public class WinScreenUI : MonoBehaviour
         var _levelValue = _scoreConfiguration.pointsPerLevel;        
 
         previousScoreText.text = levelScoreInfo.previousScore.ToString();
-        levelValueText.text = _levelValue.ToString();
+
+        levelText.text = $"({levelNumber} x {_levelValue})";
+        levelScoreText.text = levelScoreInfo.levelScore.ToString();
 
         energyText.text = $"({energyLeft} x {_energyValue})";
         energyScoreText.text = levelScoreInfo.energyScore.ToString();

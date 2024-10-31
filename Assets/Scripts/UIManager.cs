@@ -45,7 +45,7 @@ public class UIManager : MonoBehaviour, IManager
         }
     }
 
-    void OnLevelEnd(int energyLeft, int continuesUsed)
+    void OnLevelEnd(int levelNumber, int energyLeft, int continuesUsed)
     {
         if (_gameManager != null)
         {
@@ -60,7 +60,7 @@ public class UIManager : MonoBehaviour, IManager
         }
         else
         {
-            StartCoroutine(RevealLevelEndText(energyLeft, continuesUsed, _revealEndScreenUIDelay));
+            StartCoroutine(RevealLevelEndText(levelNumber, energyLeft, continuesUsed, _revealEndScreenUIDelay));
         }        
     }
 
@@ -70,11 +70,11 @@ public class UIManager : MonoBehaviour, IManager
         GlobalGameStateManager.Instance.PlayCutscene();
     }
 
-    IEnumerator RevealLevelEndText(int energyLeft, int continuesUsed, float waitDuration) 
+    IEnumerator RevealLevelEndText(int levelNumber, int energyLeft, int continuesUsed, float waitDuration) 
     {
         yield return new WaitForSeconds(waitDuration);
         winScreenUI.gameObject.SetActive(true);
-        winScreenUI.SetLevelScore(energyLeft, continuesUsed);
+        winScreenUI.SetLevelScore(levelNumber, energyLeft, continuesUsed);
     }
 
     void OnScreenChange(int screenLoaded, int totalScreens)
