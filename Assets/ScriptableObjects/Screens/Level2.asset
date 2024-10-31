@@ -32,6 +32,7 @@ MonoBehaviour:
     amount: 1
   - type: 12
     amount: 50
+  levelNumber: 2
   levelName: Sector Rapienda
   levelSong: {fileID: 8300000, guid: 81b9b52ccc716244c9c8b08c280b530e, type: 3}
   levelBackground: {fileID: 21300000, guid: 096fc01b2b9abe045bdbb6172c4e01ef, type: 3}

@@ -13,6 +13,7 @@ public class Level : ScriptableObject
 
     public List<Effect> startingEffects;
 
+    public int levelNumber;
     public string levelName;
     public AudioClip levelSong;
     public Sprite levelBackground;
@@ -61,5 +62,10 @@ public class Level : ScriptableObject
         }
 
         return GlobalGameStateManager.Instance.defaultLocationForTransitionGrids;
+    }
+
+    public string GetDisplayName()
+    {
+        return $"Sector {levelNumber}:<br>{levelName}";
     }
 }

@@ -6,7 +6,6 @@ using UnityEngine;
 public class LevelSelectNode : ScriptableObject
 {
     public Level level;
-    public string title;
     public string description;
     public Sprite levelImage;
 }

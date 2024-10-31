@@ -8,6 +8,8 @@ public class LevelEditor : Editor
     SerializedProperty areLevelsSameToggle;
 
     SerializedProperty startingEffects;
+
+    SerializedProperty levelNumber;
     SerializedProperty levelName;
     SerializedProperty levelSong;
     SerializedProperty backgroundImage;
@@ -19,6 +21,7 @@ public class LevelEditor : Editor
         twoPlayerScreens = serializedObject.FindProperty("twoPlayerLevelScreens");
         areLevelsSameToggle = serializedObject.FindProperty("useOnePlayerForBoth");
         startingEffects = serializedObject.FindProperty("startingEffects");
+        levelNumber = serializedObject.FindProperty("levelNumber");
         levelName = serializedObject.FindProperty("levelName");
         levelSong = serializedObject.FindProperty("levelSong");
         backgroundImage = serializedObject.FindProperty("levelBackground");
@@ -31,7 +34,7 @@ public class LevelEditor : Editor
         serializedObject.Update();
 
         // Show the custom GUI controls.
-        areLevelsSameToggle.boolValue = EditorGUILayout.Toggle("Are Screens Same For Both Players?", areLevelsSameToggle.boolValue);
+        areLevelsSameToggle.boolValue = EditorGUILayout.Toggle("Same Screens For 1 & 2 Players?", areLevelsSameToggle.boolValue);
         EditorGUILayout.PropertyField(onePlayerScreens);       
 
         if (!areLevelsSameToggle.boolValue)
@@ -41,6 +44,7 @@ public class LevelEditor : Editor
 
         EditorGUILayout.Space();
         EditorGUILayout.PropertyField(startingEffects);
+        EditorGUILayout.PropertyField(levelNumber);
         EditorGUILayout.PropertyField(levelName);
         EditorGUILayout.PropertyField(levelSong);
         EditorGUILayout.PropertyField(backgroundImage);

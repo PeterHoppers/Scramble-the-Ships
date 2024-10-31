@@ -20,6 +20,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 61a3269858c54f741893f9623dbc5e6f, type: 2}
   twoPlayerLevelScreens: []
   startingEffects: []
+  levelNumber: 7
   levelName: 
   levelSong: {fileID: 0}
   levelBackground: {fileID: 0}

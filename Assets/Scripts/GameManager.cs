@@ -119,7 +119,7 @@ public class GameManager : MonoBehaviour
 
         if (!_isAI)
         {
-            StartCoroutine(PlayIntroCutscene(_currentLevel.levelName));
+            StartCoroutine(PlayIntroCutscene(_currentLevel.GetDisplayName()));
         }
 
         foreach (IManager managerObjects in FindAllManagers())

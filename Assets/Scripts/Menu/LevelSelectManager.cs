@@ -134,7 +134,7 @@ public class LevelSelectManager : MonoBehaviour
             yield return new WaitForSeconds(halfTransitionDuration);
         }
 
-        _titleText.text = _selectedNode.title;
+        _titleText.text = _selectedNode.level.GetDisplayName();
         _descriptionText.text = _selectedNode.description;
         _levelImage.sprite = _selectedNode.levelImage;
 
