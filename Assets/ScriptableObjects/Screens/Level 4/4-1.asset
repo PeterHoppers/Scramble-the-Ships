@@ -149,7 +149,7 @@ MonoBehaviour:
   startingPlayerPositions:
     _serializedList: []
   useDifferentDialogueForBothPlayers: 0
-  screenDialogue: {fileID: 0}
+  screenDialogue: {fileID: 11400000, guid: 67cde55f17c87c44a991a9dd6fae0f2e, type: 2}
   twoPlayerDialogue: {fileID: 0}
   effects: []
   playerAICommands: {fileID: 0}
