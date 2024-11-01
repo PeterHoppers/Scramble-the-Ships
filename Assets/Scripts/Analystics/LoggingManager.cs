@@ -93,16 +93,7 @@ public class LoggingManager : MonoBehaviour, IManager
                     playerEvent = LoggingEvents.OnContinueUsed,
                     playerGuid = GlobalGameStateManager.Instance.CurrentPlayingGUID,
                 });
-            }
-            else if (_previousState == GlobalGameStateStatus.Preview || _previousState == GlobalGameStateStatus.LevelSelect)
-            {
-                PostToForm(new LoggingData()
-                {
-                    playerEvent = LoggingEvents.OnGameStart,
-                    playerGuid = GlobalGameStateManager.Instance.CurrentPlayingGUID,
-                    param1 = GlobalGameStateManager.Instance.PlayerCount.ToString()
-                });
-            }
+            }            
         }
         else if (newState == GlobalGameStateStatus.GameOver)
         {
@@ -138,6 +129,15 @@ public class LoggingManager : MonoBehaviour, IManager
                     param1 = GlobalGameStateManager.Instance.CurrentScore.ToString(),
                 });
             }
+        }
+        else if (newState == GlobalGameStateStatus.LevelSelect)
+        {
+            PostToForm(new LoggingData()
+            {
+                playerEvent = LoggingEvents.OnGameStart,
+                playerGuid = GlobalGameStateManager.Instance.CurrentPlayingGUID,
+                param1 = GlobalGameStateManager.Instance.PlayerCount.ToString()
+            });
         }
 
         _previousState = newState;
