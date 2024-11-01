@@ -94,7 +94,7 @@ public class LoggingManager : MonoBehaviour, IManager
                     playerGuid = GlobalGameStateManager.Instance.CurrentPlayingGUID,
                 });
             }
-            else if (_previousState == GlobalGameStateStatus.Preview)
+            else if (_previousState == GlobalGameStateStatus.Preview || _previousState == GlobalGameStateStatus.LevelSelect)
             {
                 PostToForm(new LoggingData()
                 {
@@ -208,7 +208,7 @@ public class LoggingManager : MonoBehaviour, IManager
         {
             playerEvent = LoggingEvents.OnEnergyPickup,
             playerGuid = GlobalGameStateManager.Instance.CurrentPlayingGUID,
-            param1 = GlobalGameStateManager.Instance.ActiveLevelIndex.ToString(),
+            param1 = _currentLevel.ToString(),
             param2 = _currentScreen.ToString(),
         });
     }
