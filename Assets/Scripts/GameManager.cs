@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     public delegate void LevelStart(int levelId);
     public LevelStart OnLevelStart;
 
-    public delegate void LevelEnd(int levelNumber, int energyLeft, int continuesUsed);
+    public delegate void LevelEnd(int levelNumber, int energyLeft, int energyPercentageLeft, int continuesUsed);
     public LevelEnd OnLevelEnd;
 
     public delegate void TickStart(float timeToTickEnd, int currentTickNumber);
@@ -325,7 +325,8 @@ public class GameManager : MonoBehaviour
         if (screensRemainingInLevel <= 0)
         {
             UpdateGameState(GameState.Win);
-            OnLevelEnd?.Invoke(_screenSystem.GetCurrentLevelNumber(), _energySystem.CurrentEnergy, _continuesUsed);                                
+            int energyPercentageRemaining = (int)(_energySystem.GetEnergyPercentRemaining() * 100);
+            OnLevelEnd?.Invoke(_screenSystem.GetCurrentLevelNumber(), _energySystem.CurrentEnergy, energyPercentageRemaining, _continuesUsed);                                
         }
         else
         {

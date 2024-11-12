@@ -20,7 +20,7 @@ public class CutsceneSystem : MonoBehaviour
     private void Awake()
     {
         _gameManager = GetComponent<GameManager>();
-        _gameManager.OnLevelEnd = (int _, int _, int _) =>
+        _gameManager.OnLevelEnd = (int _, int _, int _, int _) =>
         {
             StopAllCoroutines();
         };

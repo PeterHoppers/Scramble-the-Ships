@@ -90,6 +90,11 @@ public class EnergySystem : MonoBehaviour
         UpdateMaxEnergy(_maxEnergyPerPlayer, playerCount);
     }
 
+    public float GetEnergyPercentRemaining()
+    {
+        return (float)CurrentEnergy / _maxEnergy;
+    }
+
     public void RefillEnergy()
     {
         CurrentEnergy = _maxEnergy;
@@ -174,10 +179,9 @@ public class EnergySystem : MonoBehaviour
         }
     }
 
-    public int OnPlayerFired()
+    public void OnPlayerFired()
     {
         CurrentEnergy -= (_energyPerFire - _energyPerMove);
-        return CurrentEnergy;
     }
 
     //use this to update the UI after the reset happens to highlight the change in value

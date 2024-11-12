@@ -208,12 +208,12 @@ public class ScoreManager : MonoBehaviour, IManager
         return string.Format("{0:D5}", score);
     }
 
-    private void OnLevelEnd(int levelNumber, int energyLeft, int continuesUsed)
+    private void OnLevelEnd(int levelNumber, int energyLeft, int energyPercentageLeft, int continuesUsed)
     {
         currentScoreText.gameObject.SetActive(false);
     }
 
-    public EndLevelScoreInfo CalcEndLevelScoreInfo(int levelNumber, int energyLeft, int continuesUsed)
+    public EndLevelScoreInfo CalcEndLevelScoreInfo(int levelNumber, int energyPercentageLeft, int continuesUsed)
     {
         var _energyValue = scoreConfiguration.pointsPerEnergy;
         var _continueLossValue = scoreConfiguration.pointsPerContinue;
@@ -221,7 +221,7 @@ public class ScoreManager : MonoBehaviour, IManager
 
         int previousScore = CurrentScore;
         int levelScore = _levelValue * levelNumber;
-        int energyScore = _energyValue * energyLeft;
+        int energyScore = _energyValue * energyPercentageLeft;
         int continueScore = _continueLossValue * continuesUsed;
         int totalScore = previousScore + levelScore + energyScore + continueScore;
 
