@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueNodes:
   - textSpeaker: 0
-    textToDisplay: "If your ship is ever destroyed by any obstacles, it will rewind
-      time back to when your system first detected them. Although we understand that
-      an experienced pilot like you doesn\u2019t have much of a need for that sort
-      of safety net.\r"
-  - textSpeaker: 0
     textToDisplay: "Our sensors have scanned ahead and calculated how many grids
-      are remaining in this sector. We\u2019re detecting minimal alien resistance
-      and no further complications.\r"
+      are remaining. That information is being displayed as your \u201CProgress\u201D
+      bar. This bar shows how far you\u2019ll need to go before you reach safety.\r"
+  - textSpeaker: 0
+    textToDisplay: "Thankfully though, we\u2019re detecting minimal alien resistance
+      and no further complications beyond what\u2019s on your current grid. We\u2019ll
+      see you back at base soon enough.\r"

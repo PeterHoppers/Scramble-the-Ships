@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Tutorial 4
   m_EditorClassIdentifier: 
   dialogueNodes:
-  - textToDisplay: "What- they\u2019ve set a trap! They\u2019re producing some sort
-      of electrical interference. It\u2019s prevented our sensors from\u2026 <waitfor=.75>
-      and now it\u2019s interfering with\u2026 <waitfor=.75> communication\u2026"
-  - textToDisplay: <waitfor=.75>.<waitfor=.75>.<waitfor=.75>.
+  - textSpeaker: 0
+    textToDisplay: "What- the aliens have set a trap! They\u2019re producing some
+      sort of electrical interference. It\u2019s prevented our sensors from\u2026
+      <waitfor=.75> and now it\u2019s interfering with\u2026 <waitfor=.75> communication\u2026"
+  - textSpeaker: 0
+    textToDisplay: <waitfor=.75>.<waitfor=.75>.<waitfor=.75>.

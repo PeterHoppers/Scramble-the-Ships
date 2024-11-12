@@ -14,15 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueNodes:
   - textSpeaker: 0
-    textToDisplay: As you enter alien territory, pilot, your ship will activate its
-      time-modifying grid movement system whenever it detects obstacles. This system
-      pauses time for roughly a second and previews where objects are going until
-      you choose an action to perform.
+    textToDisplay: "Your time-modifying grid movement system activates whenever obstacles
+      are detected, pilot. This system pauses time for about a second or until you
+      move your joystick in the direction you want to move. After your ship finishes
+      moving, it\u2019ll pause time again."
   - textSpeaker: 0
-    textToDisplay: "However, this system constantly uses your ship\u2019s energy.
-      If your energy fully depletes, you will be stranded in space and suffer the
-      consequences, as you well know."
+    textToDisplay: "This system also previews where obstacles will be after you move,
+      which allows you to react accordingly. If your ship is ever destroyed by them,
+      it will rewind time to when you entered the current grid.\r"
   - textSpeaker: 0
-    textToDisplay: "The glowing squares at the top of the grid have been calculated
-      as safe transition zones. When you interact with one, you\u2019ll move onto
-      the next collection of obstacles and recharge some of your energy."
+    textToDisplay: "While this system is quite helpful, it constantly uses energy.
+      If your energy fully depletes, your ship will cease to function and you\u2019ll
+      become stranded in space.\r"
+  - textSpeaker: 0
+    textToDisplay: "To continue to the next grid, move your ship into a white glowing
+      square at the top of the grid. This will allow you to transition to the next
+      grid safely and recharge some energy.\r"
