@@ -23,7 +23,7 @@ MonoBehaviour:
         offset: 0
       y:
         anchor: 2
-        offset: 2
+        offset: 0
   - spawnInfo:
       objectToSpawn: 0
       direction: 0
@@ -34,7 +34,7 @@ MonoBehaviour:
         offset: 0
       y:
         anchor: 2
-        offset: 2
+        offset: 0
   - spawnInfo:
       objectToSpawn: 0
       direction: 0
@@ -45,18 +45,7 @@ MonoBehaviour:
         offset: 0
       y:
         anchor: 2
-        offset: 6
-  - spawnInfo:
-      objectToSpawn: 0
-      direction: 0
-      groupingSize: 3
-    spawnCoordinates:
-      x:
-        anchor: 0
-        offset: 0
-      y:
-        anchor: 2
-        offset: 6
+        offset: 4
   - spawnInfo:
       objectToSpawn: 0
       direction: 0
@@ -67,7 +56,18 @@ MonoBehaviour:
         offset: 0
       y:
         anchor: 2
-        offset: 10
+        offset: 4
+  - spawnInfo:
+      objectToSpawn: 0
+      direction: 0
+      groupingSize: 3
+    spawnCoordinates:
+      x:
+        anchor: 0
+        offset: 0
+      y:
+        anchor: 2
+        offset: 8
   - spawnInfo:
       objectToSpawn: 0
       direction: 0
@@ -78,7 +78,7 @@ MonoBehaviour:
         offset: 0
       y:
         anchor: 2
-        offset: 10
+        offset: 8
   - spawnInfo:
       objectToSpawn: 0
       direction: 3
@@ -155,7 +155,7 @@ MonoBehaviour:
         offset: 0
       y:
         anchor: 2
-        offset: 3
+        offset: 4
   overrideDefaultTransitionGrids: 1
   transitionGrids:
     direction: 0
@@ -165,13 +165,13 @@ MonoBehaviour:
         offset: 0
       y:
         anchor: 2
-        offset: 4
+        offset: 2
     - x:
         anchor: 2
         offset: 0
       y:
         anchor: 2
-        offset: 4
+        offset: 2
   overrideDefaultStartingPositions: 1
   startingPlayerPositions:
     _serializedList:
