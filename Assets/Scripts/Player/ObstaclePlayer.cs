@@ -82,15 +82,17 @@ public class ObstaclePlayer : Player
         base.SetScrambledActions(playerActions);
     }
 
-    public override bool HasActiveInput()
-    {
-        return true;
-    }
-
     public override List<ButtonValue> GetButtonValues(int lastButtonIndex)
     {
-        var allButtonValues = (ButtonValue[])Enum.GetValues(typeof(ButtonValue));
-        return allButtonValues.ToList().TakeLast(lastButtonIndex).ToList();
+        var allButtonValues = new List<ButtonValue>()
+        { 
+            ButtonValue.Action,
+            ButtonValue.Up, 
+            ButtonValue.Down,
+            ButtonValue.Left,
+            ButtonValue.Right
+        };
+        return allButtonValues.ToList().Take(lastButtonIndex).ToList();
     }
 
     protected void CreateNextPreview(float _, int currentTickNumber)
@@ -98,6 +100,11 @@ public class ObstaclePlayer : Player
         if (_shipCommands != null && _shipCommands.TryGetValue(_tickIndex, out var inputValue))
         {
             _currentInputValue = inputValue;
+        }
+
+        if (_currentInputValue == InputValue.None) 
+        {
+            return;
         }
 
         SendPlayerAction(new PlayerAction()

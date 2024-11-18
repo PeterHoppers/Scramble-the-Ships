@@ -58,6 +58,8 @@ public class Player : Previewable
     {
         if (_manager != null)
         {
+            _manager.OnTickStart -= OnTickStart;
+            _manager.OnTickEnd -= OnTickEnd;
             _manager.EffectsSystem.OnInputMoveStyleChanged -= OnInputMoveStyleChanged;
             _manager.EffectsSystem.OnGameInputProgressionChanged -= OnGameInputProgressionChanged;
         }        

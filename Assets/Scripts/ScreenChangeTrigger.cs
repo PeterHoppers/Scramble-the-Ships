@@ -22,6 +22,11 @@ public class ScreenChangeTrigger : GridObject
             return;
         }
 
+        if (collidedGridObject.TryGetComponent<ObstaclePlayer>(out var obstaclePlayer))
+        {
+            return;
+        }
+
         _manager.ScreenChangeTriggered(playerCollided, _screenDirection);
     }
 }

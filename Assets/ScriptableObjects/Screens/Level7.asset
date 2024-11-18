@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useOnePlayerForBoth: 0
   onePlayerLevelScreens:
+  - {fileID: 11400000, guid: 67680375caa8a3a438f8f0d538160f10, type: 2}
   - {fileID: 11400000, guid: 7727f09e91dd6a443b5b552e2fe071f3, type: 2}
   - {fileID: 11400000, guid: 0bad0bd1f16c15846bef3f7a06fd7eec, type: 2}
   - {fileID: 11400000, guid: c527ba94fca31794a98a0cd6ef8e45a1, type: 2}
@@ -21,8 +22,8 @@ MonoBehaviour:
   twoPlayerLevelScreens: []
   startingEffects: []
   levelNumber: 7
-  levelName: 
-  levelSong: {fileID: 0}
+  levelName: Sector Crosstalk
+  levelSong: {fileID: 8300000, guid: 9c008a563034f1c4ebd8cb016ef2d064, type: 3}
   levelBackground: {fileID: 0}
   overrideDefaultTransitionGrids: 0
   transitionGrids:

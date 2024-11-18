@@ -61,21 +61,31 @@ public class ControlsManager : MonoBehaviour, IManager
 
         var amountToScramble = AdjustScrambleAmountForVarience(_amountScrambledOption, _percentChanceNotDefaultScrambleAmount);
 
-        if (!_doesScrambleOnNoInput)
+        if (!_doesScrambleOnNoInput && !isForcedToShuffle)
         {
-            var hasPlayerInputted = true;
+            var numberOfActiveInputs = 0;
 
             foreach (var player in _players)
             {
-                if (hasPlayerInputted)
+                if (player.HasActiveInput())
                 {
-                    hasPlayerInputted = player.HasActiveInput();
+                    numberOfActiveInputs++;
                 }
             }
 
-            if (!hasPlayerInputted && !isForcedToShuffle)
+            if (_scrambleType == GameInputProgression.DummyShipDefault)
             {
-                amountToScramble = 0;
+                if (numberOfActiveInputs == 0)
+                {
+                    amountToScramble = 0;
+                }
+            }
+            else
+            {
+                if (numberOfActiveInputs < _players.Count)
+                {
+                    amountToScramble = 0;
+                }
             }
         }
 
