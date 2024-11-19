@@ -309,6 +309,7 @@ public enum GameInputProgression
     Rotation = 4,
     DummyShipDefault = 100,
     CrossScrambleShooting = 200,
+    CrossScrambleMovementAndShooting = 201
 }
 
 [System.Serializable]

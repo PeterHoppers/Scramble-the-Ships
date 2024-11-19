@@ -128,7 +128,7 @@ public class ControlsManager : MonoBehaviour, IManager
 
             player.SetScrambledActions(playerActions);
 
-            if (_playersSameShuffle)
+            if (_playersSameShuffle && _scrambleType != GameInputProgression.CrossScrambleMovementAndShooting)
             {
                 previousShuffle = shuffledValues;
             }
@@ -137,6 +137,8 @@ public class ControlsManager : MonoBehaviour, IManager
 
     List<PlayerAction> GetPossibleActionsForPlayer(Player player, List<PlayerAction> possibleActions, int lastIndexForScrambling)
     {
+        var defaultPlayerActionOptions = possibleActions.Where(x => x.playerActionPerformedOn == player).ToList();
+
         if (_scrambleType == GameInputProgression.DummyShipDefault)
         {
             if (player.PlayerId == 0)
@@ -150,28 +152,95 @@ public class ControlsManager : MonoBehaviour, IManager
             }
         }
         else if (_scrambleType == GameInputProgression.CrossScrambleShooting)
-        { 
+        {
             var playerMovementActions = possibleActions.Where(x => x.playerActionPerformedOn == player && x.inputValue != InputValue.Fire).ToList();
-            var otherPlayerShootingAction = possibleActions.FirstOrDefault(x => x.playerActionPerformedOn != player && x.inputValue == InputValue.Fire);
-            
-            if (otherPlayerShootingAction.playerActionPerformedOn != null)
-            {
-                playerMovementActions.Add(otherPlayerShootingAction);                
-            }
-            else
-            {
-                var playerShootingAction = possibleActions.FirstOrDefault(x => x.playerActionPerformedOn == player && x.inputValue == InputValue.Fire);
+            var otherPlayerAction = GetOppositePlayerAction(possibleActions, player, InputValue.Fire);
 
-                if (playerShootingAction.playerActionPerformedOn != null)
-                {
-                    playerMovementActions.Add(playerShootingAction);
-                }
+            if (otherPlayerAction.playerActionPerformedOn != null)
+            {
+                playerMovementActions.Add(otherPlayerAction);
             }
 
             return playerMovementActions;
         }
+        else if (_scrambleType == GameInputProgression.CrossScrambleMovementAndShooting)
+        {
+            //if there's only one player active, use normal scrambling
+            if (defaultPlayerActionOptions.Count == possibleActions.Count || defaultPlayerActionOptions.Count == 0)
+            {
+                return defaultPlayerActionOptions;
+            }
 
-        return possibleActions.Where(x => x.playerActionPerformedOn == player).ToList();
+            List<PlayerAction> playerActions = new List<PlayerAction>();
+            var otherPlayerAction = GetOppositePlayerAction(possibleActions, player, InputValue.Fire);
+
+            if (otherPlayerAction.playerActionPerformedOn != null)
+            {
+                playerActions.Add(otherPlayerAction);
+            }
+
+            if (player.PlayerId == 0)
+            {
+                var forwardAction = possibleActions.FirstOrDefault(x => x.playerActionPerformedOn == player && x.inputValue == InputValue.Forward);
+                var otherForwardAction = GetOppositePlayerAction(possibleActions, player, InputValue.Forward);
+                var backAction = possibleActions.FirstOrDefault(x => x.playerActionPerformedOn == player && x.inputValue == InputValue.Backward);
+                var otherBackAction = GetOppositePlayerAction(possibleActions, player, InputValue.Backward);
+
+                playerActions.AddRange
+                (
+                    new List<PlayerAction>
+                    {
+                        forwardAction,
+                        otherForwardAction,
+                        otherBackAction,
+                        backAction
+                    }
+                );
+            }
+            else
+            {
+                var clockwiseAction = possibleActions.FirstOrDefault(x => x.playerActionPerformedOn == player && x.inputValue == InputValue.Clockwise);
+                var otherClockAction = GetOppositePlayerAction(possibleActions, player, InputValue.Clockwise);
+                var counterClockwiseAction = possibleActions.FirstOrDefault(x => x.playerActionPerformedOn == player && x.inputValue == InputValue.Counterclockwise);
+                var otherCounterAction = GetOppositePlayerAction(possibleActions, player, InputValue.Counterclockwise);
+
+                playerActions.AddRange
+                (
+                    new List<PlayerAction>
+                    {
+                        clockwiseAction,
+                        otherClockAction,
+                        otherCounterAction,
+                        counterClockwiseAction
+                    }
+                );
+            }
+
+            return playerActions;
+        }
+
+        return defaultPlayerActionOptions;
+    }
+
+    PlayerAction GetOppositePlayerAction(List<PlayerAction> possibleActions, Player playerPerformedOn, InputValue actionInputValue)
+    {
+        var otherPlayerAction = possibleActions.FirstOrDefault(x => x.playerActionPerformedOn != playerPerformedOn && x.inputValue == actionInputValue);
+
+        if (otherPlayerAction.playerActionPerformedOn != null)
+        {
+            return otherPlayerAction;
+        }
+        else
+        {
+            var playerAction = possibleActions.FirstOrDefault(x => x.playerActionPerformedOn == playerPerformedOn && x.inputValue == actionInputValue);
+
+            if (playerAction.playerActionPerformedOn != null)
+            {
+                return playerAction;
+            }
+        }
+
+        return new PlayerAction();
     }
 
     List<PlayerAction> ShuffleInputs(List<PlayerAction> unshuffledValues, List<PlayerAction> lastShuffle, int amountOfOptionsToScramble, int totalAmountOfScrambleOptions)
@@ -328,11 +397,12 @@ public class ControlsManager : MonoBehaviour, IManager
                 return 0;
             case GameInputProgression.ScrambledMovement:
             case GameInputProgression.MoveAndShooting:
-            case GameInputProgression.CrossScrambleShooting:
                 return 4;
             case GameInputProgression.ScrambledShooting:
             case GameInputProgression.Rotation:
             case GameInputProgression.DummyShipDefault:
+            case GameInputProgression.CrossScrambleShooting:
+            case GameInputProgression.CrossScrambleMovementAndShooting:
                 return 5;
         }
     }

@@ -119,6 +119,7 @@ public class Player : Previewable
                 break;
             case GameInputProgression.Rotation:
             case GameInputProgression.CrossScrambleShooting:
+            case GameInputProgression.CrossScrambleMovementAndShooting:
                 AddRotationInputs();
                 AddPossibleInput(InputValue.Fire);
                 break;
