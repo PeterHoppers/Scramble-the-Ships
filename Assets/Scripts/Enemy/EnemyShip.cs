@@ -36,14 +36,7 @@ public class EnemyShip : GridMovable
             {
                 if (shipInfo.fireable.TryGetComponent<Bullet>(out var bullet))
                 {
-                    var shootingTile = _manager.GetTileFromInput(this, inputValue);
-                    var moveable = _manager.CreateMovableAtTile(bullet, this, shootingTile);
-                    moveable.GetComponent<Bullet>().owner = this;
-                    moveable.GetComponentInChildren<SpriteRenderer>().sprite = shipInfo.bulletSprite;
-                    moveable.name = $"Bullet of {name}";
-                    var newPreview = _manager.CreatePreviewOfPreviewableAtTile(moveable, shootingTile);
-                    newPreview.creatorOfPreview = this;
-                    _manager.AddPreviewAction(newPreview);
+                    _manager.PreviewFire(this, shipInfo);
                 }
                 else
                 {

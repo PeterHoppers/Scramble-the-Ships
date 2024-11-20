@@ -28,11 +28,9 @@ public class GridMovable : Previewable
             return;
         }
 
-        var direction = ConvertInputValueToDirection(movingInput);
-        var rotation = ConvertInputValueToRotation(movingInput);
-        var previewTile = _manager.AddPreviewAtPosition(this, CurrentTile, direction, rotation);
+        _manager.PreviewMove(this, movingInput);
 
-        if (!previewTile.IsVisible)
+        if (!_manager.CanPlayerPerformAction(this, movingInput)) 
         {
             RemoveMoveable();
         }

@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class PreviewableBase : MonoBehaviour
 {
+    public List<InputValue> inputsPreviewing { set; get; }
+
     private SpriteRenderer _spriteRenderer;
     private MaterialPropertyBlock _previewMaterialPropertyBlock;
     [SerializeField]

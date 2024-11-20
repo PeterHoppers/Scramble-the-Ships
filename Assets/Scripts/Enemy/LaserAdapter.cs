@@ -24,11 +24,6 @@ public class LaserAdapter : Fireable
         _laserAudioSource = GetComponent<AudioSource>();
     }
 
-    public override void SetupMoveable(GameManager manager, SpawnSystem spawnSystem, Tile startingTile)
-    {
-        base.SetupMoveable(manager, spawnSystem, startingTile);
-    }
-
     public override void OnOwnerInputChange(GridMovable owner, GameManager gameManager, InputValue previewInput)
     {
         switch (previewInput) 

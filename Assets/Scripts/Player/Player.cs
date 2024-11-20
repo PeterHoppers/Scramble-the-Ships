@@ -315,55 +315,29 @@ public class Player : Previewable
 
     protected void SendPlayerAction(PlayerAction playerAction) 
     {
-        var targetTile = _manager.GetTileForPlayerAction(playerAction);
+        var canPerformAction = _manager.CanPlayerPerformAction(playerAction.playerActionPerformedOn, playerAction.inputValue);
 
-        if (targetTile != null && targetTile.IsVisible)
+        if (canPerformAction)
         {
-            PreviewAction newPreview;
             Player playerActedUpon = playerAction.playerActionPerformedOn;
 
             if (playerAction.inputValue == InputValue.Fire)
             {
                 if (playerActedUpon._shipInfo.fireable.TryGetComponent<Bullet>(out var bullet))
                 {
-                    var bulletGridMoveable = CreateBullet(playerActedUpon, targetTile);
-                    newPreview = _manager.CreatePreviewOfPreviewableAtTile(bulletGridMoveable, targetTile);
-                    newPreview.creatorOfPreview = this;
-                }
-                else
-                {
-                    newPreview = new PreviewAction();
-                }
+                    _manager.PlayerPreviewFire(this, playerActedUpon, playerActedUpon._shipInfo);
+                }               
             }
             else
             {
-                var inputValue = playerAction.inputValue;
-                var rotation = playerActedUpon.ConvertInputValueToRotation(inputValue);
-                newPreview = _manager.CreatePreviewOfPreviewableAtTile(playerActedUpon, targetTile, rotation);
+                _manager.PlayerPreviewMove(this, playerActedUpon, playerAction.inputValue);
             }
-
-            _manager.AddPlayerPreviewAction(this, newPreview);
 
             if (_moveStyle == InputMoveStyle.OnInputStart)
             {
                 _manager.EndCurrentTick(this);
             }
         }
-    }
-
-    GridMovable CreateBullet(Player firingPlayer, Tile spawnTile)
-    {
-        var firingShipInfo = firingPlayer._shipInfo;
-        var bulletGridMoveable = _manager.CreateMovableAtTile(firingShipInfo.fireable, firingPlayer, spawnTile);
-        bulletGridMoveable.gameObject.transform.localRotation = firingPlayer.GetTransfromAsReference().localRotation;
-        var bullet = bulletGridMoveable.GetComponent<Bullet>();
-        bullet.spawnSound = fireSFX;
-        bullet.PreviewColor = firingShipInfo.baseColor;
-        bullet.owner = firingPlayer;
-        bullet.name = $"{bullet} of {firingPlayer.name}";
-        bulletGridMoveable.GetComponentInChildren<SpriteRenderer>().sprite = firingShipInfo.bulletSprite;
-
-        return bulletGridMoveable;
     }
 
     public bool IsPlayerDeadOnHit()
@@ -655,6 +629,8 @@ public class Player : Previewable
 
     public override void ResolvePreviewable()
     {
+        base.ResolvePreviewable();
+
         PlayShipSFX(moveSFX);
     }
 

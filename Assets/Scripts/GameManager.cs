@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviour
     public AIPlayer playerAIShip;
     [Space]
     public List<PlayerShipInfo> shipInfos = new List<PlayerShipInfo>();
-    public PreviewableBase previewableBase;
     public DialogueSystem dialogueSystem;
 
     //GameManager Events
@@ -60,9 +59,7 @@ public class GameManager : MonoBehaviour
 
     //Private Variables
     GameState _currentGameState = GameState.Intro;
-    GameState _previousGameState = GameState.Intro;
-    Dictionary<Player, PreviewAction> _attemptedPlayerActions = new Dictionary<Player, PreviewAction>();
-    List<PreviewAction> _previewActions = new List<PreviewAction>();
+    GameState _previousGameState = GameState.Intro;   
     private List<Player> _players = new List<Player>();
     private int _playerCount = 0;
     List<GridCoordinate> _startingPlayerPositions;
@@ -73,6 +70,8 @@ public class GameManager : MonoBehaviour
     ScreenSystem _screenSystem;
     EnergySystem _energySystem;
     EffectsSystem _effectsSystem;
+    ActionSystem _previewSystem;
+
     public EffectsSystem EffectsSystem { get => _effectsSystem; }
     public EnergySystem EnergySystem { get => _energySystem; }
 
@@ -105,6 +104,7 @@ public class GameManager : MonoBehaviour
         _effectsSystem = GetComponent<EffectsSystem>();
         _screenSystem = GetComponent<ScreenSystem>();
         _energySystem = GetComponent<EnergySystem>();
+        _previewSystem = GetComponent<ActionSystem>();
 
         _effectsSystem.OnTickDurationChanged += (float newDuration) => TickDuration = newDuration;
         _effectsSystem.OnTickEndDurationChanged += (float newEndDuration) => _tickEndDuration = newEndDuration;
@@ -253,6 +253,43 @@ public class GameManager : MonoBehaviour
         OnPlayerPickup?.Invoke(player, pickupType);
     }
 
+    public void PlayerFired(Player player)
+    {
+        _energySystem.OnPlayerFired();
+    }
+
+    public bool CanPlayerPerformAction(Previewable previewable, InputValue inputValue)
+    {
+        var targetTile = _previewSystem.GetTileFromInput(previewable, inputValue);
+
+        return (targetTile != null && targetTile.IsVisible);
+    }
+
+    public void PlayerPreviewMove(Player performingAction, Player playerPerformedOn, InputValue inputToPreview)
+    {
+        _previewSystem.CreatePlayerMovementPreview(performingAction, playerPerformedOn, inputToPreview);
+    }
+
+    public void PlayerPreviewFire(Player performingAction, Player playerPerformedOn, ShipInfo firingInfo)
+    {
+        _previewSystem.CreatePlayerActionPreview(performingAction, playerPerformedOn, firingInfo);
+    }
+
+    public void PreviewMove(Previewable previewObject, InputValue inputToPreview)
+    { 
+        _previewSystem.CreateMovementPreview(previewObject, inputToPreview);
+    }
+
+    public void PreviewFire(Previewable previewObject, ShipInfo firingInfo)
+    {
+        _previewSystem.CreateActionPreview(previewObject, firingInfo);
+    }
+
+    public void ClearPreviousPlayerAction(Player player)
+    { 
+        _previewSystem.ClearPreviousPlayerAction(player);
+    }
+
     public void ActivateCutscene(CutsceneType type, float cutsceneDuration)
     {
         if (_currentGameState == GameState.Cutscene)
@@ -305,7 +342,7 @@ public class GameManager : MonoBehaviour
         {
             ToggleIsPlaying(false, GameState.Transition);
             _playerFinishedWithScreen = 0;
-            ClearAllPreviews();
+            _previewSystem.ClearAllPreviews();
             EndScreen(TickDuration);
         }
         else
@@ -555,7 +592,7 @@ public class GameManager : MonoBehaviour
         }
 
         ToggleIsPlaying(false, GameState.GameOver);
-        ClearAllPreviews();
+        _previewSystem.ClearAllPreviews();
         _energySystem.CurrentEnergy = 0; 
         GlobalGameStateManager.Instance.GlobalGameStateStatus = GlobalGameStateStatus.GameOver;
 
@@ -574,7 +611,7 @@ public class GameManager : MonoBehaviour
     IEnumerator ResetScreen(bool isOnContinue)
     {
         ToggleIsPlaying(false, GameState.Transition);
-        ClearAllPreviews();
+        _previewSystem.ClearAllPreviews();
 
         if (!isOnContinue)
         {
@@ -623,104 +660,12 @@ public class GameManager : MonoBehaviour
         return _playerCount - _playerFinishedWithScreen;
     }
 
-    public void ClearPreviousPlayerAction(Player playerSent)
-    {
-        //change this so that we look at what the player sent, then delete said preview
-        if (_attemptedPlayerActions.TryGetValue(playerSent, out var previousPreview))
-        {
-            //need to delete the item they created if it isn't made
-            _previewActions.Remove(previousPreview);
-            _attemptedPlayerActions.Remove(playerSent);
-
-            previousPreview.sourcePreviewable.ClearPreviewObject();
-
-            if (previousPreview.creatorOfPreview)
-            {
-                Destroy(previousPreview.sourcePreviewable.gameObject);
-            }
-        }
-    }
-
-    public Tile GetTileForPlayerAction(PlayerAction playerInputValue)
-    {
-        var targetPlayer = playerInputValue.playerActionPerformedOn;
-        //get the player from the action, since that's who is performing the action. A player might be performing an action on someone else
-        return GetTileFromInput(targetPlayer, playerInputValue.inputValue);
-    }
-
-    public PreviewAction CreatePreviewOfPreviewableAtTile(Previewable previewableObject, Tile previewTile, Quaternion? newRotation = null, bool isMoving = true, int duration = 0)
-    {
-        if (newRotation == null)
-        {
-            newRotation = previewableObject.transform.rotation;
-        }
-
-        var preview = _spawnSystem.CreateSpawnObject(previewableBase.gameObject, previewTile, newRotation.Value);
-        preview.name = $"Preview of {previewableObject.name}";
-        preview.transform.localScale = previewableObject.GetPreviewScale();
-        var previewImage = previewableObject.GetPreviewSprite();
-
-        var renderer = preview.GetComponent<SpriteRenderer>();
-        renderer.sprite = previewImage;
-        renderer.color = previewableObject.GetPreviewColor();
-        var previewBase = preview.GetComponent<PreviewableBase>();
-        previewBase.SetPreviewOutlineColor(previewableObject.GetPreviewOutline(), previewImage);
-        previewableObject.SetPreviewObject(previewBase);
-
-        return new PreviewAction()
-        {
-            sourcePreviewable = previewableObject,
-            isNotMoving = !isMoving,
-            previewTile = previewTile,
-            previewFinishedTick = _ticksSinceScreenStart + duration,
-        };    
-    }
-
-    public GridMovable CreateMovableAtTile(GridMovable movableToBeCreated, Previewable previewableCreatingMovable, Tile previewTile, InputValue movingInput = InputValue.Forward)
-    {
-        var spawnedMovable = _spawnSystem.CreateSpawnObject(movableToBeCreated.gameObject, previewableCreatingMovable.CurrentTile, previewableCreatingMovable.transform.rotation);
-        var moveable = spawnedMovable.GetComponent<GridMovable>();
-        moveable.SetupMoveable(this, _spawnSystem, previewTile);
-        moveable.movingInput = movingInput;
-        moveable.gameObject.SetActive(false);
-
-        return moveable;
-    }
-
-    public Tile AddPreviewAtPosition(Previewable previewObject, Tile currentTile, Vector2 previewDirection, Quaternion newRotation)
-    {
-        var possibleGridCoordinates = previewDirection + currentTile.GetTileCoordinates();
-        var isPossibleTileSpace = _gridSystem.TryGetTileByCoordinates(possibleGridCoordinates.x, possibleGridCoordinates.y, out Tile tile);
-
-        PreviewAction newPreview;
-        if (!isPossibleTileSpace)
-        {
-            return null;           
-        }
-
-        newPreview = CreatePreviewOfPreviewableAtTile(previewObject, tile, newRotation);
-
-        _previewActions.Add(newPreview);
-        return tile;
-    }
-
-    public void AddPlayerPreviewAction(Player playerPerformingAction, PreviewAction newPreview)
-    {
-        _attemptedPlayerActions.Add(playerPerformingAction, newPreview);
-        AddPreviewAction(newPreview);
-    }
-
     public void EndCurrentTick(Player player)
     { 
-        if ((_attemptedPlayerActions.Count + _playerFinishedWithScreen) >= _players.Count) //wait until all the players have inputted before advancing
+        if ((_previewSystem.GetPlayerActionCount() + _playerFinishedWithScreen) >= _players.Count) //wait until all the players have inputted before advancing
         {
             _tickElapsed = TickDuration;
         }
-    }
-
-    public void AddPreviewAction(PreviewAction preview)
-    { 
-        _previewActions.Add(preview);
     }
 
     void Update()
@@ -763,91 +708,18 @@ public class GameManager : MonoBehaviour
 
     void EndCurrentTick(float tickEndDuration)
     {
-        foreach (var preview in _previewActions)
-        {
-            if (preview.isNotMoving)
-            {
-                continue;
-            }
-
-            var movingObject = preview.sourcePreviewable;
-
-            if (movingObject == null)
-            {
-                continue;
-            }
-
-            if (preview.creatorOfPreview)
-            {
-                movingObject.OnPreviewableCreation();
-                preview.creatorOfPreview.CreatedNewPreviewable(movingObject);
-
-                if (preview.creatorOfPreview.TryGetComponent<Player>(out var player))
-                {
-                    _energySystem.OnPlayerFired();
-                }
-            }
-
-            movingObject.TransitionToTile(preview.previewTile, tickEndDuration);
-            movingObject.UpdateRotationToPreview(tickEndDuration);
-            movingObject.ResolvePreviewable();
-        }
-
+        _previewSystem.ResolveAllPreviews(tickEndDuration);
         _lastTickEndedAt = GetCurrentTime();
         OnTickEnd?.Invoke(tickEndDuration, _ticksSinceScreenStart);
     }
 
     void StartNextTick()
     {
-        ClearAllPreviews();
+        _previewSystem.ClearAllPreviews();
         OnTickStart?.Invoke(TickDuration, _ticksSinceScreenStart);
         _tickIsOccuring = true;
         _ticksSinceScreenStart++;
         _tickElapsed = 0;
-    }
-
-    void ClearAllPreviews()
-    {
-        //check if we should remove the preview, rather than always removing it
-        for (int index = _previewActions.Count - 1; index >= 0; index--)
-        {
-            var preview = _previewActions[index];
-            if (preview.previewFinishedTick - _ticksSinceScreenStart <= 0)
-            {
-                preview.sourcePreviewable.ClearPreviewObject();
-                _previewActions.Remove(preview);
-            }
-        }
-
-        _attemptedPlayerActions.Clear();
-    }
-
-    public Tile GetTileFromInput(Previewable inputSource, InputValue input)
-    {
-        var targetCoordinates = inputSource.GetGridCoordinates();
-        var targetTransform = inputSource.GetTransfromAsReference();
-        switch (input)
-        {
-            case InputValue.Forward:
-            case InputValue.Fire:
-                targetCoordinates += (Vector2)targetTransform.up;
-                break;
-            case InputValue.Backward:
-                targetCoordinates += (Vector2)targetTransform.up * -1;
-                break;
-            case InputValue.Port:
-                targetCoordinates += (Vector2)targetTransform.right * -1;
-                break;
-            case InputValue.Starboard:
-                targetCoordinates += (Vector2)targetTransform.right;
-                break;
-            default:
-                break;
-        }
-
-        _gridSystem.TryGetTileByCoordinates(targetCoordinates, out var tile);
-
-        return tile;
     }
 
     public float GetTimeRemainingInTick()
@@ -877,17 +749,6 @@ public class GameManager : MonoBehaviour
     { 
         return Time.timeSinceLevelLoad;
     }
-}
-
-public struct PreviewAction
-{ 
-    public Previewable sourcePreviewable;
-    #nullable enable
-    public Previewable? creatorOfPreview;
-    #nullable disable
-    public Tile previewTile;
-    public bool isNotMoving;
-    public int previewFinishedTick;
 }
 
 public enum GameState

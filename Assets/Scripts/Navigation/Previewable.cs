@@ -5,8 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(TransformTransition))]
 public abstract class Previewable : GridObject
 {    
+    public PreviewableBase previewObject { get; private set; }
     protected TransformTransition _transitioner;
-    protected PreviewableBase _previewObject;
 
     private void Start()
     {
@@ -32,14 +32,15 @@ public abstract class Previewable : GridObject
 
     public virtual void SetPreviewObject(PreviewableBase newPreviewable)
     {
-        _previewObject = newPreviewable;
+        previewObject = newPreviewable;
     }
 
     public void ClearPreviewObject() //look into using pooling instead
     {
-        if (_previewObject != null)
+        if (previewObject != null)
         {
-            Destroy(_previewObject.gameObject);
+            Destroy(previewObject.gameObject);
+            previewObject = null;
         }
     }
 
@@ -53,9 +54,9 @@ public abstract class Previewable : GridObject
 
         _transitioner.MoveTo(destination, duration);
         CurrentTile = tileDestination;
-        if (_previewObject != null)
+        if (previewObject != null)
         { 
-            _previewObject.FadeOut(duration);
+            previewObject.FadeOut(duration);
         }
     }
 
@@ -64,9 +65,9 @@ public abstract class Previewable : GridObject
         var startingScale = transform.localScale;
         var shrinkScale = new Vector2(.25f, .25f);
 
-        if (_previewObject != null)
+        if (previewObject != null)
         { 
-            _previewObject.transform.localPosition = tileDestination.GetTilePosition();
+            previewObject.transform.localPosition = tileDestination.GetTilePosition();
         }
 
         var pieceDuration = duration / 3;
@@ -79,12 +80,12 @@ public abstract class Previewable : GridObject
 
     public virtual void UpdateRotationToPreview(float duration)
     {
-        if (_previewObject == null)
+        if (previewObject == null)
         {
             return;
         }
 
-        var newRotation = _previewObject.transform.rotation;
+        var newRotation = previewObject.transform.rotation;
         if (newRotation == GetTransfromAsReference().rotation) 
         {
             return;
@@ -132,7 +133,8 @@ public abstract class Previewable : GridObject
     }
 
     public virtual void ResolvePreviewable()
-    { }
+    { 
+    }
 
     public override void DestroyObject()
     {
@@ -145,7 +147,7 @@ public abstract class Previewable : GridObject
         return transform;
     }
 
-    protected Vector2 ConvertInputValueToDirection(InputValue input)
+    public Vector2 ConvertInputValueToDirection(InputValue input)
     {
         var transformToRef = GetTransfromAsReference();
         switch (input)
@@ -164,17 +166,35 @@ public abstract class Previewable : GridObject
         }
     }
 
-    protected Quaternion ConvertInputValueToRotation(InputValue input)
+    public Quaternion ConvertInputValueToRotation(InputValue input)
+    {
+        return ConvertInputValueToRotation(new List<InputValue>() { input });
+    }
+
+    public Quaternion ConvertInputValueToRotation(List<InputValue> inputs)
     { 
         var currentRotation = GetTransfromAsReference().rotation;
-        switch (input) 
+
+        foreach(var input in inputs) 
         {
-            case InputValue.Clockwise:
-                return currentRotation *= Quaternion.Euler(0, 0, -90f);
-            case InputValue.Counterclockwise:
-                return currentRotation *= Quaternion.Euler(0, 0, 90f);
-            default:
-                return currentRotation;
+            switch (input)
+            {
+                case InputValue.Clockwise:
+                    currentRotation *= Quaternion.Euler(0, 0, -90f);
+                    continue;
+                case InputValue.Counterclockwise:
+                    currentRotation *= Quaternion.Euler(0, 0, 90f);
+                    continue;
+                default:
+                    continue;
+            }
         }
+        
+        return currentRotation;
+    }
+
+    public virtual ShipInfo GetShipInfo()
+    {
+        return null;
     }
 }
