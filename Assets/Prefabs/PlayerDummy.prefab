@@ -158,8 +158,10 @@ MonoBehaviour:
       Value: 040000000200000003000000
     - Key: {fileID: 11400000, guid: 56074af45e14e444bbb900ad862c1d64, type: 2}
       Value: 04000000060000000700000000000000
-    - Key: {fileID: 11400000, guid: f4cf12b3a78a85945b098a87e62ce597, type: 2}
-      Value: 0400000000000000
+    - Key: {fileID: 11400000, guid: 0046903bedde25b4aaf9c30dff8efffc, type: 2}
+      Value: 0400000006000000070000000000000001000000
+    - Key: {fileID: 11400000, guid: 2d38b9a6c36c3ca47bebb902761b7bb3, type: 2}
+      Value: 04000000
   _defaultShipCommands:
     _serializedList:
     - Key: {fileID: 11400000, guid: 0bad0bd1f16c15846bef3f7a06fd7eec, type: 2}

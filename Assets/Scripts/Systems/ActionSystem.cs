@@ -165,7 +165,6 @@ public class ActionSystem : MonoBehaviour
     void AddPlayerPreviewAction(Player playerPerformingAction, PreviewAction newPreview)
     {
         _attemptedPlayerActions.Add(playerPerformingAction, newPreview);
-        AddPreviewAction(newPreview);
     }
 
     public void ClearPreviousPlayerAction(Player playerSent)

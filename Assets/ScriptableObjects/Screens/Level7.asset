@@ -20,16 +20,20 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 61a3269858c54f741893f9623dbc5e6f, type: 2}
   - {fileID: 11400000, guid: 67680375caa8a3a438f8f0d538160f10, type: 2}
   - {fileID: 11400000, guid: 56074af45e14e444bbb900ad862c1d64, type: 2}
+  - {fileID: 11400000, guid: 0046903bedde25b4aaf9c30dff8efffc, type: 2}
   twoPlayerLevelScreens:
-  - {fileID: 11400000, guid: 8082cef5075d1cb42bc776d5f9104623, type: 2}
-  - {fileID: 11400000, guid: 30be098f73b588e4da21f658fad7ee92, type: 2}
-  - {fileID: 11400000, guid: 992d1f53e28487148858795b56970979, type: 2}
   - {fileID: 11400000, guid: 3712882b74ad17f4b937b1153c1d500c, type: 2}
+  - {fileID: 11400000, guid: 992d1f53e28487148858795b56970979, type: 2}
+  - {fileID: 11400000, guid: 30be098f73b588e4da21f658fad7ee92, type: 2}
+  - {fileID: 11400000, guid: 8082cef5075d1cb42bc776d5f9104623, type: 2}
+  - {fileID: 11400000, guid: 7a33425f6555bbf44a07a71d97a50737, type: 2}
+  - {fileID: 11400000, guid: 55928546aba409f42b318d4a62a8bfd8, type: 2}
+  - {fileID: 11400000, guid: b5d2f6e6b063fb44aa6bfb25865ea2ee, type: 2}
   startingEffects: []
   levelNumber: 7
   levelName: Sector Crosstalk
   levelSong: {fileID: 8300000, guid: 9c008a563034f1c4ebd8cb016ef2d064, type: 3}
-  levelBackground: {fileID: 0}
+  levelBackground: {fileID: 21300000, guid: 2d5719875db10b84f805000629344ea1, type: 3}
   overrideDefaultTransitionGrids: 0
   transitionGrids:
     direction: 0

@@ -171,13 +171,7 @@ public class ControlsManager : MonoBehaviour, IManager
                 return defaultPlayerActionOptions;
             }
 
-            List<PlayerAction> playerActions = new List<PlayerAction>();
-            var otherPlayerAction = GetOppositePlayerAction(possibleActions, player, InputValue.Fire);
-
-            if (otherPlayerAction.playerActionPerformedOn != null)
-            {
-                playerActions.Add(otherPlayerAction);
-            }
+            List<PlayerAction> playerActions = new List<PlayerAction>();            
 
             if (player.PlayerId == 0)
             {
@@ -214,6 +208,13 @@ public class ControlsManager : MonoBehaviour, IManager
                         counterClockwiseAction
                     }
                 );
+            }
+
+            var otherPlayerAction = GetOppositePlayerAction(possibleActions, player, InputValue.Fire);
+
+            if (otherPlayerAction.playerActionPerformedOn != null)
+            {
+                playerActions.Add(otherPlayerAction);
             }
 
             return playerActions;
@@ -397,12 +398,12 @@ public class ControlsManager : MonoBehaviour, IManager
                 return 0;
             case GameInputProgression.ScrambledMovement:
             case GameInputProgression.MoveAndShooting:
+            case GameInputProgression.CrossScrambleMovementAndShooting:
                 return 4;
             case GameInputProgression.ScrambledShooting:
             case GameInputProgression.Rotation:
             case GameInputProgression.DummyShipDefault:
             case GameInputProgression.CrossScrambleShooting:
-            case GameInputProgression.CrossScrambleMovementAndShooting:
                 return 5;
         }
     }

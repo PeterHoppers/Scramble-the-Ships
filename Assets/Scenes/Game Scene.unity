@@ -7277,6 +7277,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2124894458}
   - component: {fileID: 2124894459}
+  - component: {fileID: 2124894470}
   - component: {fileID: 2124894461}
   - component: {fileID: 2124894460}
   - component: {fileID: 2124894463}
@@ -7324,7 +7325,6 @@ MonoBehaviour:
   shipInfos:
   - {fileID: 11400000, guid: 20706524b99252744a7cb8cdad22bac4, type: 2}
   - {fileID: 11400000, guid: 1308066075c527b4bb474b11e5de6035, type: 2}
-  previewableBase: {fileID: 4175597009222242078, guid: 9fb8fa15c00711e4c9bc59d0c67719ef, type: 3}
   dialogueSystem: {fileID: 520288461271952676}
 --- !u!156049354 &2124894460
 Grid:
@@ -7485,6 +7485,19 @@ MonoBehaviour:
   scoreConfiguration: {fileID: 11400000, guid: 7c82ca5c020500a409499dc640009272, type: 2}
   currentScoreText: {fileID: 948194942}
   nextScoreToBeatText: {fileID: 92623042}
+--- !u!114 &2124894470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124894457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f28d705bd19aaeb40b1de10248c41f84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  previewableBase: {fileID: 4175597009222242078, guid: 9fb8fa15c00711e4c9bc59d0c67719ef, type: 3}
 --- !u!1001 &520288461271952675
 PrefabInstance:
   m_ObjectHideFlags: 0
