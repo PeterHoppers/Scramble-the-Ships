@@ -121,13 +121,13 @@ MonoBehaviour:
         anchor: 2
         offset: 3
       y:
-        anchor: 0
-        offset: 1
+        anchor: 2
+        offset: 0
   overrideDefaultStartingPositions: 0
   startingPlayerPositions:
     _serializedList: []
   useDifferentDialogueForBothPlayers: 0
-  screenDialogue: {fileID: 0}
+  screenDialogue: {fileID: 11400000, guid: 7a2d1096916380d419256bd46eba1d24, type: 2}
   twoPlayerDialogue: {fileID: 0}
   effects:
   - type: 11

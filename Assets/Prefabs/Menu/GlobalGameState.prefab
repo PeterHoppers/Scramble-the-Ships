@@ -1376,6 +1376,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: aa418f0335562b942a3316ffdf744c38, type: 2}
   - {fileID: 11400000, guid: bdf06b2fabff1954aa022059ac90fc19, type: 2}
   - {fileID: 11400000, guid: 847c99ed70d733249a1ecdf4d7573ae0, type: 2}
+  - {fileID: 11400000, guid: 180542dc7a6ae414699dea94789af4a3, type: 2}
   _isTwoPlayers: 0
   _isAI: 0
   _isPreviewGame: 0

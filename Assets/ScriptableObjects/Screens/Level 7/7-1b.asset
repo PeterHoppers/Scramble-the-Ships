@@ -180,7 +180,7 @@ MonoBehaviour:
             anchor: 0
             offset: 1
   useDifferentDialogueForBothPlayers: 0
-  screenDialogue: {fileID: 0}
+  screenDialogue: {fileID: 11400000, guid: c1ded3edf6d4c6047a5bf66c0cbcbd3c, type: 2}
   twoPlayerDialogue: {fileID: 0}
   effects:
   - type: 11
