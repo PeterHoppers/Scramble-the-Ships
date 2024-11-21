@@ -39,7 +39,7 @@ PrefabInstance:
     - target: {fileID: 4358801067479974209, guid: 325e66a33d45622429c2008f98d14266, type: 3}
       propertyPath: spawnSound
       value: 
-      objectReference: {fileID: 8300000, guid: f8c4a365aa50b3549950e23165daa844, type: 3}
+      objectReference: {fileID: 8300000, guid: 5c5f6158eba2d2e4e9b1e79e2b9b9d05, type: 3}
     - target: {fileID: 4585690953295777244, guid: 325e66a33d45622429c2008f98d14266, type: 3}
       propertyPath: m_LocalScale.x
       value: 1

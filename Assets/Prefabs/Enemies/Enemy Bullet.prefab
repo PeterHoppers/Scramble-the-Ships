@@ -52,7 +52,7 @@ MonoBehaviour:
   movingInput: 5
   owner: {fileID: 0}
   bulletExplosion: {fileID: 725748389856807712, guid: e95db50273d4e5746b02ba9b960f0afd, type: 3}
-  spawnSound: {fileID: 0}
+  spawnSound: {fileID: 8300000, guid: f8c4a365aa50b3549950e23165daa844, type: 3}
 --- !u!114 &2120656086321901349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,7 +220,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 8128491596921614448, guid: 1f082431786cd514b9498e6ba2bff031, type: 2}
   m_audioClip: {fileID: 8300000, guid: f8c4a365aa50b3549950e23165daa844, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

@@ -15,7 +15,6 @@ public class Player : Previewable
     [Header("SFX")]
     public AudioClip moveSFX;
     public AudioClip unableToMoveSFX;
-    public AudioClip fireSFX;
     public AudioClip scrambleSFX;
     public AudioClip exitSFX;
 
@@ -389,9 +388,25 @@ public class Player : Previewable
         }
     }
 
+    public void OnCreateProjectile()
+    {
+        _manager.PlayerFired(this);
+    }
+
     public void OnGameOver()
     {
         _isInactive = true;
+    }
+
+    public void OnMoveOnScreen()
+    {
+        _betweenTicks = false;
+    }
+
+    public void OnMoveOffScreen()
+    {
+        PlayShipSFX(exitSFX);
+        _betweenTicks = false;
     }
 
     public virtual List<PlayerAction> GetPossibleActions()
@@ -483,17 +498,6 @@ public class Player : Previewable
     public void SetActiveStatus(bool isActive)
     {
         _isInactive = !isActive;
-    }
-
-    public void OnMoveOnScreen()
-    {
-        _betweenTicks = false;
-    }
-
-    public void OnMoveOffScreen()
-    {
-        PlayShipSFX(exitSFX);
-        _betweenTicks = false;
     }
 
     protected void SetShipVisiblity(bool isVisible)

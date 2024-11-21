@@ -158,7 +158,7 @@ public class ActionSystem : MonoBehaviour
 
         if (preview.creatorOfPreview.TryGetComponent<Player>(out var player))
         {
-            _gameManager.PlayerFired(player);
+            player.OnCreateProjectile();
         }
     }
 
