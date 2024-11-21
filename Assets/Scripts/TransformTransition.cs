@@ -35,12 +35,23 @@ public class TransformTransition : Transitioner
         }
     }
 
-    public void ScaleTo(Vector3 targetSize, float duration)
+    public void ScaleTo(Vector3 targetSize, float duration, Transform transformToScale = null)
     {
-        StartCoroutine(AnimateScale(transform.localScale, targetSize, duration));
+        if (transformToScale == null)
+        {
+            if (transform == null)
+            {
+                return;
+            }
+
+            transformToScale = transform;
+        }
+
+
+        StartCoroutine(AnimateScale(transformToScale, transformToScale.localScale, targetSize, duration));
     }
 
-    IEnumerator AnimateScale(Vector3 origin, Vector3 target, float duration)
+    IEnumerator AnimateScale(Transform targetTransform, Vector3 origin, Vector3 target, float duration)
     {
         float journey = 0f;
         while (journey <= duration)
@@ -48,7 +59,7 @@ public class TransformTransition : Transitioner
             journey += Time.deltaTime;
             float curvePercent = GetCurvePercent(journey, duration, scaleCurve);
 
-            transform.localScale = Vector3.LerpUnclamped(origin, target, curvePercent);
+            targetTransform.localScale = Vector3.LerpUnclamped(origin, target, curvePercent);
 
             yield return null;
         }

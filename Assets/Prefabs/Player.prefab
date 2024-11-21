@@ -365,7 +365,6 @@ MonoBehaviour:
       Value: {fileID: 1247267858957673250}
   moveSFX: {fileID: 8300000, guid: 743179a7df6ce904eae7a5ad0cbd65f9, type: 3}
   unableToMoveSFX: {fileID: 8300000, guid: b069c0022b0a0154cb296e547310adc9, type: 3}
-  fireSFX: {fileID: 8300000, guid: 5c5f6158eba2d2e4e9b1e79e2b9b9d05, type: 3}
   scrambleSFX: {fileID: 8300000, guid: 48dc7af06b0158441955f1f8b635752d, type: 3}
   exitSFX: {fileID: 8300000, guid: cfc824ab208433e448ed6d33b59b7d9d, type: 3}
 --- !u!114 &6090239053312004524

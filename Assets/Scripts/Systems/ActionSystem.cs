@@ -143,7 +143,7 @@ public class ActionSystem : MonoBehaviour
                 }
                 else if (input != InputValue.Fire)
                 {
-                    movingObject.TransitionToTile(preview.previewTile, tickEndDuration);
+                    StartCoroutine(movingObject.MoveToTile(preview.previewTile, input, tickEndDuration));
                 }
 
                 movingObject.ResolvePreviewable();

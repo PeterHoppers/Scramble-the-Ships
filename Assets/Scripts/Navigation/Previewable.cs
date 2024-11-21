@@ -53,11 +53,40 @@ public abstract class Previewable : GridObject
         }
 
         _transitioner.MoveTo(destination, duration);
-        CurrentTile = tileDestination;
+        
+        CurrentTile = tileDestination;        
+        
         if (previewObject != null)
         { 
             previewObject.FadeOut(duration);
         }
+    }
+
+    public IEnumerator MoveToTile(Tile tileDestination, InputValue input, float duration)
+    { 
+        TransitionToTile(tileDestination, duration);
+
+        var startingScale = transform.localScale;
+        Vector2 scaleModification = startingScale;
+        float sqashOffset = 1.25f;
+        float maxDuration = .15f;
+        float visibleDuration = (duration > maxDuration) ? maxDuration : duration;
+
+        var targetTransform = GetTransfromAsReference();
+
+        if (input == InputValue.Forward || input == InputValue.Backward)
+        {
+            scaleModification = new Vector2(startingScale.x, startingScale.y * sqashOffset);
+        }
+        else if (input == InputValue.Starboard || input == InputValue.Port)
+        {
+            scaleModification = new Vector2(startingScale.x * sqashOffset, startingScale.y);
+        }
+
+        var pieceDuration = visibleDuration / 2;
+        _transitioner.ScaleTo(scaleModification, pieceDuration, targetTransform);
+        yield return new WaitForSeconds(pieceDuration);
+        _transitioner.ScaleTo(startingScale, pieceDuration, targetTransform);
     }
 
     public IEnumerator WarpToTile(Tile tileDestination, float duration)
