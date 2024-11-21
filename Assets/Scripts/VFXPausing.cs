@@ -1,12 +1,17 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(ParticleSystem))]
 public class VFXPausing : MonoBehaviour
 {
     [SerializeField]
-    private float _playbackSpeed = 2f;
+    private float _playbackSpeed = 2f; 
+    [SerializeField]
+    private bool _isPlayer = false;
+    [SerializeField]
+    private bool _activeBetweenScenes = false;
+
     ParticleSystem _mainParticleSystem;
     ParticleSystem[] _particleSystems;
     GameManager _gameManager;
@@ -22,10 +27,11 @@ public class VFXPausing : MonoBehaviour
         }
 
         _mainParticleSystem = GetComponent<ParticleSystem>();
-        _gameManager.OnTickEnd += PlayVFX;
+        _gameManager.OnTickEnd += OnTickEnd;
         _gameManager.OnTickStart += PauseVFX;
-        _gameManager.OnScreenChange += DisableVFX;
-        _gameManager.OnScreenResetStart += DisableVFX;
+        _gameManager.OnScreenChange += OnScreenChange;
+        _gameManager.OnScreenResetStart += OnScreenReset;
+        _gameManager.OnGameStateChanged += OnGameStateChanged;
 
         _particleSystems = GetComponentsInChildren<ParticleSystem>();
         _mainParticleSystem.Play();
@@ -38,13 +44,19 @@ public class VFXPausing : MonoBehaviour
             return;
         }
 
-        _gameManager.OnTickEnd -= PlayVFX;
+        _gameManager.OnTickEnd -= OnTickEnd;
         _gameManager.OnTickStart -= PauseVFX;
-        _gameManager.OnScreenChange -= DisableVFX;
-        _gameManager.OnScreenResetStart -= DisableVFX;
+        _gameManager.OnScreenChange -= OnScreenChange;
+        _gameManager.OnScreenResetStart -= OnScreenReset;
+        _gameManager.OnGameStateChanged -= OnGameStateChanged;
     }
 
-    void PlayVFX(float tickEndDuration, int _)
+    void OnTickEnd(float tickEndDuration, int _)
+    {
+        PlayVFX();
+    }
+
+    public void PlayVFX()
     {
         foreach (ParticleSystem particleSystem in _particleSystems)
         {
@@ -58,7 +70,7 @@ public class VFXPausing : MonoBehaviour
         PauseVFX();
     }
 
-    void PauseVFX()
+    public void PauseVFX()
     {
         foreach (ParticleSystem particleSystem in _particleSystems)
         {
@@ -67,9 +79,54 @@ public class VFXPausing : MonoBehaviour
         }
     }
 
-    void DisableVFX(int nextScreenIndex, int maxScreens)
+    IEnumerator DelayedPause(float waitDuration)
+    { 
+        yield return new WaitForSeconds(waitDuration);
+        PauseVFX();
+    }
+
+    void OnGameStateChanged(GameState newState)
     {
-        DisableVFX();
+        if (newState == GameState.Paused || newState == GameState.Dialogue || newState == GameState.Playing)
+        {
+            PauseVFX();
+        }
+        else if (newState == GameState.Resetting && _activeBetweenScenes)
+        {
+            StartCoroutine(DelayedPause(.15f));
+        }
+        else if (newState == GameState.Transition && _activeBetweenScenes && !_isPlayer)
+        {
+            StartCoroutine(DelayedPause(.15f));
+        }
+        else
+        {
+            PlayVFX();
+        }
+    }
+
+    void OnScreenChange(int nextScreenIndex, int maxScreens)
+    {
+        if (_activeBetweenScenes)
+        {
+            EnableVFX();
+        }
+        else
+        { 
+            DisableVFX();
+        }
+    }
+
+    void OnScreenReset()
+    {
+        if (_activeBetweenScenes)
+        {
+            EnableVFX();
+        }
+        else
+        {
+            DisableVFX();
+        }
     }
 
     void DisableVFX()
@@ -80,4 +137,11 @@ public class VFXPausing : MonoBehaviour
         }
     }
 
+    void EnableVFX()
+    {
+        foreach (ParticleSystem particleSystem in _particleSystems)
+        {
+            particleSystem.Play();
+        }
+    }
 }

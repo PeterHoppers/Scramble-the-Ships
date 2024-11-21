@@ -50,7 +50,7 @@ public abstract class Previewable : GridObject
         if (_transitioner == null)
         {
             _transitioner = GetComponent<TransformTransition>();
-        }
+        }       
 
         _transitioner.MoveTo(destination, duration);
         
@@ -86,7 +86,10 @@ public abstract class Previewable : GridObject
         var pieceDuration = visibleDuration / 2;
         _transitioner.ScaleTo(scaleModification, pieceDuration, targetTransform);
         yield return new WaitForSeconds(pieceDuration);
-        _transitioner.ScaleTo(startingScale, pieceDuration, targetTransform);
+        if (_transitioner != null)
+        {
+            _transitioner.ScaleTo(startingScale, pieceDuration, targetTransform);
+        }
     }
 
     public IEnumerator WarpToTile(Tile tileDestination, float duration)
@@ -133,11 +136,16 @@ public abstract class Previewable : GridObject
         _transitioner.RotateTo(newRotation, duration);
     }
 
-    public virtual void TransitionToPosition(Vector2 targetPosition, float duration)
+    public virtual void TransitionToPosition(Vector2 targetPosition, float duration, AnimationCurve transitionCurve = null)
     {
         if (_transitioner == null)
         {
             _transitioner = GetComponent<TransformTransition>();
+        }
+
+        if (transitionCurve != null)
+        {
+            _transitioner.positionCurve = transitionCurve;
         }
 
         _transitioner.MoveTo(targetPosition, duration);

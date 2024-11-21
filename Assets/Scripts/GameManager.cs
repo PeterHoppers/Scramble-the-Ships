@@ -500,6 +500,7 @@ public class GameManager : MonoBehaviour
                 dialogueSystem.SetDialogueIsEnable(false);
                 break;
             case GameState.Transition:
+            case GameState.Resetting:
             case GameState.GameOver: //this might run into a race condition with on tick end
                 _tickIsOccuring = false;
                 break;
@@ -610,7 +611,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator ResetScreen(bool isOnContinue)
     {
-        ToggleIsPlaying(false, GameState.Transition);
+        ToggleIsPlaying(false, GameState.Resetting);
         _previewSystem.ClearAllPreviews();
 
         if (!isOnContinue)
@@ -756,6 +757,7 @@ public enum GameState
     Intro,
     Playing,
     Paused,
+    Resetting,
     Transition,
     Cutscene,
     Dialogue,

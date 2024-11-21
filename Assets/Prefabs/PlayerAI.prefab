@@ -79,7 +79,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ed7e63c9bb0b664aac25bc807bd9ba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewObject: {fileID: 0}
   buttonValueDisplays:
     _serializedList:
     - Key: 0
@@ -90,6 +89,11 @@ MonoBehaviour:
       Value: {fileID: 1598679307709481886}
     - Key: 3
       Value: {fileID: 886542653393639282}
+  moveSFX: {fileID: 0}
+  unableToMoveSFX: {fileID: 0}
+  scrambleSFX: {fileID: 0}
+  exitSFX: {fileID: 0}
+  exhaustVFX: {fileID: 6349340380549427741}
   _inputDelay: 0.55
 --- !u!114 &886542653393639282 stripped
 MonoBehaviour:
@@ -124,6 +128,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d29023073d2a4e94d9cfe537ea799f09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!198 &6349340380549427741 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4980960526421755469, guid: eddc66d2a7d2a3c4ea805ef786e6f4dc, type: 3}
+  m_PrefabInstance: {fileID: 2090389698364945488}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8122800033300869284 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7907043050944218356, guid: eddc66d2a7d2a3c4ea805ef786e6f4dc, type: 3}

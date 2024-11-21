@@ -51,6 +51,14 @@ public class GridMovable : Previewable
 
         StartCoroutine(GoOffScreen(timeToTickStart));
         _manager.OnTickStart -= HideMoveable;
+        
+        var pauseVFXs = GetComponentsInChildren<VFXPausing>();
+        
+        foreach (var pause in pauseVFXs) 
+        {
+            pause.PlayVFX();
+            pause.enabled = false;
+        }
     }
 
     private IEnumerator GoOffScreen(float duration)
@@ -58,7 +66,9 @@ public class GridMovable : Previewable
         var currentPosition = GetCurrentPosition();
         var vectorDirection = ConvertInputValueToDirection(movingInput);
         var targetPosition = _spawnSystem.GetOffscreenPosition(vectorDirection, currentPosition, false);
-        TransitionToPosition(targetPosition, duration);
+        var leaveCurve = AnimationCurve.Linear(0, 0, 1, 1);
+
+        TransitionToPosition(targetPosition, duration, leaveCurve);
         yield return new WaitForSeconds(duration);
         _spawnSystem.DespawnObject(this);
     }

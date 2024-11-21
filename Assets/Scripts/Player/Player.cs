@@ -18,6 +18,8 @@ public class Player : Previewable
     public AudioClip scrambleSFX;
     public AudioClip exitSFX;
 
+    public ParticleSystem exhaustVFX;
+
     public delegate void PossibleInputs(List<PlayerAction> possibleActions);
     public PossibleInputs OnPossibleInputsChanged;
 
@@ -509,6 +511,7 @@ public class Player : Previewable
             _shipCollider = GetComponent<Collider2D>();
         }
         _shipCollider.enabled = isVisible;
+        exhaustVFX.gameObject.SetActive(isVisible);
     }
 
     protected void SetInputVisibility(bool isVisible)

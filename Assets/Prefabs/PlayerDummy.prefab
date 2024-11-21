@@ -101,6 +101,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d29023073d2a4e94d9cfe537ea799f09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!198 &3609177359176976944 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4980960526421755469, guid: eddc66d2a7d2a3c4ea805ef786e6f4dc, type: 3}
+  m_PrefabInstance: {fileID: 8577583343971650685}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &5205109037536074853 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4554812188316897304, guid: eddc66d2a7d2a3c4ea805ef786e6f4dc, type: 3}
@@ -141,9 +146,9 @@ MonoBehaviour:
       Value: {fileID: 7369750569064591199}
   moveSFX: {fileID: 0}
   unableToMoveSFX: {fileID: 8300000, guid: b069c0022b0a0154cb296e547310adc9, type: 3}
-  fireSFX: {fileID: 8300000, guid: 5c5f6158eba2d2e4e9b1e79e2b9b9d05, type: 3}
   scrambleSFX: {fileID: 0}
   exitSFX: {fileID: 0}
+  exhaustVFX: {fileID: 3609177359176976944}
   _playerCommands:
     _serializedList:
     - Key: {fileID: 11400000, guid: 7727f09e91dd6a443b5b552e2fe071f3, type: 2}
