@@ -53,10 +53,10 @@ public class VFXPausing : MonoBehaviour
 
     void OnTickEnd(float tickEndDuration, int _)
     {
-        PlayVFX();
+        ResumeVFX();
     }
 
-    public void PlayVFX()
+    public void ResumeVFX()
     {
         foreach (ParticleSystem particleSystem in _particleSystems)
         {
@@ -101,7 +101,7 @@ public class VFXPausing : MonoBehaviour
         }
         else
         {
-            PlayVFX();
+            ResumeVFX();
         }
     }
 
@@ -109,11 +109,12 @@ public class VFXPausing : MonoBehaviour
     {
         if (_activeBetweenScenes)
         {
-            EnableVFX();
+            StopVFX();
+            PlayVFX();
         }
         else
         { 
-            DisableVFX();
+            StopVFX();
         }
     }
 
@@ -121,15 +122,15 @@ public class VFXPausing : MonoBehaviour
     {
         if (_activeBetweenScenes)
         {
-            EnableVFX();
+            PlayVFX();
         }
         else
         {
-            DisableVFX();
+            StopVFX();
         }
     }
 
-    void DisableVFX()
+    void StopVFX()
     {
         foreach (ParticleSystem particleSystem in _particleSystems)
         {
@@ -137,7 +138,7 @@ public class VFXPausing : MonoBehaviour
         }
     }
 
-    void EnableVFX()
+    void PlayVFX()
     {
         foreach (ParticleSystem particleSystem in _particleSystems)
         {

@@ -56,7 +56,7 @@ public class GridMovable : Previewable
         
         foreach (var pause in pauseVFXs) 
         {
-            pause.PlayVFX();
+            pause.ResumeVFX();
             pause.enabled = false;
         }
     }
