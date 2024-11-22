@@ -76,6 +76,11 @@ public class Wormhole : GridMovable
     {
         _objectsInWormhole.Add(objectEntering);
         var timeUntilNextTick = _manager.GetMsUntilNextTick();
+       
+        var rotationQuaterion = new Quaternion();
+        rotationQuaterion.eulerAngles = new Vector3(0, 0, 0);
+
+        objectEntering.TransitionToRotation(rotationQuaterion, timeUntilNextTick / 3);
         StartCoroutine(objectEntering.WarpToTile(CurrentTile, timeUntilNextTick));
     }
 

@@ -63,6 +63,8 @@ public class TransformTransition : Transitioner
 
             yield return null;
         }
+
+        targetTransform.localScale = target;
     }
 
     public void RotateTo(Quaternion targetRotation, float duration, Transform transformToRotate = null, bool isLocal = false)

@@ -7,10 +7,12 @@ public abstract class Previewable : GridObject
 {    
     public PreviewableBase previewObject { get; private set; }
     protected TransformTransition _transitioner;
+    protected Vector3 _defaultScale;
 
     private void Start()
     {
         _transitioner = GetComponent<TransformTransition>();
+        _defaultScale = transform.localScale;
     }
 
     public abstract Sprite GetPreviewSprite();
@@ -94,7 +96,7 @@ public abstract class Previewable : GridObject
 
     public IEnumerator WarpToTile(Tile tileDestination, float duration)
     {
-        var startingScale = transform.localScale;
+        var startingScale = _defaultScale;
         var shrinkScale = new Vector2(.25f, .25f);
 
         if (previewObject != null)
