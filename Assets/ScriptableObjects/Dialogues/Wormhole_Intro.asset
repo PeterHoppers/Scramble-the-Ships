@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9caf14b9ac11b424f8e1216a9c685b09, type: 3}
-  m_Name: AfterLevel6
+  m_Name: Wormhole_Intro
   m_EditorClassIdentifier: 
   dialogueNodes:
   - textSpeaker: 0
-    textToDisplay: "Something is jamming our sensors as we\u2019re trying to scan
-      this upcoming sector. This is most likely the result of more alien interference.\r"
+    textToDisplay: "The further your ship travels through space, the more bizarre
+      results we\u2019re seeing through our scans. This grid contains spatial tunnels
+      that can warp you between two different points in space."
   - textSpeaker: 0
-    textToDisplay: If there were any other options to navigate you back to base safely,
-      we would take them. It would be best to be prepared to handle another change
-      to your controls.
+    textToDisplay: And whenever something interacts with one, they are rotated so
+      that they are facing upwards on your grid. Use this knowledge to your advantage.

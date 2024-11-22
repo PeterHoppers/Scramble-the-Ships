@@ -175,7 +175,7 @@ MonoBehaviour:
             anchor: 2
             offset: 3
   useDifferentDialogueForBothPlayers: 0
-  screenDialogue: {fileID: 0}
+  screenDialogue: {fileID: 11400000, guid: 295ad3ae59226ac4a9126f5e9dc692f5, type: 2}
   twoPlayerDialogue: {fileID: 0}
   effects:
   - type: 11
