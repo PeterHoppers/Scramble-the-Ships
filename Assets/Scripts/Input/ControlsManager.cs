@@ -121,6 +121,13 @@ public class ControlsManager : MonoBehaviour, IManager
             var unShuffledInputs = player.GetButtonValues(possibleActions.Count);
 
             var playerActions = new SerializedDictionary<ButtonValue, PlayerAction>();
+
+            if (unShuffledInputs.Count != shuffledValues.Count)
+            {
+                Debug.LogWarning("The unshuffled inputs don't equal what was shuffled.");
+                continue;
+            }
+
             for (int index = 0; index < unShuffledInputs.Count; index++)
             {
                 playerActions.Add(unShuffledInputs[index], shuffledValues[index]);
