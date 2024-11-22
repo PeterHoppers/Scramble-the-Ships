@@ -59,8 +59,8 @@ MonoBehaviour:
         offset: 2
   - spawnInfo:
       objectToSpawn: 0
-      direction: 0
-      groupingSize: 1
+      direction: 3
+      groupingSize: 2
     spawnCoordinates:
       x:
         anchor: 2
@@ -70,8 +70,8 @@ MonoBehaviour:
         offset: 0
   - spawnInfo:
       objectToSpawn: 0
-      direction: 0
-      groupingSize: 1
+      direction: 2
+      groupingSize: 2
     spawnCoordinates:
       x:
         anchor: 2
@@ -89,7 +89,7 @@ MonoBehaviour:
         offset: 0
       y:
         anchor: 2
-        offset: 1
+        offset: 2
   - spawnInfo:
       objectToSpawn: 0
       direction: 0
@@ -100,11 +100,11 @@ MonoBehaviour:
         offset: 0
       y:
         anchor: 2
-        offset: 1
+        offset: 2
   - spawnInfo:
       objectToSpawn: 0
-      direction: 0
-      groupingSize: 1
+      direction: 2
+      groupingSize: 2
     spawnCoordinates:
       x:
         anchor: 0
@@ -114,8 +114,8 @@ MonoBehaviour:
         offset: 0
   - spawnInfo:
       objectToSpawn: 0
-      direction: 0
-      groupingSize: 1
+      direction: 3
+      groupingSize: 2
     spawnCoordinates:
       x:
         anchor: 0
