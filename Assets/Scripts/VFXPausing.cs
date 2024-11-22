@@ -16,6 +16,8 @@ public class VFXPausing : MonoBehaviour
     ParticleSystem[] _particleSystems;
     GameManager _gameManager;
 
+    GameState _previousState;
+
     private void OnEnable()
     {
         _gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
@@ -87,11 +89,16 @@ public class VFXPausing : MonoBehaviour
 
     void OnGameStateChanged(GameState newState)
     {
-        if (newState == GameState.Paused || newState == GameState.Dialogue || newState == GameState.Playing)
+        //we should look into a better way of handling this
+        if (_previousState == GameState.GameOver && newState == GameState.Resetting && _isPlayer) 
+        {
+            ResumeVFX();
+        }
+        else if (newState == GameState.Paused || newState == GameState.Dialogue || newState == GameState.Playing)
         {
             PauseVFX();
         }
-        else if (newState == GameState.Resetting && _activeBetweenScenes)
+        else if ((newState == GameState.Resetting || newState == GameState.GameOver) && _activeBetweenScenes)
         {
             StartCoroutine(DelayedPause(.15f));
         }
@@ -103,6 +110,8 @@ public class VFXPausing : MonoBehaviour
         {
             ResumeVFX();
         }
+
+        _previousState = newState;
     }
 
     void OnScreenChange(int nextScreenIndex, int maxScreens)
