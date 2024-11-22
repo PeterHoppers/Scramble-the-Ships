@@ -15,7 +15,7 @@ public class Fireable : GridMovable
 
     protected override void PerformInteraction(GridObject collidedPreviewable)
     {
-        if (collidedPreviewable.IsIgnoredByBullets())
+        if (collidedPreviewable == null || collidedPreviewable.IsIgnoredByBullets())
         {
             return;
         }

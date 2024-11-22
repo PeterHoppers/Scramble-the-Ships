@@ -81,7 +81,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.85, y: 0.85}
+  m_Size: {x: 0.55, y: 0.55}
   m_EdgeRadius: 0
 --- !u!50 &6495330082171840289
 Rigidbody2D:
@@ -206,7 +206,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ea675ac88883ef4dab9d694b6e03116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  previewObject: {fileID: 0}
   movingInput: 5
   _interactedSFX: {fileID: 8300000, guid: 9078f360889daf242ba459489baef5aa, type: 3}
 --- !u!1 &3470313841665836139

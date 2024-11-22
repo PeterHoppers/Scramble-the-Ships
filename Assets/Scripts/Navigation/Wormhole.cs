@@ -38,6 +38,7 @@ public class Wormhole : GridMovable
     protected override void PerformInteraction(GridObject collidedGridObject)
     {
         base.PerformInteraction(collidedGridObject);
+        _objectsInWormhole.RemoveAll(x => x == null);
 
         if (!collidedGridObject.TryGetComponent<Previewable>(out var objectEntering))
         {

@@ -107,9 +107,12 @@ public abstract class Previewable : GridObject
         var pieceDuration = duration / 3;
         _transitioner.ScaleTo(shrinkScale, pieceDuration);
         yield return new WaitForSeconds(pieceDuration);
-        SetPosition(tileDestination);
-        yield return new WaitForSeconds(pieceDuration);
-        _transitioner.ScaleTo(startingScale, pieceDuration);
+        if (this != null) //there might be a chance that this gets destoryed midway through
+        {
+            SetPosition(tileDestination);
+            yield return new WaitForSeconds(pieceDuration);
+            _transitioner.ScaleTo(startingScale, pieceDuration);
+        }
     }
 
     public virtual void UpdateRotationToPreview(float duration)
