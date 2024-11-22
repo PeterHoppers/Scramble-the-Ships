@@ -139,8 +139,8 @@ public class Player : Previewable
     {
         RemovePossibleInput(InputValue.Starboard);
         RemovePossibleInput(InputValue.Port);
-        AddPossibleInput(InputValue.Clockwise);
         AddPossibleInput(InputValue.Counterclockwise);
+        AddPossibleInput(InputValue.Clockwise);
     }
 
     protected virtual void OnTickStart(float _, int currentTickNumber)
