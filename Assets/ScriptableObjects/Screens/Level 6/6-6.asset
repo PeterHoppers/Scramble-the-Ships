@@ -227,7 +227,7 @@ MonoBehaviour:
             offset: 1
           y:
             anchor: 2
-            offset: 0
+            offset: 1
         - x:
             anchor: 0
             offset: 1
