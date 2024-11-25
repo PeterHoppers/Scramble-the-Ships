@@ -82,7 +82,7 @@ public class ControlsManager : MonoBehaviour, IManager
             }
             else
             {
-                if (numberOfActiveInputs < _players.Count)
+                if (numberOfActiveInputs < _gameManager.GetPlayersRemaining())
                 {
                     amountToScramble = 0;
                 }
