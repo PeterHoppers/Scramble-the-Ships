@@ -316,25 +316,13 @@ public class GameManager : MonoBehaviour
     /// <param name="player"></param>
     public void ScreenChangeTriggered(Player player, SpawnDirections transitionDirection)
     {
-        StartCoroutine(OnScreenChangeTriggered(player, transitionDirection));
-    }
-
-    IEnumerator OnScreenChangeTriggered(Player player, SpawnDirections transitionDirection)
-    {
-        var directionQuaterion = _spawnSystem.GetRotationForSpawnDirections(transitionDirection, true);
-        if (player.GetTransfromAsReference().rotation.eulerAngles != directionQuaterion.eulerAngles)
-        {
-            player.TransitionToRotation(directionQuaterion, _tickEndDuration);
-            yield return new WaitForSeconds(_tickEndDuration);
-        }
-
         if (_currentGameState == GameState.Playing)
         {
-            MovePlayerOffScreen(player);
+            StartCoroutine(MovePlayerOffScreen(player, transitionDirection));
         }
     }
 
-    void MovePlayerOffScreen(Player player)
+    IEnumerator MovePlayerOffScreen(Player player, SpawnDirections transitionDirection)
     {
         _playerFinishedWithScreen++;
 
@@ -349,6 +337,13 @@ public class GameManager : MonoBehaviour
         {
             player.SetInputStatus(false);
             player.SetActiveStatus(false);
+        }
+
+        var directionQuaterion = _spawnSystem.GetRotationForSpawnDirections(transitionDirection, true);
+        if (player.GetTransfromAsReference().rotation.eulerAngles != directionQuaterion.eulerAngles)
+        {
+            player.TransitionToRotation(directionQuaterion, _tickEndDuration);
+            yield return new WaitForSeconds(_tickEndDuration);
         }
 
         var currentPos = player.CurrentTile.GetTilePosition();

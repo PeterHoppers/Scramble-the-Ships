@@ -500,6 +500,7 @@ public class Player : Previewable
     public void SetActiveStatus(bool isActive)
     {
         _isInactive = !isActive;
+        _tickDurationUI.enabled = isActive;
     }
 
     protected void SetShipVisiblity(bool isVisible)
