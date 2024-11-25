@@ -16,7 +16,7 @@ MonoBehaviour:
   - spawnInfo:
       objectToSpawn: 9
       direction: 2
-      groupingSize: 5
+      groupingSize: 4
     spawnCoordinates:
       x:
         anchor: 1
@@ -34,7 +34,7 @@ MonoBehaviour:
         offset: 0
       y:
         anchor: 1
-        offset: -2
+        offset: -3
   - spawnInfo:
       objectToSpawn: 9
       direction: 0
@@ -45,7 +45,7 @@ MonoBehaviour:
         offset: 1
       y:
         anchor: 1
-        offset: -2
+        offset: -3
   - spawnInfo:
       objectToSpawn: 9
       direction: 0
@@ -56,7 +56,7 @@ MonoBehaviour:
         offset: 2
       y:
         anchor: 1
-        offset: 2
+        offset: 1
   - spawnInfo:
       objectToSpawn: 8
       direction: 3
@@ -67,18 +67,18 @@ MonoBehaviour:
         offset: 2
       y:
         anchor: 1
-        offset: 3
+        offset: 2
   - spawnInfo:
       objectToSpawn: 9
       direction: 3
-      groupingSize: 4
+      groupingSize: 3
     spawnCoordinates:
       x:
         anchor: 1
         offset: 1
       y:
         anchor: 2
-        offset: 2
+        offset: 4
   - spawnInfo:
       objectToSpawn: 9
       direction: 0
@@ -89,11 +89,11 @@ MonoBehaviour:
         offset: 2
       y:
         anchor: 1
-        offset: 2
+        offset: 1
   - spawnInfo:
       objectToSpawn: 9
       direction: 3
-      groupingSize: 3
+      groupingSize: 4
     spawnCoordinates:
       x:
         anchor: 0
@@ -111,7 +111,7 @@ MonoBehaviour:
         offset: 1
       y:
         anchor: 2
-        offset: 1
+        offset: 3
   overrideDefaultTransitionGrids: 1
   transitionGrids:
     direction: 1

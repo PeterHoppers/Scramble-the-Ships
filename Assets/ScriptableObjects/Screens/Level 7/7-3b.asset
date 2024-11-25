@@ -38,22 +38,22 @@ MonoBehaviour:
   - spawnInfo:
       objectToSpawn: 9
       direction: 3
-      groupingSize: 4
+      groupingSize: 3
     spawnCoordinates:
       x:
         anchor: 0
-        offset: 4
+        offset: 3
       y:
         anchor: 0
         offset: 3
   - spawnInfo:
       objectToSpawn: 9
       direction: 3
-      groupingSize: 4
+      groupingSize: 3
     spawnCoordinates:
       x:
         anchor: 0
-        offset: 4
+        offset: 3
       y:
         anchor: 2
         offset: 3
@@ -108,7 +108,7 @@ MonoBehaviour:
     spawnCoordinates:
       x:
         anchor: 2
-        offset: 0
+        offset: 1
       y:
         anchor: 0
         offset: 3
@@ -119,7 +119,7 @@ MonoBehaviour:
     spawnCoordinates:
       x:
         anchor: 2
-        offset: 2
+        offset: 4
       y:
         anchor: 1
         offset: 2
@@ -130,7 +130,7 @@ MonoBehaviour:
     spawnCoordinates:
       x:
         anchor: 2
-        offset: 2
+        offset: 4
       y:
         anchor: 1
         offset: -2
@@ -140,19 +140,19 @@ MonoBehaviour:
     positions:
     - x:
         anchor: 2
-        offset: 2
+        offset: 4
       y:
         anchor: 1
         offset: 0
     - x:
         anchor: 2
-        offset: 2
+        offset: 4
       y:
         anchor: 1
         offset: -1
     - x:
         anchor: 2
-        offset: 2
+        offset: 4
       y:
         anchor: 1
         offset: 1
@@ -200,15 +200,15 @@ MonoBehaviour:
       - spawnInfo:
           objectToSpawn: 3
           direction: 0
-          groupingSize: 5
+          groupingSize: 3
         otherCoordinate:
           anchor: 1
-          offset: 2
+          offset: 1
       - spawnInfo:
           objectToSpawn: 3
           direction: 1
-          groupingSize: 5
+          groupingSize: 3
         otherCoordinate:
           anchor: 1
-          offset: 2
+          offset: 1
   spawnsLoopAtTick: 0

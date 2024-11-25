@@ -124,6 +124,17 @@ MonoBehaviour:
         anchor: 1
         offset: -2
   - spawnInfo:
+      objectToSpawn: 0
+      direction: 0
+      groupingSize: 1
+    spawnCoordinates:
+      x:
+        anchor: 1
+        offset: 0
+      y:
+        anchor: 1
+        offset: 4
+  - spawnInfo:
       objectToSpawn: 1
       direction: 1
       groupingSize: 1
@@ -133,7 +144,7 @@ MonoBehaviour:
         offset: 0
       y:
         anchor: 1
-        offset: 4
+        offset: 3
   overrideDefaultTransitionGrids: 0
   transitionGrids:
     direction: 0
