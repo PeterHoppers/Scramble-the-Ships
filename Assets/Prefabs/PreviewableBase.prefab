@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7954769997396302752}
   - component: {fileID: 9059943742344574411}
   - component: {fileID: 4175597009222242078}
+  - component: {fileID: 8107383813302176080}
   m_Layer: 0
   m_Name: PreviewableBase
   m_TagString: Untagged
@@ -97,6 +98,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c76a0d9a11763847b07952c1c39352b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8107383813302176080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3461647084389142833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c0311d24a896e14a8f6cc6db22372f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _previewFadeOutCurve:
     serializedVersion: 2
     m_Curve:
@@ -110,7 +123,7 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 1
+      time: 0.7999878
       value: 1
       inSlope: 0
       outSlope: 0
